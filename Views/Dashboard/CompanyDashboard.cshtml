@@ -1,0 +1,113 @@
+﻿@model A3DET_CODE.ViewModels.Dashboard.CompanyDashboardViewModel
+@{
+    ViewData["Title"] = "Company Dashboard";
+    Layout = "_Layout";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/dashboard.css" asp-append-version="true" />
+}
+
+<div class="dashboard-container">
+
+    <div class="dashboard-header">
+        <div class="dashboard-welcome">
+            <h1>Welcome back, @Model.UserName 🏢</h1>
+            <p class="dashboard-subtitle">Find and hire top talent</p>
+        </div>
+        <div class="dashboard-actions">
+            <a asp-controller="JobPosts" asp-action="Create" class="btn btn-primary">+ Post a Job</a>
+            <a asp-controller="Candidates" asp-action="Index" class="btn btn-secondary">Browse Candidates</a>
+        </div>
+    </div>
+
+    <div class="stats-grid">
+        <div class="stat-card">
+            <div class="stat-icon blue">📋</div>
+            <div class="stat-content">
+                <div class="stat-number">@Model.TotalJobPosts</div>
+                <div class="stat-label">Total Job Posts</div>
+            </div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon green">✅</div>
+            <div class="stat-content">
+                <div class="stat-number">@Model.ActiveJobPosts</div>
+                <div class="stat-label">Active Jobs</div>
+            </div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon purple">📩</div>
+            <div class="stat-content">
+                <div class="stat-number">@Model.TotalApplications</div>
+                <div class="stat-label">Total Applications</div>
+            </div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon amber">⭐</div>
+            <div class="stat-content">
+                <div class="stat-number">@Model.ShortlistedCandidates</div>
+                <div class="stat-label">Shortlisted</div>
+            </div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon gold">🎯</div>
+            <div class="stat-content">
+                <div class="stat-number">@Model.HiredCandidates</div>
+                <div class="stat-label">Hired</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="dashboard-grid">
+        <div class="card">
+            <div class="card-header">
+                <h3>Recent Job Posts</h3>
+            </div>
+            <div class="task-list">
+                @foreach (var job in Model.RecentJobPosts)
+                {
+                    <div class="task-item">
+                        <div class="task-check"></div>
+                        <div class="task-content">
+                            <div class="task-title">@job.Title</div>
+                            <div class="task-meta">
+                                <span>@job.Type</span>
+                                <span class="task-due">@job.ApplicationsCount applications</span>
+                                <span class="task-priority @(job.Status == "Active" ? "low" : "medium")">@job.Status</span>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <h3>Top Candidates</h3>
+            </div>
+            <div class="mentor-list">
+                @foreach (var candidate in Model.TopCandidates)
+                {
+                    <div class="mentor-item">
+                        <div class="mentor-avatar" style="background:linear-gradient(135deg, #8B5CF6, #EC4899);">
+                            @candidate.Name.Substring(0, 1).ToUpper()
+                        </div>
+                        <div class="mentor-info">
+                            <div class="mentor-name">@candidate.Name</div>
+                            <div class="mentor-role">@candidate.Track · @candidate.ProjectsCount projects</div>
+                        </div>
+                        <div class="mentor-rating">
+                            @candidate.MatchScore% <span>match</span>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
+</div>
+
+@section Scripts {
+    <script src="~/js/dashboard.js" asp-append-version="true"></script>
+}

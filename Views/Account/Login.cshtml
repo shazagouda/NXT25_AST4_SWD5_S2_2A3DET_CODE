@@ -1,0 +1,74 @@
+
+@model A3DET_CODE.ViewModels.Account.LoginViewModel
+@{
+    ViewData["Title"] = "Login";
+    Layout = "_AccountLayout";
+}
+
+<div class="auth-header">
+    <h2>Welcome Back</h2>
+    <p class="auth-subtitle">Login to your A3DET CODE account</p>
+</div>
+
+<form asp-action="Login" method="post" class="auth-form" id="loginForm">
+    @Html.AntiForgeryToken()
+    <input type="hidden" name="returnUrl" value="@ViewData["ReturnUrl"]" />
+
+    @if (!ViewData.ModelState.IsValid && ViewData.ModelState[string.Empty]?.Errors.Count > 0)
+    {
+        <div class="alert alert-danger">
+            @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+        </div>
+    }
+
+    <div class="form-field">
+        <label asp-for="Email">Email Address</label>
+        <input asp-for="Email" type="email" class="form-control" placeholder="you@example.com" autocomplete="email" />
+        <span asp-validation-for="Email" class="text-danger"></span>
+    </div>
+
+    <div class="form-field password-field">
+        <label asp-for="Password">Password</label>
+        <div class="password-input-wrapper">
+            <input asp-for="Password" type="password" class="form-control" placeholder="Enter your password" autocomplete="current-password" />
+            <button type="button" class="password-toggle" aria-label="Toggle password visibility">
+                <span class="eye-icon">👁️</span>
+            </button>
+        </div>
+        <span asp-validation-for="Password" class="text-danger"></span>
+    </div>
+
+    <div class="form-options">
+        <div class="form-check">
+            <input asp-for="RememberMe" type="checkbox" class="form-check-input" />
+            <label asp-for="RememberMe" class="form-check-label">Remember Me</label>
+        </div>
+        <a asp-action="ForgotPassword" class="forgot-link">Forgot Password?</a>
+    </div>
+
+    <button type="submit" class="btn btn-primary btn-block" id="loginButton">
+        <span class="btn-text">Login</span>
+        <span class="btn-loader" style="display:none;">
+            <span class="spinner"></span>
+        </span>
+    </button>
+
+    <div class="auth-divider">
+        <span>or continue with</span>
+    </div>
+
+    <div class="social-login">
+        <a asp-action="ExternalLogin" asp-route-provider="Google" asp-route-returnUrl="@ViewData["ReturnUrl"]" class="btn btn-social btn-google">
+            <span class="social-icon">G</span>
+            <span>Google</span>
+        </a>
+        <a asp-action="ExternalLogin" asp-route-provider="GitHub" asp-route-returnUrl="@ViewData["ReturnUrl"]" class="btn btn-social btn-github">
+            <span class="social-icon">GH</span>
+            <span>GitHub</span>
+        </a>
+    </div>
+
+    <div class="auth-footer">
+        <p>Don't have an account? <a asp-action="SignUp">Create one now</a></p>
+    </div>
+</form>

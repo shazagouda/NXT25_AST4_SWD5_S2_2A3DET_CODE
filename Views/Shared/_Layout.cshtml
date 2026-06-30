@@ -1,0 +1,142 @@
+@* *@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - A3DET CODE</title>
+    <meta name="description" content="@(ViewData["Description"] ?? "A3DET CODE — From Learning to Earning. A unified educational and career platform.")" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="icon" type="image/png" href="~/images/favicon.png" />
+
+    <link rel="stylesheet" href="~/css/global.css" asp-append-version="true" />
+    @RenderSection("Styles", required: false)
+</head>
+<body>
+
+    <header class="navbar" id="siteNavbar">
+        <div class="navbar-inner">
+            <a href="@Url.Action("Index", "Home")" class="brand">
+                <span class="brand-mark">A3</span>
+                A3DET <span style="color:var(--color-blue-600)">CODE</span>
+            </a>
+
+            @if (User.Identity?.IsAuthenticated == true)
+            {
+                <nav class="nav-links">
+                    <a asp-controller="Home" asp-action="Index" class="nav-link">Home</a>
+                    <a asp-controller="Dashboard" asp-action="Index" class="nav-link">Dashboard</a>
+                    <a asp-controller="Profile" asp-action="Index" class="nav-link">Profile</a>
+                    <a asp-controller="Assessment" asp-action="Index" class="nav-link">Assessment</a>
+                    <a href="/tracks/Tracks.html" class="nav-link">Tracks</a>
+                    <a asp-controller="Teams" asp-action="Index" class="nav-link">Teams</a>
+                    <a asp-controller="Projects" asp-action="Index" class="nav-link">Projects</a>
+                    <a asp-controller="Portfolio" asp-action="Index" class="nav-link">Portfolio</a>
+                </nav>
+                <div class="nav-actions">
+                    <button class="nav-icon-btn" aria-label="Notifications" onclick="location.href='@Url.Action("Index", "Notifications")'">
+                        <span class="notif-badge"></span>
+                        🔔
+                    </button>
+                    <div class="avatar" title="@User.Identity.Name" onclick="location.href='@Url.Action("Index", "Profile")'">
+                        @(User.Identity.Name?.Substring(0, 1).ToUpper() ?? "U")
+                    </div>
+                    <a asp-controller="Account" asp-action="Logout" class="btn btn-ghost btn-sm">Logout</a>
+                </div>
+            }
+            else
+            {
+                <nav class="nav-links">
+                    <a asp-controller="Home" asp-action="Index" class="nav-link is-active">Home</a>
+
+                    <a href="/tracks/Tracks.html" class="nav-link">Tracks</a>
+                    <a asp-controller="Mentors" asp-action="Index" class="nav-link">Mentors</a>
+                    <a asp-controller="Companies" asp-action="Index" class="nav-link">Companies</a>
+                    <a asp-controller="About" asp-action="Index" class="nav-link">About</a>
+                    <a asp-controller="ContactUs" asp-action="Index" class="nav-link">Contact Us</a>
+                </nav>
+                <div class="nav-actions">
+                    <a asp-controller="Account" asp-action="Login" class="btn btn-ghost btn-sm">Login</a>
+                    <a asp-controller="Account" asp-action="SignUp" class="btn btn-primary btn-sm">Sign Up</a>
+                </div>
+            }
+
+            <button class="mobile-toggle" id="mobileToggle" aria-label="Toggle menu" aria-expanded="false">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+
+        <div class="mobile-menu" id="mobileMenu">
+            @if (User.Identity?.IsAuthenticated == true)
+            {
+                <a asp-controller="Home" asp-action="Index" class="nav-link">Home</a>
+                <a asp-controller="Profile" asp-action="Index" class="nav-link">Profile</a>
+                <a asp-controller="Assessment" asp-action="Index" class="nav-link">Assessment</a>
+                <a href="/tracks/Tracks.html" class="nav-link">Tracks</a>
+                <a asp-controller="Teams" asp-action="Index" class="nav-link">Teams</a>
+                <a asp-controller="Projects" asp-action="Index" class="nav-link">Projects</a>
+                <a asp-controller="Portfolio" asp-action="Index" class="nav-link">Portfolio</a>
+                <a asp-controller="Account" asp-action="Logout" class="nav-link">Logout</a>
+            }
+            else
+            {
+                <a asp-controller="Home" asp-action="Index" class="nav-link">Home</a>
+                <a href="/tracks/Tracks.html" class="nav-link">Tracks</a>
+                <a asp-controller="Roadmaps" asp-action="Index" class="nav-link">Roadmaps</a>
+                <a asp-controller="Mentors" asp-action="Index" class="nav-link">Mentors</a>
+                <a asp-controller="Companies" asp-action="Index" class="nav-link">Companies</a>
+                <a asp-controller="About" asp-action="Index" class="nav-link">About</a>
+                <a asp-controller="ContactUs" asp-action="Index" class="nav-link">Contact Us</a>
+                <a asp-controller="Account" asp-action="Login" class="nav-link">Login</a>
+                <a asp-controller="Account" asp-action="SignUp" class="nav-link">Sign Up</a>
+            }
+        </div>
+    </header>
+
+    <main>
+        @RenderBody()
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="@Url.Action("Index", "Home")" class="brand" style="color:#fff;">
+                        <span class="brand-mark">A3</span>
+                        A3DET CODE
+                    </a>
+                    <p>From Learning to Earning. A unified educational and career platform turning learners into job-ready professionals through real projects, teams, and industry simulation.</p>
+                </div>
+                <div>
+                    <h4>Platform</h4>
+        
+                    <a asp-controller="Tracks" asp-action="Index">Tracks</a>
+                    <a asp-controller="Roadmaps" asp-action="Index">Roadmaps</a>
+                    <a asp-controller="Assessment" asp-action="Index">Assessment</a>
+                    <a asp-controller="Mentors" asp-action="Index">Mentors</a>
+                </div>
+                <div>
+                    <h4>Company</h4>
+                    <a asp-controller="About" asp-action="Index">About Us</a>
+                    <a asp-controller="Companies" asp-action="Index">For Companies</a>
+                    <a asp-controller="ContactUs" asp-action="Index">Contact Us</a>
+                </div>
+                <div>
+                    <h4>Support</h4>
+                    <a href="#">Help Center</a>
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Use</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <span>&copy; @DateTime.Now.Year A3DET CODE Platform. All rights reserved.</span>
+                <span>Confidential &middot; Built for learners who ship.</span>
+            </div>
+        </div>
+    </footer>
+
+    <script src="~/js/global.js" asp-append-version="true"></script>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

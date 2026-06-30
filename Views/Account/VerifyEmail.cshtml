@@ -1,0 +1,56 @@
+﻿
+@{
+    ViewData["Title"] = "Verify Email";
+    Layout = "_AccountLayout";
+}
+
+<div class="auth-header">
+    <h2>Email Verification</h2>
+    <p class="auth-subtitle">Verify your email address to activate your account</p>
+</div>
+
+@if (ViewData["Success"] != null)
+{
+    <div class="alert alert-success">
+        <div style="text-align: center;">
+            <div style="font-size: 4rem; margin-bottom: 1rem;">✅</div>
+            <h3 style="color: #0E8C79;">Success!</h3>
+            <p>@ViewData["Success"]</p>
+            <p style="margin-top: 1rem;">
+                <a asp-action="Login" class="btn btn-primary">Login Now</a>
+            </p>
+        </div>
+    </div>
+}
+else if (ViewData["Error"] != null)
+{
+    <div class="alert alert-danger">
+        <div style="text-align: center;">
+            <div style="font-size: 4rem; margin-bottom: 1rem;">❌</div>
+            <h3 style="color: #E14F4F;">Verification Failed</h3>
+            <p>@ViewData["Error"]</p>
+        </div>
+    </div>
+}
+else
+{
+    <div class="alert alert-info">
+        <div style="text-align: center;">
+            <div style="font-size: 3rem; margin-bottom: 1rem;">📧</div>
+            <h3>Check Your Email</h3>
+            <p>We've sent a verification link to your email address.</p>
+            <p style="font-size: var(--fs-small); color: var(--color-text-400);">
+                Didn't receive the email?
+            </p>
+            <form asp-action="ResendVerification" method="post" style="margin-top: 1rem;">
+                @Html.AntiForgeryToken()
+                <input type="hidden" name="email" value="@ViewData["Email"]" />
+                <button type="submit" class="btn btn-secondary btn-sm">Resend Verification Email</button>
+            </form>
+        </div>
+    </div>
+}
+
+<div class="auth-footer">
+    <p><a asp-action="Login">Return to Login</a></p>
+</div>

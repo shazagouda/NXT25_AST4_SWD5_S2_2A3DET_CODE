@@ -1,0 +1,20 @@
+
+@{
+    Layout = "_Layout";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/auth.css" asp-append-version="true" />
+    @RenderSection("Styles", required: false)
+}
+
+<div class="auth-container">
+    <div class="auth-card reveal">
+        @RenderBody()
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/js/auth.js" asp-append-version="true"></script>
+    @RenderSection("Scripts", required: false)
+}

@@ -1,0 +1,158 @@
+@{
+    ViewData["Title"] = "Contact Us";
+    ViewData["Description"] = "Get in touch with the A3DET CODE team. We'd love to hear from you.";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/contact.css" asp-append-version="true" />
+}
+
+<section class="contact-hero">
+    <div class="container">
+        <div class="hero-content">
+            <span class="hero-badge">📬 Get in Touch</span>
+            <h1>Let's Talk</h1>
+            <p>
+                Have a question about A3DET CODE? Need help with your journey? We'd love to hear from you.
+            </p>
+        </div>
+    </div>
+</section>
+
+<section class="contact-section">
+    <div class="container">
+        <div class="contact-grid">
+            <div class="contact-form-wrapper">
+                <h2>Send a Message</h2>
+                <p class="form-subtitle">We'll get back to you within 24 hours.</p>
+
+                <div class="alert-success" id="successMessage">
+                    ✅ Your message has been sent successfully! We'll get back to you soon.
+                </div>
+
+                <form class="contact-form" id="contactForm">
+                    <div class="form-group">
+                        <label for="FullName">Full Name <span class="required">*</span></label>
+                        <input type="text" id="FullName" name="FullName" class="form-control" placeholder="Your full name" required />
+                        <div class="invalid-feedback">Please enter your full name (at least 2 characters).</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="Email">Email Address <span class="required">*</span></label>
+                        <input type="email" id="Email" name="Email" class="form-control" placeholder="you@example.com" required />
+                        <div class="invalid-feedback">Please enter a valid email address.</</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="Subject">Subject <span class="required">*</span></label>
+                        <input type="text" id="Subject" name="Subject" class="form-control" placeholder="What's this about?" required />
+                        <div class="invalid-feedback">Please enter a subject.</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="Message">Message <span class="required">*</span></label>
+                        <textarea id="Message" name="Message" class="form-control" placeholder="Tell us what you're thinking..." rows="5" maxlength="1000" required></textarea>
+                        <div class="invalid-feedback">Please enter a message (at least 10 characters).</div>
+                    </div>
+
+                    <button type="submit" class="btn-submit">
+                        <span>Send Message</span>
+                        <span class="spinner"></span>
+                    </button>
+                </form>
+            </div>
+
+            <div class="contact-info-wrapper">
+                <div class="contact-info-card">
+                    <div class="info-icon">📍</div>
+                    <h4>Our Location</h4>
+                    <p>123 Tech Hub Street<br />Cairo, Egypt</p>
+                </div>
+
+                <div class="contact-info-card">
+                    <div class="info-icon">📧</div>
+                    <h4>Email Us</h4>
+                    <a href="mailto:hello@a3det.com">hello@a3det.com</a>
+                    <p>support@a3det.com</p>
+                </div>
+
+                <div class="contact-info-card">
+                    <div class="info-icon">📞</div>
+                    <h4>Call Us</h4>
+                    <a href="tel:+201234567890">+20 123 456 7890</a>
+                    <p>Mon–Fri, 9AM–6PM</p>
+                </div>
+
+                <div class="contact-info-card">
+                    <div class="info-icon">💬</div>
+                    <h4>Social Media</h4>
+                    <a href="#" style="margin-right: var(--space-3);">Twitter</a>
+                    <a href="#" style="margin-right: var(--space-3);">LinkedIn</a>
+                    <a href="#">GitHub</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="map-section">
+    <div class="container">
+        <div class="map-wrapper">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3453.5587078718493!2d31.235379!3d30.04442!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x145840b8b0b7f3b9%3A0x6f2f0f7a58f5e0c!2sCairo%2C%20Egypt!5e0!3m2!1sen!2s!4v1736097696000!5m2!1sen!2s" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+    </div>
+</section>
+
+<section class="faq-section">
+    <div class="container">
+        <div class="section-head reveal">
+            <span class="eyebrow">Common Questions</span>
+            <h2>Frequently Asked Questions</h2>
+        </div>
+        <div class="faq-list">
+            <div class="faq-item">
+                <div class="faq-question">
+                    How long does it take to get a response?
+                    <span class="faq-icon">+</span>
+                </div>
+                <div class="faq-answer">
+                    <p>We aim to respond to all inquiries within 24 hours during business days. For urgent matters, please call us directly.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    Can I visit your office?
+                    <span class="faq-icon">+</span>
+                </div>
+                <div class="faq-answer">
+                    <p>Absolutely! We welcome visitors by appointment. Please contact us in advance to schedule a meeting.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    Do you offer partnership opportunities?
+                    <span class="faq-icon">+</span>
+                </div>
+                <div class="faq-answer">
+                    <p>Yes! We're always looking for partners in education, technology, and recruitment. Reach out to us with your proposal.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    How can I become a mentor on the platform?
+                    <span class="faq-icon">+</span>
+                </div>
+                <div class="faq-answer">
+                    <p>Visit the Mentors page and click "Apply as Mentor". Our team will review your application and get back to you within 48 hours.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    <script src="~/js/contact.js" asp-append-version="true"></script>
+}

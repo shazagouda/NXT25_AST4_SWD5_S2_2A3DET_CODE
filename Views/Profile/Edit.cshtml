@@ -1,0 +1,157 @@
+﻿@model A3DET_CODE.ViewModels.Profile.EditProfileViewModel
+@{
+    ViewData["Title"] = "Edit Profile";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/profile.css" asp-append-version="true" />
+}
+
+<div class="profile-container">
+    <div class="profile-header edit-header">
+        <div class="profile-header-content">
+            <div class="profile-avatar edit-avatar">
+                <span class="avatar-initials">@(User.Identity?.Name?.Substring(0, 1)?.ToUpper() ?? "U")</span>
+            </div>
+            <div class="profile-info">
+                <h1>Edit Profile</h1>
+                <p class="profile-subtitle">Update your personal and professional information</p>
+            </div>
+        </div>
+        <div class="profile-actions">
+            <a asp-action="Index" class="btn btn-secondary btn-sm">
+                <i class="fa-solid fa-arrow-left"></i> Back to Profile
+            </a>
+        </div>
+    </div>
+
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success show">
+            <i class="fa-solid fa-check-circle"></i> @TempData["Success"]
+        </div>
+    }
+
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger show">
+            <i class="fa-solid fa-exclamation-circle"></i> @TempData["Error"]
+        </div>
+    }
+
+    <form asp-action="Edit" method="post" class="profile-form">
+        @Html.AntiForgeryToken()
+
+        @if (!ViewData.ModelState.IsValid && ViewData.ModelState[string.Empty]?.Errors.Count > 0)
+        {
+            <div class="alert alert-danger">
+                <i class="fa-solid fa-exclamation-circle"></i>
+                @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+            </div>
+        }
+
+        <div class="form-section">
+            <h3>Personal Information</h3>
+            <div class="form-grid">
+                <div class="form-field">
+                    <label asp-for="FullName">Full Name <span class="required">*</span></label>
+                    <input asp-for="FullName" class="form-control" placeholder="Your full name" />
+                    <span asp-validation-for="FullName" class="text-danger"></span>
+                </div>
+
+                <div class="form-field">
+                    <label asp-for="Email">Email Address</label>
+                    <input asp-for="Email" class="form-control" placeholder="you@example.com" readonly />
+                    <span class="form-hint">Email cannot be changed</span>
+                </div>
+            </div>
+        </div>
+
+        @if (Model.Role == "Student")
+        {
+            <div class="form-section student-fields">
+                <h3>Academic Information</h3>
+                <div class="form-grid">
+                    <div class="form-field">
+                        <label asp-for="University">University</label>
+                        <input asp-for="University" class="form-control" placeholder="Your university" />
+                    </div>
+                    <div class="form-field">
+                        <label asp-for="Faculty">Faculty</label>
+                        <input asp-for="Faculty" class="form-control" placeholder="Your faculty" />
+                    </div>
+                    <div class="form-field">
+                        <label asp-for="AcademicYear">Academic Year</label>
+                        <select asp-for="AcademicYear" class="form-control">
+                            <option value="">Select academic year</option>
+                            <option value="1">1st Year</option>
+                            <option value="2">2nd Year</option>
+                            <option value="3">3rd Year</option>
+                            <option value="4">4th Year</option>
+                            <option value="5">5th Year</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        }
+
+        @if (Model.Role == "Mentor")
+        {
+            <div class="form-section mentor-fields">
+                <h3>Professional Information</h3>
+                <div class="form-grid">
+                    <div class="form-field">
+                        <label asp-for="JobTitle">Job Title</label>
+                        <input asp-for="JobTitle" class="form-control" placeholder="Your job title" />
+                    </div>
+                    <div class="form-field">
+                        <label asp-for="YearsOfExperience">Years of Experience</label>
+                        <input asp-for="YearsOfExperience" type="number" class="form-control" placeholder="0" min="0" max="50" />
+                    </div>
+                    <div class="form-field">
+                        <label asp-for="Skills">Skills (comma separated)</label>
+                        <input asp-for="Skills" class="form-control" placeholder="e.g., C#, React, Cloud" />
+                    </div>
+                    <div class="form-field">
+                        <label asp-for="LinkedInUrl">LinkedIn Profile</label>
+                        <input asp-for="LinkedInUrl" class="form-control" placeholder="https://linkedin.com/in/your-profile" />
+                    </div>
+                </div>
+            </div>
+        }
+
+        @if (Model.Role == "Company")
+        {
+            <div class="form-section company-fields">
+                <h3>Company Information</h3>
+                <div class="form-grid">
+                    <div class="form-field">
+                        <label asp-for="CompanyName">Company Name</label>
+                        <input asp-for="CompanyName" class="form-control" placeholder="Your company name" />
+                    </div>
+                    <div class="form-field">
+                        <label asp-for="Industry">Industry</label>
+                        <input asp-for="Industry" class="form-control" placeholder="e.g., Technology, Finance, Healthcare" />
+                    </div>
+                    <div class="form-field full-width">
+                        <label asp-for="CompanyDescription">Company Description</label>
+                        <textarea asp-for="CompanyDescription" class="form-control" rows="3" placeholder="Tell us about your company"></textarea>
+                    </div>
+                    <div class="form-field">
+                        <label asp-for="Website">Website</label>
+                        <input asp-for="Website" class="form-control" placeholder="https://example.com" />
+                    </div>
+                </div>
+            </div>
+        }
+
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">
+                <i class="fa-solid fa-save"></i> Save Changes
+            </button>
+            <a asp-action="Index" class="btn btn-secondary">
+                <i class="fa-solid fa-xmark"></i> Cancel
+            </a>
+        </div>
+    </form>
+</div>

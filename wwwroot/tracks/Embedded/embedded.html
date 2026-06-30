@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Embedded Systems — دليل المبتدئين</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.rtl.min.css"/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="../Style/style.css"/>
+</head>
+<body>
+
+  <div class="noise-overlay"></div>
+
+  <!-- NAV -->
+  <nav class="main-nav" id="mainNav">
+    <div class="container-fluid px-4">
+      <div class="nav-inner d-flex align-items-center justify-content-between">
+        <div class="nav-logo">
+          <span class="logo-bracket">&#x2F0;</span>
+          <span class="logo-text">Embedded</span>
+          <span class="logo-bracket">&#x2F1;</span>
+        </div>
+        <div class="nav-links d-none d-lg-flex gap-4">
+          <a href="#what-is"    class="nav-link-item">ما هو Embedded؟</a>
+          <a href="#frameworks" class="nav-link-item">الأدوات والمنصات</a>
+          <a href="#comparison" class="nav-link-item">المقارنة</a>
+          <a href="#roadmap"    class="nav-link-item">ابدأ من هنا</a>
+        </div>
+        <div class="nav-badge">
+          <span class="badge-dot"></span>
+          دليلك 
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero-section" id="hero">
+    <div class="hero-grid-bg"></div>
+    <div class="container">
+      <div class="row min-vh-100 align-items-center">
+        <div class="col-12 col-lg-8">
+          <div class="hero-tag mb-3" data-aos="fade-up">
+            <i class="bi bi-cpu-fill"></i> دليل المبتدئ في Embedded Systems
+          </div>
+          <h1 class="hero-title" data-aos="fade-up" data-aos-delay="100">
+            كل اللي محتاج<br/>
+            تعرفه عن
+            <span class="highlight-text"> Embedded</span>
+          </h1>
+          <p class="hero-subtitle" data-aos="fade-up" data-aos-delay="200">
+            من أول LED وميض لغاية ما تبرمج Microcontroller حقيقي — دليل واضح ومبسط بدون تعقيد.
+          </p>
+          <div class="hero-actions d-flex flex-wrap gap-3 mt-5" data-aos="fade-up" data-aos-delay="300">
+            <a href="#what-is" class="btn-primary-custom">
+              ابدأ الرحلة <i class="bi bi-arrow-left ms-2"></i>
+            </a>
+            <a href="#comparison" class="btn-secondary-custom">
+              قارن المنصات والأدوات
+            </a>
+          </div>
+        </div>
+
+        <!-- Hero code block -->
+        <div class="col-12 col-lg-4 d-none d-lg-block">
+          <div class="hero-code-block" data-aos="fade-left" data-aos-delay="400">
+            <div class="code-header">
+              <span class="dot red"></span>
+              <span class="dot yellow"></span>
+              <span class="dot green"></span>
+              <span class="code-filename">main.c</span>
+            </div>
+            <div class="code-body" id="heroCodeBlock">
+              <div class="code-line"><span class="kw">#include</span> <span class="str">&lt;avr/io.h&gt;</span></div>
+              <div class="code-line"><span class="kw">#include</span> <span class="str">&lt;util/delay.h&gt;</span></div>
+              <div class="code-line mt-1"><span class="kw">int</span> <span class="fn">main</span>(<span class="kw">void</span>) {</div>
+              <div class="code-line pl-2"><span class="var">DDRB</span> |= (<span class="fn">1</span> &lt;&lt; <span class="var">PB5</span>);</div>
+              <div class="code-line pl-2"><span class="kw">while</span>(<span class="fn">1</span>) {</div>
+              <div class="code-line pl-3"><span class="var">PORTB</span> ^= (<span class="fn">1</span> &lt;&lt; <span class="var">PB5</span>);</div>
+              <div class="code-line pl-3"><span class="fn">_delay_ms</span>(<span class="fn">500</span>);</div>
+              <div class="code-line pl-2">}</div>
+              <div class="code-line">}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="hero-scroll-hint">
+      <div class="scroll-mouse"><div class="scroll-wheel"></div></div>
+      <span>اسكرول للأسفل</span>
+    </div>
+  </section>
+
+  <!-- WHAT IS EMBEDDED -->
+  <section class="section-block" id="what-is">
+    <div class="container">
+      <div class="section-header text-center mb-5" data-aos="fade-up">
+        <span class="section-tag">الأساسيات</span>
+        <h2 class="section-title">إيه هو الـ Embedded Systems؟</h2>
+        <p class="section-subtitle">
+          الـ Embedded Systems هي الكود اللي بيشتغل جوه الأجهزة — مش على الكمبيوتر. التلاجة، الميكروويف، السيارة، الساعة الذكية — كلهم فيهم كود مكتوب بواسطة Embedded Engineer.
+        </p>
+      </div>
+
+      <div class="analogy-card mb-5" data-aos="fade-up">
+        <div class="analogy-icon"><i class="bi bi-motherboard-fill"></i></div>
+        <div class="analogy-content">
+          <h4>فكر في الأمر كده </h4>
+          <p>
+            لو البرمجة العادية زي إنك بتكتب رسالة على ورقة — فالـ Embedded زي إنك بتنحت الكلام على الحجر.
+            <strong>كل بايت بيهمك، كل ميلي ثانية بتحسبها، والكهرباء نفسها بتكون في حسابك.</strong>
+            ده التراك اللي الكود بتاعك بيتحكم في الواقع الفيزيائي مباشرة. 
+          </p>
+        </div>
+      </div>
+
+      <div class="row g-4">
+        <div class="col-12 col-md-4" data-aos="fade-up" data-aos-delay="0">
+          <div class="pillar-card" data-pillar="hw">
+            <div class="pillar-icon"><i class="bi bi-motherboard-fill"></i></div>
+            <div class="pillar-number">01</div>
+            <h3 class="pillar-title">Hardware Basics</h3>
+            <p class="pillar-desc">لازم تفهم الكهرباء الأساسية — Voltage، Current، Resistance. الـ GPIO، الـ ADC، الـ UART، الـ SPI، والـ I2C هم بوابتك للتواصل مع العالم الحقيقي.</p>
+            <div class="pillar-tag">Know Your Hardware</div>
+          </div>
+        </div>
+        <div class="col-12 col-md-4" data-aos="fade-up" data-aos-delay="100">
+          <div class="pillar-card" data-pillar="c">
+            <div class="pillar-icon"><i class="bi bi-code-square"></i></div>
+            <div class="pillar-number">02</div>
+            <h3 class="pillar-title">C Programming</h3>
+            <p class="pillar-desc">C هي لغة الـ Embedded بامتياز. بيديك تحكم مباشر في الـ Memory والـ Hardware. Pointers، Bit Manipulation، والـ Memory Map مش optional — هما الأساس.</p>
+            <div class="pillar-tag">C is King</div>
+          </div>
+        </div>
+        <div class="col-12 col-md-4" data-aos="fade-up" data-aos-delay="200">
+          <div class="pillar-card" data-pillar="rtos">
+            <div class="pillar-icon"><i class="bi bi-clock-history"></i></div>
+            <div class="pillar-number">03</div>
+            <h3 class="pillar-title">Real-Time Systems</h3>
+            <p class="pillar-desc">الـ Real-Time مش يعني سريع — يعني <strong>في الوقت المحدد بالظبط</strong>. Timing Constraints، Interrupts، والـ RTOS هما اللي بيخلوا نظام الفرامل في السيارة يشتغل.</p>
+            <div class="pillar-tag">Timing is Everything</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EMBEDDED ECOSYSTEM INTRO -->
+  <section class="section-block section-dark" id="frameworks-intro">
+    <div class="container">
+      <div class="row align-items-center g-5">
+        <div class="col-12 col-lg-6" data-aos="fade-right">
+          <span class="section-tag light">المفهوم الأساسي</span>
+          <h2 class="section-title light">Microcontroller ولا Microprocessor؟</h2>
+          <p class="section-subtitle light">
+            السؤال الأول في Embedded. الـ Microcontroller زي الـ Arduino وSTM32 — فيه CPU وMemory وPeripherals كلهم في chip واحدة. الـ Microprocessor زي اللي في Raspberry Pi — أقوى بكتير لكن محتاج مكونات خارجية.
+          </p>
+          <p class="section-subtitle light">
+            <strong>للمبتدئ: ابدأ بـ Arduino.</strong> لما تفهم المفاهيم — انتقل لـ STM32 أو ESP32 وهتحس بالفرق الحقيقي.
+          </p>
+          <div class="benefits-list mt-4">
+            <div class="benefit-item"><i class="bi bi-check-lg"></i> Arduino — البداية المثالية وأسهل بيئة</div>
+            <div class="benefit-item"><i class="bi bi-check-lg"></i> STM32 — المحترف الحقيقي في الصناعة</div>
+            <div class="benefit-item"><i class="bi bi-check-lg"></i> ESP32 — IoT وWiFi بأقل تكلفة</div>
+            <div class="benefit-item"><i class="bi bi-check-lg"></i> Raspberry Pi — لما تحتاج Linux على Hardware</div>
+            <div class="benefit-item"><i class="bi bi-check-lg"></i> RISC-V — المستقبل المفتوح المصدر</div>
+          </div>
+        </div>
+        <div class="col-12 col-lg-6" data-aos="fade-left">
+          <div class="framework-visual">
+            <div class="fv-center">
+              <i class="bi bi-cpu-fill"></i>
+              <span>MCU</span>
+            </div>
+            <div class="fv-orbit">
+              <div class="fv-satellite" style="--i:0"><span class="fw-arduino"><i class="bi bi-lightning-fill"></i></span></div>
+              <div class="fv-satellite" style="--i:1"><span class="fw-stm32"><i class="bi bi-cpu"></i></span></div>
+              <div class="fv-satellite" style="--i:2"><span class="fw-esp32"><i class="bi bi-wifi"></i></span></div>
+              <div class="fv-satellite" style="--i:3"><span class="fw-rpi"><i class="bi bi-pie-chart-fill"></i></span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PLATFORMS DEEP DIVE -->
+  <section class="section-block" id="frameworks">
+    <div class="container">
+      <div class="section-header text-center mb-5" data-aos="fade-up">
+        <span class="section-tag">المنصات والأدوات</span>
+        <h2 class="section-title">أشهر منصات Embedded بالتفصيل</h2>
+        <p class="section-subtitle">اعرف كل منصة — إيه قوتها، مين وراها، وامتى تستخدمها.</p>
+      </div>
+
+      <div class="fw-tabs-wrapper" data-aos="fade-up">
+        <div class="fw-tabs d-flex gap-2 flex-wrap mb-4" id="fwTabs">
+          <button class="fw-tab active" data-fw="arduino">
+            <i class="bi bi-lightning-fill"></i> Arduino
+          </button>
+          <button class="fw-tab" data-fw="stm32">
+            <i class="bi bi-cpu"></i> STM32
+          </button>
+          <button class="fw-tab" data-fw="esp32">
+            <i class="bi bi-wifi"></i> ESP32
+          </button>
+          <button class="fw-tab" data-fw="rpi">
+            <i class="bi bi-pie-chart-fill"></i> Raspberry Pi
+          </button>
+          <button class="fw-tab" data-fw="rtos">
+            <i class="bi bi-clock-history"></i> FreeRTOS
+          </button>
+        </div>
+        <div class="fw-panel" id="fwPanel"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- COMPARISON TABLE -->
+  <section class="section-block section-light-alt" id="comparison">
+    <div class="container">
+      <div class="section-header text-center mb-5" data-aos="fade-up">
+        <span class="section-tag">المقارنة</span>
+        <h2 class="section-title">مقارنة شاملة بين المنصات</h2>
+        <p class="section-subtitle">جدول واضح يساعدك تشوف الفروق دفعة واحدة.</p>
+      </div>
+      <div class="table-wrapper" data-aos="fade-up">
+        <div class="table-responsive">
+          <table class="comparison-table w-100">
+            <thead>
+              <tr>
+                <th>المعيار</th>
+                <th><i class="bi bi-lightning-fill"></i> Arduino</th>
+                <th><i class="bi bi-cpu"></i> STM32</th>
+                <th><i class="bi bi-wifi"></i> ESP32</th>
+                <th><i class="bi bi-pie-chart-fill"></i> Raspberry Pi</th>
+                <th><i class="bi bi-clock-history"></i> FreeRTOS</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="criterion">سهولة البداية</td>
+                <td><span class="level easy">سهل جداً</span></td>
+                <td><span class="level hard">صعب</span></td>
+                <td><span class="level medium">متوسط</span></td>
+                <td><span class="level easy">سهل</span></td>
+                <td><span class="level hard">صعب</span></td>
+              </tr>
+              <tr>
+                <td class="criterion">الأداء</td>
+                <td><div class="perf-bar" data-perf="30"></div></td>
+                <td><div class="perf-bar" data-perf="90"></div></td>
+                <td><div class="perf-bar" data-perf="75"></div></td>
+                <td><div class="perf-bar" data-perf="95"></div></td>
+                <td><div class="perf-bar" data-perf="85"></div></td>
+              </tr>
+              <tr>
+                <td class="criterion">الاستخدام في الصناعة</td>
+                <td><span class="level medium">Prototyping</span></td>
+                <td><span class="level easy">ضروري</span></td>
+                <td><span class="level easy">IoT ممتاز</span></td>
+                <td><span class="level medium">Linux Embedded</span></td>
+                <td><span class="level easy">ضروري</span></td>
+              </tr>
+              <tr>
+                <td class="criterion">التكلفة</td>
+                <td><span class="stars">★★★★★</span></td>
+                <td><span class="stars">★★★☆☆</span></td>
+                <td><span class="stars">★★★★★</span></td>
+                <td><span class="stars">★★★☆☆</span></td>
+                <td><span class="stars">★★★★★</span></td>
+              </tr>
+              <tr>
+                <td class="criterion">الوظيفة الأساسية</td>
+                <td>Rapid Prototyping</td>
+                <td>Industrial & Automotive</td>
+                <td>IoT & Wireless</td>
+                <td>Embedded Linux</td>
+                <td>Real-Time Scheduling</td>
+              </tr>
+              <tr>
+                <td class="criterion">ابدأ بيه لما؟</td>
+                <td>من أول يوم</td>
+                <td>بعد Arduino</td>
+                <td>عايز WiFi/BT</td>
+                <td>محتاج Linux</td>
+                <td>بعد STM32</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- QUIZ -->
+  <section class="section-block section-dark" id="quiz">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-12 col-lg-8">
+          <div class="section-header text-center mb-5" data-aos="fade-up">
+            <span class="section-tag light">اكتشف نفسك</span>
+            <h2 class="section-title light">أنهي منصة تبدأ بيها؟</h2>
+            <p class="section-subtitle light">جاوب على 3 أسئلة وهنقترح عليك الأنسب.</p>
+          </div>
+          <div class="quiz-card" id="quizCard" data-aos="fade-up">
+            <div class="quiz-progress-bar"><div class="quiz-progress-fill" id="quizProgressFill"></div></div>
+            <div class="quiz-step-indicator" id="quizStepIndicator">السؤال 1 من 3</div>
+            <div class="quiz-content" id="quizContent"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ROADMAP -->
+  <section class="section-block" id="roadmap">
+    <div class="container">
+      <div class="section-header text-center mb-5" data-aos="fade-up">
+        <span class="section-tag">خارطة الطريق</span>
+        <h2 class="section-title">من فين تبدأ؟</h2>
+        <p class="section-subtitle">الخطوات الصح، بالترتيب الصح.</p>
+      </div>
+      <div class="roadmap-timeline" id="roadmapTimeline"></div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="container text-center">
+      <div class="footer-logo mb-3">
+        <span class="logo-bracket">&#x2F0;</span>
+        <span class="logo-text">Embedded</span>
+        <span class="logo-bracket">&#x2F1;</span>
+      </div>
+      <p class="footer-sub">الكود بتاعك بيتحكم في الواقع — مش بس الشاشة. <i class="bi bi-cpu-fill"></i></p>
+      <div class="footer-divider"></div>
+      <p class="footer-copy">صُنع بـ <span class="heart">♥</span> لكل مبتدئ بيحلم يبرمج الحديد نفسه</p>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

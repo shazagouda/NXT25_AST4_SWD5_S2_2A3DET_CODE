@@ -1,0 +1,145 @@
+
+@model A3DET_CODE.ViewModels.Profile.ProfileViewModel
+@{
+    ViewData["Title"] = "Profile";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/profile.css" asp-append-version="true" />
+}
+
+<div class="profile-container">
+    <div class="profile-header">
+        <div class="profile-avatar">
+            <span class="avatar-initials">@(Model.FullName?.Substring(0, 1)?.ToUpper() ?? "U")</span>
+        </div>
+        <div class="profile-info">
+            <h1>@(Model.FullName ?? "User")</h1>
+            <div class="profile-badge">
+                <span class="badge badge-blue">@Model.Role</span>
+                <span class="badge badge-teal">@(Model.IsActive ? "Active" : "Inactive")</span>
+            </div>
+            <p class="profile-email">@Model.Email</p>
+            <p class="profile-joined">Joined: @Model.CreatedAt.ToString("MMMM dd, yyyy")</p>
+        </div>
+        <div class="profile-actions">
+            <a asp-action="Edit" class="btn btn-secondary">Edit Profile</a>
+        </div>
+    </div>
+
+    <div class="profile-stats">
+        <div class="stat-card">
+            <div class="stat-number">@Model.TotalProjects</div>
+            <div class="stat-label">Projects</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number">@Model.TotalBadges</div>
+            <div class="stat-label">Badges</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number">@(Model.LastLoginAt?.ToString("MMM dd") ?? "Never")</div>
+            <div class="stat-label">Last Login</div>
+        </div>
+    </div>
+
+    <div class="profile-details">
+
+        @if (Model.Role == "Student")
+        {
+            <div class="detail-section">
+                <h3>Academic Information</h3>
+                <div class="detail-grid">
+                    <div class="detail-item">
+                        <span class="detail-label">University</span>
+                        <span class="detail-value">@(Model.University ?? "Not specified")</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Faculty</span>
+                        <span class="detail-value">@(Model.Faculty ?? "Not specified")</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Academic Year</span>
+                        <span class="detail-value">@(Model.AcademicYear ?? "Not specified")</span>
+                    </div>
+                </div>
+            </div>
+            <div class="profile-actions">
+                <a asp-controller="Dashboard" asp-action="StudentDashboard" class="btn btn-primary">Go to Dashboard</a>
+            </div>
+        }
+
+        @if (Model.Role == "Mentor")
+        {
+            <div class="detail-section">
+                <h3>Professional Information</h3>
+                <div class="detail-grid">
+                    <div class="detail-item">
+                        <span class="detail-label">Job Title</span>
+                        <span class="detail-value">@(Model.JobTitle ?? "Not specified")</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Years of Experience</span>
+                        <span class="detail-value">@(Model.YearsOfExperience?.ToString() ?? "Not specified")</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Skills</span>
+                        <span class="detail-value">@(Model.Skills ?? "Not specified")</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">LinkedIn</span>
+                        <span class="detail-value">
+                            @if (!string.IsNullOrEmpty(Model.LinkedInUrl))
+                            {
+                                <a href="@Model.LinkedInUrl" target="_blank">View Profile</a>
+                            }
+                            else
+                            {
+                                <span>Not specified</span>
+                            }
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="profile-actions">
+                <a asp-controller="Dashboard" asp-action="MentorDashboard" class="btn btn-primary">Go to Dashboard</a>
+            </div>
+        }
+
+        @if (Model.Role == "Company")
+        {
+            <div class="detail-section">
+                <h3>Company Information</h3>
+                <div class="detail-grid">
+                    <div class="detail-item">
+                        <span class="detail-label">Company Name</span>
+                        <span class="detail-value">@(Model.CompanyName ?? "Not specified")</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Industry</span>
+                        <span class="detail-value">@(Model.Industry ?? "Not specified")</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Website</span>
+                        <span class="detail-value">
+                            @if (!string.IsNullOrEmpty(Model.Website))
+                            {
+                                <a href="@Model.Website" target="_blank">@Model.Website</a>
+                            }
+                            else
+                            {
+                                <span>Not specified</span>
+                            }
+                        </span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Description</span>
+                        <span class="detail-value">@(Model.CompanyDescription ?? "Not specified")</span>
+                    </div>
+                </div>
+            </div>
+            <div class="profile-actions">
+                <a asp-controller="Dashboard" asp-action="CompanyDashboard" class="btn btn-primary">Go to Dashboard</a>
+            </div>
+        }
+    </div>
+</div>

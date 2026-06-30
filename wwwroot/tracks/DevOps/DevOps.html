@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>DevOps — دليل المبتدئين</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.rtl.min.css"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <link rel="stylesheet" href="../Style/style.css"/>
+</head>
+<body>
+
+  <div class="noise-overlay"></div>
+
+  <!-- NAV -->
+  <nav class="main-nav" id="mainNav">
+    <div class="container-fluid px-4">
+      <div class="nav-inner d-flex align-items-center justify-content-between">
+        <div class="nav-logo">
+          <span class="logo-bracket">⚙</span>
+          <span class="logo-text">DevOps</span>
+          <span class="logo-bracket">⚙</span>
+        </div>
+        <div class="nav-links d-none d-lg-flex gap-4">
+          <a href="#what-is"    class="nav-link-item">ما هو DevOps؟</a>
+          <a href="#frameworks" class="nav-link-item">الأدوات</a>
+          <a href="#comparison" class="nav-link-item">المقارنة</a>
+          <a href="#roadmap"    class="nav-link-item">ابدأ من هنا</a>
+        </div>
+        <div class="nav-badge">
+          <span class="badge-dot"></span>
+          دليلك 
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero-section" id="hero">
+    <div class="hero-grid-bg"></div>
+    <div class="container">
+      <div class="row min-vh-100 align-items-center">
+        <div class="col-12 col-lg-8">
+          <div class="hero-tag mb-3" data-aos="fade-up">
+            <i class="fa-solid fa-infinity"></i> دليل المبتدئ في DevOps
+          </div>
+          <h1 class="hero-title" data-aos="fade-up" data-aos-delay="100">
+            كل اللي محتاج<br/>
+            تعرفه عن
+            <span class="highlight-text"> DevOps</span>
+          </h1>
+          <p class="hero-subtitle" data-aos="fade-up" data-aos-delay="200">
+            من أول Container لغاية ما تبني Pipeline كاملة — دليل واضح ومبسط بدون تعقيد.
+          </p>
+          <div class="hero-actions d-flex flex-wrap gap-3 mt-5" data-aos="fade-up" data-aos-delay="300">
+            <a href="#what-is" class="btn-primary-custom">
+              ابدأ الرحلة <i class="fa-solid fa-arrow-left ms-2"></i>
+            </a>
+            <a href="#comparison" class="btn-secondary-custom">
+              قارن الأدوات
+            </a>
+          </div>
+        </div>
+        <div class="col-12 col-lg-4 d-none d-lg-block">
+          <div class="hero-code-block" data-aos="fade-left" data-aos-delay="400">
+            <div class="code-header">
+              <span class="dot red"></span>
+              <span class="dot yellow"></span>
+              <span class="dot green"></span>
+              <span class="code-filename">pipeline.yml</span>
+            </div>
+            <div class="code-body" id="heroCodeBlock">
+              <div class="code-line"><span class="prop">name</span>: <span class="str">Deploy to Production</span></div>
+              <div class="code-line"><span class="prop">on</span>: [<span class="str">push</span>]</div>
+              <div class="code-line mt-1"><span class="prop">jobs</span>:</div>
+              <div class="code-line pl-2"><span class="prop">build</span>:</div>
+              <div class="code-line pl-3"><span class="prop">runs-on</span>: <span class="str">ubuntu-latest</span></div>
+              <div class="code-line pl-3"><span class="prop">steps</span>:</div>
+              <div class="code-line pl-4"><span class="kw">- run</span>: <span class="fn">docker build</span> <span class="str">.</span></div>
+              <div class="code-line pl-4"><span class="kw">- run</span>: <span class="fn">docker push</span></div>
+              <div class="code-line pl-4"><span class="kw">- run</span>: <span class="fn">kubectl apply</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="hero-scroll-hint">
+      <div class="scroll-mouse"><div class="scroll-wheel"></div></div>
+      <span>اسكرول للأسفل</span>
+    </div>
+  </section>
+
+  <!-- WHAT IS DEVOPS -->
+  <section class="section-block" id="what-is">
+    <div class="container">
+      <div class="section-header text-center mb-5" data-aos="fade-up">
+        <span class="section-tag">الأساسيات</span>
+        <h2 class="section-title">إيه هو الـ DevOps؟</h2>
+        <p class="section-subtitle">
+          الـ DevOps مش أداة ولا لغة — ده ثقافة بتجمع بين الـ Development والـ Operations. هدفه إنك توصّل الكود للمستخدم بسرعة، بأمان، وبشكل مستمر من غير ما تصحى الليل.
+        </p>
+      </div>
+
+      <div class="analogy-card mb-5" data-aos="fade-up">
+        <div class="analogy-icon"><i class="fa-solid fa-conveyor-belt"></i></div>
+        <div class="analogy-content">
+          <h4>فكر في الأمر كده </h4>
+          <p>
+            تخيل مصنع سيارات. المهندسين بيصمموا، والعمال بينتجوا — لكن لو ما فيش <strong>خط إنتاج منظم (Pipeline)</strong>، كل حاجة بتبقى فوضى وبطيئة.
+            الـ DevOps هو اللي بيبني <strong>خط الإنتاج الأوتوماتيكي</strong> — من الكود للمستخدم بضغطة واحدة. 🚀
+          </p>
+        </div>
+      </div>
+
+      <div class="row g-4">
+        <div class="col-12 col-md-4" data-aos="fade-up" data-aos-delay="0">
+          <div class="pillar-card" data-pillar="ci">
+            <div class="pillar-icon"><i class="fa-solid fa-rotate"></i></div>
+            <div class="pillar-number">01</div>
+            <h3 class="pillar-title">CI/CD</h3>
+            <p class="pillar-desc">Continuous Integration وDelivery — كل Push بيشغّل Tests تلقائي، وكل Merge بيعمل Deploy. من غير تدخل يدوي. ده قلب الـ DevOps.</p>
+            <div class="pillar-tag">Automate Everything</div>
+          </div>
+        </div>
+        <div class="col-12 col-md-4" data-aos="fade-up" data-aos-delay="100">
+          <div class="pillar-card" data-pillar="containers">
+            <div class="pillar-icon"><i class="fa-brands fa-docker"></i></div>
+            <div class="pillar-number">02</div>
+            <h3 class="pillar-title">Containers</h3>
+            <p class="pillar-desc">Docker بيحط التطبيق وكل dependencies بتاعته في صندوق محكم — بيشتغل نفس الشيء على أي جهاز أو سيرفر. "يشتغل عندي" بقت ذكرى.</p>
+            <div class="pillar-tag">Ship Anywhere</div>
+          </div>
+        </div>
+        <div class="col-12 col-md-4" data-aos="fade-up" data-aos-delay="200">
+          <div class="pillar-card" data-pillar="infra">
+            <div class="pillar-icon"><i class="fa-solid fa-cloud"></i></div>
+            <div class="pillar-number">03</div>
+            <h3 class="pillar-title">Infrastructure as Code</h3>
+            <p class="pillar-desc">بدل ما تعمل السيرفرات بإيدك من الـ Console، بتكتب كود بيعملها أوتوماتيك. Terraform وAnsible بيخلوا البنية التحتية قابلة للتكرار.</p>
+            <div class="pillar-tag">Code Your Cloud</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DEVOPS LOOP INTRO -->
+  <section class="section-block section-dark" id="frameworks-intro">
+    <div class="container">
+      <div class="row align-items-center g-5">
+        <div class="col-12 col-lg-6" data-aos="fade-right">
+          <span class="section-tag light">المفهوم الأساسي</span>
+          <h2 class="section-title light">حلقة الـ DevOps اللانهائية</h2>
+          <p class="section-subtitle light">
+            الـ DevOps مش خط مستقيم — هو حلقة مستمرة. Plan، Code، Build، Test، Release، Deploy، Operate، Monitor — وترجع تبدأ من أول.
+          </p>
+          <p class="section-subtitle light">
+            كل دورة بتخليك أسرع وأمان. الهدف مش السرعة بس — الهدف <strong>الموثوقية مع السرعة معاً.</strong>
+          </p>
+          <div class="benefits-list mt-4">
+            <div class="benefit-item"><i class="fa-solid fa-check"></i> Faster Delivery — Deploy كل يوم مش كل شهر</div>
+            <div class="benefit-item"><i class="fa-solid fa-check"></i> Less Risk — تغييرات صغيرة ومتكررة أأمن</div>
+            <div class="benefit-item"><i class="fa-solid fa-check"></i> Better Quality — Tests أوتوماتيك في كل Deploy</div>
+            <div class="benefit-item"><i class="fa-solid fa-check"></i> Full Visibility — Monitoring في كل حاجة</div>
+          </div>
+        </div>
+        <div class="col-12 col-lg-6" data-aos="fade-left">
+          <div class="framework-visual">
+            <div class="fv-center">
+              <i class="fa-solid fa-infinity"></i>
+              <span>DevOps</span>
+            </div>
+            <div class="fv-orbit">
+              <div class="fv-satellite" style="--i:0"><span class="fw-docker"><i class="fa-brands fa-docker"></i></span></div>
+              <div class="fv-satellite" style="--i:1"><span class="fw-k8s"><i class="fa-solid fa-dharmachakra"></i></span></div>
+              <div class="fv-satellite" style="--i:2"><span class="fw-terraform"><i class="fa-solid fa-cube"></i></span></div>
+              <div class="fv-satellite" style="--i:3"><span class="fw-github"><i class="fa-brands fa-github"></i></span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TOOLS DEEP DIVE -->
+  <section class="section-block" id="frameworks">
+    <div class="container">
+      <div class="section-header text-center mb-5" data-aos="fade-up">
+        <span class="section-tag">الأدوات الأساسية</span>
+        <h2 class="section-title">أشهر أدوات الـ DevOps بالتفصيل</h2>
+        <p class="section-subtitle">اعرف كل أداة — إيه وظيفتها، مين وراها، وامتى تستخدمها.</p>
+      </div>
+
+      <div class="fw-tabs-wrapper" data-aos="fade-up">
+        <div class="fw-tabs d-flex gap-2 flex-wrap mb-4" id="fwTabs">
+          <button class="fw-tab active" data-fw="docker">
+            <i class="fa-brands fa-docker"></i> Docker
+          </button>
+          <button class="fw-tab" data-fw="k8s">
+            <i class="fa-solid fa-dharmachakra"></i> Kubernetes
+          </button>
+          <button class="fw-tab" data-fw="cicd">
+            <i class="fa-brands fa-github"></i> CI/CD
+          </button>
+          <button class="fw-tab" data-fw="terraform">
+            <i class="fa-solid fa-cube"></i> Terraform
+          </button>
+          <button class="fw-tab" data-fw="monitoring">
+            <i class="fa-solid fa-chart-line"></i> Monitoring
+          </button>
+        </div>
+        <div class="fw-panel" id="fwPanel"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- COMPARISON TABLE -->
+  <section class="section-block section-light-alt" id="comparison">
+    <div class="container">
+      <div class="section-header text-center mb-5" data-aos="fade-up">
+        <span class="section-tag">المقارنة</span>
+        <h2 class="section-title">مقارنة شاملة بين الأدوات</h2>
+        <p class="section-subtitle">جدول واضح يساعدك تشوف الفروق دفعة واحدة.</p>
+      </div>
+      <div class="table-wrapper" data-aos="fade-up">
+        <div class="table-responsive">
+          <table class="comparison-table w-100">
+            <thead>
+              <tr>
+                <th>المعيار</th>
+                <th><i class="fa-brands fa-docker"></i> Docker</th>
+                <th><i class="fa-solid fa-dharmachakra"></i> Kubernetes</th>
+                <th><i class="fa-brands fa-github"></i> GitHub Actions</th>
+                <th><i class="fa-solid fa-cube"></i> Terraform</th>
+                <th><i class="fa-solid fa-chart-line"></i> Prometheus</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="criterion">صعوبة البداية</td>
+                <td><span class="level easy">سهل</span></td>
+                <td><span class="level hard">صعب</span></td>
+                <td><span class="level easy">سهل</span></td>
+                <td><span class="level medium">متوسط</span></td>
+                <td><span class="level medium">متوسط</span></td>
+              </tr>
+              <tr>
+                <td class="criterion">الأولوية للمبتدئ</td>
+                <td><div class="perf-bar" data-perf="98"></div></td>
+                <td><div class="perf-bar" data-perf="55"></div></td>
+                <td><div class="perf-bar" data-perf="90"></div></td>
+                <td><div class="perf-bar" data-perf="65"></div></td>
+                <td><div class="perf-bar" data-perf="60"></div></td>
+              </tr>
+              <tr>
+                <td class="criterion">فرص العمل</td>
+                <td><span class="level easy">ضروري</span></td>
+                <td><span class="level easy">ممتاز</span></td>
+                <td><span class="level easy">ممتاز</span></td>
+                <td><span class="level medium">كويس</span></td>
+                <td><span class="level medium">كويس</span></td>
+              </tr>
+              <tr>
+                <td class="criterion">الـ Community</td>
+                <td><span class="stars">★★★★★</span></td>
+                <td><span class="stars">★★★★★</span></td>
+                <td><span class="stars">★★★★★</span></td>
+                <td><span class="stars">★★★★☆</span></td>
+                <td><span class="stars">★★★★☆</span></td>
+              </tr>
+              <tr>
+                <td class="criterion">الوظيفة الأساسية</td>
+                <td>Containerization</td>
+                <td>Container Orchestration</td>
+                <td>CI/CD Automation</td>
+                <td>Infrastructure as Code</td>
+                <td>Monitoring & Alerting</td>
+              </tr>
+              <tr>
+                <td class="criterion">ابدأ بيها لما؟</td>
+                <td>من أول يوم</td>
+                <td>بعد Docker</td>
+                <td>من أول يوم</td>
+                <td>بعد Cloud basics</td>
+                <td>مع أول Deploy حقيقي</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- QUIZ -->
+  <section class="section-block section-dark" id="quiz">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-12 col-lg-8">
+          <div class="section-header text-center mb-5" data-aos="fade-up">
+            <span class="section-tag light">اكتشف نفسك</span>
+            <h2 class="section-title light">أنهي أداة DevOps تبدأ بيها؟</h2>
+            <p class="section-subtitle light">جاوب على 3 أسئلة وهنقترح عليك الأنسب.</p>
+          </div>
+          <div class="quiz-card" id="quizCard" data-aos="fade-up">
+            <div class="quiz-progress-bar"><div class="quiz-progress-fill" id="quizProgressFill"></div></div>
+            <div class="quiz-step-indicator" id="quizStepIndicator">السؤال 1 من 3</div>
+            <div class="quiz-content" id="quizContent"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ROADMAP -->
+  <section class="section-block" id="roadmap">
+    <div class="container">
+      <div class="section-header text-center mb-5" data-aos="fade-up">
+        <span class="section-tag">خارطة الطريق</span>
+        <h2 class="section-title">من فين تبدأ؟</h2>
+        <p class="section-subtitle">الخطوات الصح، بالترتيب الصح.</p>
+      </div>
+      <div class="roadmap-timeline" id="roadmapTimeline"></div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="container text-center">
+      <div class="footer-logo mb-3">
+        <span class="logo-bracket">⚙</span>
+        <span class="logo-text">DevOps</span>
+        <span class="logo-bracket">⚙</span>
+      </div>
+      <p class="footer-sub">اللي بيشتغل على جهازك لازم يشتغل في Production. </p>
+      <div class="footer-divider"></div>
+      <p class="footer-copy">صُنع بـ <span class="heart">♥</span> لكل مبتدئ بيحلم يأتمت العالم</p>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,278 @@
+﻿
+@{
+    ViewData["Title"] = "Sign Up";
+    Layout = "_AccountLayout";
+}
+
+<div class="auth-header">
+    <h2>Create Your Account</h2>
+    <p class="auth-subtitle">Choose your role to get started</p>
+</div>
+
+@* عرض الأخطاء العامة *@
+@if (!ViewData.ModelState.IsValid)
+{
+    <div class="alert alert-danger">
+        <div asp-validation-summary="All" class="text-danger"></div>
+    </div>
+}
+
+<div class="role-selection" id="roleSelection">
+    <div class="role-cards">
+        <div class="role-card" data-role="student">
+            <div class="role-card-icon">🎓</div>
+            <h4>Student</h4>
+            <p>Join tracks, build projects, and grow your portfolio</p>
+        </div>
+        <div class="role-card" data-role="mentor">
+            <div class="role-card-icon">👨‍🏫</div>
+            <h4>Mentor</h4>
+            <p>Guide students and share your expertise</p>
+        </div>
+        <div class="role-card" data-role="company">
+            <div class="role-card-icon">🏢</div>
+            <h4>Company</h4>
+            <p>Hire talent and post opportunities</p>
+        </div>
+    </div>
+</div>
+
+<div class="auth-forms">
+
+    <div class="auth-form-container" id="studentForm" style="display:none;">
+        <form asp-action="RegisterStudent" method="post" class="auth-form" id="studentRegisterForm">
+            @Html.AntiForgeryToken()
+            <div asp-validation-summary="All" class="alert alert-danger" style="display:none;"></div>
+
+            <h3>Student Registration</h3>
+
+            <div class="form-field">
+                <label>Full Name</label>
+                <input type="text" name="FullName" class="form-control" placeholder="Your full name" required />
+            </div>
+
+            <div class="form-field">
+                <label>Username</label>
+                <input type="text" name="Username" class="form-control" placeholder="Choose a username" required />
+            </div>
+
+            <div class="form-field">
+                <label>Email Address</label>
+                <input type="email" name="Email" class="form-control" placeholder="you@example.com" required />
+            </div>
+
+            <div class="form-field">
+                <label>University</label>
+                <input type="text" name="University" class="form-control" placeholder="Your university" required />
+            </div>
+
+            <div class="form-field">
+                <label>Faculty</label>
+                <input type="text" name="Faculty" class="form-control" placeholder="Your faculty" required />
+            </div>
+
+            <div class="form-field">
+                <label>Academic Year</label>
+                <select name="AcademicYear" class="form-control" required>
+                    <option value="">Select academic year</option>
+                    <option value="1">1st Year</option>
+                    <option value="2">2nd Year</option>
+                    <option value="3">3rd Year</option>
+                    <option value="4">4th Year</option>
+                    <option value="5">5th Year</option>
+                </select>
+            </div>
+
+            <div class="form-field password-field">
+                <label>Password</label>
+                <div class="password-input-wrapper">
+                    <input type="password" name="Password" class="form-control" placeholder="Enter a strong password" required />
+                    <button type="button" class="password-toggle" aria-label="Toggle password visibility">
+                        <span class="eye-icon">👁️</span>
+                    </button>
+                </div>
+                <div class="password-strength-meter">
+                    <div class="strength-bar"></div>
+                    <span class="strength-text"></span>
+                </div>
+            </div>
+
+            <div class="form-field password-field">
+                <label>Confirm Password</label>
+                <div class="password-input-wrapper">
+                    <input type="password" name="ConfirmPassword" class="form-control" placeholder="Confirm your password" required />
+                    <button type="button" class="password-toggle" aria-label="Toggle password visibility">
+                        <span class="eye-icon">👁️</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="form-check">
+                <input type="checkbox" name="AcceptTerms" value="true" class="form-check-input" />
+                <input type="hidden" name="AcceptTerms" value="false" />
+                <label class="form-check-label">I accept the <a href="#" target="_blank">Terms & Conditions</a></label>
+                <span class="text-danger" id="acceptTermsError"></span>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-block">
+                <span class="btn-text">Create Student Account</span>
+                <span class="btn-loader" style="display:none;">
+                    <span class="spinner"></span>
+                </span>
+            </button>
+        </form>
+    </div>
+
+    <div class="auth-form-container" id="mentorForm" style="display:none;">
+        <form asp-action="RegisterMentor" method="post" class="auth-form" id="mentorRegisterForm">
+            @Html.AntiForgeryToken()
+            <div asp-validation-summary="All" class="alert alert-danger" style="display:none;"></div>
+
+            <h3>Mentor Registration</h3>
+
+            <div class="form-field">
+                <label>Full Name</label>
+                <input type="text" name="FullName" class="form-control" placeholder="Your full name" required />
+            </div>
+
+            <div class="form-field">
+                <label>Email Address</label>
+                <input type="email" name="Email" class="form-control" placeholder="you@example.com" required />
+            </div>
+
+            <div class="form-field">
+                <label>Job Title</label>
+                <input type="text" name="JobTitle" class="form-control" placeholder="Your current job title" required />
+            </div>
+
+            <div class="form-field">
+                <label>Years of Experience</label>
+                <input type="number" name="YearsOfExperience" class="form-control" placeholder="0" min="0" max="50" required />
+            </div>
+
+            <div class="form-field">
+                <label>Skills (comma separated)</label>
+                <input type="text" name="Skills" class="form-control" placeholder="e.g., C#, React, Cloud" required />
+            </div>
+
+            <div class="form-field">
+                <label>LinkedIn Profile (optional)</label>
+                <input type="url" name="LinkedInUrl" class="form-control" placeholder="https://linkedin.com/in/your-profile" />
+            </div>
+
+            <div class="form-field password-field">
+                <label>Password</label>
+                <div class="password-input-wrapper">
+                    <input type="password" name="Password" class="form-control" placeholder="Enter a strong password" required />
+                    <button type="button" class="password-toggle" aria-label="Toggle password visibility">
+                        <span class="eye-icon">👁️</span>
+                    </button>
+                </div>
+                <div class="password-strength-meter">
+                    <div class="strength-bar"></div>
+                    <span class="strength-text"></span>
+                </div>
+            </div>
+
+            <div class="form-field password-field">
+                <label>Confirm Password</label>
+                <div class="password-input-wrapper">
+                    <input type="password" name="ConfirmPassword" class="form-control" placeholder="Confirm your password" required />
+                    <button type="button" class="password-toggle" aria-label="Toggle password visibility">
+                        <span class="eye-icon">👁️</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="form-check">
+                <input type="checkbox" name="AcceptTerms" value="true" class="form-check-input" />
+                <input type="hidden" name="AcceptTerms" value="false" />
+                <label class="form-check-label">I accept the <a href="#" target="_blank">Terms & Conditions</a></label>
+                <span class="text-danger" id="acceptTermsError"></span>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-block">
+                <span class="btn-text">Create Mentor Account</span>
+                <span class="btn-loader" style="display:none;">
+                    <span class="spinner"></span>
+                </span>
+            </button>
+        </form>
+    </div>
+
+    <div class="auth-form-container" id="companyForm" style="display:none;">
+        <form asp-action="RegisterCompany" method="post" class="auth-form" id="companyRegisterForm">
+            @Html.AntiForgeryToken()
+            <div asp-validation-summary="All" class="alert alert-danger" style="display:none;"></div>
+
+            <h3>Company Registration</h3>
+
+            <div class="form-field">
+                <label>Company Name</label>
+                <input type="text" name="CompanyName" class="form-control" placeholder="Your company name" required />
+            </div>
+
+            <div class="form-field">
+                <label>Company Email</label>
+                <input type="email" name="Email" class="form-control" placeholder="company@example.com" required />
+            </div>
+
+            <div class="form-field">
+                <label>Industry</label>
+                <input type="text" name="Industry" class="form-control" placeholder="e.g., Technology, Finance, Healthcare" required />
+            </div>
+
+            <div class="form-field">
+                <label>Company Website (optional)</label>
+                <input type="url" name="Website" class="form-control" placeholder="https://example.com" />
+            </div>
+
+            <div class="form-field">
+                <label>Company Description (optional)</label>
+                <textarea name="CompanyDescription" class="form-control" rows="3" placeholder="Tell us about your company"></textarea>
+            </div>
+
+            <div class="form-field password-field">
+                <label>Password</label>
+                <div class="password-input-wrapper">
+                    <input type="password" name="Password" class="form-control" placeholder="Enter a strong password" required />
+                    <button type="button" class="password-toggle" aria-label="Toggle password visibility">
+                        <span class="eye-icon">👁️</span>
+                    </button>
+                </div>
+                <div class="password-strength-meter">
+                    <div class="strength-bar"></div>
+                    <span class="strength-text"></span>
+                </div>
+            </div>
+
+            <div class="form-field password-field">
+                <label>Confirm Password</label>
+                <div class="password-input-wrapper">
+                    <input type="password" name="ConfirmPassword" class="form-control" placeholder="Confirm your password" required />
+                    <button type="button" class="password-toggle" aria-label="Toggle password visibility">
+                        <span class="eye-icon">👁️</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="form-check">
+                <input type="checkbox" name="AcceptTerms" value="true" class="form-check-input" />
+                <input type="hidden" name="AcceptTerms" value="false" />
+                <label class="form-check-label">I accept the <a href="#" target="_blank">Terms & Conditions</a></label>
+                <span class="text-danger" id="acceptTermsError"></span>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-block">
+                <span class="btn-text">Create Company Account</span>
+                <span class="btn-loader" style="display:none;">
+                    <span class="spinner"></span>
+                </span>
+            </button>
+        </form>
+    </div>
+
+    <div class="auth-footer">
+        <p>Already have an account? <a asp-action="Login">Login here</a></p>
+    </div>
+</div>

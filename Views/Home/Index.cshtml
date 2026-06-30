@@ -1,0 +1,437 @@
+@{
+    ViewData["Title"] = "Home";
+    ViewData["Description"] = "A3DET CODE — From Learning to Earning. Discover your track, build real projects in teams, and get hired.";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/home.css" asp-append-version="true" />
+}
+
+<section class="hero">
+    <div class="container hero-inner">
+        <div class="hero-copy reveal">
+            <span class="eyebrow">From Learning to Earning</span>
+            <h1>Find your track.<br />Build it with a team.<br /><span class="accent">Get hired for it.</span></h1>
+            <p>A3DET CODE turns theoretical learners into job-ready professionals — through a guided assessment, real team-based projects, and a portfolio companies actually hire from.</p>
+            <div class="hero-cta">
+                <a asp-controller="Account" asp-action="SignUp" class="btn btn-primary">Take the Assessment</a>
+                <a asp-controller="Tracks" asp-action="Index" class="btn btn-secondary">Browse Tracks</a>
+            </div>
+            <div class="hero-stats">
+                <div>
+                    <div class="hero-stat-value" data-counter="10">0</div>
+                    <div class="hero-stat-label">Technical Tracks</div>
+                </div>
+                <div>
+                    <div class="hero-stat-value" data-counter="50" data-suffix="Q">0</div>
+                    <div class="hero-stat-label">Assessment Questions</div>
+                </div>
+                <div>
+                    <div class="hero-stat-value" data-counter="3">0</div>
+                    <div class="hero-stat-label">Career Stages</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="hero-visual reveal">
+            <div class="hero-panel">
+                <div class="hero-panel-head">
+                    <span>Your Compatibility</span>
+                    <span class="badge badge-blue">Live Result</span>
+                </div>
+                <div class="hero-track-list">
+                    <div>
+                        <div class="hero-track-row">
+                            <span class="hero-track-name">Frontend Development</span>
+                            <span class="hero-track-score">92%</span>
+                        </div>
+                        <div class="hero-track-bar"><div class="hero-track-bar-fill" data-fill="92"></div></div>
+                    </div>
+                    <div>
+                        <div class="hero-track-row">
+                            <span class="hero-track-name">AI &amp; Machine Learning</span>
+                            <span class="hero-track-score">81%</span>
+                        </div>
+                        <div class="hero-track-bar"><div class="hero-track-bar-fill" data-fill="81"></div></div>
+                    </div>
+                    <div>
+                        <div class="hero-track-row">
+                            <span class="hero-track-name">Backend Development</span>
+                            <span class="hero-track-score">74%</span>
+                        </div>
+                        <div class="hero-track-bar"><div class="hero-track-bar-fill" data-fill="74"></div></div>
+                    </div>
+                </div>
+                <div class="stage-track">
+                    <div class="stage-node is-complete"><span class="stage-dot"></span><span class="stage-label">Discover</span></div>
+                    <span class="stage-connector is-filled"></span>
+                    <div class="stage-node is-active"><span class="stage-dot"></span><span class="stage-label">Experience</span></div>
+                    <span class="stage-connector"></span>
+                    <div class="stage-node"><span class="stage-dot"></span><span class="stage-label">Paid Mode</span></div>
+                </div>
+            </div>
+            <div class="hero-floating-card">
+                <span class="badge badge-amber">+120 pts</span>
+                <div>
+                    <div class="hero-floating-card-title">Rising Developer</div>
+                    <div class="hero-floating-card-sub">Badge unlocked</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="trust-strip">
+    <div class="container trust-strip-inner">
+        <span class="trust-label">HIRING PARTNERS &amp; PROGRAM PATHWAYS</span>
+        <div class="trust-logos">
+            <span class="trust-logo">Nexora</span>
+            <span class="trust-logo">Brightforge</span>
+            <span class="trust-logo">Vertex Labs</span>
+            <span class="trust-logo">Quantal</span>
+            <span class="trust-logo">Loopline</span>
+        </div>
+    </div>
+</section>
+
+<section class="section" id="tracks">
+    <div class="container">
+        <div class="section-head reveal">
+            <span class="eyebrow">10 Technical Tracks</span>
+            <h2>Featured Tracks</h2>
+            <p>Every track is publicly browsable — no login required to explore.</p>
+        </div>
+        <div class="grid grid-4">
+            @{
+                var tracks = new[] {
+                    ("FE", "Frontend Development", "React, accessibility, and modern UI engineering."),
+                    ("AI", "AI &amp; Machine Learning", "Models, data pipelines, and applied ML systems."),
+                    ("BE", "Backend Development", "APIs, databases, and scalable architecture."),
+                    ("MO", "Mobile Development", "Native and cross-platform app engineering.")
+                };
+            }
+            @foreach (var t in tracks)
+            {
+                <div class="card track-card reveal">
+                    <div class="track-card-icon">@t.Item1</div>
+                    <h4>@Html.Raw(t.Item2)</h4>
+                    <p>@t.Item3</p>
+                    <div class="track-card-meta">
+                        <span>Roadmap included</span>
+                        <span>→</span>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</section>
+
+<section class="section" style="background:var(--color-surface);">
+    <div class="container">
+        <div class="grid grid-2" style="align-items:center;">
+            <div class="reveal">
+                <span class="eyebrow">Structured Roadmaps</span>
+                <h2>A step-by-step path, not a syllabus dump.</h2>
+                <p>Each roadmap breaks a track into staged milestones with a practical project at every step — so progress is something you can point to, not just something you remember.</p>
+                <a asp-controller="Roadmaps" asp-action="Index" class="btn btn-secondary">View Roadmaps</a>
+            </div>
+            <div class="card reveal" style="padding:var(--space-6);">
+                <div class="feature-row" style="padding-top:0;">
+                    <div class="feature-icon">01</div>
+                    <div><h4>Foundations</h4><p>Core syntax, tooling, and mental models.</p></div>
+                </div>
+                <div class="feature-row">
+                    <div class="feature-icon">02</div>
+                    <div><h4>Applied Project</h4><p>Ship a real, scoped deliverable solo.</p></div>
+                </div>
+                <div class="feature-row">
+                    <div class="feature-icon">03</div>
+                    <div><h4>Team Simulation</h4><p>Rebuild the project at production scale, in a team.</p></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container">
+        <div class="section-head reveal">
+            <span class="eyebrow">Top Mentors</span>
+            <h2>Guidance from people who've shipped it before</h2>
+        </div>
+        <div class="grid grid-4">
+            @{
+                var mentors = new[] {
+                    ("AH", "Ahmed Hany", "Backend &amp; Systems Design", "4.9"),
+                    ("LM", "Lina Mostafa", "Frontend &amp; UI Engineering", "4.8"),
+                    ("KS", "Karim Sami", "AI &amp; Data Science", "5.0"),
+                    ("NR", "Nourhan Reda", "DevOps &amp; Cloud", "4.7")
+                };
+            }
+            @foreach (var m in mentors)
+            {
+                <div class="card person-card reveal">
+                    <div class="person-avatar">@m.Item1</div>
+                    <h4>@m.Item2</h4>
+                    <div class="person-role">@Html.Raw(m.Item3)</div>
+                    <div class="person-rating">★ @m.Item4</div>
+                </div>
+            }
+        </div>
+    </div>
+</section>
+
+<section class="section" style="background:var(--color-surface);">
+    <div class="container">
+        <div class="section-head reveal">
+            <span class="eyebrow">Hiring Now</span>
+            <h2>Companies sourcing talent directly from the platform</h2>
+        </div>
+        <div class="grid grid-4">
+            <div class="card company-logo-card reveal">Nexora</div>
+            <div class="card company-logo-card reveal">Brightforge</div>
+            <div class="card company-logo-card reveal">Vertex Labs</div>
+            <div class="card company-logo-card reveal">Quantal</div>
+        </div>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container">
+        <div class="stats-band reveal">
+            <div class="stats-grid">
+                <div class="stat-item"><div class="stat-value" data-counter="12400">0</div><div class="stat-label">Learners Onboarded</div></div>
+                <div class="stat-item"><div class="stat-value" data-counter="860">0</div><div class="stat-label">Projects Delivered</div></div>
+                <div class="stat-item"><div class="stat-value" data-counter="140">0</div><div class="stat-label">Hiring Companies</div></div>
+                <div class="stat-item"><div class="stat-value" data-counter="96" data-suffix="%">0</div><div class="stat-label">Track Match Accuracy</div></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section" style="background:var(--color-surface);">
+    <div class="container">
+        <div class="grid grid-2" style="align-items:center;">
+            <div class="reveal">
+                <span class="eyebrow">Why A3DET CODE</span>
+                <h2>Built to close the experience gap</h2>
+            </div>
+            <div class="reveal">
+                <div class="feature-row">
+                    <div class="feature-icon">01</div>
+                    <div><h4>Real-World Experience</h4><p>Simulated industry projects, not toy assignments.</p></div>
+                </div>
+                <div class="feature-row">
+                    <div class="feature-icon">02</div>
+                    <div><h4>Fair Evaluation</h4><p>Multi-dimensional, merit-based scoring — no guesswork.</p></div>
+                </div>
+                <div class="feature-row">
+                    <div class="feature-icon">03</div>
+                    <div><h4>Internal Job Market</h4><p>Companies hire straight from verified portfolios.</p></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container">
+        <div class="assessment-split">
+            <div class="assessment-mock reveal">
+                <div class="assessment-q">QUESTION 14 / 50</div>
+                <h4 style="margin-bottom:var(--space-4);">When a project plan changes midway, you usually:</h4>
+                <div class="assessment-option is-selected"><span class="assessment-option-dot"></span> Re-map the plan and keep moving</div>
+                <div class="assessment-option"><span class="assessment-option-dot"></span> Stick to the original approach</div>
+                <div class="assessment-option"><span class="assessment-option-dot"></span> Ask the team to decide together</div>
+            </div>
+            <div class="reveal">
+                <span class="eyebrow">Level 0 — Discovery</span>
+                <h2>One assessment. A ranked path forward.</h2>
+                <p>50 questions on problem-solving, thinking style, and teamwork — scored against all ten tracks, with your top three matches and a primary recommendation explained in plain terms.</p>
+                <a asp-controller="Assessment" asp-action="Index" class="btn btn-primary">Start Assessment</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section" style="background:var(--color-surface);">
+    <div class="container">
+        <div class="section-head reveal" style="margin-left:auto;margin-right:auto;text-align:center;">
+            <span class="eyebrow">How It Works</span>
+            <h2>Three stages. One continuous track.</h2>
+        </div>
+        <div class="stages-panel reveal">
+            <div class="stage-track stages-track-full">
+                <div class="stage-node is-complete"><span class="stage-dot"></span><span class="stage-label">Level 0 — Discover</span></div>
+                <span class="stage-connector is-filled"></span>
+                <div class="stage-node is-active"><span class="stage-dot"></span><span class="stage-label">Level 1 — Experience</span></div>
+                <span class="stage-connector"></span>
+                <div class="stage-node"><span class="stage-dot"></span><span class="stage-label">Paid Mode</span></div>
+            </div>
+            <div class="stage-cards">
+                <div class="stage-card">
+                    <span class="stage-card-num">STAGE 01</span>
+                    <h4>Discover your track</h4>
+                    <p>Take the technical personality assessment and get a ranked, percentage-scored track recommendation.</p>
+                </div>
+                <div class="stage-card">
+                    <span class="stage-card-num">STAGE 02</span>
+                    <h4>Build with a team</h4>
+                    <p>Pass the readiness check, join or form a team, and ship a real project end to end.</p>
+                </div>
+                <div class="stage-card">
+                    <span class="stage-card-num">STAGE 03</span>
+                    <h4>Get hired and paid</h4>
+                    <p>Apply to client briefs, get matched by skill, and deliver paid work that companies see.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container">
+        <div class="section-head reveal">
+            <span class="eyebrow">Built on the Platform</span>
+            <h2>Featured Projects</h2>
+        </div>
+        <div class="grid grid-3">
+            @{
+                var projects = new[] {
+                    ("Admin Dashboard Suite", "React · Node.js"),
+                    ("Peer Lending Platform", "ASP.NET · SQL Server"),
+                    ("Realtime Inventory App", "Flutter · Firebase")
+                };
+            }
+            @foreach (var p in projects)
+            {
+                <div class="card project-card reveal">
+                    <div class="project-card-thumb"></div>
+                    <div class="project-card-body">
+                        <div class="project-tags"><span class="badge badge-blue">Team Project</span><span class="badge badge-teal">Delivered</span></div>
+                        <h4>@p.Item1</h4>
+                        <p>@p.Item2</p>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</section>
+
+<section class="section" style="background:var(--color-surface);">
+    <div class="container">
+        <div class="grid grid-2" style="align-items:center;">
+            <div class="reveal">
+                <span class="eyebrow">Auto-Built Portfolio</span>
+                <h2>Every project, score, and badge — documented for you</h2>
+                <p>No portfolio-building from scratch. The platform assembles it as you progress: completed projects, evaluation scores, demonstrated skills, and earned badges.</p>
+                <a asp-controller="Portfolio" asp-action="Index" class="btn btn-secondary">See a Sample Portfolio</a>
+            </div>
+            <div class="card reveal" style="padding:var(--space-6);">
+                <div class="hero-track-row" style="margin-bottom:var(--space-4);">
+                    <span class="hero-track-name">Profile Strength</span>
+                    <span class="hero-track-score">88%</span>
+                </div>
+                <div class="hero-track-bar" style="margin-bottom:var(--space-5);"><div class="hero-track-bar-fill" data-fill="88"></div></div>
+                <div style="display:flex;gap:var(--space-2);flex-wrap:wrap;">
+                    <span class="badge badge-amber">Rising Developer</span>
+                    <span class="badge badge-teal">Team Player</span>
+                    <span class="badge badge-blue">High Performer</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container">
+        <div class="section-head reveal">
+            <span class="eyebrow">From the Community</span>
+            <h2>Testimonials</h2>
+        </div>
+        <div class="grid grid-3">
+            <div class="card testimonial-card reveal">
+                <p class="testimonial-quote">The assessment actually matched what I'm good at — and the team project gave me something real to show in interviews.</p>
+                <div class="testimonial-author">
+                    <div class="person-avatar" style="width:44px;height:44px;font-size:0.85rem;">SM</div>
+                    <div class="testimonial-author-meta"><div class="name">Sara Mahmoud</div><div class="role">Frontend Track</div></div>
+                </div>
+            </div>
+            <div class="card testimonial-card reveal">
+                <p class="testimonial-quote">Paid Mode is where it got real. I delivered a client project and got hired off the back of it.</p>
+                <div class="testimonial-author">
+                    <div class="person-avatar" style="width:44px;height:44px;font-size:0.85rem;">YA</div>
+                    <div class="testimonial-author-meta"><div class="name">Youssef Adel</div><div class="role">Backend Track</div></div>
+                </div>
+            </div>
+            <div class="card testimonial-card reveal">
+                <p class="testimonial-quote">Mentor feedback on my architecture decisions was sharper than anything I got in three years of college.</p>
+                <div class="testimonial-author">
+                    <div class="person-avatar" style="width:44px;height:44px;font-size:0.85rem;">RT</div>
+                    <div class="testimonial-author-meta"><div class="name">Rana Tarek</div><div class="role">AI &amp; ML Track</div></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section" style="background:var(--color-surface);">
+    <div class="container">
+        <div class="section-head reveal" style="margin-left:auto;margin-right:auto;text-align:center;">
+            <span class="eyebrow">Questions</span>
+            <h2>Frequently Asked Questions</h2>
+        </div>
+        <div class="faq-list">
+            <div class="faq-item reveal">
+                <div class="faq-question">Do I need prior technical experience to start? <span class="faq-icon">+</span></div>
+                <div class="faq-answer"><p>No. Level 0 is designed for complete beginners — the assessment identifies your track based on thinking style, not existing skills.</p></div>
+            </div>
+            <div class="faq-item reveal">
+                <div class="faq-question">Are Track Pages and Roadmaps free to browse? <span class="faq-icon">+</span></div>
+                <div class="faq-answer"><p>Yes. All Track Pages and Roadmaps are publicly accessible without registration or login.</p></div>
+            </div>
+            <div class="faq-item reveal">
+                <div class="faq-question">How does Paid Mode work? <span class="faq-icon">+</span></div>
+                <div class="faq-answer"><p>Once you've uploaded a CV and completed at least one portfolio project, you become eligible to apply — individually or as a team — to real client briefs posted on the platform.</p></div>
+            </div>
+            <div class="faq-item reveal">
+                <div class="faq-question">How are mentors verified? <span class="faq-icon">+</span></div>
+                <div class="faq-answer"><p>Every mentor passes a technical and behavioral assessment covering system design, communication, and case-study feedback before onboarding.</p></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container">
+        <div class="grid grid-2" style="align-items:flex-start;">
+            <div class="reveal">
+                <span class="eyebrow">Get in Touch</span>
+                <h2>Have a question we didn't cover?</h2>
+                <p>Reach out and we'll route it to the right team — platform support, mentorship, or company partnerships.</p>
+            </div>
+            <div class="card reveal" style="padding:var(--space-6);">
+                <form class="contact-form" id="contactPreviewForm">
+                    <div class="form-field"><label for="cName">Name</label><input id="cName" type="text" placeholder="Your name" /></div>
+                    <div class="form-field"><label for="cEmail">Email</label><input id="cEmail" type="email" placeholder="you@example.com" /></div>
+                    <div class="form-field full"><label for="cMsg">Message</label><textarea id="cMsg" rows="4" placeholder="How can we help?"></textarea></div>
+                    <div class="full"><button type="submit" class="btn btn-primary">Send Message</button></div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container">
+        <div class="cta-band reveal">
+            <h2>Ready to find your track?</h2>
+            <p>It takes about 15 minutes. No technical background required.</p>
+            <a asp-controller="Account" asp-action="SignUp" class="btn btn-primary">Take the Assessment</a>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    <script src="~/js/home.js" asp-append-version="true"></script>
+}

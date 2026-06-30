@@ -1,0 +1,146 @@
+@model A3DET_CODE.ViewModels.Dashboard.StudentDashboardViewModel
+@{
+    ViewData["Title"] = "Student Dashboard";
+    Layout = "_Layout";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/dashboard.css" asp-append-version="true" />
+}
+
+<div class="dashboard-container">
+
+    <div class="dashboard-header">
+        <div class="dashboard-welcome">
+            <h1>Welcome back, @Model.UserName 👋</h1>
+            <p class="dashboard-subtitle">Track your progress and discover new opportunities</p>
+        </div>
+        <div class="dashboard-actions">
+            <a asp-controller="Projects" asp-action="Create" class="btn btn-primary">+ New Project</a>
+            <a asp-controller="Teams" asp-action="Create" class="btn btn-secondary">Join Team</a>
+        </div>
+    </div>
+
+    <div class="stats-grid">
+        <div class="stat-card">
+            <div class="stat-icon blue">📊</div>
+            <div class="stat-content">
+                <div class="stat-number">@Model.TotalProjects</div>
+                <div class="stat-label">Total Projects</div>
+            </div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon green">✅</div>
+            <div class="stat-content">
+                <div class="stat-number">@Model.CompletedProjects</div>
+                <div class="stat-label">Completed</div>
+            </div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon amber">🔄</div>
+            <div class="stat-content">
+                <div class="stat-number">@Model.InProgressProjects</div>
+                <div class="stat-label">In Progress</div>
+            </div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon purple">👥</div>
+            <div class="stat-content">
+                <div class="stat-number">@Model.TotalTeams</div>
+                <div class="stat-label">Teams</div>
+            </div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon gold">🏅</div>
+            <div class="stat-content">
+                <div class="stat-number">@Model.TotalBadges</div>
+                <div class="stat-label">Badges Earned</div>
+            </div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon cyan">⭐</div>
+            <div class="stat-content">
+                <div class="stat-number">@Model.TotalPoints</div>
+                <div class="stat-label">Total Points</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="dashboard-grid">
+        <div class="card progress-card">
+            <h3>Completion Rate</h3>
+            <div class="progress-circle-container">
+                <div class="progress-circle" data-progress="@Model.CompletionRate">
+                    <span class="progress-text">@Model.CompletionRate.ToString("F0")%</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="card track-card">
+            <h3>Current Track Progress</h3>
+            <div class="track-info">
+                <span class="track-name">@Model.CurrentTrack</span>
+                <span class="track-progress-label">@Model.TrackProgress%</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" style="width: @Model.TrackProgress%"></div>
+            </div>
+            <a asp-controller="Tracks" asp-action="Details" asp-route-id="1" class="btn btn-ghost btn-sm">Continue Learning →</a>
+        </div>
+
+        <div class="card activities-card">
+            <h3>Recent Activities</h3>
+            <div class="activity-list">
+                @foreach (var activity in Model.RecentActivities)
+                {
+                    <div class="activity-item">
+                        <span class="activity-icon @activity.Color">@activity.Icon</span>
+                        <div class="activity-content">
+                            <div class="activity-title">@activity.Title</div>
+                            <div class="activity-description">@activity.Description</div>
+                            <div class="activity-date">@activity.Date.ToString("MMM dd, yyyy")</div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <div class="card tasks-card">
+            <h3>Upcoming Tasks</h3>
+            <div class="task-list">
+                @foreach (var task in Model.UpcomingTasks)
+                {
+                    <div class="task-item">
+                        <div class="task-priority @task.Priority.ToLower()"></div>
+                        <div class="task-content">
+                            <div class="task-title">@task.Title</div>
+                            <div class="task-due">Due: @task.DueDate.ToString("MMM dd, yyyy")</div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
+    <div class="recommended-section">
+        <h3>Recommended Projects</h3>
+        <div class="grid grid-3">
+            @foreach (var project in Model.RecommendedProjects)
+            {
+                <div class="card project-card">
+                    <div class="project-header">
+                        <h4>@project.Title</h4>
+                        <span class="match-badge">@project.MatchScore% Match</span>
+                    </div>
+                    <p>@project.Description</p>
+                    <div class="project-tech">@project.TechStack</div>
+                    <a asp-controller="Projects" asp-action="Details" asp-route-id="@project.Id" class="btn btn-secondary btn-sm">View Project</a>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/js/dashboard.js" asp-append-version="true"></script>
+}
