@@ -1,0 +1,150 @@
+﻿@model A3DET_CODE.ViewModels.Mentor.MentorPagedViewModel
+@{
+    ViewData["Title"] = "Mentors";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/mentors.css" asp-append-version="true" />
+}
+
+<div class="mentors-hero">
+    <div class="container">
+        <div class="mentors-hero-content">
+            <span class="hero-badge">👨‍🏫 Expert Guidance</span>
+            <h1>Learn from the <span class="highlight">Best Mentors</span></h1>
+            <p>Connect with industry professionals who have been where you are. Get personalized guidance, code reviews, and career advice.</p>
+            <div class="mentors-stats">
+                <div>
+                    <span class="stat-number">@Model.TotalCount</span>
+                    <span class="stat-label">Expert Mentors</span>
+                </div>
+                <div>
+                    <span class="stat-number">@(Model.Mentors.Any() ? Model.Mentors.Average(m => m.Rating).ToString("F1") : "0")</span>
+                    <span class="stat-label">Average Rating</span>
+                </div>
+                <div>
+                    <span class="stat-number">@Model.TotalPages</span>
+                    <span class="stat-label">Pages</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<section class="mentors-filters">
+    <div class="container">
+        <form method="get" id="filterForm">
+            <div class="filters-wrapper">
+                <div class="filters-left">
+                    <div class="search-box">
+                        <i class="fa-solid fa-search"></i>
+                        <input type="text" name="search" placeholder="Search by name, expertise, or skill..." value="@Model.SearchTerm" />
+                    </div>
+                </div>
+                <div class="filters-right">
+                    <div class="filter-group">
+                        <label>Expertise</label>
+                        <select name="expertise" onchange="this.form.submit()">
+                            <option value="all">All Expertises</option>
+                            @foreach (var exp in ViewBag.ExpertiseList as List<string> ?? new List<string>())
+                            {
+                                <option value="@exp" selected="@(Model.Expertise == exp)">@exp</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label>Sort By</label>
+                        <select name="sort" onchange="this.form.submit()">
+                            <option value="rating" selected="@(Model.SortBy == "rating")">Highest Rated</option>
+                            <option value="sessions" selected="@(Model.SortBy == "sessions")">Most Sessions</option>
+                            <option value="experience" selected="@(Model.SortBy == "experience")">Most Experienced</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-sm">Apply</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</section>
+
+<section class="mentors-grid-section">
+    <div class="container">
+        @if (!Model.Mentors.Any())
+        {
+            <div class="text-center py-5">
+                <p class="text-muted">No mentors found matching your criteria.</p>
+                <a href="@Url.Action("Index")" class="btn btn-secondary btn-sm mt-3">Clear Filters</a>
+            </div>
+        }
+        else
+        {
+            <div class="mentors-grid">
+                @foreach (var mentor in Model.Mentors)
+                {
+                    <div class="mentor-card" onclick="location.href='@Url.Action("Details", new { id = mentor.Id })'" style="cursor:pointer;">
+                        <div class="mentor-top">
+                            <div class="mentor-avatar" style="background: linear-gradient(135deg, #2F6FED, #15C6AE);">
+                                @mentor.Initials
+                            </div>
+                            <div class="mentor-info">
+                                <h4 class="mentor-name">@mentor.FullName</h4>
+                                <p class="mentor-expertise">@mentor.Expertise</p>
+                                <div class="mentor-rating">
+                                    <span class="stars">@(new string('★', (int)Math.Floor(mentor.Rating)))</span>
+                                    <span class="rating-count">@mentor.Rating.ToString("F1")</span>
+                                </div>
+                            </div>
+                        </div>
+                        @if (mentor.IsVerified)
+                        {
+                            <span class="mentor-badge verified">✓ Verified</span>
+                        }
+                        <div class="mentor-skills">
+                            @if (!string.IsNullOrEmpty(mentor.Skills))
+                            {
+                                @foreach (var skill in mentor.Skills.Split(',').Take(4))
+                                {
+                                    <span>@skill.Trim()</span>
+                                }
+                            }
+                        </div>
+                        <div class="mentor-footer">
+                            <span class="mentor-sessions">📅 @mentor.TotalSessions sessions</span>
+                            <a href="@Url.Action("Details", new { id = mentor.Id })" class="btn-book">View Profile</a>
+                        </div>
+                    </div>
+                }
+            </div>
+
+            @if (Model.TotalPages > 1)
+            {
+                <nav class="pagination-wrapper mt-5">
+                    <ul class="pagination justify-content-center">
+                        @if (Model.HasPreviousPage)
+                        {
+                            <li class="page-item">
+                                <a class="page-link" href="@Url.Action("Index", new { page = Model.CurrentPage - 1, search = Model.SearchTerm, expertise = Model.Expertise, sort = Model.SortBy })">
+                                    <i class="fa-solid fa-chevron-left"></i>
+                                </a>
+                            </li>
+                        }
+                        @foreach (var page in Model.GetPageNumbers())
+                        {
+                            <li class="page-item @(page == Model.CurrentPage ? "active" : "")">
+                                <a class="page-link" href="@Url.Action("Index", new { page = page, search = Model.SearchTerm, expertise = Model.Expertise, sort = Model.SortBy })"></a>
+                            </li>
+                        }
+                        @if (Model.HasNextPage)
+                        {
+                            <li class="page-item">
+                                <a class="page-link" href="@Url.Action("Index", new { page = Model.CurrentPage + 1, search = Model.SearchTerm, expertise = Model.Expertise, sort = Model.SortBy })">
+                                    <i class="fa-solid fa-chevron-right"></i>
+                                </a>
+                            </li>
+                        }
+                    </ul>
+                </nav>
+            }
+        }
+    </div>
+</section>

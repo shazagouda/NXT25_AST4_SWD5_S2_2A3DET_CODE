@@ -13,336 +13,345 @@
 </head>
 <body>
 
-  <div class="noise-overlay"></div>
+    <div class="noise-overlay"></div>
 
-  <!-- NAV -->
-  <nav class="main-nav" id="mainNav">
-    <div class="container-fluid px-4">
-      <div class="nav-inner d-flex align-items-center justify-content-between">
-        <div class="nav-logo">
-          <span class="logo-bracket">&#x25B6;</span>
-          <span class="logo-text">GameDev</span>
-          <span class="logo-bracket">&#x25A0;</span>
-        </div>
-        <div class="nav-links d-none d-lg-flex gap-4">
-          <a href="#what-is"    class="nav-link-item">ما هو Game Dev؟</a>
-          <a href="#frameworks" class="nav-link-item">المحركات والأدوات</a>
-          <a href="#comparison" class="nav-link-item">المقارنة</a>
-          <a href="#roadmap"    class="nav-link-item">ابدأ من هنا</a>
-        </div>
-        <div class="nav-badge">
-          <span class="badge-dot"></span>
-         دليلك
-        </div>
-      </div>
-    </div>
-  </nav>
-
-  <!-- HERO -->
-  <section class="hero-section" id="hero">
-    <div class="hero-grid-bg"></div>
-    <div class="container">
-      <div class="row min-vh-100 align-items-center">
-        <div class="col-12 col-lg-8">
-          <div class="hero-tag mb-3" data-aos="fade-up">
-            <i class="bi bi-controller"></i> دليل المبتدئ في Game Development
-          </div>
-          <h1 class="hero-title" data-aos="fade-up" data-aos-delay="100">
-            كل اللي محتاج<br/>
-            تعرفه عن
-            <span class="highlight-text"> Game Dev</span>
-          </h1>
-          <p class="hero-subtitle" data-aos="fade-up" data-aos-delay="200">
-            من أول لعبة صغيرة لغاية ما تختار المحرك المناسب وتبني عالمك — دليل واضح ومبسط بدون تعقيد.
-          </p>
-          <div class="hero-actions d-flex flex-wrap gap-3 mt-5" data-aos="fade-up" data-aos-delay="300">
-            <a href="#what-is" class="btn-primary-custom">
-              ابدأ الرحلة <i class="bi bi-arrow-left ms-2"></i>
-            </a>
-            <a href="#comparison" class="btn-secondary-custom">
-              قارن المحركات
-            </a>
-          </div>
-        </div>
-
-        <!-- Hero code block -->
-        <div class="col-12 col-lg-4 d-none d-lg-block">
-          <div class="hero-code-block" data-aos="fade-left" data-aos-delay="400">
-            <div class="code-header">
-              <span class="dot red"></span>
-              <span class="dot yellow"></span>
-              <span class="dot green"></span>
-              <span class="code-filename">Player.gd</span>
+    <!-- NAV -->
+    <nav class="main-nav" id="mainNav">
+        <div class="container-fluid px-4">
+            <div class="nav-inner d-flex align-items-center justify-content-between">
+                <div class="nav-logo">
+                    <span class="logo-bracket">&#x25B6;</span>
+                    <span class="logo-text">GameDev</span>
+                    <span class="logo-bracket">&#x25A0;</span>
+                </div>
+                <div class="nav-links d-none d-lg-flex gap-4">
+                    <a href="#what-is" class="nav-link-item">ما هو Game Dev؟</a>
+                    <a href="#frameworks" class="nav-link-item">المحركات والأدوات</a>
+                    <a href="#comparison" class="nav-link-item">المقارنة</a>
+                    <a href="#roadmap" class="nav-link-item">ابدأ من هنا</a>
+                </div>
+                <div class="nav-controls d-flex align-items-center gap-2">
+                    <div class="nav-badge">
+                        <span class="badge-dot"></span>
+                        <span data-i18n="nav.badge">دليلك</span>
+                    </div>
+                    <button class="lang-toggle" id="langToggle" title="Switch Language">
+                        <span id="langLabel">AR</span>
+                    </button>
+                    <button class="theme-toggle" id="themeToggle" title="Toggle Theme">
+                        <i class="fa-solid fa-sun" id="iconLight"></i>
+                        <i class="fa-solid fa-moon" id="iconDark" style="display:none"></i>
+                    </button>
+                </div>
             </div>
-            <div class="code-body" id="heroCodeBlock">
-              <div class="code-line"><span class="kw">extends</span> <span class="var">CharacterBody2D</span></div>
-              <div class="code-line mt-1"><span class="prop">@export</span> <span class="kw">var</span> <span class="var">speed</span> = <span class="fn">200</span></div>
-              <div class="code-line mt-1"><span class="kw">func</span> <span class="fn">_physics_process</span>(<span class="var">delta</span>):</div>
-              <div class="code-line pl-2"><span class="kw">var</span> <span class="var">dir</span> = <span class="fn">Input</span>.<span class="method">get_vector</span>(</div>
-              <div class="code-line pl-3"><span class="str">"left"</span>, <span class="str">"right"</span>,</div>
-              <div class="code-line pl-3"><span class="str">"up"</span>, <span class="str">"down"</span></div>
-              <div class="code-line pl-2">)</div>
-              <div class="code-line pl-2"><span class="var">velocity</span> = <span class="var">dir</span> * <span class="var">speed</span></div>
-              <div class="code-line pl-2"><span class="fn">move_and_slide</span>()</div>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <section class="hero-section" id="hero">
+        <div class="hero-grid-bg"></div>
+        <div class="container">
+            <div class="row min-vh-100 align-items-center">
+                <div class="col-12 col-lg-8">
+                    <div class="hero-tag mb-3" data-aos="fade-up">
+                        <i class="bi bi-controller"></i> دليل المبتدئ في Game Development
+                    </div>
+                    <h1 class="hero-title" data-aos="fade-up" data-aos-delay="100">
+                        كل اللي محتاج<br />
+                        تعرفه عن
+                        <span class="highlight-text"> Game Dev</span>
+                    </h1>
+                    <p class="hero-subtitle" data-aos="fade-up" data-aos-delay="200">
+                        من أول لعبة صغيرة لغاية ما تختار المحرك المناسب وتبني عالمك — دليل واضح ومبسط بدون تعقيد.
+                    </p>
+                    <div class="hero-actions d-flex flex-wrap gap-3 mt-5" data-aos="fade-up" data-aos-delay="300">
+                        <a href="#what-is" class="btn-primary-custom">
+                            ابدأ الرحلة <i class="bi bi-arrow-left ms-2"></i>
+                        </a>
+                        <a href="#comparison" class="btn-secondary-custom">
+                            قارن المحركات
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Hero code block -->
+                <div class="col-12 col-lg-4 d-none d-lg-block">
+                    <div class="hero-code-block" data-aos="fade-left" data-aos-delay="400">
+                        <div class="code-header">
+                            <span class="dot red"></span>
+                            <span class="dot yellow"></span>
+                            <span class="dot green"></span>
+                            <span class="code-filename">Player.gd</span>
+                        </div>
+                        <div class="code-body" id="heroCodeBlock">
+                            <div class="code-line"><span class="kw">extends</span> <span class="var">CharacterBody2D</span></div>
+                            <div class="code-line mt-1"><span class="prop">@export</span> <span class="kw">var</span> <span class="var">speed</span> = <span class="fn">200</span></div>
+                            <div class="code-line mt-1"><span class="kw">func</span> <span class="fn">_physics_process</span>(<span class="var">delta</span>):</div>
+                            <div class="code-line pl-2"><span class="kw">var</span> <span class="var">dir</span> = <span class="fn">Input</span>.<span class="method">get_vector</span>(</div>
+                            <div class="code-line pl-3"><span class="str">"left"</span>, <span class="str">"right"</span>,</div>
+                            <div class="code-line pl-3"><span class="str">"up"</span>, <span class="str">"down"</span></div>
+                            <div class="code-line pl-2">)</div>
+                            <div class="code-line pl-2"><span class="var">velocity</span> = <span class="var">dir</span> * <span class="var">speed</span></div>
+                            <div class="code-line pl-2"><span class="fn">move_and_slide</span>()</div>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
         </div>
-      </div>
-    </div>
-    <div class="hero-scroll-hint">
-      <div class="scroll-mouse"><div class="scroll-wheel"></div></div>
-      <span>اسكرول للأسفل</span>
-    </div>
-  </section>
+        <div class="hero-scroll-hint">
+            <div class="scroll-mouse"><div class="scroll-wheel"></div></div>
+            <span>اسكرول للأسفل</span>
+        </div>
+    </section>
 
-  <!-- WHAT IS GAME DEV -->
-  <section class="section-block" id="what-is">
-    <div class="container">
-      <div class="section-header text-center mb-5" data-aos="fade-up">
-        <span class="section-tag">الأساسيات</span>
-        <h2 class="section-title">إيه هو الـ Game Development؟</h2>
-        <p class="section-subtitle">
-          Game Dev مش بس برمجة — هو مزيج من الفن والقصة والفيزياء والصوت والتصميم. أنت لما بتعمل لعبة بتبني عالم كامل من الصفر.
-        </p>
-      </div>
-
-      <div class="analogy-card mb-5" data-aos="fade-up">
-        <div class="analogy-icon"><i class="bi bi-film"></i></div>
-        <div class="analogy-content">
-          <h4>فكر في الأمر كده </h4>
-          <p>
-            صناعة الألعاب زي صناعة الأفلام — بس أصعب. المشاهد في الفيلم <strong>شايف</strong> فقط، أما اللاعب <strong>بيتحكم</strong>. ده يعني إنك مش بس بتحكي قصة — إنت بتبني <strong>عالم تفاعلي</strong> بيستجيب لكل قرار يتخذه اللاعب. 
-          </p>
-        </div>
-      </div>
-
-      <div class="row g-4">
-        <div class="col-12 col-md-4" data-aos="fade-up" data-aos-delay="0">
-          <div class="pillar-card" data-pillar="design">
-            <div class="pillar-icon"><i class="bi bi-pencil-square"></i></div>
-            <div class="pillar-number">01</div>
-            <h3 class="pillar-title">Game Design</h3>
-            <p class="pillar-desc">الـ Gameplay وقواعد اللعبة والمستويات والـ Balance. ده قلب اللعبة — من غير design كويس أي لعبة بتفشل حتى لو رسومها جميلة.</p>
-            <div class="pillar-tag">The Rules of Fun</div>
-          </div>
-        </div>
-        <div class="col-12 col-md-4" data-aos="fade-up" data-aos-delay="100">
-          <div class="pillar-card" data-pillar="code">
-            <div class="pillar-icon"><i class="bi bi-braces-asterisk"></i></div>
-            <div class="pillar-number">02</div>
-            <h3 class="pillar-title">Programming</h3>
-            <p class="pillar-desc">الفيزياء والحركة والـ AI للـ NPCs والـ Systems. الكود بيحوّل الفكرة لحاجة شغالة. GDScript أو C# أو C++ حسب المحرك.</p>
-            <div class="pillar-tag">Make It Move</div>
-          </div>
-        </div>
-        <div class="col-12 col-md-4" data-aos="fade-up" data-aos-delay="200">
-          <div class="pillar-card" data-pillar="art">
-            <div class="pillar-icon"><i class="bi bi-palette2"></i></div>
-            <div class="pillar-number">03</div>
-            <h3 class="pillar-title">Art &amp; Audio</h3>
-            <p class="pillar-desc">الشكل والصوت والموسيقى والـ Visual Style. اللاعب بيحس باللعبة قبل ما يفهمها. الـ Art Direction بيفرق بين لعبة عادية ولعبة بتفضل في ذاكرتك.</p>
-            <div class="pillar-tag">Feel the World</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- GAME LOOP INTRO -->
-  <section class="section-block section-dark" id="frameworks-intro">
-    <div class="container">
-      <div class="row align-items-center g-5">
-        <div class="col-12 col-lg-6" data-aos="fade-right">
-          <span class="section-tag light">المفهوم الأساسي</span>
-          <h2 class="section-title light">الـ Game Loop</h2>
-          <p class="section-subtitle light">
-            قلب كل لعبة هو الـ Game Loop — حلقة لا نهاية ليها بتشتغل كل frame. بتاخد الـ input، بتحدّث الـ state، وبترسم الشاشة — كل ثانية 60 مرة.
-          </p>
-          <p class="section-subtitle light">
-            فهم الـ Loop ده هو الفرق بين اللي بيستخدم المحرك واللي <strong>بيفهم إزاي بيشتغل.</strong>
-          </p>
-          <div class="benefits-list mt-4">
-            <div class="benefit-item"><i class="bi bi-check-lg"></i> Input — اللاعب ضغط إيه؟</div>
-            <div class="benefit-item"><i class="bi bi-check-lg"></i> Update — حرّك الـ Physics والـ AI</div>
-            <div class="benefit-item"><i class="bi bi-check-lg"></i> Render — ارسم كل حاجة على الشاشة</div>
-            <div class="benefit-item"><i class="bi bi-check-lg"></i> Audio — شغّل الأصوات المناسبة</div>
-            <div class="benefit-item"><i class="bi bi-check-lg"></i> كرّر — 60 مرة في الثانية!</div>
-          </div>
-        </div>
-        <div class="col-12 col-lg-6" data-aos="fade-left">
-          <div class="framework-visual">
-            <div class="fv-center">
-              <i class="bi bi-controller"></i>
-              <span>Game</span>
+    <!-- WHAT IS GAME DEV -->
+    <section class="section-block" id="what-is">
+        <div class="container">
+            <div class="section-header text-center mb-5" data-aos="fade-up">
+                <span class="section-tag">الأساسيات</span>
+                <h2 class="section-title">إيه هو الـ Game Development؟</h2>
+                <p class="section-subtitle">
+                    Game Dev مش بس برمجة — هو مزيج من الفن والقصة والفيزياء والصوت والتصميم. أنت لما بتعمل لعبة بتبني عالم كامل من الصفر.
+                </p>
             </div>
-            <div class="fv-orbit">
-              <div class="fv-satellite" style="--i:0"><span class="fw-godot"><i class="bi bi-joystick"></i></span></div>
-              <div class="fv-satellite" style="--i:1"><span class="fw-unity"><i class="bi bi-unity"></i></span></div>
-              <div class="fv-satellite" style="--i:2"><span class="fw-unreal"><i class="bi bi-pentagon-fill"></i></span></div>
-              <div class="fv-satellite" style="--i:3"><span class="fw-pygame"><i class="bi bi-braces"></i></span></div>
+
+            <div class="analogy-card mb-5" data-aos="fade-up">
+                <div class="analogy-icon"><i class="bi bi-film"></i></div>
+                <div class="analogy-content">
+                    <h4>فكر في الأمر كده </h4>
+                    <p>
+                        صناعة الألعاب زي صناعة الأفلام — بس أصعب. المشاهد في الفيلم <strong>شايف</strong> فقط، أما اللاعب <strong>بيتحكم</strong>. ده يعني إنك مش بس بتحكي قصة — إنت بتبني <strong>عالم تفاعلي</strong> بيستجيب لكل قرار يتخذه اللاعب.
+                    </p>
+                </div>
             </div>
-          </div>
+
+            <div class="row g-4">
+                <div class="col-12 col-md-4" data-aos="fade-up" data-aos-delay="0">
+                    <div class="pillar-card" data-pillar="design">
+                        <div class="pillar-icon"><i class="bi bi-pencil-square"></i></div>
+                        <div class="pillar-number">01</div>
+                        <h3 class="pillar-title">Game Design</h3>
+                        <p class="pillar-desc">الـ Gameplay وقواعد اللعبة والمستويات والـ Balance. ده قلب اللعبة — من غير design كويس أي لعبة بتفشل حتى لو رسومها جميلة.</p>
+                        <div class="pillar-tag">The Rules of Fun</div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-4" data-aos="fade-up" data-aos-delay="100">
+                    <div class="pillar-card" data-pillar="code">
+                        <div class="pillar-icon"><i class="bi bi-braces-asterisk"></i></div>
+                        <div class="pillar-number">02</div>
+                        <h3 class="pillar-title">Programming</h3>
+                        <p class="pillar-desc">الفيزياء والحركة والـ AI للـ NPCs والـ Systems. الكود بيحوّل الفكرة لحاجة شغالة. GDScript أو C# أو C++ حسب المحرك.</p>
+                        <div class="pillar-tag">Make It Move</div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-4" data-aos="fade-up" data-aos-delay="200">
+                    <div class="pillar-card" data-pillar="art">
+                        <div class="pillar-icon"><i class="bi bi-palette2"></i></div>
+                        <div class="pillar-number">03</div>
+                        <h3 class="pillar-title">Art &amp; Audio</h3>
+                        <p class="pillar-desc">الشكل والصوت والموسيقى والـ Visual Style. اللاعب بيحس باللعبة قبل ما يفهمها. الـ Art Direction بيفرق بين لعبة عادية ولعبة بتفضل في ذاكرتك.</p>
+                        <div class="pillar-tag">Feel the World</div>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- ENGINES DEEP DIVE -->
-  <section class="section-block" id="frameworks">
-    <div class="container">
-      <div class="section-header text-center mb-5" data-aos="fade-up">
-        <span class="section-tag">المحركات والأدوات</span>
-        <h2 class="section-title">أشهر محركات الألعاب بالتفصيل</h2>
-        <p class="section-subtitle">اعرف كل محرك — إيه قوته، مين ورائه، وامتى تستخدمه.</p>
-      </div>
-
-      <div class="fw-tabs-wrapper" data-aos="fade-up">
-        <div class="fw-tabs d-flex gap-2 flex-wrap mb-4" id="fwTabs">
-          <button class="fw-tab active" data-fw="godot">
-            <i class="bi bi-joystick"></i> Godot
-          </button>
-          <button class="fw-tab" data-fw="unity">
-            <i class="bi bi-unity"></i> Unity
-          </button>
-          <button class="fw-tab" data-fw="unreal">
-            <i class="bi bi-pentagon-fill"></i> Unreal Engine
-          </button>
-          <button class="fw-tab" data-fw="pygame">
-            <i class="bi bi-braces"></i> Pygame
-          </button>
-          <button class="fw-tab" data-fw="gms">
-            <i class="bi bi-grid-3x3-gap-fill"></i> GameMaker
-          </button>
+    <!-- GAME LOOP INTRO -->
+    <section class="section-block section-dark" id="frameworks-intro">
+        <div class="container">
+            <div class="row align-items-center g-5">
+                <div class="col-12 col-lg-6" data-aos="fade-right">
+                    <span class="section-tag light">المفهوم الأساسي</span>
+                    <h2 class="section-title light">الـ Game Loop</h2>
+                    <p class="section-subtitle light">
+                        قلب كل لعبة هو الـ Game Loop — حلقة لا نهاية ليها بتشتغل كل frame. بتاخد الـ input، بتحدّث الـ state، وبترسم الشاشة — كل ثانية 60 مرة.
+                    </p>
+                    <p class="section-subtitle light">
+                        فهم الـ Loop ده هو الفرق بين اللي بيستخدم المحرك واللي <strong>بيفهم إزاي بيشتغل.</strong>
+                    </p>
+                    <div class="benefits-list mt-4">
+                        <div class="benefit-item"><i class="bi bi-check-lg"></i> Input — اللاعب ضغط إيه؟</div>
+                        <div class="benefit-item"><i class="bi bi-check-lg"></i> Update — حرّك الـ Physics والـ AI</div>
+                        <div class="benefit-item"><i class="bi bi-check-lg"></i> Render — ارسم كل حاجة على الشاشة</div>
+                        <div class="benefit-item"><i class="bi bi-check-lg"></i> Audio — شغّل الأصوات المناسبة</div>
+                        <div class="benefit-item"><i class="bi bi-check-lg"></i> كرّر — 60 مرة في الثانية!</div>
+                    </div>
+                </div>
+                <div class="col-12 col-lg-6" data-aos="fade-left">
+                    <div class="framework-visual">
+                        <div class="fv-center">
+                            <i class="bi bi-controller"></i>
+                            <span>Game</span>
+                        </div>
+                        <div class="fv-orbit">
+                            <div class="fv-satellite" style="--i:0"><span class="fw-godot"><i class="bi bi-joystick"></i></span></div>
+                            <div class="fv-satellite" style="--i:1"><span class="fw-unity"><i class="bi bi-unity"></i></span></div>
+                            <div class="fv-satellite" style="--i:2"><span class="fw-unreal"><i class="bi bi-pentagon-fill"></i></span></div>
+                            <div class="fv-satellite" style="--i:3"><span class="fw-pygame"><i class="bi bi-braces"></i></span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="fw-panel" id="fwPanel"></div>
-      </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- COMPARISON TABLE -->
-  <section class="section-block section-light-alt" id="comparison">
-    <div class="container">
-      <div class="section-header text-center mb-5" data-aos="fade-up">
-        <span class="section-tag">المقارنة</span>
-        <h2 class="section-title">مقارنة شاملة بين المحركات</h2>
-        <p class="section-subtitle">جدول واضح يساعدك تشوف الفروق دفعة واحدة.</p>
-      </div>
-      <div class="table-wrapper" data-aos="fade-up">
-        <div class="table-responsive">
-          <table class="comparison-table w-100">
-            <thead>
-              <tr>
-                <th>المعيار</th>
-                <th><i class="bi bi-joystick"></i> Godot</th>
-                <th><i class="bi bi-unity"></i> Unity</th>
-                <th><i class="bi bi-pentagon-fill"></i> Unreal</th>
-                <th><i class="bi bi-braces"></i> Pygame</th>
-                <th><i class="bi bi-grid-3x3-gap-fill"></i> GameMaker</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td class="criterion">سهولة البداية</td>
-                <td><span class="level easy">سهل جداً</span></td>
-                <td><span class="level medium">متوسط</span></td>
-                <td><span class="level hard">صعب</span></td>
-                <td><span class="level easy">سهل</span></td>
-                <td><span class="level easy">سهل</span></td>
-              </tr>
-              <tr>
-                <td class="criterion">جودة الرسومات</td>
-                <td><div class="perf-bar" data-perf="72"></div></td>
-                <td><div class="perf-bar" data-perf="85"></div></td>
-                <td><div class="perf-bar" data-perf="99"></div></td>
-                <td><div class="perf-bar" data-perf="40"></div></td>
-                <td><div class="perf-bar" data-perf="60"></div></td>
-              </tr>
-              <tr>
-                <td class="criterion">مجاني؟</td>
-                <td><span class="level easy">مجاني 100%</span></td>
-                <td><span class="level medium">مجاني جزئياً</span></td>
-                <td><span class="level medium">royalty 5%</span></td>
-                <td><span class="level easy">مجاني 100%</span></td>
-                <td><span class="level hard">مدفوع</span></td>
-              </tr>
-              <tr>
-                <td class="criterion">الـ Community</td>
-                <td><span class="stars">★★★★☆</span></td>
-                <td><span class="stars">★★★★★</span></td>
-                <td><span class="stars">★★★★★</span></td>
-                <td><span class="stars">★★★☆☆</span></td>
-                <td><span class="stars">★★★☆☆</span></td>
-              </tr>
-              <tr>
-                <td class="criterion">الأنسب لـ</td>
-                <td>2D &amp; Indie Games</td>
-                <td>Mobile &amp; Multi-platform</td>
-                <td>AAA &amp; 3D &amp; VR</td>
-                <td>تعلم الأساسيات</td>
-                <td>2D Indie البسيطة</td>
-              </tr>
-              <tr>
-                <td class="criterion">ابدأ بيه لما؟</td>
-                <td>من أول يوم</td>
-                <td>بعد الأساسيات</td>
-                <td>للمحترفين</td>
-                <td>لتعلم المفاهيم</td>
-                <td>للـ 2D البسيطة</td>
-              </tr>
-            </tbody>
-          </table>
+    <!-- ENGINES DEEP DIVE -->
+    <section class="section-block" id="frameworks">
+        <div class="container">
+            <div class="section-header text-center mb-5" data-aos="fade-up">
+                <span class="section-tag">المحركات والأدوات</span>
+                <h2 class="section-title">أشهر محركات الألعاب بالتفصيل</h2>
+                <p class="section-subtitle">اعرف كل محرك — إيه قوته، مين ورائه، وامتى تستخدمه.</p>
+            </div>
+
+            <div class="fw-tabs-wrapper" data-aos="fade-up">
+                <div class="fw-tabs d-flex gap-2 flex-wrap mb-4" id="fwTabs">
+                    <button class="fw-tab active" data-fw="godot">
+                        <i class="bi bi-joystick"></i> Godot
+                    </button>
+                    <button class="fw-tab" data-fw="unity">
+                        <i class="bi bi-unity"></i> Unity
+                    </button>
+                    <button class="fw-tab" data-fw="unreal">
+                        <i class="bi bi-pentagon-fill"></i> Unreal Engine
+                    </button>
+                    <button class="fw-tab" data-fw="pygame">
+                        <i class="bi bi-braces"></i> Pygame
+                    </button>
+                    <button class="fw-tab" data-fw="gms">
+                        <i class="bi bi-grid-3x3-gap-fill"></i> GameMaker
+                    </button>
+                </div>
+                <div class="fw-panel" id="fwPanel"></div>
+            </div>
         </div>
-      </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- QUIZ -->
-  <section class="section-block section-dark" id="quiz">
-    <div class="container">
-      <div class="row justify-content-center">
-        <div class="col-12 col-lg-8">
-          <div class="section-header text-center mb-5" data-aos="fade-up">
-            <span class="section-tag light">اكتشف نفسك</span>
-            <h2 class="section-title light">أنهي محرك يناسبك؟</h2>
-            <p class="section-subtitle light">جاوب على 3 أسئلة وهنقترح عليك الأنسب.</p>
-          </div>
-          <div class="quiz-card" id="quizCard" data-aos="fade-up">
-            <div class="quiz-progress-bar"><div class="quiz-progress-fill" id="quizProgressFill"></div></div>
-            <div class="quiz-step-indicator" id="quizStepIndicator">السؤال 1 من 3</div>
-            <div class="quiz-content" id="quizContent"></div>
-          </div>
+    <!-- COMPARISON TABLE -->
+    <section class="section-block section-light-alt" id="comparison">
+        <div class="container">
+            <div class="section-header text-center mb-5" data-aos="fade-up">
+                <span class="section-tag">المقارنة</span>
+                <h2 class="section-title">مقارنة شاملة بين المحركات</h2>
+                <p class="section-subtitle">جدول واضح يساعدك تشوف الفروق دفعة واحدة.</p>
+            </div>
+            <div class="table-wrapper" data-aos="fade-up">
+                <div class="table-responsive">
+                    <table class="comparison-table w-100">
+                        <thead>
+                            <tr>
+                                <th>المعيار</th>
+                                <th><i class="bi bi-joystick"></i> Godot</th>
+                                <th><i class="bi bi-unity"></i> Unity</th>
+                                <th><i class="bi bi-pentagon-fill"></i> Unreal</th>
+                                <th><i class="bi bi-braces"></i> Pygame</th>
+                                <th><i class="bi bi-grid-3x3-gap-fill"></i> GameMaker</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="criterion">سهولة البداية</td>
+                                <td><span class="level easy">سهل جداً</span></td>
+                                <td><span class="level medium">متوسط</span></td>
+                                <td><span class="level hard">صعب</span></td>
+                                <td><span class="level easy">سهل</span></td>
+                                <td><span class="level easy">سهل</span></td>
+                            </tr>
+                            <tr>
+                                <td class="criterion">جودة الرسومات</td>
+                                <td><div class="perf-bar" data-perf="72"></div></td>
+                                <td><div class="perf-bar" data-perf="85"></div></td>
+                                <td><div class="perf-bar" data-perf="99"></div></td>
+                                <td><div class="perf-bar" data-perf="40"></div></td>
+                                <td><div class="perf-bar" data-perf="60"></div></td>
+                            </tr>
+                            <tr>
+                                <td class="criterion">مجاني؟</td>
+                                <td><span class="level easy">مجاني 100%</span></td>
+                                <td><span class="level medium">مجاني جزئياً</span></td>
+                                <td><span class="level medium">royalty 5%</span></td>
+                                <td><span class="level easy">مجاني 100%</span></td>
+                                <td><span class="level hard">مدفوع</span></td>
+                            </tr>
+                            <tr>
+                                <td class="criterion">الـ Community</td>
+                                <td><span class="stars">★★★★☆</span></td>
+                                <td><span class="stars">★★★★★</span></td>
+                                <td><span class="stars">★★★★★</span></td>
+                                <td><span class="stars">★★★☆☆</span></td>
+                                <td><span class="stars">★★★☆☆</span></td>
+                            </tr>
+                            <tr>
+                                <td class="criterion">الأنسب لـ</td>
+                                <td>2D &amp; Indie Games</td>
+                                <td>Mobile &amp; Multi-platform</td>
+                                <td>AAA &amp; 3D &amp; VR</td>
+                                <td>تعلم الأساسيات</td>
+                                <td>2D Indie البسيطة</td>
+                            </tr>
+                            <tr>
+                                <td class="criterion">ابدأ بيه لما؟</td>
+                                <td>من أول يوم</td>
+                                <td>بعد الأساسيات</td>
+                                <td>للمحترفين</td>
+                                <td>لتعلم المفاهيم</td>
+                                <td>للـ 2D البسيطة</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- ROADMAP -->
-  <section class="section-block" id="roadmap">
-    <div class="container">
-      <div class="section-header text-center mb-5" data-aos="fade-up">
-        <span class="section-tag">خارطة الطريق</span>
-        <h2 class="section-title">من فين تبدأ؟</h2>
-        <p class="section-subtitle">الخطوات الصح، بالترتيب الصح.</p>
-      </div>
-      <div class="roadmap-timeline" id="roadmapTimeline"></div>
-    </div>
-  </section>
+    <!-- QUIZ -->
+    <section class="section-block section-dark" id="quiz">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-12 col-lg-8">
+                    <div class="section-header text-center mb-5" data-aos="fade-up">
+                        <span class="section-tag light">اكتشف نفسك</span>
+                        <h2 class="section-title light">أنهي محرك يناسبك؟</h2>
+                        <p class="section-subtitle light">جاوب على 3 أسئلة وهنقترح عليك الأنسب.</p>
+                    </div>
+                    <div class="quiz-card" id="quizCard" data-aos="fade-up">
+                        <div class="quiz-progress-bar"><div class="quiz-progress-fill" id="quizProgressFill"></div></div>
+                        <div class="quiz-step-indicator" id="quizStepIndicator">السؤال 1 من 3</div>
+                        <div class="quiz-content" id="quizContent"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-  <!-- FOOTER -->
-  <footer class="site-footer">
-    <div class="container text-center">
-      <div class="footer-logo mb-3">
-        <span class="logo-bracket">&#x25B6;</span>
-        <span class="logo-text">GameDev</span>
-        <span class="logo-bracket">&#x25A0;</span>
-      </div>
-      <p class="footer-sub">كل لعبة عظيمة بدأت بفكرة بسيطة وشخص مصرّ. <i class="bi bi-controller"></i></p>
-      <div class="footer-divider"></div>
-      <p class="footer-copy">صُنع بـ <span class="heart">♥</span> لكل مبتدئ بيحلم يبني عالمه الخاص</p>
-    </div>
-  </footer>
+    <!-- ROADMAP -->
+    <section class="section-block" id="roadmap">
+        <div class="container">
+            <div class="section-header text-center mb-5" data-aos="fade-up">
+                <span class="section-tag">خارطة الطريق</span>
+                <h2 class="section-title">من فين تبدأ؟</h2>
+                <p class="section-subtitle">الخطوات الصح، بالترتيب الصح.</p>
+            </div>
+            <div class="roadmap-timeline" id="roadmapTimeline"></div>
+        </div>
+    </section>
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="app.js"></script>
+    <!-- FOOTER -->
+    <footer class="site-footer">
+        <div class="container text-center">
+            <div class="footer-logo mb-3">
+                <span class="logo-bracket">&#x25B6;</span>
+                <span class="logo-text">GameDev</span>
+                <span class="logo-bracket">&#x25A0;</span>
+            </div>
+            <p class="footer-sub">كل لعبة عظيمة بدأت بفكرة بسيطة وشخص مصرّ. <i class="bi bi-controller"></i></p>
+            <div class="footer-divider"></div>
+            <p class="footer-copy">صُنع بـ <span class="heart">♥</span> لكل مبتدئ بيحلم يبني عالمه الخاص</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="app.js"></script>
 </body>
 </html>

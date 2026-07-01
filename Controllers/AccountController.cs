@@ -1,5 +1,4 @@
-﻿// Controllers/AccountController.cs
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using A3DET_CODE.Models;
 using A3DET_CODE.Data;
@@ -99,7 +98,6 @@ namespace A3DET_CODE.Controllers
             if (!ModelState.IsValid)
                 return View("SignUp", model);
 
-            // التحقق من الموافقة على الشروط
             if (!model.AcceptTerms)
             {
                 ModelState.AddModelError(string.Empty, "You must accept the Terms & Conditions.");
@@ -151,7 +149,9 @@ namespace A3DET_CODE.Controllers
             return View("SignUp", model);
         }
 
-        // POST: RegisterMentor
+        // ============================================================
+        // ✅ POST: RegisterMentor (مع إضافة Mentor profile)
+        // ============================================================
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> RegisterMentor(RegisterMentorViewModel model)
@@ -159,7 +159,6 @@ namespace A3DET_CODE.Controllers
             if (!ModelState.IsValid)
                 return View("SignUp", model);
 
-            // التحقق من الموافقة على الشروط
             if (!model.AcceptTerms)
             {
                 ModelState.AddModelError(string.Empty, "You must accept the Terms & Conditions.");
@@ -191,7 +190,29 @@ namespace A3DET_CODE.Controllers
             if (result.Succeeded)
             {
                 await _userManager.AddToRoleAsync(user, "Mentor");
-                var signInResult = await _signInManager.PasswordSignInAsync(user, model.Password, isPersistent: false, lockoutOnFailure: false);
+
+                // ✅ إنشاء Mentor profile وربطه بالمستخدم
+                var mentor = new Mentor
+                {
+                    UserId = user.Id,
+                    FullName = model.FullName,
+                    Initials = GetInitials(model.FullName),
+                    Expertise = model.JobTitle ?? "Mentor",
+                    Rating = 0,
+                    IsVerified = false,
+                    Bio = null,
+                    LinkedInUrl = model.LinkedInUrl,
+                    GitHubUrl = null,
+                    YearsOfExperience = model.YearsOfExperience,
+                    TotalSessions = 0
+                };
+
+                await _context.Mentors.AddAsync(mentor);
+                await _context.SaveChangesAsync();
+
+                var signInResult = await _signInManager.PasswordSignInAsync(
+                    user, model.Password, isPersistent: false, lockoutOnFailure: false);
+
                 if (signInResult.Succeeded)
                     return RedirectToAction("Index", "Profile");
                 else
@@ -206,6 +227,15 @@ namespace A3DET_CODE.Controllers
             return View("SignUp", model);
         }
 
+        // Helper function
+        private string GetInitials(string fullName)
+        {
+            if (string.IsNullOrEmpty(fullName)) return "U";
+            var parts = fullName.Trim().Split(' ');
+            if (parts.Length == 1) return parts[0].Substring(0, 1).ToUpper();
+            return (parts[0].Substring(0, 1) + parts[parts.Length - 1].Substring(0, 1)).ToUpper();
+        }
+
         // POST: RegisterCompany
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -214,7 +244,6 @@ namespace A3DET_CODE.Controllers
             if (!ModelState.IsValid)
                 return View("SignUp", model);
 
-            // التحقق من الموافقة على الشروط
             if (!model.AcceptTerms)
             {
                 ModelState.AddModelError(string.Empty, "You must accept the Terms & Conditions.");
