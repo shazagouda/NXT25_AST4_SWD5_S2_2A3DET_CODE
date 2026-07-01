@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using A3DET_CODE.Models;
+using Task = A3DET_CODE.Models.Task;
 
 namespace A3DET_CODE.Data
 {
@@ -25,7 +26,12 @@ namespace A3DET_CODE.Data
         public DbSet<AssessmentQuestion> AssessmentQuestions { get; set; }
         public DbSet<AssessmentResult> AssessmentResults { get; set; }
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        // ---------------------------------- Member 3 ------------------------------------
+		public DbSet<Task> Tasks { get; set; }             
+		public DbSet<Submission> Submissions { get; set; }   
+		public DbSet<EntryAssessment> EntryAssessments { get; set; }
+
+		protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
@@ -118,6 +124,59 @@ namespace A3DET_CODE.Data
                 .WithMany(t => t.AssessmentQuestions)
                 .HasForeignKey(aq => aq.TrackId)
                 .OnDelete(DeleteBehavior.Cascade);
-        }
+
+			// ================================================================
+			// ?? NEW CONFIGURATIONS for Member 3
+			// ================================================================
+
+			// 16. Project -> Team (one-to-one relationship)
+			//modelBuilder.Entity<Project>()
+			//	.HasOne(p => p.Team)
+			//	.WithOne(t => t.Project)
+			//	.HasForeignKey<Project>(p => p.TeamId)
+			//	.OnDelete(DeleteBehavior.SetNull);
+
+			// 17. Project -> ApplicationUser (Client/Company)
+			modelBuilder.Entity<Project>()
+				.HasOne(p => p.Client)
+				.WithMany()
+				.HasForeignKey(p => p.ClientId)
+				.OnDelete(DeleteBehavior.Restrict);
+
+			// 18. Task -> Project
+			modelBuilder.Entity<Task>()
+				.HasOne(t => t.Project)
+				.WithMany(p => p.Tasks)
+				.HasForeignKey(t => t.ProjectId)
+				.OnDelete(DeleteBehavior.Cascade);
+
+			// 19. Task -> ApplicationUser (Assigned To)
+			modelBuilder.Entity<Task>()
+				.HasOne(t => t.AssignedTo)
+				.WithMany()
+				.HasForeignKey(t => t.AssignedToId)
+				.OnDelete(DeleteBehavior.Restrict);
+
+			// 20. Submission -> Project
+			modelBuilder.Entity<Submission>()
+				.HasOne(s => s.Project)
+				.WithMany(p => p.Submissions)
+				.HasForeignKey(s => s.ProjectId)
+				.OnDelete(DeleteBehavior.Cascade);
+
+			// 21. Submission -> ApplicationUser
+			modelBuilder.Entity<Submission>()
+				.HasOne(s => s.User)
+				.WithMany()
+				.HasForeignKey(s => s.UserId)
+				.OnDelete(DeleteBehavior.Restrict);
+
+			// 22. EntryAssessment -> ApplicationUser
+			modelBuilder.Entity<EntryAssessment>()
+				.HasOne(ea => ea.User)
+				.WithMany()
+				.HasForeignKey(ea => ea.UserId)
+				.OnDelete(DeleteBehavior.Cascade);
+		}
     }
 }

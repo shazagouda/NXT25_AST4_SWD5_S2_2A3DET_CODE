@@ -1,5 +1,7 @@
 using A3DET_CODE.Data;
 using A3DET_CODE.Models;
+using A3DET_CODE.Repositories.Implementations;
+using A3DET_CODE.Repositories.Interfaces;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -13,6 +15,14 @@ builder.Logging.AddConsole();
 builder.Logging.AddDebug();
 
 builder.Services.AddControllersWithViews();
+
+// injecting the repository pattern
+
+builder.Services.AddScoped<ITeamRepository, TeamRepository>();
+builder.Services.AddScoped<IProjectRepository, ProjectRepository>();
+builder.Services.AddScoped<ITaskRepository, TaskRepository>();
+builder.Services.AddScoped<ISubmissionRepository, SubmissionRepository>();
+builder.Services.AddScoped<ITeamMemberRepository, TeamMemberRepository>();
 
 // Add DbContext
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
