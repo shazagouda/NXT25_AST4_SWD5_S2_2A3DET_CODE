@@ -1,0 +1,55 @@
+﻿@model List<A3DET_CODE.ViewModels.Mentor.MentorReviewViewModel>
+@{
+    ViewData["Title"] = "My Reviews";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/dashboard.css" asp-append-version="true" />
+}
+
+<div class="dashboard-container">
+    <div class="dashboard-header">
+        <div class="dashboard-welcome">
+            <h1>My Reviews</h1>
+            <p class="dashboard-subtitle">What students say about your mentorship</p>
+        </div>
+        <a asp-controller="Mentor" asp-action="Dashboard" class="btn btn-secondary">Back to Dashboard</a>
+    </div>
+
+    @if (!Model.Any())
+    {
+        <div class="text-center py-5">
+            <p class="text-muted">No reviews yet. Keep mentoring and they'll come!</p>
+        </div>
+    }
+    else
+    {
+        <div class="reviews-list">
+            @foreach (var review in Model)
+            {
+                <div class="card review-card" style="padding:var(--space-5);margin-bottom:var(--space-4);">
+                    <div class="review-header" style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;">
+                        <div style="display:flex;align-items:center;gap:var(--space-3);">
+                            <div class="person-avatar" style="width:44px;height:44px;background:linear-gradient(135deg,#2F6FED,#15C6AE);border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;">
+                                @review.StudentName.Substring(0, 1).ToUpper()
+                            </div>
+                            <div>
+                                <h4 style="margin:0;">@review.StudentName</h4>
+                                <span class="stars" style="color:var(--color-amber-500);font-size:1.1rem;">@review.RatingStars</span>
+                            </div>
+                        </div>
+                        <span class="text-muted" style="font-size:var(--fs-xs);">@review.TimeAgo</span>
+                    </div>
+                    @if (!string.IsNullOrEmpty(review.Comment))
+                    {
+                        <p style="margin:var(--space-3) 0 0;color:var(--color-text-600);">"@review.Comment"</p>
+                    }
+                    @if (!string.IsNullOrEmpty(review.SessionTopic))
+                    {
+                        <span class="badge badge-blue" style="margin-top:var(--space-3);">📌 @review.SessionTopic</span>
+                    }
+                </div>
+            }
+        </div>
+    }
+</div>

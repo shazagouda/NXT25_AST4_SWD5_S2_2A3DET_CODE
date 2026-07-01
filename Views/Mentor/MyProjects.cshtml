@@ -1,0 +1,43 @@
+﻿@model List<A3DET_CODE.ViewModels.Mentor.ProjectSummaryViewModel>
+@{
+    ViewData["Title"] = "My Projects";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/dashboard.css" asp-append-version="true" />
+}
+
+<div class="dashboard-container">
+    <div class="dashboard-header">
+        <div class="dashboard-welcome">
+            <h1>My Projects</h1>
+            <p class="dashboard-subtitle">Projects you are mentoring</p>
+        </div>
+        <a asp-controller="Mentor" asp-action="Dashboard" class="btn btn-secondary">Back to Dashboard</a>
+    </div>
+
+    @if (!Model.Any())
+    {
+        <p class="text-muted text-center py-5">You are not assigned to any projects yet.</p>
+    }
+    else
+    {
+        <div class="projects-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:var(--space-4);">
+            @foreach (var project in Model)
+            {
+                <div class="card project-card" style="cursor:pointer;padding:var(--space-5);" onclick="location.href='@Url.Action("Details", "Projects", new { id = project.Id })'">
+                    <div class="project-header" style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:var(--space-2);">
+                        <h4 style="margin:0;">@project.Title</h4>
+                        <span class="badge @project.StatusBadge">@project.Status</span>
+                    </div>
+                    <p style="font-size:var(--fs-small);color:var(--color-text-600);">@project.Description</p>
+                    <div class="project-tech" style="font-size:var(--fs-xs);color:var(--color-text-400);"><i class="fa-solid fa-code"></i> @project.TechStack</div>
+                    <div class="project-meta" style="display:flex;justify-content:space-between;font-size:var(--fs-xs);color:var(--color-text-400);margin-top:var(--space-3);padding-top:var(--space-3);border-top:1px solid var(--color-border);">
+                        <span>📁 @project.TrackName</span>
+                        <span>📅 @project.CreatedDisplay</span>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>

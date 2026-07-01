@@ -1,0 +1,80 @@
+﻿@model A3DET_CODE.ViewModels.Mentor.MentorDetailViewModel
+@{
+    ViewData["Title"] = $"{Model.FullName} - Mentor";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/mentors.css" asp-append-version="true" />
+}
+
+<div class="mentor-detail-container">
+    <div class="mentor-detail-header">
+        <div class="mentor-avatar-large" style="background: linear-gradient(135deg, #2F6FED, #15C6AE); width:120px;height:120px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:3rem;font-weight:700;color:#fff;flex-shrink:0;">
+            @Model.Initials
+        </div>
+        <div class="mentor-detail-info">
+            <div class="mentor-detail-top" style="display:flex;align-items:center;gap:var(--space-3);flex-wrap:wrap;">
+                <h1 style="margin:0;">@Model.FullName</h1>
+                @if (Model.IsVerified)
+                {
+                    <span class="badge badge-teal">✓ Verified</span>
+                }
+            </div>
+            <p class="mentor-expertise" style="font-size:var(--fs-body-lg);color:var(--color-text-600);">@Model.Expertise</p>
+            <div class="mentor-rating" style="display:flex;align-items:center;gap:var(--space-2);">
+                <span class="stars" style="color:var(--color-amber-500);font-size:1.2rem;">@(new string('★', (int)Math.Floor(Model.Rating)))</span>
+                <span class="rating-count">@Model.Rating.ToString("F1")</span>
+                <span class="text-muted ms-2">· @Model.TotalSessions sessions</span>
+            </div>
+            @if (!string.IsNullOrEmpty(Model.Bio))
+            {
+                <p class="mentor-bio" style="font-size:var(--fs-body);color:var(--color-text-600);line-height:1.8;">@Model.Bio</p>
+            }
+            <div class="mentor-detail-stats" style="display:flex;gap:var(--space-5);flex-wrap:wrap;margin:var(--space-4) 0;">
+                <div><span style="font-weight:600;">📅 @Model.YearsOfExperience</span> years</div>
+                <div><span style="font-weight:600;">👨‍🎓 @Model.ActiveMenteesCount</span> active mentees</div>
+                <div><span style="font-weight:600;">📋 @Model.ProjectsCount</span> projects</div>
+                <div><span style="font-weight:600;">👥 @Model.TeamsCount</span> teams</div>
+            </div>
+            <div class="mentor-skills" style="display:flex;gap:var(--space-2);flex-wrap:wrap;margin-bottom:var(--space-4);">
+                @foreach (var skill in Model.SkillsList)
+                {
+                    <span class="skill-tag" style="background:var(--color-bg);padding:var(--space-1) var(--space-3);border-radius:var(--radius-pill);font-size:var(--fs-xs);border:1px solid var(--color-border);">@skill</span>
+                }
+            </div>
+            <div class="mentor-social" style="display:flex;gap:var(--space-3);flex-wrap:wrap;">
+                @if (!string.IsNullOrEmpty(Model.LinkedInUrl))
+                {
+                    <a href="@Model.LinkedInUrl" target="_blank" class="btn btn-secondary btn-sm"><i class="fa-brands fa-linkedin"></i> LinkedIn</a>
+                }
+                @if (!string.IsNullOrEmpty(Model.GitHubUrl))
+                {
+                    <a href="@Model.GitHubUrl" target="_blank" class="btn btn-secondary btn-sm"><i class="fa-brands fa-github"></i> GitHub</a>
+                }
+                <a href="mailto:@Model.Email" class="btn btn-secondary btn-sm"><i class="fa-solid fa-envelope"></i> Email</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="mentor-detail-sessions mt-5">
+        <h3>Recent Sessions</h3>
+        @if (Model.RecentSessions.Any())
+        {
+            <div class="session-list">
+                @foreach (var session in Model.RecentSessions)
+                {
+                    <div style="display:flex;justify-content:space-between;padding:var(--space-3);border-bottom:1px solid var(--color-border);align-items:center;flex-wrap:wrap;">
+                        <span><strong>@session.StudentName</strong></span>
+                        <span>@session.Topic</span>
+                        <span>@session.ScheduledDisplay</span>
+                        <span class="badge @session.StatusBadge">@session.Status</span>
+                    </div>
+                }
+            </div>
+        }
+        else
+        {
+            <p class="text-muted">No sessions yet.</p>
+        }
+    </div>
+</div>

@@ -13,334 +13,342 @@
 </head>
 <body>
 
-  <div class="noise-overlay"></div>
+    <div class="noise-overlay"></div>
 
-  <!-- NAV -->
-  <nav class="main-nav" id="mainNav">
-    <div class="container-fluid px-4">
-      <div class="nav-inner d-flex align-items-center justify-content-between">
-        <div class="nav-logo">
-          <span class="logo-bracket">[</span>
-          <span class="logo-text">Testing</span>
-          <span class="logo-bracket">]</span>
-        </div>
-        <div class="nav-links d-none d-lg-flex gap-4">
-          <a href="#what-is"    class="nav-link-item">ما هو Testing؟</a>
-          <a href="#frameworks" class="nav-link-item">الأنواع والـ Frameworks</a>
-          <a href="#comparison" class="nav-link-item">المقارنة</a>
-          <a href="#roadmap"    class="nav-link-item">ابدأ من هنا</a>
-        </div>
-        <div class="nav-badge">
-          <span class="badge-dot"></span>
-          دليلك 
-        </div>
-      </div>
-    </div>
-  </nav>
-
-  <!-- HERO -->
-  <section class="hero-section" id="hero">
-    <div class="hero-grid-bg"></div>
-    <div class="container">
-      <div class="row min-vh-100 align-items-center">
-        <div class="col-12 col-lg-8">
-          <div class="hero-tag mb-3" data-aos="fade-up">
-            <i class="fa-solid fa-bug"></i> دليل المبتدئ في Software Testing
-          </div>
-          <h1 class="hero-title" data-aos="fade-up" data-aos-delay="100">
-            كل اللي محتاج<br/>
-            تعرفه عن
-            <span class="highlight-text"> Testing</span>
-          </h1>
-          <p class="hero-subtitle" data-aos="fade-up" data-aos-delay="200">
-            من أول سطر Test لغاية ما تختار الـ Framework المناسب ليك — دليل واضح ومبسط بدون تعقيد.
-          </p>
-          <div class="hero-actions d-flex flex-wrap gap-3 mt-5" data-aos="fade-up" data-aos-delay="300">
-            <a href="#what-is" class="btn-primary-custom">
-              ابدأ الرحلة <i class="fa-solid fa-arrow-left ms-2"></i>
-            </a>
-            <a href="#comparison" class="btn-secondary-custom">
-              قارن الـ Frameworks
-            </a>
-          </div>
-        </div>
-        <div class="col-12 col-lg-4 d-none d-lg-block">
-          <div class="hero-code-block" data-aos="fade-left" data-aos-delay="400">
-            <div class="code-header">
-              <span class="dot red"></span>
-              <span class="dot yellow"></span>
-              <span class="dot green"></span>
-              <span class="code-filename">login.test.js</span>
+    <!-- NAV -->
+    <nav class="main-nav" id="mainNav">
+        <div class="container-fluid px-4">
+            <div class="nav-inner d-flex align-items-center justify-content-between">
+                <div class="nav-logo">
+                    <span class="logo-bracket">[</span>
+                    <span class="logo-text">Testing</span>
+                    <span class="logo-bracket">]</span>
+                </div>
+                <div class="nav-links d-none d-lg-flex gap-4">
+                    <a href="#what-is" class="nav-link-item">ما هو Testing؟</a>
+                    <a href="#frameworks" class="nav-link-item">الأنواع والـ Frameworks</a>
+                    <a href="#comparison" class="nav-link-item">المقارنة</a>
+                    <a href="#roadmap" class="nav-link-item">ابدأ من هنا</a>
+                    <div class="nav-controls d-flex align-items-center gap-2">
+                        <div class="nav-badge">
+                            <span class="badge-dot"></span>
+                            <span data-i18n="nav.badge">دليلك</span>
+                        </div>
+                        <button class="lang-toggle" id="langToggle" title="Switch Language">
+                            <span id="langLabel">AR</span>
+                        </button>
+                        <button class="theme-toggle" id="themeToggle" title="Toggle Theme">
+                            <i class="fa-solid fa-sun" id="iconLight"></i>
+                            <i class="fa-solid fa-moon" id="iconDark" style="display:none"></i>
+                        </button>
+                    </div>
+                </div>
             </div>
-            <div class="code-body" id="heroCodeBlock">
-              <div class="code-line"><span class="fn">describe</span>(<span class="str">'Login Flow'</span>, () => {</div>
-              <div class="code-line pl-2"><span class="fn">it</span>(<span class="str">'يسجل دخول بنجاح'</span>, () => {</div>
-              <div class="code-line pl-3"><span class="kw">const</span> <span class="var">res</span> = <span class="fn">login</span>({</div>
-              <div class="code-line pl-4"><span class="prop">user</span>: <span class="str">'أنت'</span>,</div>
-              <div class="code-line pl-4"><span class="prop">pass</span>: <span class="str">'••••••'</span></div>
-              <div class="code-line pl-3">});</div>
-              <div class="code-line pl-3"><span class="fn">expect</span>(<span class="var">res</span>).<span class="method">toBe</span>(<span class="bool">true</span>);</div>
-              <div class="code-line pl-2">});</div>
-              <div class="code-line">});</div>
+    </nav>
+
+    <!-- HERO -->
+    <section class="hero-section" id="hero">
+        <div class="hero-grid-bg"></div>
+        <div class="container">
+            <div class="row min-vh-100 align-items-center">
+                <div class="col-12 col-lg-8">
+                    <div class="hero-tag mb-3" data-aos="fade-up">
+                        <i class="fa-solid fa-bug"></i> دليل المبتدئ في Software Testing
+                    </div>
+                    <h1 class="hero-title" data-aos="fade-up" data-aos-delay="100">
+                        كل اللي محتاج<br />
+                        تعرفه عن
+                        <span class="highlight-text"> Testing</span>
+                    </h1>
+                    <p class="hero-subtitle" data-aos="fade-up" data-aos-delay="200">
+                        من أول سطر Test لغاية ما تختار الـ Framework المناسب ليك — دليل واضح ومبسط بدون تعقيد.
+                    </p>
+                    <div class="hero-actions d-flex flex-wrap gap-3 mt-5" data-aos="fade-up" data-aos-delay="300">
+                        <a href="#what-is" class="btn-primary-custom">
+                            ابدأ الرحلة <i class="fa-solid fa-arrow-left ms-2"></i>
+                        </a>
+                        <a href="#comparison" class="btn-secondary-custom">
+                            قارن الـ Frameworks
+                        </a>
+                    </div>
+                </div>
+                <div class="col-12 col-lg-4 d-none d-lg-block">
+                    <div class="hero-code-block" data-aos="fade-left" data-aos-delay="400">
+                        <div class="code-header">
+                            <span class="dot red"></span>
+                            <span class="dot yellow"></span>
+                            <span class="dot green"></span>
+                            <span class="code-filename">login.test.js</span>
+                        </div>
+                        <div class="code-body" id="heroCodeBlock">
+                            <div class="code-line"><span class="fn">describe</span>(<span class="str">'Login Flow'</span>, () => {</div>
+                            <div class="code-line pl-2"><span class="fn">it</span>(<span class="str">'يسجل دخول بنجاح'</span>, () => {</div>
+                            <div class="code-line pl-3"><span class="kw">const</span> <span class="var">res</span> = <span class="fn">login</span>({</div>
+                            <div class="code-line pl-4"><span class="prop">user</span>: <span class="str">'أنت'</span>,</div>
+                            <div class="code-line pl-4"><span class="prop">pass</span>: <span class="str">'••••••'</span></div>
+                            <div class="code-line pl-3">});</div>
+                            <div class="code-line pl-3"><span class="fn">expect</span>(<span class="var">res</span>).<span class="method">toBe</span>(<span class="bool">true</span>);</div>
+                            <div class="code-line pl-2">});</div>
+                            <div class="code-line">});</div>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
         </div>
-      </div>
-    </div>
-    <div class="hero-scroll-hint">
-      <div class="scroll-mouse"><div class="scroll-wheel"></div></div>
-      <span>اسكرول للأسفل</span>
-    </div>
-  </section>
+        <div class="hero-scroll-hint">
+            <div class="scroll-mouse"><div class="scroll-wheel"></div></div>
+            <span>اسكرول للأسفل</span>
+        </div>
+    </section>
 
-  <!-- WHAT IS TESTING -->
-  <section class="section-block" id="what-is">
-    <div class="container">
-      <div class="section-header text-center mb-5" data-aos="fade-up">
-        <span class="section-tag">الأساسيات</span>
-        <h2 class="section-title">إيه هو الـ Software Testing؟</h2>
-        <p class="section-subtitle">
-          الـ Testing هو التأكد إن البرنامج اللي بنيته بيشتغل صح — في كل الحالات، مش بس الحالة العادية. هو الفرق بين منتج موثوق وآخر بيتعطل على المستخدم.
-        </p>
-      </div>
-
-      <div class="analogy-card mb-5" data-aos="fade-up">
-        <div class="analogy-icon"><i class="fa-solid fa-car-burst"></i></div>
-        <div class="analogy-content">
-          <h4>فكر في الأمر كده </h4>
-          <p>
-            أي عربية قبل ما تطلع السوق بتعدي على <strong>آلاف الاختبارات</strong> — مكابح، محرك، أمان. ده مش بيحصل عشان المهندسين مش واثقين في نفسهم، ده بيحصل عشان <strong>الثقة مش رأي — هي إثبات.</strong>
-            الـ Testing في البرمجة هو نفس الفكرة بالظبط. 
-          </p>
-        </div>
-      </div>
-
-      <div class="row g-4">
-        <div class="col-12 col-md-4" data-aos="fade-up" data-aos-delay="0">
-          <div class="pillar-card" data-pillar="manual">
-            <div class="pillar-icon"><i class="fa-solid fa-hand-pointer"></i></div>
-            <div class="pillar-number">01</div>
-            <h3 class="pillar-title">Manual Testing</h3>
-            <p class="pillar-desc">التستر بيجرب التطبيق بإيده خطوة بخطوة زي المستخدم الحقيقي. بيكتشف مشاكل في الـ UX والـ Edge Cases اللي Automation مش بيلاقيها.</p>
-            <div class="pillar-tag">Human Eye</div>
-          </div>
-        </div>
-        <div class="col-12 col-md-4" data-aos="fade-up" data-aos-delay="100">
-          <div class="pillar-card" data-pillar="auto">
-            <div class="pillar-icon"><i class="fa-solid fa-robot"></i></div>
-            <div class="pillar-number">02</div>
-            <h3 class="pillar-title">Automation Testing</h3>
-            <p class="pillar-desc">بيكتب كود بيشغّل الاختبارات أوتوماتيك — أسرع، أكثر تكراراً، وبيشتغل مع كل Deployment. ده اللي بيخلي الـ CI/CD يشتغل بثقة.</p>
-            <div class="pillar-tag">Robot Speed</div>
-          </div>
-        </div>
-        <div class="col-12 col-md-4" data-aos="fade-up" data-aos-delay="200">
-          <div class="pillar-card" data-pillar="perf">
-            <div class="pillar-icon"><i class="fa-solid fa-gauge-high"></i></div>
-            <div class="pillar-number">03</div>
-            <h3 class="pillar-title">Performance Testing</h3>
-            <p class="pillar-desc">بيتأكد إن التطبيق بيتحمل الضغط — آلاف المستخدمين في نفس الوقت من غير ما يبطأ أو يقع. ضروري قبل أي Launch كبير.</p>
-            <div class="pillar-tag">Under Pressure</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- PYRAMID / FRAMEWORK INTRO -->
-  <section class="section-block section-dark" id="frameworks-intro">
-    <div class="container">
-      <div class="row align-items-center g-5">
-        <div class="col-12 col-lg-6" data-aos="fade-right">
-          <span class="section-tag light">المفهوم الأساسي</span>
-          <h2 class="section-title light">هرم الـ Testing</h2>
-          <p class="section-subtitle light">
-            مش كل Test بنفس التكلفة والسرعة. فيه هرم شهير في الصناعة بيقولك امتى تعمل كل نوع وبأي نسبة.
-          </p>
-          <p class="section-subtitle light">
-            الأساس هو <strong>Unit Tests</strong> — كتير وسريعة. فوقيها <strong>Integration Tests</strong> — أبطأ وأشمل. وفوق الكل <strong>E2E Tests</strong> — الأبطأ لكن الأكمل.
-          </p>
-          <div class="benefits-list mt-4">
-            <div class="benefit-item"><i class="fa-solid fa-check"></i> Unit Tests — 70% من وقتك</div>
-            <div class="benefit-item"><i class="fa-solid fa-check"></i> Integration Tests — 20% من وقتك</div>
-            <div class="benefit-item"><i class="fa-solid fa-check"></i> E2E Tests — 10% من وقتك</div>
-            <div class="benefit-item"><i class="fa-solid fa-check"></i> Regression بعد كل تعديل</div>
-          </div>
-        </div>
-        <div class="col-12 col-lg-6" data-aos="fade-left">
-          <div class="framework-visual">
-            <div class="fv-center">
-              <i class="fa-solid fa-bug"></i>
-              <span>Testing</span>
+    <!-- WHAT IS TESTING -->
+    <section class="section-block" id="what-is">
+        <div class="container">
+            <div class="section-header text-center mb-5" data-aos="fade-up">
+                <span class="section-tag">الأساسيات</span>
+                <h2 class="section-title">إيه هو الـ Software Testing؟</h2>
+                <p class="section-subtitle">
+                    الـ Testing هو التأكد إن البرنامج اللي بنيته بيشتغل صح — في كل الحالات، مش بس الحالة العادية. هو الفرق بين منتج موثوق وآخر بيتعطل على المستخدم.
+                </p>
             </div>
-            <div class="fv-orbit">
-              <div class="fv-satellite" style="--i:0"><span class="fw-jest"><i class="fa-solid fa-j"></i></span></div>
-              <div class="fv-satellite" style="--i:1"><span class="fw-cypress"><i class="fa-solid fa-c"></i></span></div>
-              <div class="fv-satellite" style="--i:2"><span class="fw-selenium"><i class="fa-solid fa-s"></i></span></div>
-              <div class="fv-satellite" style="--i:3"><span class="fw-pytest"><i class="fa-brands fa-python"></i></span></div>
+
+            <div class="analogy-card mb-5" data-aos="fade-up">
+                <div class="analogy-icon"><i class="fa-solid fa-car-burst"></i></div>
+                <div class="analogy-content">
+                    <h4>فكر في الأمر كده </h4>
+                    <p>
+                        أي عربية قبل ما تطلع السوق بتعدي على <strong>آلاف الاختبارات</strong> — مكابح، محرك، أمان. ده مش بيحصل عشان المهندسين مش واثقين في نفسهم، ده بيحصل عشان <strong>الثقة مش رأي — هي إثبات.</strong>
+                        الـ Testing في البرمجة هو نفس الفكرة بالظبط.
+                    </p>
+                </div>
             </div>
-          </div>
+
+            <div class="row g-4">
+                <div class="col-12 col-md-4" data-aos="fade-up" data-aos-delay="0">
+                    <div class="pillar-card" data-pillar="manual">
+                        <div class="pillar-icon"><i class="fa-solid fa-hand-pointer"></i></div>
+                        <div class="pillar-number">01</div>
+                        <h3 class="pillar-title">Manual Testing</h3>
+                        <p class="pillar-desc">التستر بيجرب التطبيق بإيده خطوة بخطوة زي المستخدم الحقيقي. بيكتشف مشاكل في الـ UX والـ Edge Cases اللي Automation مش بيلاقيها.</p>
+                        <div class="pillar-tag">Human Eye</div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-4" data-aos="fade-up" data-aos-delay="100">
+                    <div class="pillar-card" data-pillar="auto">
+                        <div class="pillar-icon"><i class="fa-solid fa-robot"></i></div>
+                        <div class="pillar-number">02</div>
+                        <h3 class="pillar-title">Automation Testing</h3>
+                        <p class="pillar-desc">بيكتب كود بيشغّل الاختبارات أوتوماتيك — أسرع، أكثر تكراراً، وبيشتغل مع كل Deployment. ده اللي بيخلي الـ CI/CD يشتغل بثقة.</p>
+                        <div class="pillar-tag">Robot Speed</div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-4" data-aos="fade-up" data-aos-delay="200">
+                    <div class="pillar-card" data-pillar="perf">
+                        <div class="pillar-icon"><i class="fa-solid fa-gauge-high"></i></div>
+                        <div class="pillar-number">03</div>
+                        <h3 class="pillar-title">Performance Testing</h3>
+                        <p class="pillar-desc">بيتأكد إن التطبيق بيتحمل الضغط — آلاف المستخدمين في نفس الوقت من غير ما يبطأ أو يقع. ضروري قبل أي Launch كبير.</p>
+                        <div class="pillar-tag">Under Pressure</div>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- FRAMEWORKS DEEP DIVE -->
-  <section class="section-block" id="frameworks">
-    <div class="container">
-      <div class="section-header text-center mb-5" data-aos="fade-up">
-        <span class="section-tag">الأنواع والـ Frameworks</span>
-        <h2 class="section-title">أشهر أنواع الـ Testing والـ Frameworks</h2>
-        <p class="section-subtitle">اعرف كل نوع — إيه هدفه، إيه أشهر أدواته، وامتى تستخدمه.</p>
-      </div>
-
-      <div class="fw-tabs-wrapper" data-aos="fade-up">
-        <div class="fw-tabs d-flex gap-2 flex-wrap mb-4" id="fwTabs">
-          <button class="fw-tab active" data-fw="unit">
-            <i class="fa-solid fa-cube"></i> Unit Testing
-          </button>
-          <button class="fw-tab" data-fw="integration">
-            <i class="fa-solid fa-link"></i> Integration
-          </button>
-          <button class="fw-tab" data-fw="e2e">
-            <i class="fa-solid fa-display"></i> E2E Testing
-          </button>
-          <button class="fw-tab" data-fw="performance">
-            <i class="fa-solid fa-gauge-high"></i> Performance
-          </button>
-          <button class="fw-tab" data-fw="security">
-            <i class="fa-solid fa-shield-halved"></i> Security
-          </button>
+    <!-- PYRAMID / FRAMEWORK INTRO -->
+    <section class="section-block section-dark" id="frameworks-intro">
+        <div class="container">
+            <div class="row align-items-center g-5">
+                <div class="col-12 col-lg-6" data-aos="fade-right">
+                    <span class="section-tag light">المفهوم الأساسي</span>
+                    <h2 class="section-title light">هرم الـ Testing</h2>
+                    <p class="section-subtitle light">
+                        مش كل Test بنفس التكلفة والسرعة. فيه هرم شهير في الصناعة بيقولك امتى تعمل كل نوع وبأي نسبة.
+                    </p>
+                    <p class="section-subtitle light">
+                        الأساس هو <strong>Unit Tests</strong> — كتير وسريعة. فوقيها <strong>Integration Tests</strong> — أبطأ وأشمل. وفوق الكل <strong>E2E Tests</strong> — الأبطأ لكن الأكمل.
+                    </p>
+                    <div class="benefits-list mt-4">
+                        <div class="benefit-item"><i class="fa-solid fa-check"></i> Unit Tests — 70% من وقتك</div>
+                        <div class="benefit-item"><i class="fa-solid fa-check"></i> Integration Tests — 20% من وقتك</div>
+                        <div class="benefit-item"><i class="fa-solid fa-check"></i> E2E Tests — 10% من وقتك</div>
+                        <div class="benefit-item"><i class="fa-solid fa-check"></i> Regression بعد كل تعديل</div>
+                    </div>
+                </div>
+                <div class="col-12 col-lg-6" data-aos="fade-left">
+                    <div class="framework-visual">
+                        <div class="fv-center">
+                            <i class="fa-solid fa-bug"></i>
+                            <span>Testing</span>
+                        </div>
+                        <div class="fv-orbit">
+                            <div class="fv-satellite" style="--i:0"><span class="fw-jest"><i class="fa-solid fa-j"></i></span></div>
+                            <div class="fv-satellite" style="--i:1"><span class="fw-cypress"><i class="fa-solid fa-c"></i></span></div>
+                            <div class="fv-satellite" style="--i:2"><span class="fw-selenium"><i class="fa-solid fa-s"></i></span></div>
+                            <div class="fv-satellite" style="--i:3"><span class="fw-pytest"><i class="fa-brands fa-python"></i></span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="fw-panel" id="fwPanel"></div>
-      </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- COMPARISON TABLE -->
-  <section class="section-block section-light-alt" id="comparison">
-    <div class="container">
-      <div class="section-header text-center mb-5" data-aos="fade-up">
-        <span class="section-tag">المقارنة</span>
-        <h2 class="section-title">مقارنة شاملة بين أنواع الـ Testing</h2>
-        <p class="section-subtitle">جدول واضح يساعدك تشوف الفروق دفعة واحدة.</p>
-      </div>
-      <div class="table-wrapper" data-aos="fade-up">
-        <div class="table-responsive">
-          <table class="comparison-table w-100">
-            <thead>
-              <tr>
-                <th>المعيار</th>
-                <th><i class="fa-solid fa-cube"></i> Unit</th>
-                <th><i class="fa-solid fa-link"></i> Integration</th>
-                <th><i class="fa-solid fa-display"></i> E2E</th>
-                <th><i class="fa-solid fa-gauge-high"></i> Performance</th>
-                <th><i class="fa-solid fa-shield-halved"></i> Security</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td class="criterion">السرعة</td>
-                <td><span class="level easy">سريع جداً</span></td>
-                <td><span class="level medium">متوسط</span></td>
-                <td><span class="level hard">بطيء</span></td>
-                <td><span class="level hard">بطيء</span></td>
-                <td><span class="level medium">متوسط</span></td>
-              </tr>
-              <tr>
-                <td class="criterion">التكلفة</td>
-                <td><div class="perf-bar" data-perf="18"></div></td>
-                <td><div class="perf-bar" data-perf="45"></div></td>
-                <td><div class="perf-bar" data-perf="80"></div></td>
-                <td><div class="perf-bar" data-perf="70"></div></td>
-                <td><div class="perf-bar" data-perf="92"></div></td>
-              </tr>
-              <tr>
-                <td class="criterion">التغطية</td>
-                <td><span class="stars">★★☆☆☆</span></td>
-                <td><span class="stars">★★★☆☆</span></td>
-                <td><span class="stars">★★★★★</span></td>
-                <td><span class="stars">★★★☆☆</span></td>
-                <td><span class="stars">★★★★☆</span></td>
-              </tr>
-              <tr>
-                <td class="criterion">صعوبة الكتابة</td>
-                <td><span class="level easy">سهل</span></td>
-                <td><span class="level medium">متوسط</span></td>
-                <td><span class="level medium">متوسط</span></td>
-                <td><span class="level hard">صعب</span></td>
-                <td><span class="level hard">صعب</span></td>
-              </tr>
-              <tr>
-                <td class="criterion">أشهر الأدوات</td>
-                <td>Jest, PyTest, JUnit</td>
-                <td>Postman, REST Assured</td>
-                <td>Cypress, Playwright</td>
-                <td>JMeter, k6, Gatling</td>
-                <td>OWASP ZAP, Burp Suite</td>
-              </tr>
-              <tr>
-                <td class="criterion">متى تستخدمه؟</td>
-                <td>دايماً — كل function</td>
-                <td>مع كل feature جديدة</td>
-                <td>قبل كل Release</td>
-                <td>قبل الـ Launch</td>
-                <td>دورياً وبعد التغييرات</td>
-              </tr>
-            </tbody>
-          </table>
+    <!-- FRAMEWORKS DEEP DIVE -->
+    <section class="section-block" id="frameworks">
+        <div class="container">
+            <div class="section-header text-center mb-5" data-aos="fade-up">
+                <span class="section-tag">الأنواع والـ Frameworks</span>
+                <h2 class="section-title">أشهر أنواع الـ Testing والـ Frameworks</h2>
+                <p class="section-subtitle">اعرف كل نوع — إيه هدفه، إيه أشهر أدواته، وامتى تستخدمه.</p>
+            </div>
+
+            <div class="fw-tabs-wrapper" data-aos="fade-up">
+                <div class="fw-tabs d-flex gap-2 flex-wrap mb-4" id="fwTabs">
+                    <button class="fw-tab active" data-fw="unit">
+                        <i class="fa-solid fa-cube"></i> Unit Testing
+                    </button>
+                    <button class="fw-tab" data-fw="integration">
+                        <i class="fa-solid fa-link"></i> Integration
+                    </button>
+                    <button class="fw-tab" data-fw="e2e">
+                        <i class="fa-solid fa-display"></i> E2E Testing
+                    </button>
+                    <button class="fw-tab" data-fw="performance">
+                        <i class="fa-solid fa-gauge-high"></i> Performance
+                    </button>
+                    <button class="fw-tab" data-fw="security">
+                        <i class="fa-solid fa-shield-halved"></i> Security
+                    </button>
+                </div>
+                <div class="fw-panel" id="fwPanel"></div>
+            </div>
         </div>
-      </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- QUIZ -->
-  <section class="section-block section-dark" id="quiz">
-    <div class="container">
-      <div class="row justify-content-center">
-        <div class="col-12 col-lg-8">
-          <div class="section-header text-center mb-5" data-aos="fade-up">
-            <span class="section-tag light">اكتشف نفسك</span>
-            <h2 class="section-title light">أنهي نوع Testing يناسبك؟</h2>
-            <p class="section-subtitle light">جاوب على 3 أسئلة وهنقترح عليك الأنسب.</p>
-          </div>
-          <div class="quiz-card" id="quizCard" data-aos="fade-up">
-            <div class="quiz-progress-bar"><div class="quiz-progress-fill" id="quizProgressFill"></div></div>
-            <div class="quiz-step-indicator" id="quizStepIndicator">السؤال 1 من 3</div>
-            <div class="quiz-content" id="quizContent"></div>
-          </div>
+    <!-- COMPARISON TABLE -->
+    <section class="section-block section-light-alt" id="comparison">
+        <div class="container">
+            <div class="section-header text-center mb-5" data-aos="fade-up">
+                <span class="section-tag">المقارنة</span>
+                <h2 class="section-title">مقارنة شاملة بين أنواع الـ Testing</h2>
+                <p class="section-subtitle">جدول واضح يساعدك تشوف الفروق دفعة واحدة.</p>
+            </div>
+            <div class="table-wrapper" data-aos="fade-up">
+                <div class="table-responsive">
+                    <table class="comparison-table w-100">
+                        <thead>
+                            <tr>
+                                <th>المعيار</th>
+                                <th><i class="fa-solid fa-cube"></i> Unit</th>
+                                <th><i class="fa-solid fa-link"></i> Integration</th>
+                                <th><i class="fa-solid fa-display"></i> E2E</th>
+                                <th><i class="fa-solid fa-gauge-high"></i> Performance</th>
+                                <th><i class="fa-solid fa-shield-halved"></i> Security</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="criterion">السرعة</td>
+                                <td><span class="level easy">سريع جداً</span></td>
+                                <td><span class="level medium">متوسط</span></td>
+                                <td><span class="level hard">بطيء</span></td>
+                                <td><span class="level hard">بطيء</span></td>
+                                <td><span class="level medium">متوسط</span></td>
+                            </tr>
+                            <tr>
+                                <td class="criterion">التكلفة</td>
+                                <td><div class="perf-bar" data-perf="18"></div></td>
+                                <td><div class="perf-bar" data-perf="45"></div></td>
+                                <td><div class="perf-bar" data-perf="80"></div></td>
+                                <td><div class="perf-bar" data-perf="70"></div></td>
+                                <td><div class="perf-bar" data-perf="92"></div></td>
+                            </tr>
+                            <tr>
+                                <td class="criterion">التغطية</td>
+                                <td><span class="stars">★★☆☆☆</span></td>
+                                <td><span class="stars">★★★☆☆</span></td>
+                                <td><span class="stars">★★★★★</span></td>
+                                <td><span class="stars">★★★☆☆</span></td>
+                                <td><span class="stars">★★★★☆</span></td>
+                            </tr>
+                            <tr>
+                                <td class="criterion">صعوبة الكتابة</td>
+                                <td><span class="level easy">سهل</span></td>
+                                <td><span class="level medium">متوسط</span></td>
+                                <td><span class="level medium">متوسط</span></td>
+                                <td><span class="level hard">صعب</span></td>
+                                <td><span class="level hard">صعب</span></td>
+                            </tr>
+                            <tr>
+                                <td class="criterion">أشهر الأدوات</td>
+                                <td>Jest, PyTest, JUnit</td>
+                                <td>Postman, REST Assured</td>
+                                <td>Cypress, Playwright</td>
+                                <td>JMeter, k6, Gatling</td>
+                                <td>OWASP ZAP, Burp Suite</td>
+                            </tr>
+                            <tr>
+                                <td class="criterion">متى تستخدمه؟</td>
+                                <td>دايماً — كل function</td>
+                                <td>مع كل feature جديدة</td>
+                                <td>قبل كل Release</td>
+                                <td>قبل الـ Launch</td>
+                                <td>دورياً وبعد التغييرات</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- ROADMAP -->
-  <section class="section-block" id="roadmap">
-    <div class="container">
-      <div class="section-header text-center mb-5" data-aos="fade-up">
-        <span class="section-tag">خارطة الطريق</span>
-        <h2 class="section-title">من فين تبدأ؟</h2>
-        <p class="section-subtitle">الخطوات الصح، بالترتيب الصح.</p>
-      </div>
-      <div class="roadmap-timeline" id="roadmapTimeline"></div>
-    </div>
-  </section>
+    <!-- QUIZ -->
+    <section class="section-block section-dark" id="quiz">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-12 col-lg-8">
+                    <div class="section-header text-center mb-5" data-aos="fade-up">
+                        <span class="section-tag light">اكتشف نفسك</span>
+                        <h2 class="section-title light">أنهي نوع Testing يناسبك؟</h2>
+                        <p class="section-subtitle light">جاوب على 3 أسئلة وهنقترح عليك الأنسب.</p>
+                    </div>
+                    <div class="quiz-card" id="quizCard" data-aos="fade-up">
+                        <div class="quiz-progress-bar"><div class="quiz-progress-fill" id="quizProgressFill"></div></div>
+                        <div class="quiz-step-indicator" id="quizStepIndicator">السؤال 1 من 3</div>
+                        <div class="quiz-content" id="quizContent"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-  <!-- FOOTER -->
-  <footer class="site-footer">
-    <div class="container text-center">
-      <div class="footer-logo mb-3">
-        <span class="logo-bracket">[</span>
-        <span class="logo-text">Testing</span>
-        <span class="logo-bracket">]</span>
-      </div>
-      <p class="footer-sub">كود من غير Testing — مغامرة بدون خريطة. </p>
-      <div class="footer-divider"></div>
-      <p class="footer-copy">صُنع بـ <span class="heart">♥</span> لكل مبتدئ بيحلم يبني برمجيات موثوقة</p>
-    </div>
-  </footer>
+    <!-- ROADMAP -->
+    <section class="section-block" id="roadmap">
+        <div class="container">
+            <div class="section-header text-center mb-5" data-aos="fade-up">
+                <span class="section-tag">خارطة الطريق</span>
+                <h2 class="section-title">من فين تبدأ؟</h2>
+                <p class="section-subtitle">الخطوات الصح، بالترتيب الصح.</p>
+            </div>
+            <div class="roadmap-timeline" id="roadmapTimeline"></div>
+        </div>
+    </section>
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="app.js"></script>
+    <!-- FOOTER -->
+    <footer class="site-footer">
+        <div class="container text-center">
+            <div class="footer-logo mb-3">
+                <span class="logo-bracket">[</span>
+                <span class="logo-text">Testing</span>
+                <span class="logo-bracket">]</span>
+            </div>
+            <p class="footer-sub">كود من غير Testing — مغامرة بدون خريطة. </p>
+            <div class="footer-divider"></div>
+            <p class="footer-copy">صُنع بـ <span class="heart">♥</span> لكل مبتدئ بيحلم يبني برمجيات موثوقة</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="app.js"></script>
 </body>
 </html>

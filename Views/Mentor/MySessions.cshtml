@@ -1,0 +1,92 @@
+﻿@model List<A3DET_CODE.ViewModels.Mentor.SessionViewModel>
+@{
+    ViewData["Title"] = "My Sessions";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/dashboard.css" asp-append-version="true" />
+}
+
+<div class="dashboard-container">
+    <div class="dashboard-header">
+        <div class="dashboard-welcome">
+            <h1>My Sessions</h1>
+            <p class="dashboard-subtitle">Manage your upcoming and past sessions</p>
+        </div>
+        <a asp-controller="Mentor" asp-action="Dashboard" class="btn btn-secondary">Back to Dashboard</a>
+    </div>
+
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success">✅ @TempData["Success"]</div>
+    }
+
+    @if (!Model.Any())
+    {
+        <p class="text-muted text-center py-5">No sessions found.</p>
+    }
+    else
+    {
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Student</th>
+                        <th>Topic</th>
+                        <th>Scheduled</th>
+                        <th>Duration</th>
+                        <th>Status</th>
+                        <th>Rating</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var session in Model)
+                    {
+                        <tr>
+                            <td><strong>@session.StudentName</strong></td>
+                            <td>@session.Topic</td>
+                            <td>@session.ScheduledDisplay</td>
+                            <td>@session.DurationDisplay</td>
+                            <td>
+                                <span class="badge @session.StatusBadge">@session.Status</span>
+                            </td>
+                            <td>
+                                @if (session.StudentRating.HasValue)
+                                {
+                                    <span>⭐ @session.StudentRating.Value / 5</span>
+                                }
+                                else
+                                {
+                                    <span class="text-muted">—</span>
+                                }
+                            </td>
+                            <td>
+                                @if (!session.IsCompleted && !session.IsConfirmed)
+                                {
+                                    <form asp-action="ConfirmSession" method="post" style="display:inline;">
+                                        @Html.AntiForgeryToken()
+                                        <input type="hidden" name="id" value="@session.Id" />
+                                        <button type="submit" class="btn btn-primary btn-sm">Confirm</button>
+                                    </form>
+                                }
+                                @if (!session.IsCompleted && session.IsConfirmed)
+                                {
+                                    <form asp-action="CompleteSession" method="post" style="display:inline;">
+                                        @Html.AntiForgeryToken()
+                                        <input type="hidden" name="id" value="@session.Id" />
+                                        <button type="submit" class="btn btn-success btn-sm">Complete</button>
+                                    </form>
+                                }
+                                @if (session.IsCompleted)
+                                {
+                                    <span class="text-muted">✓ Done</span>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+</div>

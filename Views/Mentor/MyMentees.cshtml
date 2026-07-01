@@ -1,0 +1,51 @@
+﻿@model List<A3DET_CODE.ViewModels.Mentor.MenteeSummaryViewModel>
+@{
+    ViewData["Title"] = "My Mentees";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/dashboard.css" asp-append-version="true" />
+}
+
+<div class="dashboard-container">
+    <div class="dashboard-header">
+        <div class="dashboard-welcome">
+            <h1>My Mentees</h1>
+            <p class="dashboard-subtitle">Students you are currently mentoring</p>
+        </div>
+        <a asp-controller="Mentor" asp-action="Dashboard" class="btn btn-secondary">Back to Dashboard</a>
+    </div>
+
+    @if (!Model.Any())
+    {
+        <p class="text-muted text-center py-5">You don't have any mentees yet.</p>
+    }
+    else
+    {
+        <div class="mentor-list">
+            @foreach (var mentee in Model)
+            {
+                <div class="mentor-item" style="display:flex;align-items:center;gap:var(--space-4);padding:var(--space-4);border:1px solid var(--color-border);border-radius:var(--radius-md);margin-bottom:var(--space-3);">
+                    <div class="mentor-avatar" style="width:56px;height:56px;background:linear-gradient(135deg,#2F6FED,#15C6AE);border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:1.2rem;">
+                        @mentee.StudentName.Substring(0, 1).ToUpper()
+                    </div>
+                    <div class="mentor-info" style="flex:1;">
+                        <div class="mentor-name" style="font-weight:700;font-size:var(--fs-h4);">@mentee.StudentName</div>
+                        <div class="mentor-role" style="color:var(--color-text-400);font-size:var(--fs-small);">
+                            Assigned: @mentee.AssignedDisplay
+                        </div>
+                    </div>
+                    <div>
+                        <span class="badge @(mentee.IsActive ? "badge-teal" : "badge-amber")">
+                            @mentee.Status
+                        </span>
+                        @if (!string.IsNullOrEmpty(mentee.CurrentTrack))
+                        {
+                            <span class="badge badge-blue">@mentee.CurrentTrack</span>
+                        }
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>

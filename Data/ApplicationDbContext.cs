@@ -1,4 +1,3 @@
-
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using A3DET_CODE.Models;
@@ -13,6 +12,7 @@ namespace A3DET_CODE.Data
         {
         }
 
+        // ====== DbSets ======
         public DbSet<Track> Tracks { get; set; }
         public DbSet<Mentor> Mentors { get; set; }
         public DbSet<Company> Companies { get; set; }
@@ -26,14 +26,14 @@ namespace A3DET_CODE.Data
         public DbSet<AssessmentQuestion> AssessmentQuestions { get; set; }
         public DbSet<AssessmentResult> AssessmentResults { get; set; }
 
-        // ---------------------------------- Member 3 ------------------------------------
-		public DbSet<Task> Tasks { get; set; }             
-		public DbSet<Submission> Submissions { get; set; }   
-		public DbSet<EntryAssessment> EntryAssessments { get; set; }
+        // ✅ Mentor System - DbSets الجديدة
+        public DbSet<MentorSession> MentorSessions { get; set; }
+        public DbSet<MentorMentee> MentorMentees { get; set; }
 
-		protected override void OnModelCreating(ModelBuilder modelBuilder)
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
 
             modelBuilder.Entity<Team>()
                 .HasOne(t => t.Track)
@@ -125,58 +125,41 @@ namespace A3DET_CODE.Data
                 .HasForeignKey(aq => aq.TrackId)
                 .OnDelete(DeleteBehavior.Cascade);
 
-			// ================================================================
-			// ?? NEW CONFIGURATIONS for Member 3
-			// ================================================================
 
-			// 16. Project -> Team (one-to-one relationship)
-			//modelBuilder.Entity<Project>()
-			//	.HasOne(p => p.Team)
-			//	.WithOne(t => t.Project)
-			//	.HasForeignKey<Project>(p => p.TeamId)
-			//	.OnDelete(DeleteBehavior.SetNull);
+            // 1. Mentor -> ApplicationUser
+            modelBuilder.Entity<Mentor>()
+                .HasOne(m => m.User)
+                .WithMany() // User مش عنده ICollection<Mentor>، فـ WithMany فاضية
+                .HasForeignKey(m => m.UserId)
+                .OnDelete(DeleteBehavior.Restrict); // ✅ Restrict بدل Cascade (تجنب Cascade Cycles)
 
-			// 17. Project -> ApplicationUser (Client/Company)
-			modelBuilder.Entity<Project>()
-				.HasOne(p => p.Client)
-				.WithMany()
-				.HasForeignKey(p => p.ClientId)
-				.OnDelete(DeleteBehavior.Restrict);
+            // 2. MentorSession -> Mentor
+            modelBuilder.Entity<MentorSession>()
+                .HasOne(ms => ms.Mentor)
+                .WithMany(m => m.Sessions)
+                .HasForeignKey(ms => ms.MentorId)
+                .OnDelete(DeleteBehavior.Cascade);
 
-			// 18. Task -> Project
-			modelBuilder.Entity<Task>()
-				.HasOne(t => t.Project)
-				.WithMany(p => p.Tasks)
-				.HasForeignKey(t => t.ProjectId)
-				.OnDelete(DeleteBehavior.Cascade);
+            // 3. MentorSession -> Student (ApplicationUser)
+            modelBuilder.Entity<MentorSession>()
+                .HasOne(ms => ms.Student)
+                .WithMany() // User مش عنده ICollection<MentorSession>
+                .HasForeignKey(ms => ms.StudentId)
+                .OnDelete(DeleteBehavior.Restrict); // ✅ Restrict
 
-			// 19. Task -> ApplicationUser (Assigned To)
-			modelBuilder.Entity<Task>()
-				.HasOne(t => t.AssignedTo)
-				.WithMany()
-				.HasForeignKey(t => t.AssignedToId)
-				.OnDelete(DeleteBehavior.Restrict);
+            // 4. MentorMentee -> Mentor
+            modelBuilder.Entity<MentorMentee>()
+                .HasOne(mm => mm.Mentor)
+                .WithMany(m => m.Mentees)
+                .HasForeignKey(mm => mm.MentorId)
+                .OnDelete(DeleteBehavior.Cascade);
 
-			// 20. Submission -> Project
-			modelBuilder.Entity<Submission>()
-				.HasOne(s => s.Project)
-				.WithMany(p => p.Submissions)
-				.HasForeignKey(s => s.ProjectId)
-				.OnDelete(DeleteBehavior.Cascade);
-
-			// 21. Submission -> ApplicationUser
-			modelBuilder.Entity<Submission>()
-				.HasOne(s => s.User)
-				.WithMany()
-				.HasForeignKey(s => s.UserId)
-				.OnDelete(DeleteBehavior.Restrict);
-
-			// 22. EntryAssessment -> ApplicationUser
-			modelBuilder.Entity<EntryAssessment>()
-				.HasOne(ea => ea.User)
-				.WithMany()
-				.HasForeignKey(ea => ea.UserId)
-				.OnDelete(DeleteBehavior.Cascade);
-		}
+            // 5. MentorMentee -> Student (ApplicationUser)
+            modelBuilder.Entity<MentorMentee>()
+                .HasOne(mm => mm.Student)
+                .WithMany() 
+                .HasForeignKey(mm => mm.StudentId)
+                .OnDelete(DeleteBehavior.Restrict); 
+        }
     }
 }

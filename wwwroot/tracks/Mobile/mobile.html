@@ -13,341 +13,350 @@
 </head>
 <body>
 
-  <div class="noise-overlay"></div>
+    <div class="noise-overlay"></div>
 
-  <!-- NAV -->
-  <nav class="main-nav" id="mainNav">
-    <div class="container-fluid px-4">
-      <div class="nav-inner d-flex align-items-center justify-content-between">
-        <div class="nav-logo">
-          <span class="logo-bracket">&#x2319;</span>
-          <span class="logo-text">Mobile</span>
-          <span class="logo-bracket">&#x2318;</span>
-        </div>
-        <div class="nav-links d-none d-lg-flex gap-4">
-          <a href="#what-is"    class="nav-link-item">ما هو Mobile Dev؟</a>
-          <a href="#frameworks" class="nav-link-item">الأدوات والـ Frameworks</a>
-          <a href="#comparison" class="nav-link-item">المقارنة</a>
-          <a href="#roadmap"    class="nav-link-item">ابدأ من هنا</a>
-        </div>
-        <div class="nav-badge">
-          <span class="badge-dot"></span>
-          دليلك 
-        </div>
-      </div>
-    </div>
-  </nav>
-
-  <!-- HERO -->
-  <section class="hero-section" id="hero">
-    <div class="hero-grid-bg"></div>
-    <div class="container">
-      <div class="row min-vh-100 align-items-center">
-        <div class="col-12 col-lg-8">
-          <div class="hero-tag mb-3" data-aos="fade-up">
-            <i class="bi bi-phone-fill"></i> دليل المبتدئ في Mobile Development
-          </div>
-          <h1 class="hero-title" data-aos="fade-up" data-aos-delay="100">
-            كل اللي محتاج<br/>
-            تعرفه عن
-            <span class="highlight-text"> Mobile Dev</span>
-          </h1>
-          <p class="hero-subtitle" data-aos="fade-up" data-aos-delay="200">
-            من أول شاشة لغاية ما تختار الـ Framework المناسب وتنشر تطبيقك — دليل واضح ومبسط بدون تعقيد.
-          </p>
-          <div class="hero-actions d-flex flex-wrap gap-3 mt-5" data-aos="fade-up" data-aos-delay="300">
-            <a href="#what-is" class="btn-primary-custom">
-              ابدأ الرحلة <i class="bi bi-arrow-left ms-2"></i>
-            </a>
-            <a href="#comparison" class="btn-secondary-custom">
-              قارن الـ Frameworks
-            </a>
-          </div>
-        </div>
-
-        <!-- Hero code block -->
-        <div class="col-12 col-lg-4 d-none d-lg-block">
-          <div class="hero-code-block" data-aos="fade-left" data-aos-delay="400">
-            <div class="code-header">
-              <span class="dot red"></span>
-              <span class="dot yellow"></span>
-              <span class="dot green"></span>
-              <span class="code-filename">HomeScreen.dart</span>
+    <!-- NAV -->
+    <nav class="main-nav" id="mainNav">
+        <div class="container-fluid px-4">
+            <div class="nav-inner d-flex align-items-center justify-content-between">
+                <div class="nav-logo">
+                    <span class="logo-bracket">&#x2319;</span>
+                    <span class="logo-text">Mobile</span>
+                    <span class="logo-bracket">&#x2318;</span>
+                </div>
+                <div class="nav-links d-none d-lg-flex gap-4">
+                    <a href="#what-is" class="nav-link-item">ما هو Mobile Dev؟</a>
+                    <a href="#frameworks" class="nav-link-item">الأدوات والـ Frameworks</a>
+                    <a href="#comparison" class="nav-link-item">المقارنة</a>
+                    <a href="#roadmap" class="nav-link-item">ابدأ من هنا</a>
+                </div>
+                <div class="nav-controls d-flex align-items-center gap-2">
+                    <div class="nav-badge">
+                        <span class="badge-dot"></span>
+                        <span data-i18n="nav.badge">دليلك</span>
+                    </div>
+                    <button class="lang-toggle" id="langToggle" title="Switch Language">
+                        <span id="langLabel">AR</span>
+                    </button>
+                    <button class="theme-toggle" id="themeToggle" title="Toggle Theme">
+                        <i class="fa-solid fa-sun" id="iconLight"></i>
+                        <i class="fa-solid fa-moon" id="iconDark" style="display:none"></i>
+                    </button>
+                </div>
             </div>
-            <div class="code-body" id="heroCodeBlock">
-              <div class="code-line"><span class="kw">class</span> <span class="var">HomeScreen</span> <span class="kw">extends</span> <span class="fn">StatelessWidget</span> {</div>
-              <div class="code-line pl-2"><span class="prop">@override</span></div>
-              <div class="code-line pl-2"><span class="fn">Widget</span> <span class="method">build</span>(<span class="var">context</span>) {</div>
-              <div class="code-line pl-3"><span class="kw">return</span> <span class="fn">Scaffold</span>(</div>
-              <div class="code-line pl-4"><span class="prop">appBar</span>: <span class="fn">AppBar</span>(</div>
-              <div class="code-line pl-5"><span class="prop">title</span>: <span class="fn">Text</span>(<span class="str">'مرحباً'</span>),</div>
-              <div class="code-line pl-4">),</div>
-              <div class="code-line pl-4"><span class="prop">body</span>: <span class="fn">Center</span>(</div>
-              <div class="code-line pl-5"><span class="prop">child</span>: <span class="fn">Text</span>(<span class="str">'تطبيقك هنا'</span>),</div>
-              <div class="code-line pl-4">),</div>
-              <div class="code-line pl-3">);</div>
-              <div class="code-line pl-2">}</div>
-              <div class="code-line">}</div>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <section class="hero-section" id="hero">
+        <div class="hero-grid-bg"></div>
+        <div class="container">
+            <div class="row min-vh-100 align-items-center">
+                <div class="col-12 col-lg-8">
+                    <div class="hero-tag mb-3" data-aos="fade-up">
+                        <i class="bi bi-phone-fill"></i> دليل المبتدئ في Mobile Development
+                    </div>
+                    <h1 class="hero-title" data-aos="fade-up" data-aos-delay="100">
+                        كل اللي محتاج<br />
+                        تعرفه عن
+                        <span class="highlight-text"> Mobile Dev</span>
+                    </h1>
+                    <p class="hero-subtitle" data-aos="fade-up" data-aos-delay="200">
+                        من أول شاشة لغاية ما تختار الـ Framework المناسب وتنشر تطبيقك — دليل واضح ومبسط بدون تعقيد.
+                    </p>
+                    <div class="hero-actions d-flex flex-wrap gap-3 mt-5" data-aos="fade-up" data-aos-delay="300">
+                        <a href="#what-is" class="btn-primary-custom">
+                            ابدأ الرحلة <i class="bi bi-arrow-left ms-2"></i>
+                        </a>
+                        <a href="#comparison" class="btn-secondary-custom">
+                            قارن الـ Frameworks
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Hero code block -->
+                <div class="col-12 col-lg-4 d-none d-lg-block">
+                    <div class="hero-code-block" data-aos="fade-left" data-aos-delay="400">
+                        <div class="code-header">
+                            <span class="dot red"></span>
+                            <span class="dot yellow"></span>
+                            <span class="dot green"></span>
+                            <span class="code-filename">HomeScreen.dart</span>
+                        </div>
+                        <div class="code-body" id="heroCodeBlock">
+                            <div class="code-line"><span class="kw">class</span> <span class="var">HomeScreen</span> <span class="kw">extends</span> <span class="fn">StatelessWidget</span> {</div>
+                            <div class="code-line pl-2"><span class="prop">@override</span></div>
+                            <div class="code-line pl-2"><span class="fn">Widget</span> <span class="method">build</span>(<span class="var">context</span>) {</div>
+                            <div class="code-line pl-3"><span class="kw">return</span> <span class="fn">Scaffold</span>(</div>
+                            <div class="code-line pl-4"><span class="prop">appBar</span>: <span class="fn">AppBar</span>(</div>
+                            <div class="code-line pl-5"><span class="prop">title</span>: <span class="fn">Text</span>(<span class="str">'مرحباً'</span>),</div>
+                            <div class="code-line pl-4">),</div>
+                            <div class="code-line pl-4"><span class="prop">body</span>: <span class="fn">Center</span>(</div>
+                            <div class="code-line pl-5"><span class="prop">child</span>: <span class="fn">Text</span>(<span class="str">'تطبيقك هنا'</span>),</div>
+                            <div class="code-line pl-4">),</div>
+                            <div class="code-line pl-3">);</div>
+                            <div class="code-line pl-2">}</div>
+                            <div class="code-line">}</div>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
         </div>
-      </div>
-    </div>
-    <div class="hero-scroll-hint">
-      <div class="scroll-mouse"><div class="scroll-wheel"></div></div>
-      <span>اسكرول للأسفل</span>
-    </div>
-  </section>
+        <div class="hero-scroll-hint">
+            <div class="scroll-mouse"><div class="scroll-wheel"></div></div>
+            <span>اسكرول للأسفل</span>
+        </div>
+    </section>
 
-  <!-- WHAT IS MOBILE DEV -->
-  <section class="section-block" id="what-is">
-    <div class="container">
-      <div class="section-header text-center mb-5" data-aos="fade-up">
-        <span class="section-tag">الأساسيات</span>
-        <h2 class="section-title">إيه هو الـ Mobile Development؟</h2>
-        <p class="section-subtitle">
-          Mobile Dev هو بناء تطبيقات بتشتغل في إيد الناس. 7 مليار إنسان عندهم موبايل — التطبيق اللي بتبنيه بيوصل ليهم جميعاً من غير ما يفتحوا كمبيوتر.
-        </p>
-      </div>
-
-      <div class="analogy-card mb-5" data-aos="fade-up">
-        <div class="analogy-icon"><i class="bi bi-shop-window"></i></div>
-        <div class="analogy-content">
-          <h4>فكر في الأمر كده </h4>
-          <p>
-            الـ App Store وPlay Store زي <strong>أكبر مول في العالم</strong> — مفتوح 24 ساعة، فيه مليارات المستخدمين، وتطبيقك ممكن يوصلهم كلهم.
-            الفرق بين Mobile Dev وباقي التراكات إن المنتج بتاعك <strong>حرفياً في إيد المستخدم</strong> — ده مسؤولية وفرصة في نفس الوقت. 
-          </p>
-        </div>
-      </div>
-
-      <div class="row g-4">
-        <div class="col-12 col-md-4" data-aos="fade-up" data-aos-delay="0">
-          <div class="pillar-card" data-pillar="native">
-            <div class="pillar-icon"><i class="bi bi-phone-fill"></i></div>
-            <div class="pillar-number">01</div>
-            <h3 class="pillar-title">Native Development</h3>
-            <p class="pillar-desc">لكل Platform لغتها — Swift لـ iOS وKotlin لـ Android. الأداء الأعلى والوصول الكامل لكل features الجهاز. الاختيار لما الأداء هو الأولوية القصوى.</p>
-            <div class="pillar-tag">Maximum Performance</div>
-          </div>
-        </div>
-        <div class="col-12 col-md-4" data-aos="fade-up" data-aos-delay="100">
-          <div class="pillar-card" data-pillar="cross">
-            <div class="pillar-icon"><i class="bi bi-intersect"></i></div>
-            <div class="pillar-number">02</div>
-            <h3 class="pillar-title">Cross-Platform</h3>
-            <p class="pillar-desc">كود واحد يشتغل على iOS وAndroid مع بعض. Flutter وReact Native هما الأشهر. أسرع في التطوير وأقل تكلفة — الاختيار الذكي لمعظم المشاريع.</p>
-            <div class="pillar-tag">Write Once, Run Anywhere</div>
-          </div>
-        </div>
-        <div class="col-12 col-md-4" data-aos="fade-up" data-aos-delay="200">
-          <div class="pillar-card" data-pillar="ux">
-            <div class="pillar-icon"><i class="bi bi-hand-index-thumb-fill"></i></div>
-            <div class="pillar-number">03</div>
-            <h3 class="pillar-title">Mobile UX</h3>
-            <p class="pillar-desc">المستخدم بيمسح وبيضغط وبيدور الشاشة. الـ touch interactions، الـ gestures، والـ accessibility مش تفاصيل — هما قلب تجربة الموبايل.</p>
-            <div class="pillar-tag">Thumb-Friendly Design</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- MOBILE ECOSYSTEM INTRO -->
-  <section class="section-block section-dark" id="frameworks-intro">
-    <div class="container">
-      <div class="row align-items-center g-5">
-        <div class="col-12 col-lg-6" data-aos="fade-right">
-          <span class="section-tag light">المفهوم الأساسي</span>
-          <h2 class="section-title light">Native ولا Cross-Platform؟</h2>
-          <p class="section-subtitle light">
-            السؤال الأول اللي بيواجهك في Mobile Dev. الإجابة مش واحدة — بتعتمد على مشروعك وميزانيتك وهدفك.
-          </p>
-          <p class="section-subtitle light">
-            الـ <strong>Cross-Platform</strong> زي Flutter وReact Native وصلوا لمستوى إن 90% من المشاريع مش محتاجة تراكات Native منفصلة. <strong>لحد ما تعرف إنك محتاج Native — ابدأ Cross-Platform.</strong>
-          </p>
-          <div class="benefits-list mt-4">
-            <div class="benefit-item"><i class="bi bi-check-lg"></i> Flutter — أسرع نمو، أجمل UI، أقوى أداء</div>
-            <div class="benefit-item"><i class="bi bi-check-lg"></i> React Native — لو عارف JavaScript</div>
-            <div class="benefit-item"><i class="bi bi-check-lg"></i> Swift — لو iOS فقط هو هدفك</div>
-            <div class="benefit-item"><i class="bi bi-check-lg"></i> Kotlin — لو Android فقط هو هدفك</div>
-            <div class="benefit-item"><i class="bi bi-check-lg"></i> .NET MAUI — لو عارف C#</div>
-          </div>
-        </div>
-        <div class="col-12 col-lg-6" data-aos="fade-left">
-          <div class="framework-visual">
-            <div class="fv-center">
-              <i class="bi bi-phone-fill"></i>
-              <span>Mobile</span>
+    <!-- WHAT IS MOBILE DEV -->
+    <section class="section-block" id="what-is">
+        <div class="container">
+            <div class="section-header text-center mb-5" data-aos="fade-up">
+                <span class="section-tag">الأساسيات</span>
+                <h2 class="section-title">إيه هو الـ Mobile Development؟</h2>
+                <p class="section-subtitle">
+                    Mobile Dev هو بناء تطبيقات بتشتغل في إيد الناس. 7 مليار إنسان عندهم موبايل — التطبيق اللي بتبنيه بيوصل ليهم جميعاً من غير ما يفتحوا كمبيوتر.
+                </p>
             </div>
-            <div class="fv-orbit">
-              <div class="fv-satellite" style="--i:0"><span class="fw-flutter"><i class="bi bi-phone-landscape-fill"></i></span></div>
-              <div class="fv-satellite" style="--i:1"><span class="fw-rn"><i class="bi bi-phone-fill"></i></span></div>
-              <div class="fv-satellite" style="--i:2"><span class="fw-swift"><i class="bi bi-apple"></i></span></div>
-              <div class="fv-satellite" style="--i:3"><span class="fw-kotlin"><i class="bi bi-android2"></i></span></div>
+
+            <div class="analogy-card mb-5" data-aos="fade-up">
+                <div class="analogy-icon"><i class="bi bi-shop-window"></i></div>
+                <div class="analogy-content">
+                    <h4>فكر في الأمر كده </h4>
+                    <p>
+                        الـ App Store وPlay Store زي <strong>أكبر مول في العالم</strong> — مفتوح 24 ساعة، فيه مليارات المستخدمين، وتطبيقك ممكن يوصلهم كلهم.
+                        الفرق بين Mobile Dev وباقي التراكات إن المنتج بتاعك <strong>حرفياً في إيد المستخدم</strong> — ده مسؤولية وفرصة في نفس الوقت.
+                    </p>
+                </div>
             </div>
-          </div>
+
+            <div class="row g-4">
+                <div class="col-12 col-md-4" data-aos="fade-up" data-aos-delay="0">
+                    <div class="pillar-card" data-pillar="native">
+                        <div class="pillar-icon"><i class="bi bi-phone-fill"></i></div>
+                        <div class="pillar-number">01</div>
+                        <h3 class="pillar-title">Native Development</h3>
+                        <p class="pillar-desc">لكل Platform لغتها — Swift لـ iOS وKotlin لـ Android. الأداء الأعلى والوصول الكامل لكل features الجهاز. الاختيار لما الأداء هو الأولوية القصوى.</p>
+                        <div class="pillar-tag">Maximum Performance</div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-4" data-aos="fade-up" data-aos-delay="100">
+                    <div class="pillar-card" data-pillar="cross">
+                        <div class="pillar-icon"><i class="bi bi-intersect"></i></div>
+                        <div class="pillar-number">02</div>
+                        <h3 class="pillar-title">Cross-Platform</h3>
+                        <p class="pillar-desc">كود واحد يشتغل على iOS وAndroid مع بعض. Flutter وReact Native هما الأشهر. أسرع في التطوير وأقل تكلفة — الاختيار الذكي لمعظم المشاريع.</p>
+                        <div class="pillar-tag">Write Once, Run Anywhere</div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-4" data-aos="fade-up" data-aos-delay="200">
+                    <div class="pillar-card" data-pillar="ux">
+                        <div class="pillar-icon"><i class="bi bi-hand-index-thumb-fill"></i></div>
+                        <div class="pillar-number">03</div>
+                        <h3 class="pillar-title">Mobile UX</h3>
+                        <p class="pillar-desc">المستخدم بيمسح وبيضغط وبيدور الشاشة. الـ touch interactions، الـ gestures، والـ accessibility مش تفاصيل — هما قلب تجربة الموبايل.</p>
+                        <div class="pillar-tag">Thumb-Friendly Design</div>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- FRAMEWORKS DEEP DIVE -->
-  <section class="section-block" id="frameworks">
-    <div class="container">
-      <div class="section-header text-center mb-5" data-aos="fade-up">
-        <span class="section-tag">الأدوات والـ Frameworks</span>
-        <h2 class="section-title">أشهر أدوات Mobile Dev بالتفصيل</h2>
-        <p class="section-subtitle">اعرف كل Framework — إيه قوته، مين وراه، وامتى تستخدمه.</p>
-      </div>
-
-      <div class="fw-tabs-wrapper" data-aos="fade-up">
-        <div class="fw-tabs d-flex gap-2 flex-wrap mb-4" id="fwTabs">
-          <button class="fw-tab active" data-fw="flutter">
-            <i class="bi bi-phone-landscape-fill"></i> Flutter
-          </button>
-          <button class="fw-tab" data-fw="rn">
-            <i class="bi bi-phone-fill"></i> React Native
-          </button>
-          <button class="fw-tab" data-fw="swift">
-            <i class="bi bi-apple"></i> Swift
-          </button>
-          <button class="fw-tab" data-fw="kotlin">
-            <i class="bi bi-android2"></i> Kotlin
-          </button>
-          <button class="fw-tab" data-fw="maui">
-            <i class="bi bi-microsoft"></i> .NET MAUI
-          </button>
+    <!-- MOBILE ECOSYSTEM INTRO -->
+    <section class="section-block section-dark" id="frameworks-intro">
+        <div class="container">
+            <div class="row align-items-center g-5">
+                <div class="col-12 col-lg-6" data-aos="fade-right">
+                    <span class="section-tag light">المفهوم الأساسي</span>
+                    <h2 class="section-title light">Native ولا Cross-Platform؟</h2>
+                    <p class="section-subtitle light">
+                        السؤال الأول اللي بيواجهك في Mobile Dev. الإجابة مش واحدة — بتعتمد على مشروعك وميزانيتك وهدفك.
+                    </p>
+                    <p class="section-subtitle light">
+                        الـ <strong>Cross-Platform</strong> زي Flutter وReact Native وصلوا لمستوى إن 90% من المشاريع مش محتاجة تراكات Native منفصلة. <strong>لحد ما تعرف إنك محتاج Native — ابدأ Cross-Platform.</strong>
+                    </p>
+                    <div class="benefits-list mt-4">
+                        <div class="benefit-item"><i class="bi bi-check-lg"></i> Flutter — أسرع نمو، أجمل UI، أقوى أداء</div>
+                        <div class="benefit-item"><i class="bi bi-check-lg"></i> React Native — لو عارف JavaScript</div>
+                        <div class="benefit-item"><i class="bi bi-check-lg"></i> Swift — لو iOS فقط هو هدفك</div>
+                        <div class="benefit-item"><i class="bi bi-check-lg"></i> Kotlin — لو Android فقط هو هدفك</div>
+                        <div class="benefit-item"><i class="bi bi-check-lg"></i> .NET MAUI — لو عارف C#</div>
+                    </div>
+                </div>
+                <div class="col-12 col-lg-6" data-aos="fade-left">
+                    <div class="framework-visual">
+                        <div class="fv-center">
+                            <i class="bi bi-phone-fill"></i>
+                            <span>Mobile</span>
+                        </div>
+                        <div class="fv-orbit">
+                            <div class="fv-satellite" style="--i:0"><span class="fw-flutter"><i class="bi bi-phone-landscape-fill"></i></span></div>
+                            <div class="fv-satellite" style="--i:1"><span class="fw-rn"><i class="bi bi-phone-fill"></i></span></div>
+                            <div class="fv-satellite" style="--i:2"><span class="fw-swift"><i class="bi bi-apple"></i></span></div>
+                            <div class="fv-satellite" style="--i:3"><span class="fw-kotlin"><i class="bi bi-android2"></i></span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="fw-panel" id="fwPanel"></div>
-      </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- COMPARISON TABLE -->
-  <section class="section-block section-light-alt" id="comparison">
-    <div class="container">
-      <div class="section-header text-center mb-5" data-aos="fade-up">
-        <span class="section-tag">المقارنة</span>
-        <h2 class="section-title">مقارنة شاملة بين الـ Frameworks</h2>
-        <p class="section-subtitle">جدول واضح يساعدك تشوف الفروق دفعة واحدة.</p>
-      </div>
-      <div class="table-wrapper" data-aos="fade-up">
-        <div class="table-responsive">
-          <table class="comparison-table w-100">
-            <thead>
-              <tr>
-                <th>المعيار</th>
-                <th><i class="bi bi-phone-landscape-fill"></i> Flutter</th>
-                <th><i class="bi bi-phone-fill"></i> React Native</th>
-                <th><i class="bi bi-apple"></i> Swift</th>
-                <th><i class="bi bi-android2"></i> Kotlin</th>
-                <th><i class="bi bi-microsoft"></i> .NET MAUI</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td class="criterion">سهولة البداية</td>
-                <td><span class="level medium">متوسط</span></td>
-                <td><span class="level easy">سهل لو عارف JS</span></td>
-                <td><span class="level medium">متوسط</span></td>
-                <td><span class="level medium">متوسط</span></td>
-                <td><span class="level easy">سهل لو عارف C#</span></td>
-              </tr>
-              <tr>
-                <td class="criterion">الأداء</td>
-                <td><div class="perf-bar" data-perf="92"></div></td>
-                <td><div class="perf-bar" data-perf="78"></div></td>
-                <td><div class="perf-bar" data-perf="99"></div></td>
-                <td><div class="perf-bar" data-perf="99"></div></td>
-                <td><div class="perf-bar" data-perf="80"></div></td>
-              </tr>
-              <tr>
-                <td class="criterion">الـ Platforms</td>
-                <td><span class="level easy">iOS + Android + Web</span></td>
-                <td><span class="level easy">iOS + Android</span></td>
-                <td><span class="level hard">iOS فقط</span></td>
-                <td><span class="level hard">Android فقط</span></td>
-                <td><span class="level easy">iOS + Android + Desktop</span></td>
-              </tr>
-              <tr>
-                <td class="criterion">فرص العمل</td>
-                <td><span class="stars">★★★★★</span></td>
-                <td><span class="stars">★★★★☆</span></td>
-                <td><span class="stars">★★★★☆</span></td>
-                <td><span class="stars">★★★★☆</span></td>
-                <td><span class="stars">★★★☆☆</span></td>
-              </tr>
-              <tr>
-                <td class="criterion">وراه مين؟</td>
-                <td>Google</td>
-                <td>Meta</td>
-                <td>Apple</td>
-                <td>JetBrains + Google</td>
-                <td>Microsoft</td>
-              </tr>
-              <tr>
-                <td class="criterion">ابدأ بيه لما؟</td>
-                <td>من أول يوم</td>
-                <td>عارف React؟ ابدأ هنا</td>
-                <td>iOS فقط هو هدفك</td>
-                <td>Android فقط هو هدفك</td>
-                <td>جاي من .NET</td>
-              </tr>
-            </tbody>
-          </table>
+    <!-- FRAMEWORKS DEEP DIVE -->
+    <section class="section-block" id="frameworks">
+        <div class="container">
+            <div class="section-header text-center mb-5" data-aos="fade-up">
+                <span class="section-tag">الأدوات والـ Frameworks</span>
+                <h2 class="section-title">أشهر أدوات Mobile Dev بالتفصيل</h2>
+                <p class="section-subtitle">اعرف كل Framework — إيه قوته، مين وراه، وامتى تستخدمه.</p>
+            </div>
+
+            <div class="fw-tabs-wrapper" data-aos="fade-up">
+                <div class="fw-tabs d-flex gap-2 flex-wrap mb-4" id="fwTabs">
+                    <button class="fw-tab active" data-fw="flutter">
+                        <i class="bi bi-phone-landscape-fill"></i> Flutter
+                    </button>
+                    <button class="fw-tab" data-fw="rn">
+                        <i class="bi bi-phone-fill"></i> React Native
+                    </button>
+                    <button class="fw-tab" data-fw="swift">
+                        <i class="bi bi-apple"></i> Swift
+                    </button>
+                    <button class="fw-tab" data-fw="kotlin">
+                        <i class="bi bi-android2"></i> Kotlin
+                    </button>
+                    <button class="fw-tab" data-fw="maui">
+                        <i class="bi bi-microsoft"></i> .NET MAUI
+                    </button>
+                </div>
+                <div class="fw-panel" id="fwPanel"></div>
+            </div>
         </div>
-      </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- QUIZ -->
-  <section class="section-block section-dark" id="quiz">
-    <div class="container">
-      <div class="row justify-content-center">
-        <div class="col-12 col-lg-8">
-          <div class="section-header text-center mb-5" data-aos="fade-up">
-            <span class="section-tag light">اكتشف نفسك</span>
-            <h2 class="section-title light">أنهي Framework يناسبك؟</h2>
-            <p class="section-subtitle light">جاوب على 3 أسئلة وهنقترح عليك الأنسب.</p>
-          </div>
-          <div class="quiz-card" id="quizCard" data-aos="fade-up">
-            <div class="quiz-progress-bar"><div class="quiz-progress-fill" id="quizProgressFill"></div></div>
-            <div class="quiz-step-indicator" id="quizStepIndicator">السؤال 1 من 3</div>
-            <div class="quiz-content" id="quizContent"></div>
-          </div>
+    <!-- COMPARISON TABLE -->
+    <section class="section-block section-light-alt" id="comparison">
+        <div class="container">
+            <div class="section-header text-center mb-5" data-aos="fade-up">
+                <span class="section-tag">المقارنة</span>
+                <h2 class="section-title">مقارنة شاملة بين الـ Frameworks</h2>
+                <p class="section-subtitle">جدول واضح يساعدك تشوف الفروق دفعة واحدة.</p>
+            </div>
+            <div class="table-wrapper" data-aos="fade-up">
+                <div class="table-responsive">
+                    <table class="comparison-table w-100">
+                        <thead>
+                            <tr>
+                                <th>المعيار</th>
+                                <th><i class="bi bi-phone-landscape-fill"></i> Flutter</th>
+                                <th><i class="bi bi-phone-fill"></i> React Native</th>
+                                <th><i class="bi bi-apple"></i> Swift</th>
+                                <th><i class="bi bi-android2"></i> Kotlin</th>
+                                <th><i class="bi bi-microsoft"></i> .NET MAUI</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="criterion">سهولة البداية</td>
+                                <td><span class="level medium">متوسط</span></td>
+                                <td><span class="level easy">سهل لو عارف JS</span></td>
+                                <td><span class="level medium">متوسط</span></td>
+                                <td><span class="level medium">متوسط</span></td>
+                                <td><span class="level easy">سهل لو عارف C#</span></td>
+                            </tr>
+                            <tr>
+                                <td class="criterion">الأداء</td>
+                                <td><div class="perf-bar" data-perf="92"></div></td>
+                                <td><div class="perf-bar" data-perf="78"></div></td>
+                                <td><div class="perf-bar" data-perf="99"></div></td>
+                                <td><div class="perf-bar" data-perf="99"></div></td>
+                                <td><div class="perf-bar" data-perf="80"></div></td>
+                            </tr>
+                            <tr>
+                                <td class="criterion">الـ Platforms</td>
+                                <td><span class="level easy">iOS + Android + Web</span></td>
+                                <td><span class="level easy">iOS + Android</span></td>
+                                <td><span class="level hard">iOS فقط</span></td>
+                                <td><span class="level hard">Android فقط</span></td>
+                                <td><span class="level easy">iOS + Android + Desktop</span></td>
+                            </tr>
+                            <tr>
+                                <td class="criterion">فرص العمل</td>
+                                <td><span class="stars">★★★★★</span></td>
+                                <td><span class="stars">★★★★☆</span></td>
+                                <td><span class="stars">★★★★☆</span></td>
+                                <td><span class="stars">★★★★☆</span></td>
+                                <td><span class="stars">★★★☆☆</span></td>
+                            </tr>
+                            <tr>
+                                <td class="criterion">وراه مين؟</td>
+                                <td>Google</td>
+                                <td>Meta</td>
+                                <td>Apple</td>
+                                <td>JetBrains + Google</td>
+                                <td>Microsoft</td>
+                            </tr>
+                            <tr>
+                                <td class="criterion">ابدأ بيه لما؟</td>
+                                <td>من أول يوم</td>
+                                <td>عارف React؟ ابدأ هنا</td>
+                                <td>iOS فقط هو هدفك</td>
+                                <td>Android فقط هو هدفك</td>
+                                <td>جاي من .NET</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- ROADMAP -->
-  <section class="section-block" id="roadmap">
-    <div class="container">
-      <div class="section-header text-center mb-5" data-aos="fade-up">
-        <span class="section-tag">خارطة الطريق</span>
-        <h2 class="section-title">من فين تبدأ؟</h2>
-        <p class="section-subtitle">الخطوات الصح، بالترتيب الصح.</p>
-      </div>
-      <div class="roadmap-timeline" id="roadmapTimeline"></div>
-    </div>
-  </section>
+    <!-- QUIZ -->
+    <section class="section-block section-dark" id="quiz">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-12 col-lg-8">
+                    <div class="section-header text-center mb-5" data-aos="fade-up">
+                        <span class="section-tag light">اكتشف نفسك</span>
+                        <h2 class="section-title light">أنهي Framework يناسبك؟</h2>
+                        <p class="section-subtitle light">جاوب على 3 أسئلة وهنقترح عليك الأنسب.</p>
+                    </div>
+                    <div class="quiz-card" id="quizCard" data-aos="fade-up">
+                        <div class="quiz-progress-bar"><div class="quiz-progress-fill" id="quizProgressFill"></div></div>
+                        <div class="quiz-step-indicator" id="quizStepIndicator">السؤال 1 من 3</div>
+                        <div class="quiz-content" id="quizContent"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-  <!-- FOOTER -->
-  <footer class="site-footer">
-    <div class="container text-center">
-      <div class="footer-logo mb-3">
-        <span class="logo-bracket">&#x2319;</span>
-        <span class="logo-text">Mobile</span>
-        <span class="logo-bracket">&#x2318;</span>
-      </div>
-      <p class="footer-sub">التطبيق اللي بتبنيه هيكون في إيد ملايين الناس. <i class="bi bi-phone-fill"></i></p>
-      <div class="footer-divider"></div>
-      <p class="footer-copy">صُنع بـ <span class="heart">♥</span> لكل مبتدئ بيحلم تطبيقه يوصل ملايين المستخدمين</p>
-    </div>
-  </footer>
+    <!-- ROADMAP -->
+    <section class="section-block" id="roadmap">
+        <div class="container">
+            <div class="section-header text-center mb-5" data-aos="fade-up">
+                <span class="section-tag">خارطة الطريق</span>
+                <h2 class="section-title">من فين تبدأ؟</h2>
+                <p class="section-subtitle">الخطوات الصح، بالترتيب الصح.</p>
+            </div>
+            <div class="roadmap-timeline" id="roadmapTimeline"></div>
+        </div>
+    </section>
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="app.js"></script>
+    <!-- FOOTER -->
+    <footer class="site-footer">
+        <div class="container text-center">
+            <div class="footer-logo mb-3">
+                <span class="logo-bracket">&#x2319;</span>
+                <span class="logo-text">Mobile</span>
+                <span class="logo-bracket">&#x2318;</span>
+            </div>
+            <p class="footer-sub">التطبيق اللي بتبنيه هيكون في إيد ملايين الناس. <i class="bi bi-phone-fill"></i></p>
+            <div class="footer-divider"></div>
+            <p class="footer-copy">صُنع بـ <span class="heart">♥</span> لكل مبتدئ بيحلم تطبيقه يوصل ملايين المستخدمين</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="app.js"></script>
 </body>
 </html>

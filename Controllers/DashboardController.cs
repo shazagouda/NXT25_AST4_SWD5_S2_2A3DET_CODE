@@ -1,5 +1,4 @@
-﻿
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -21,7 +20,7 @@ namespace A3DET_CODE.Controllers
             _context = context;
         }
 
-        [HttpGet]
+        // GET: Dashboard
         public async Task<IActionResult> Index()
         {
             var user = await _userManager.GetUserAsync(User);
@@ -31,16 +30,17 @@ namespace A3DET_CODE.Controllers
             var roles = await _userManager.GetRolesAsync(user);
             var role = roles.FirstOrDefault() ?? "Student";
 
-            return role switch
-            {
-                "Student" => await StudentDashboard(),
-                "Mentor" => await MentorDashboard(),
-                "Company" => await CompanyDashboard(),
-                _ => RedirectToAction("Index", "Home")
-            };
+            if (role == "Student")
+                return RedirectToAction("StudentDashboard");
+            else if (role == "Mentor")
+                return RedirectToAction("Dashboard", "Mentor");
+            else if (role == "Company")
+                return RedirectToAction("CompanyDashboard");
+
+            return RedirectToAction("Index", "Home");
         }
 
-        [HttpGet]
+        // GET: Student Dashboard
         public async Task<IActionResult> StudentDashboard()
         {
             var user = await _userManager.GetUserAsync(User);
@@ -87,50 +87,7 @@ namespace A3DET_CODE.Controllers
             return View("StudentDashboard", viewModel);
         }
 
-        [HttpGet]
-        public async Task<IActionResult> MentorDashboard()
-        {
-            var user = await _userManager.GetUserAsync(User);
-            if (user == null)
-                return RedirectToAction("Login", "Account");
-
-            var viewModel = new MentorDashboardViewModel
-            {
-                UserName = user.FullName,
-                UserRole = "Mentor",
-                UserAvatar = user.FullName?.Substring(0, 1).ToUpper() ?? "U",
-                LastLogin = user.LastLoginAt ?? DateTime.Now,
-
-                TotalStudents = 24,
-                ActiveStudents = 18,
-                TotalProjectsReviewed = 45,
-                TotalSessions = 12,
-                AverageRating = 4.8,
-
-                StudentsProgress = new List<StudentProgress>
-                {
-                    new StudentProgress { Name = "Sara Mahmoud", Track = "Frontend", Progress = 85, Status = "Active" },
-                    new StudentProgress { Name = "Youssef Adel", Track = "Backend", Progress = 65, Status = "Active" },
-                    new StudentProgress { Name = "Rana Tarek", Track = "AI & ML", Progress = 90, Status = "Active" }
-                },
-
-                PendingReviews = new List<PendingReview>
-                {
-                    new PendingReview { ProjectId = 1, ProjectTitle = "Admin Dashboard", StudentName = "Sara Mahmoud", SubmittedAt = DateTime.Now.AddDays(-1) },
-                    new PendingReview { ProjectId = 2, ProjectTitle = "Peer Lending Platform", StudentName = "Youssef Adel", SubmittedAt = DateTime.Now.AddHours(-3) }
-                },
-
-                UpcomingSessions = new List<UpcomingSession>
-                {
-                    new UpcomingSession { StudentName = "Sara Mahmoud", ScheduledAt = DateTime.Now.AddDays(1), Topic = "React Architecture Review" },
-                    new UpcomingSession { StudentName = "Rana Tarek", ScheduledAt = DateTime.Now.AddDays(2), Topic = "ML Model Optimization" }
-                }
-            };
-
-            return View("MentorDashboard", viewModel);
-        }
-
-        [HttpGet]
+        // GET: Company Dashboard
         public async Task<IActionResult> CompanyDashboard()
         {
             var user = await _userManager.GetUserAsync(User);

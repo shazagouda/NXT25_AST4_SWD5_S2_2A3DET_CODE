@@ -129,6 +129,7 @@ using (var scope = app.Services.CreateScope())
     {
         var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
         var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
+        var context = services.GetRequiredService<ApplicationDbContext>(); // ✅ استخرجنا الـ DbContext
 
         // Create roles
         string[] roleNames = { "Student", "Mentor", "Company", "Admin" };
@@ -174,7 +175,7 @@ using (var scope = app.Services.CreateScope())
             }
         }
 
-        // Create test mentor
+        // Create test mentor user if not exists
         var mentorEmail = "mentor@a3det.com";
         var mentorUser = await userManager.FindByEmailAsync(mentorEmail);
         if (mentorUser == null)
@@ -197,6 +198,33 @@ using (var scope = app.Services.CreateScope())
             {
                 await userManager.AddToRoleAsync(user, "Mentor");
                 Console.WriteLine($"✅ User '{mentorEmail}' created!");
+                mentorUser = user; // تعيين المتغير للمستخدم الذي تم إنشاؤه
+            }
+        }
+
+        // ✅ الآن نستخدم `context` لإنشاء مينتور مرتبط بالمستخدم
+        if (mentorUser != null)
+        {
+            var existingMentor = await context.Mentors.FirstOrDefaultAsync(m => m.UserId == mentorUser.Id);
+            if (existingMentor == null)
+            {
+                var mentor = new Mentor
+                {
+                    UserId = mentorUser.Id,
+                    FullName = "Test Mentor",
+                    Initials = "TM",
+                    Expertise = "Full-Stack Development",
+                    Rating = 4.8,
+                    IsVerified = true,
+                    Bio = "Experienced full-stack developer with 8 years of industry experience.",
+                    LinkedInUrl = "https://linkedin.com/in/testmentor",
+                    GitHubUrl = "https://github.com/testmentor",
+                    YearsOfExperience = 8,
+                    TotalSessions = 45
+                };
+                await context.Mentors.AddAsync(mentor);
+                await context.SaveChangesAsync();
+                Console.WriteLine($"✅ Mentor profile created for {mentorEmail}");
             }
         }
 

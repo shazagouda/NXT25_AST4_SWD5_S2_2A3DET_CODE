@@ -1,0 +1,91 @@
+﻿@model A3DET_CODE.ViewModels.Mentor.MentorEditViewModel
+@{
+    ViewData["Title"] = "Edit Mentor Profile";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/profile.css" asp-append-version="true" />
+}
+
+<div class="profile-container">
+    <div class="profile-header">
+        <h1>Edit Mentor Profile</h1>
+        <p class="auth-subtitle">Update your professional information</p>
+    </div>
+
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success">✅ @TempData["Success"]</div>
+    }
+
+    <form asp-action="EditProfile" method="post" class="profile-form">
+        @Html.AntiForgeryToken()
+
+        @if (!ViewData.ModelState.IsValid)
+        {
+            <div class="alert alert-danger">
+                @Html.ValidationSummary(false)
+            </div>
+        }
+
+        <div class="form-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:var(--space-4);">
+            <div class="form-field">
+                <label asp-for="FullName">Full Name</label>
+                <input asp-for="FullName" class="form-control" />
+                <span asp-validation-for="FullName" class="text-danger"></span>
+            </div>
+
+            <div class="form-field">
+                <label asp-for="Email">Email</label>
+                <input asp-for="Email" class="form-control" readonly disabled />
+                <span class="form-hint">Email cannot be changed</span>
+            </div>
+
+            <div class="form-field">
+                <label asp-for="Expertise">Expertise</label>
+                <input asp-for="Expertise" class="form-control" />
+                <span asp-validation-for="Expertise" class="text-danger"></span>
+            </div>
+
+            <div class="form-field">
+                <label asp-for="YearsOfExperience">Years of Experience</label>
+                <input asp-for="YearsOfExperience" type="number" class="form-control" min="0" max="50" />
+                <span asp-validation-for="YearsOfExperience" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="form-field">
+            <label asp-for="Bio">Bio</label>
+            <textarea asp-for="Bio" class="form-control" rows="4"></textarea>
+        </div>
+
+        <div class="form-field">
+            <label asp-for="Skills">Skills (comma separated)</label>
+            <input asp-for="Skills" class="form-control" placeholder="e.g., C#, React, Python, SQL" />
+        </div>
+
+        <div class="form-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:var(--space-4);">
+            <div class="form-field">
+                <label asp-for="LinkedInUrl">LinkedIn URL</label>
+                <input asp-for="LinkedInUrl" class="form-control" placeholder="https://linkedin.com/in/..." />
+            </div>
+
+            <div class="form-field">
+                <label asp-for="GitHubUrl">GitHub URL</label>
+                <input asp-for="GitHubUrl" class="form-control" placeholder="https://github.com/..." />
+            </div>
+        </div>
+
+        @if (Model.IsVerified)
+        {
+            <div class="alert alert-info">
+                <i class="fa-solid fa-check-circle"></i> Your account is verified. You can't change this status.
+            </div>
+        }
+
+        <div class="form-actions" style="display:flex;gap:var(--space-3);margin-top:var(--space-4);">
+            <button type="submit" class="btn btn-primary"><i class="fa-solid fa-save"></i> Save Changes</button>
+            <a asp-action="Dashboard" class="btn btn-secondary">Cancel</a>
+        </div>
+    </form>
+</div>
