@@ -25,6 +25,9 @@ namespace A3DET_CODE.Data
         public DbSet<UserBadge> UserBadges { get; set; }
         public DbSet<AssessmentQuestion> AssessmentQuestions { get; set; }
         public DbSet<AssessmentResult> AssessmentResults { get; set; }
+        public DbSet<Task> Tasks { get; set; }
+        public DbSet<Submission> Submissions { get; set; }
+        public DbSet<EntryAssessment> EntryAssessments { get; set; }
 
         // ✅ Mentor System - DbSets الجديدة
         public DbSet<MentorSession> MentorSessions { get; set; }
@@ -123,6 +126,47 @@ namespace A3DET_CODE.Data
                 .HasOne(aq => aq.Track)
                 .WithMany(t => t.AssessmentQuestions)
                 .HasForeignKey(aq => aq.TrackId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Project>()
+               .HasOne(p => p.Client)
+               .WithMany()
+               .HasForeignKey(p => p.ClientId)
+               .OnDelete(DeleteBehavior.Restrict);
+
+            // Task -> Project
+            modelBuilder.Entity<Task>()
+                .HasOne(t => t.Project)
+                .WithMany(p => p.Tasks)
+                .HasForeignKey(t => t.ProjectId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            // Task -> Assigned User
+            modelBuilder.Entity<Task>()
+                .HasOne(t => t.AssignedTo)
+                .WithMany()
+                .HasForeignKey(t => t.AssignedToId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // Submission -> Project
+            modelBuilder.Entity<Submission>()
+                .HasOne(s => s.Project)
+                .WithMany(p => p.Submissions)
+                .HasForeignKey(s => s.ProjectId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            // Submission -> User
+            modelBuilder.Entity<Submission>()
+                .HasOne(s => s.User)
+                .WithMany()
+                .HasForeignKey(s => s.UserId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // EntryAssessment -> User
+            modelBuilder.Entity<EntryAssessment>()
+                .HasOne(ea => ea.User)
+                .WithMany()
+                .HasForeignKey(ea => ea.UserId)
                 .OnDelete(DeleteBehavior.Cascade);
 
 

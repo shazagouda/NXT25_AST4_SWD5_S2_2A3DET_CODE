@@ -1,0 +1,291 @@
+﻿@model A3DET_CODE.ViewModels.Team.CreateTeamViewModel
+@{
+    ViewData["Title"] = "Create Team";
+}
+
+<div class="create-team-page">
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-7">
+                <div class="create-team-card">
+                    <div class="create-team-header">
+                        <div class="create-team-icon">
+                            <i class="fa-solid fa-users-plus"></i>
+                        </div>
+                        <div>
+                            <h1 class="create-team-title">Create a Team</h1>
+                            <p class="create-team-subtitle">Build your dream team and start shipping projects</p>
+                        </div>
+                    </div>
+
+                    @if (TempData["Error"] != null)
+                    {
+                        <div class="alert alert-danger alert-dismissible fade show">
+                            <i class="fa-solid fa-exclamation-circle me-2"></i>@TempData["Error"]
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                        </div>
+                    }
+
+                    <form asp-action="Create" method="post" class="create-team-form">
+                        @Html.AntiForgeryToken()
+
+                        @if (!ViewData.ModelState.IsValid)
+                        {
+                            <div class="alert alert-danger">
+                                <strong>Please fix the following errors:</strong>
+                                <ul class="mb-0 mt-2">
+                                    @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+                                    {
+                                        <li>@error.ErrorMessage</li>
+                                    }
+                                </ul>
+                            </div>
+                        }
+
+                        <div class="form-group">
+                            <label asp-for="Name" class="form-label">
+                                Team Name <span class="text-danger">*</span>
+                            </label>
+                            <div class="input-wrapper">
+                                <i class="fa-solid fa-tag input-icon"></i>
+                                <input asp-for="Name" class="form-control" placeholder="Enter a unique team name" />
+                            </div>
+                            <span asp-validation-for="Name" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label asp-for="Description" class="form-label">Description</label>
+                            <div class="input-wrapper">
+                                <i class="fa-solid fa-align-left input-icon"></i>
+                                <textarea asp-for="Description" class="form-control" rows="3" placeholder="What's your team about?"></textarea>
+                            </div>
+                            <span asp-validation-for="Description" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label asp-for="TrackId" class="form-label">
+                                Track <span class="text-danger">*</span>
+                            </label>
+                            <div class="input-wrapper">
+                                <i class="fa-solid fa-route input-icon"></i>
+                                <select asp-for="TrackId" class="form-control">
+                                    <option value="">— Select a Track —</option>
+                                    @if (Model.Tracks != null && Model.Tracks.Any())
+                                    {
+                                        foreach (var track in Model.Tracks)
+                                        {
+                                            <option value="@track.Id">@track.Name</option>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <option value="" disabled>No tracks available</option>
+                                    }
+                                </select>
+                            </div>
+                            <span asp-validation-for="TrackId" class="text-danger"></span>
+                            <small class="form-hint">Choose the technical track that matches your team's focus</small>
+                        </div>
+
+                        <div class="form-group">
+                            <label asp-for="MaxMembers" class="form-label">
+                                Maximum Members <span class="text-danger">*</span>
+                            </label>
+                            <div class="input-wrapper">
+                                <i class="fa-solid fa-users input-icon"></i>
+                                <input asp-for="MaxMembers" type="number" class="form-control" min="2" max="10" />
+                            </div>
+                            <span asp-validation-for="MaxMembers" class="text-danger"></span>
+                            <small class="form-hint">Choose between 2 and 10 members</small>
+                        </div>
+
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-primary btn-lg">
+                                <i class="fa-solid fa-plus me-2"></i>Create Team
+                            </button>
+                            <a asp-action="Index" class="btn btn-outline-secondary btn-lg">
+                                <i class="fa-solid fa-arrow-left me-2"></i>Cancel
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    <style>
+        .create-team-page {
+            background: var(--color-bg, #F6F7FB);
+            min-height: 100vh;
+        }
+
+        .create-team-card {
+            background: var(--color-surface, #FFFFFF);
+            border-radius: var(--radius-lg, 20px);
+            border: 1px solid var(--color-border, #E4E7EF);
+            padding: var(--space-8, 3rem);
+            box-shadow: var(--shadow-sm, 0 2px 8px rgba(10, 22, 40, 0.06));
+        }
+
+        .create-team-header {
+            display: flex;
+            align-items: center;
+            gap: var(--space-5, 1.5rem);
+            margin-bottom: var(--space-6, 2rem);
+            padding-bottom: var(--space-6, 2rem);
+            border-bottom: 1px solid var(--color-border, #E4E7EF);
+        }
+
+        .create-team-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: var(--radius-md, 14px);
+            background: var(--color-blue-100, #E8EFFE);
+            color: var(--color-blue-600, #2F6FED);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            flex-shrink: 0;
+        }
+
+        .create-team-title {
+            font-family: var(--font-display, 'Sora', sans-serif);
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--color-text-900, #0A1628);
+            margin: 0;
+        }
+
+        .create-team-subtitle {
+            color: var(--color-text-600, #5B6478);
+            margin: var(--space-1, 0.25rem) 0 0;
+        }
+
+        .create-team-form {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-5, 1.5rem);
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-2, 0.5rem);
+        }
+
+        .form-label {
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: var(--color-text-900, #0A1628);
+        }
+
+        .input-wrapper {
+            position: relative;
+        }
+
+        .input-icon {
+            position: absolute;
+            left: var(--space-4, 1rem);
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--color-text-400, #94A0B8);
+            font-size: 0.9rem;
+        }
+
+        .input-wrapper textarea + .input-icon {
+            top: var(--space-4, 1rem);
+            transform: none;
+        }
+
+        .input-wrapper .form-control {
+            padding-left: var(--space-8, 3rem);
+            border: 1.5px solid var(--color-border, #E4E7EF);
+            border-radius: var(--radius-sm, 8px);
+            padding: var(--space-3, 0.75rem) var(--space-4, 1rem) var(--space-3, 0.75rem) var(--space-8, 3rem);
+            font-size: 1rem;
+            transition: all 0.2s;
+            background: var(--color-surface, #FFFFFF);
+        }
+
+        .input-wrapper .form-control:focus {
+            border-color: var(--color-blue-600, #2F6FED);
+            box-shadow: 0 0 0 3px rgba(47, 111, 237, 0.1);
+            outline: none;
+        }
+
+        .input-wrapper select.form-control {
+            appearance: none;
+            cursor: pointer;
+        }
+
+        .input-wrapper select.form-control + .input-icon {
+            pointer-events: none;
+        }
+
+        textarea.form-control {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .form-hint {
+            font-size: 0.8rem;
+            color: var(--color-text-400, #94A0B8);
+        }
+
+        .form-actions {
+            display: flex;
+            gap: var(--space-4, 1rem);
+            padding-top: var(--space-5, 1.5rem);
+            border-top: 1px solid var(--color-border, #E4E7EF);
+            margin-top: var(--space-2, 0.5rem);
+        }
+
+        .form-actions .btn {
+            padding: var(--space-3, 0.75rem) var(--space-6, 2rem);
+            border-radius: var(--radius-pill, 999px);
+            font-weight: 600;
+            font-size: 1rem;
+            min-width: 150px;
+            justify-content: center;
+        }
+
+        .form-actions .btn-primary {
+            background: var(--color-blue-600, #2F6FED);
+            border: none;
+            color: #fff;
+        }
+
+        .form-actions .btn-primary:hover {
+            background: #265fd1;
+        }
+
+        .form-actions .btn-outline-secondary {
+            border: 1.5px solid var(--color-border, #E4E7EF);
+            color: var(--color-text-600, #5B6478);
+        }
+
+        .form-actions .btn-outline-secondary:hover {
+            border-color: var(--color-blue-600, #2F6FED);
+            color: var(--color-blue-600, #2F6FED);
+        }
+
+        @@media (max-width: 640px) {
+            .create-team-card {
+                padding: var(--space-5, 1.5rem);
+            }
+            .create-team-header {
+                flex-direction: column;
+                text-align: center;
+            }
+            .form-actions {
+                flex-direction: column;
+            }
+            .form-actions .btn {
+                width: 100%;
+            }
+        }
+    </style>
+}

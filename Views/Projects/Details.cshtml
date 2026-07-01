@@ -3,178 +3,568 @@
     ViewData["Title"] = Model.Title;
 }
 
-<div class="container py-4">
-    <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a asp-action="Index">Projects</a></li>
-            <li class="breadcrumb-item active" aria-current="page">@Model.Title</li>
-        </ol>
-    </nav>
+<div class="project-details-page">
+    <div class="container py-4">
+        <!-- Breadcrumb -->
+        <nav aria-label="breadcrumb" class="mb-4">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a asp-action="Index">Projects</a></li>
+                <li class="breadcrumb-item active">@Model.Title</li>
+            </ol>
+        </nav>
 
-    @if (TempData["Success"] != null)
-    {
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-            @TempData["Success"]
-            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-        </div>
-    }
-
-    @if (TempData["Error"] != null)
-    {
-        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-            @TempData["Error"]
-            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-        </div>
-    }
-
-    <div class="row">
-        <div class="col-md-8">
-            <div class="card shadow-sm mb-4">
-                <div class="card-body">
-                    <div class="d-flex justify-content-between align-items-start mb-3">
-                        <h2>@Model.Title</h2>
-                        <span class="badge @(Model.Status == "Open" ? "bg-success" : Model.Status == "InProgress" ? "bg-warning" : "bg-primary")" style="font-size: 1rem; padding: 0.5rem 1rem;">
-                            @Model.Status
-                        </span>
-                    </div>
-                    <p class="text-muted">@Model.Description</p>
-                    <div class="row mt-3">
-                        <div class="col-md-6">
-                            <small class="text-muted">Track:</small>
-                            <span class="badge bg-light text-dark">@Model.TrackName</span>
-                        </div>
-                        <div class="col-md-6">
-                            <small class="text-muted">Type:</small>
-                            <span class="badge bg-secondary">@Model.Type</span>
-                        </div>
-                    </div>
-                    <div class="mt-3">
-                        <small class="text-muted">Tech Stack:</small>
-                        <div class="mt-1">
-                            @foreach (var tech in Model.TechStack.Split(',').Select(s => s.Trim()))
-                            {
-                                <span class="badge bg-light text-dark me-1">@tech</span>
-                            }
-                        </div>
-                    </div>
-                    @if (!string.IsNullOrEmpty(Model.RepositoryUrl))
-                    {
-                        <div class="mt-2">
-                            <a href="@Model.RepositoryUrl" target="_blank" class="btn btn-outline-secondary btn-sm">
-                                <i class="bi bi-github"></i> Repository
-                            </a>
-                        </div>
-                    }
-                </div>
+        <!-- Alerts -->
+        @if (TempData["Success"] != null)
+        {
+            <div class="alert alert-success alert-dismissible fade show">
+                <i class="fa-solid fa-check-circle me-2"></i>@TempData["Success"]
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
             </div>
+        }
 
-            @if (Model.IsAssigned)
-            {
-                <div class="card shadow-sm mb-4">
-                    <div class="card-header">
-                        <h5 class="mb-0">Progress</h5>
-                    </div>
-                    <div class="card-body">
-                        <div class="d-flex justify-content-between mb-1">
-                            <span>Completion</span>
-                            <span>@Model.Progress%</span>
-                        </div>
-                        <div class="progress" style="height: 20px;">
-                            <div class="progress-bar progress-bar-striped progress-bar-animated"
-                                 role="progressbar" style="width: @Model.Progress%;"
-                                 aria-valuenow="@Model.Progress" aria-valuemin="0" aria-valuemax="100">
-                                @Model.Progress%
-                            </div>
-                        </div>
-                        <div class="row mt-3 text-center">
-                            <div class="col-3">
-                                <h5>@Model.TotalTasks</h5>
-                                <small class="text-muted">Total Tasks</small>
-                            </div>
-                            <div class="col-3">
-                                <h5 class="text-success">@Model.CompletedTasks</h5>
-                                <small class="text-muted">Completed</small>
-                            </div>
-                            <div class="col-3">
-                                <h5 class="text-warning">@Model.PendingTasks</h5>
-                                <small class="text-muted">Pending</small>
-                            </div>
-                            <div class="col-3">
-                                <h5>@Model.TotalSubmissions</h5>
-                                <small class="text-muted">Submissions</small>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card shadow-sm">
-                    <div class="card-header">
-                        <h5 class="mb-0">Quick Actions</h5>
-                    </div>
-                    <div class="card-body">
-                        <div class="d-flex gap-2 flex-wrap">
-                            <a asp-controller="Tasks" asp-action="ProjectTasks" asp-route-projectId="@Model.Id" class="btn btn-outline-primary btn-sm">
-                                <i class="bi bi-list-task"></i> View Tasks
-                            </a>
-                            <a asp-controller="Tasks" asp-action="Create" asp-route-projectId="@Model.Id" class="btn btn-outline-success btn-sm">
-                                <i class="bi bi-plus-circle"></i> Add Task
-                            </a>
-                            <a asp-controller="Submissions" asp-action="ProjectSubmissions" asp-route-projectId="@Model.Id" class="btn btn-outline-info btn-sm">
-                                <i class="bi bi-file-earmark-text"></i> View Submissions
-                            </a>
-                            <a asp-controller="Submissions" asp-action="Create" asp-route-projectId="@Model.Id" class="btn btn-outline-warning btn-sm">
-                                <i class="bi bi-upload"></i> Submit Project
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            }
-        </div>
-
-        <div class="col-md-4">
-            <div class="card shadow-sm mb-4">
-                <div class="card-header">
-                    <h5 class="mb-0">Team</h5>
-                </div>
-                <div class="card-body">
-                    @if (Model.IsAssigned)
-                    {
-                        <h6>@Model.TeamName</h6>
-                        <small class="text-muted">Team ID: @Model.TeamId</small>
-                    }
-                    else
-                    {
-                        <p class="text-muted">No team assigned yet.</p>
-                    }
-                </div>
+        @if (TempData["Error"] != null)
+        {
+            <div class="alert alert-danger alert-dismissible fade show">
+                <i class="fa-solid fa-exclamation-circle me-2"></i>@TempData["Error"]
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
             </div>
+        }
 
-            <div class="card shadow-sm">
-                <div class="card-header">
-                    <h5 class="mb-0">Details</h5>
-                </div>
-                <div class="card-body">
-                    <dl class="row mb-0">
-                        <dt class="col-6">Created</dt>
-                        <dd class="col-6">@Model.CreatedAt.ToString("MMM dd, yyyy")</dd>
+        <div class="row g-4">
+            <!-- Main Content -->
+            <div class="col-lg-8">
+                <!-- Project Info -->
+                <div class="project-detail-card">
+                    <div class="project-detail-header">
+                        <div>
+                            <div class="project-detail-badges">
+                                <span class="badge-type">@Model.Type</span>
+                                <span class="status-badge @(Model.Status == "Open" ? "status-open" : Model.Status == "InProgress" ? "status-progress" : "status-completed")">
+                                    @Model.Status
+                                </span>
+                                <span class="badge-track" style="background-color: @(Model.TrackName == "Frontend Development" ? "#2F6FED" : Model.TrackName == "Backend Development" ? "#22C55E" : "#A78BFA")">
+                                    @Model.TrackName
+                                </span>
+                            </div>
+                            <h1 class="project-detail-title">@Model.Title</h1>
+                            <p class="project-detail-desc">@Model.Description</p>
+                        </div>
+                    </div>
+
+                    <!-- Meta Info -->
+                    <div class="project-detail-meta">
+                        <div class="meta-item">
+                            <span class="meta-label">Created</span>
+                            <span class="meta-value">@Model.CreatedAt.ToString("MMM dd, yyyy")</span>
+                        </div>
                         @if (Model.StartedAt.HasValue)
                         {
-                            <dt class="col-6">Started</dt>
-                            <dd class="col-6">@Model.StartedAt.Value.ToString("MMM dd, yyyy")</dd>
+                            <div class="meta-item">
+                                <span class="meta-label">Started</span>
+                                <span class="meta-value">@Model.StartedAt.Value.ToString("MMM dd, yyyy")</span>
+                            </div>
                         }
                         @if (Model.CompletedAt.HasValue)
                         {
-                            <dt class="col-6">Completed</dt>
-                            <dd class="col-6">@Model.CompletedAt.Value.ToString("MMM dd, yyyy")</dd>
+                            <div class="meta-item">
+                                <span class="meta-label">Completed</span>
+                                <span class="meta-value">@Model.CompletedAt.Value.ToString("MMM dd, yyyy")</span>
+                            </div>
                         }
                         @if (Model.Deadline.HasValue)
                         {
-                            <dt class="col-6">Deadline</dt>
-                            <dd class="col-6">@Model.Deadline.Value.ToString("MMM dd, yyyy")</dd>
+                            <div class="meta-item">
+                                <span class="meta-label">Deadline</span>
+                                <span class="meta-value @(Model.Deadline.Value < DateTime.Now && Model.Status != "Completed" ? "text-danger" : "")">
+                                    @Model.Deadline.Value.ToString("MMM dd, yyyy")
+                                    @if (Model.Deadline.Value < DateTime.Now && Model.Status != "Completed")
+                                    {
+                                        <span class="badge bg-danger ms-2">Overdue</span>
+                                    }
+                                </span>
+                            </div>
                         }
-                    </dl>
+                        <div class="meta-item">
+                            <span class="meta-label">Tech Stack</span>
+                            <span class="meta-value">
+                                @foreach (var tech in Model.TechStack.Split(',').Select(s => s.Trim()))
+                                {
+                                    <span class="tech-badge-sm">@tech</span>
+                                }
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- Links -->
+                    @if (!string.IsNullOrEmpty(Model.RepositoryUrl) || !string.IsNullOrEmpty(Model.DemoUrl))
+                    {
+                        <div class="project-detail-links">
+                            @if (!string.IsNullOrEmpty(Model.RepositoryUrl))
+                            {
+                                <a href="@Model.RepositoryUrl" target="_blank" class="btn btn-outline-secondary btn-sm">
+                                    <i class="fa-brands fa-github me-2"></i>Repository
+                                </a>
+                            }
+                            @if (!string.IsNullOrEmpty(Model.DemoUrl))
+                            {
+                                <a href="@Model.DemoUrl" target="_blank" class="btn btn-outline-secondary btn-sm">
+                                    <i class="fa-solid fa-link me-2"></i>Live Demo
+                                </a>
+                            }
+                        </div>
+                    }
+                </div>
+
+                <!-- Progress Section -->
+                @if (Model.IsAssigned)
+                {
+                    <div class="progress-card">
+                        <div class="progress-card-header">
+                            <h5 class="mb-0">
+                                <i class="fa-solid fa-chart-line me-2"></i>Progress
+                            </h5>
+                            <span class="progress-percentage">@Model.Progress%</span>
+                        </div>
+                        <div class="progress-card-body">
+                            <div class="progress" style="height: 8px;">
+                                <div class="progress-bar" role="progressbar"
+                                     style="width: @Model.Progress%; background: linear-gradient(90deg, #2F6FED, #15C6AE);"
+                                     aria-valuenow="@Model.Progress" aria-valuemin="0" aria-valuemax="100">
+                                </div>
+                            </div>
+                            <div class="progress-stats">
+                                <div class="stat-item">
+                                    <span class="stat-label">Tasks</span>
+                                    <span class="stat-value">@Model.TotalTasks</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-label">Completed</span>
+                                    <span class="stat-value text-success">@Model.CompletedTasks</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-label">Pending</span>
+                                    <span class="stat-value text-warning">@Model.PendingTasks</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-label">Submissions</span>
+                                    <span class="stat-value">@Model.TotalSubmissions</span>
+                                </div>
+                                @if (Model.AverageScore > 0)
+                                {
+                                    <div class="stat-item">
+                                        <span class="stat-label">Avg Score</span>
+                                        <span class="stat-value text-info">@Model.AverageScore%</span>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                }
+
+                <!-- Quick Actions -->
+                <div class="actions-card">
+                    <div class="actions-card-header">
+                        <h5 class="mb-0"><i class="fa-solid fa-bolt me-2"></i>Quick Actions</h5>
+                    </div>
+                    <div class="actions-card-body">
+                        <div class="d-flex gap-2 flex-wrap">
+                            <a asp-controller="Tasks" asp-action="ProjectTasks" asp-route-projectId="@Model.Id" class="btn btn-outline-primary btn-sm">
+                                <i class="fa-solid fa-list-check me-2"></i>View Tasks
+                            </a>
+                            <a asp-controller="Tasks" asp-action="Create" asp-route-projectId="@Model.Id" class="btn btn-outline-success btn-sm">
+                                <i class="fa-solid fa-plus me-2"></i>Add Task
+                            </a>
+                            <a asp-controller="Submissions" asp-action="ProjectSubmissions" asp-route-projectId="@Model.Id" class="btn btn-outline-info btn-sm">
+                                <i class="fa-solid fa-file-lines me-2"></i>View Submissions
+                            </a>
+                            <a asp-controller="Submissions" asp-action="Create" asp-route-projectId="@Model.Id" class="btn btn-outline-warning btn-sm">
+                                <i class="fa-solid fa-upload me-2"></i>Submit Project
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sidebar -->
+            <div class="col-lg-4">
+                <!-- Team Info -->
+                <div class="sidebar-card">
+                    <div class="sidebar-card-header">
+                        <h5 class="mb-0"><i class="fa-solid fa-users me-2"></i>Team</h5>
+                    </div>
+                    <div class="sidebar-card-body">
+                        @if (Model.IsAssigned)
+                        {
+                            <div class="team-info">
+                                <div class="team-name">
+                                    <i class="fa-solid fa-users me-2"></i>
+                                    <span class="fw-bold">@Model.TeamName</span>
+                                </div>
+                                <div class="team-id text-muted small">
+                                    Team ID: @Model.TeamId
+                                </div>
+                                <a asp-controller="Teams" asp-action="Details" asp-route-id="@Model.TeamId" class="btn btn-outline-primary btn-sm w-100 mt-3">
+                                    View Team
+                                </a>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="text-center py-3">
+                                <div class="empty-team">
+                                    <i class="fa-solid fa-user-plus empty-icon-small"></i>
+                                    <p class="text-muted mb-0">No team assigned yet</p>
+                                    <small class="text-muted">This project is available for teams</small>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+
+                <!-- Quick Stats -->
+                <div class="sidebar-card">
+                    <div class="sidebar-card-header">
+                        <h5 class="mb-0"><i class="fa-solid fa-chart-simple me-2"></i>Stats</h5>
+                    </div>
+                    <div class="sidebar-card-body">
+                        <div class="stat-item">
+                            <span class="stat-label">Status</span>
+                            <span class="stat-value">
+                                <span class="status-badge-sm @(Model.Status == "Open" ? "status-open" : Model.Status == "InProgress" ? "status-progress" : "status-completed")">
+                                    @Model.Status
+                                </span>
+                            </span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Type</span>
+                            <span class="stat-value">@Model.Type</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Track</span>
+                            <span class="stat-value">@Model.TrackName</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Progress</span>
+                            <span class="stat-value">@Model.Progress%</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+@section Styles {
+    <style>
+        .project-details-page {
+            background: var(--color-bg, #F6F7FB);
+            min-height: 100vh;
+            padding-bottom: 2rem;
+        }
+
+        .project-detail-card,
+        .progress-card,
+        .actions-card,
+        .sidebar-card {
+            background: var(--color-surface, #FFFFFF);
+            border-radius: 20px;
+            border: 1px solid var(--color-border, #E4E7EF);
+            overflow: hidden;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 2px 8px rgba(10, 22, 40, 0.06);
+        }
+
+        .project-detail-card {
+            padding: 2rem;
+        }
+
+        .project-detail-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .project-detail-badges {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin-bottom: 0.75rem;
+        }
+
+        .badge-type {
+            padding: 0.25rem 0.75rem;
+            border-radius: 999px;
+            background: var(--color-bg, #F6F7FB);
+            color: var(--color-text-600, #5B6478);
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .badge-track {
+            padding: 0.25rem 0.75rem;
+            border-radius: 999px;
+            color: #fff;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .status-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 999px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .project-detail-title {
+            font-family: var(--font-display, 'Sora', sans-serif);
+            font-size: 1.75rem;
+            font-weight: 800;
+            color: var(--color-text-900, #0A1628);
+            margin: 0 0 0.5rem;
+        }
+
+        .project-detail-desc {
+            color: var(--color-text-600, #5B6478);
+            font-size: 1rem;
+            line-height: 1.7;
+            margin: 0;
+            max-width: 650px;
+        }
+
+        .project-detail-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem 2.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--color-border, #E4E7EF);
+        }
+
+        .meta-item {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+
+        .meta-label {
+            font-size: 0.75rem;
+            color: var(--color-text-400, #94A0B8);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-weight: 600;
+        }
+
+        .meta-value {
+            font-weight: 500;
+            color: var(--color-text-900, #0A1628);
+        }
+
+        .tech-badge-sm {
+            padding: 0.15rem 0.5rem;
+            background: var(--color-bg, #F6F7FB);
+            border: 1px solid var(--color-border, #E4E7EF);
+            border-radius: 4px;
+            font-size: 0.7rem;
+            color: var(--color-text-600, #5B6478);
+            display: inline-block;
+            margin-right: 0.25rem;
+        }
+
+        .project-detail-links {
+            display: flex;
+            gap: 0.75rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--color-border, #E4E7EF);
+            margin-top: 1.5rem;
+        }
+
+        .progress-card-header {
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid var(--color-border, #E4E7EF);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--color-bg, #F6F7FB);
+        }
+
+        .progress-percentage {
+            font-family: var(--font-mono, 'JetBrains Mono', monospace);
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--color-blue-600, #2F6FED);
+        }
+
+        .progress-card-body {
+            padding: 1.5rem;
+        }
+
+        .progress-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--color-border, #E4E7EF);
+        }
+
+            .progress-stats .stat-item {
+                text-align: center;
+            }
+
+            .progress-stats .stat-label {
+                display: block;
+                font-size: 0.7rem;
+                color: var(--color-text-400, #94A0B8);
+                text-transform: uppercase;
+                letter-spacing: 0.04em;
+            }
+
+            .progress-stats .stat-value {
+                display: block;
+                font-size: 1.25rem;
+                font-weight: 700;
+                margin-top: 0.25rem;
+            }
+
+        .actions-card-header {
+            padding: 0.75rem 1.5rem;
+            border-bottom: 1px solid var(--color-border, #E4E7EF);
+            background: var(--color-bg, #F6F7FB);
+        }
+
+        .actions-card-body {
+            padding: 1.25rem 1.5rem;
+        }
+
+            .actions-card-body .btn {
+                border-radius: 999px;
+                padding: 0.4rem 1rem;
+                font-weight: 600;
+                font-size: 0.85rem;
+            }
+
+        .sidebar-card-header {
+            padding: 0.75rem 1.5rem;
+            border-bottom: 1px solid var(--color-border, #E4E7EF);
+            background: var(--color-bg, #F6F7FB);
+        }
+
+        .sidebar-card-body {
+            padding: 1.25rem 1.5rem;
+        }
+
+            .sidebar-card-body .stat-item {
+                display: flex;
+                justify-content: space-between;
+                padding: 0.5rem 0;
+                border-bottom: 1px solid var(--color-border, #E4E7EF);
+            }
+
+                .sidebar-card-body .stat-item:last-child {
+                    border-bottom: none;
+                }
+
+            .sidebar-card-body .stat-label {
+                color: var(--color-text-400, #94A0B8);
+                font-size: 0.85rem;
+            }
+
+            .sidebar-card-body .stat-value {
+                font-weight: 600;
+                color: var(--color-text-900, #0A1628);
+                font-size: 0.9rem;
+            }
+
+        .status-badge-sm {
+            padding: 0.15rem 0.5rem;
+            border-radius: 999px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .team-info {
+            text-align: center;
+        }
+
+        .team-name {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--color-text-900, #0A1628);
+        }
+
+        .empty-team {
+            padding: 0.5rem 0;
+        }
+
+            .empty-team .empty-icon-small {
+                font-size: 2.5rem;
+                color: var(--color-text-400, #94A0B8);
+                margin-bottom: 0.5rem;
+                display: block;
+            }
+
+        .text-danger {
+            color: var(--color-danger, #E14F4F) !important;
+        }
+
+        .text-success {
+            color: var(--color-teal-600, #15C6AE) !important;
+        }
+
+        .text-warning {
+            color: var(--color-amber-500, #F2A33C) !important;
+        }
+
+        .text-info {
+            color: var(--color-blue-600, #2F6FED) !important;
+        }
+
+        @@media (max-width: 768px) {
+            .project-detail-card {
+                padding: 1.25rem;
+            }
+
+            .project-detail-title {
+                font-size: 1.4rem;
+            }
+
+            .project-detail-meta {
+                gap: 1rem;
+            }
+
+            .progress-stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .actions-card-body .d-flex {
+                flex-direction: column;
+            }
+
+            .actions-card-body .btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+
+        @@media (max-width: 480px) {
+            .project-detail-meta {
+                flex-direction: column;
+                gap: 0.75rem;
+            }
+
+            .project-detail-links {
+                flex-direction: column;
+            }
+
+                .project-detail-links .btn {
+                    width: 100%;
+                    justify-content: center;
+                }
+        }
+    </style>
+}

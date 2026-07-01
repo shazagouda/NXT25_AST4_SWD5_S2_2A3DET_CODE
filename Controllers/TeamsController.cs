@@ -5,6 +5,9 @@ using A3DET_CODE.Models;
 using A3DET_CODE.Repositories.Interfaces;
 using A3DET_CODE.ViewModels.Team;
 using A3DET_CODE.Repositories.Implementations;
+using A3DET_CODE.ViewModels.Track;
+using Microsoft.EntityFrameworkCore;
+using A3DET_CODE.Data;
 
 namespace A3DET_CODE.Controllers
 {
@@ -16,14 +19,17 @@ namespace A3DET_CODE.Controllers
         private readonly IProjectRepository _projectRepository;
 		private readonly UserManager<ApplicationUser> _userManager;
 		private readonly ILogger<TeamsController> _logger;
+		private readonly ApplicationDbContext _context;
 
 		public TeamsController(
 			ITeamRepository teamRepository,
             ITeamMemberRepository teamMemberRepository,
             IProjectRepository projectRepository,
 			UserManager<ApplicationUser> userManager,
+			ApplicationDbContext context,
 			ILogger<TeamsController> logger)
         {
+			_context = context;
 			_teamRepository = teamRepository;
             _teamMemberRepository = teamMemberRepository;
             _projectRepository = projectRepository;
@@ -164,54 +170,172 @@ namespace A3DET_CODE.Controllers
 		}
 
 		// GET: Teams/Create
-		public IActionResult Create()
-		{
-			return View();
-		}
+		//public IActionResult Create()
+		//{
+		//	return View();
+		//}
 
-		// POST: Teams/Create
-		[HttpPost]
-		[ValidateAntiForgeryToken]
-		public async Task<IActionResult> Create(CreateTeamViewModel model)
-		{
-			if (!ModelState.IsValid)
-				return View(model);
+        // GET: Teams/Create
+        public async Task<IActionResult> Create()
+        {
+            var tracks = await _context.Tracks.ToListAsync(); // or _trackRepository.GetAllAsync()
 
-			var user = await _userManager.GetUserAsync(User);
-			if (user == null)
-				return RedirectToAction("Login", "Account");
+            var viewModel = new CreateTeamViewModel
+            {
+                Tracks = tracks.Select(t => new TrackViewModel
+                {
+                    Id = t.Id,
+                    Name = t.Name,
+                    Description = t.Description,
+                    Icon = t.Icon,
+                    Skills = t.Skills,
+                    Roadmap = t.Roadmap,
+                    Color = t.Color
+                }).ToList()
+            };
 
-			var team = new Team
-			{
-				Name = model.Name,
-				Description = model.Description,
-				LeaderId = user.Id,
-				TrackId = model.TrackId,
-				MaxMembers = model.MaxMembers,
-				Status = "Open",
-				CurrentMembers = 1,
-				CreatedAt = DateTime.UtcNow
-			};
+            return View(viewModel);
+        }
 
-			await _teamRepository.AddAsync(team);
-			await _teamRepository.UpdateAsync(team);
+        // POST: Teams/Create
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> Create(CreateTeamViewModel model)
+        //{
+        //	if (!ModelState.IsValid)
+        //		return View(model);
 
-			// Add leader as member
-			var teamMember = new TeamMember
-			{
-				TeamId = team.Id,
-				UserId = user.Id,
-				Role = "Leader",
-				JoinedAt = DateTime.UtcNow
-			};
+        //	var user = await _userManager.GetUserAsync(User);
+        //	if (user == null)
+        //		return RedirectToAction("Login", "Account");
 
-			// Assuming you have a TeamMemberRepository or access to DbContext
-			// For now, we'll use the repository pattern through a custom method
-			// You'll need to add this method or use DbContext directly
+        //	var team = new Team
+        //	{
+        //		Name = model.Name,
+        //		Description = model.Description,
+        //		LeaderId = user.Id,
+        //		TrackId = model.TrackId,
+        //		MaxMembers = model.MaxMembers,
+        //		Status = "Open",
+        //		CurrentMembers = 1,
+        //		CreatedAt = DateTime.UtcNow
+        //	};
 
-			TempData["Success"] = "Team created successfully!";
-			return RedirectToAction(nameof(Details), new { id = team.Id });
-		}
+        //	await _teamRepository.AddAsync(team);
+        //	//await _teamRepository.UpdateAsync(team);
+
+        //	// Add leader as member
+        //	var teamMember = new TeamMember
+        //	{
+        //		TeamId = team.Id,
+        //		UserId = user.Id,
+        //		Role = "Leader",
+        //		JoinedAt = DateTime.UtcNow
+        //	};
+
+        //	// Assuming you have a TeamMemberRepository or access to DbContext
+        //	// For now, we'll use the repository pattern through a custom method
+        //	// You'll need to add this method or use DbContext directly
+
+        //	TempData["Success"] = "Team created successfully!";
+        //	return RedirectToAction(nameof(Details), new { id = team.Id });
+        //}
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create(CreateTeamViewModel model)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    var tracks = await _context.Tracks.ToListAsync();
+                    model.Tracks = tracks.Select(t => new TrackViewModel
+                    {
+                        Id = t.Id,
+                        Name = t.Name,
+                        Description = t.Description,
+                        Icon = t.Icon,
+                        Skills = t.Skills,
+                        Roadmap = t.Roadmap,
+                        Color = t.Color
+                    }).ToList();
+                    return View(model);
+                }
+
+                var user = await _userManager.GetUserAsync(User);
+                if (user == null)
+                    return RedirectToAction("Login", "Account");
+
+                var team = new Team
+                {
+                    Name = model.Name,
+                    Description = model.Description,
+                    LeaderId = user.Id,
+                    TrackId = model.TrackId,
+                    MaxMembers = model.MaxMembers,
+                    Status = "Open",
+                    CurrentMembers = 1,
+                    CreatedAt = DateTime.UtcNow
+                };
+
+                // ✅ Step 1: Add Team
+                _context.Teams.Add(team);
+
+                // ✅ Step 2: Save Team FIRST (this generates the ID)
+                await _context.SaveChangesAsync();
+
+                // ✅ Step 3: Add TeamMember with the REAL TeamId
+                var teamMember = new TeamMember
+                {
+                    TeamId = team.Id,  // ✅ Now this has a real value
+                    UserId = user.Id,
+                    Role = "Leader",
+                    JoinedAt = DateTime.UtcNow
+                };
+                _context.TeamMembers.Add(teamMember);
+
+                // ✅ Step 4: Save Member
+                await _context.SaveChangesAsync();
+
+                TempData["Success"] = "Team created successfully!";
+                return RedirectToAction(nameof(Details), new { id = team.Id });
+            }
+            catch (DbUpdateException ex)
+            {
+                var innerException = ex.InnerException?.Message ?? ex.Message;
+                TempData["Error"] = $"Database error: {innerException}";
+
+                var tracks = await _context.Tracks.ToListAsync();
+                model.Tracks = tracks.Select(t => new TrackViewModel
+                {
+                    Id = t.Id,
+                    Name = t.Name,
+                    Description = t.Description,
+                    Icon = t.Icon,
+                    Skills = t.Skills,
+                    Roadmap = t.Roadmap,
+                    Color = t.Color
+                }).ToList();
+                return View(model);
+            }
+            catch (Exception ex)
+            {
+                TempData["Error"] = $"Error: {ex.Message}";
+                var tracks = await _context.Tracks.ToListAsync();
+                model.Tracks = tracks.Select(t => new TrackViewModel
+                {
+                    Id = t.Id,
+                    Name = t.Name,
+                    Description = t.Description,
+                    Icon = t.Icon,
+                    Skills = t.Skills,
+                    Roadmap = t.Roadmap,
+                    Color = t.Color
+                }).ToList();
+                return View(model);
+            }
+        }
 
         // POST: Teams/Join/5
         [HttpPost]

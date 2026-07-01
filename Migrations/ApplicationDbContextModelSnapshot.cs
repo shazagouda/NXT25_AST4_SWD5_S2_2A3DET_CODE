@@ -260,6 +260,40 @@ namespace A3DET_CODE.Migrations
                     b.ToTable("Companies");
                 });
 
+            modelBuilder.Entity("A3DET_CODE.Models.EntryAssessment", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CompletedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("CorrectAnswers")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PassingScore")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Score")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TotalQuestions")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("EntryAssessments");
+                });
+
             modelBuilder.Entity("A3DET_CODE.Models.Evaluation", b =>
                 {
                     b.Property<int>("Id")
@@ -527,22 +561,44 @@ namespace A3DET_CODE.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("ClientId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<DateTime?>("CompletedAt")
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
+                    b.Property<DateTime?>("Deadline")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("DemoUrl")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
 
                     b.Property<int?>("MentorId")
                         .HasColumnType("int");
 
+                    b.Property<int>("Progress")
+                        .HasColumnType("int");
+
+                    b.Property<string>("RepositoryUrl")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("StartedAt")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Status")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("TeamId")
+                        .HasColumnType("int");
 
                     b.Property<string>("TechStack")
                         .IsRequired()
@@ -550,7 +606,8 @@ namespace A3DET_CODE.Migrations
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
 
                     b.Property<int>("TrackId")
                         .HasColumnType("int");
@@ -561,11 +618,194 @@ namespace A3DET_CODE.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("ClientId");
+
                     b.HasIndex("MentorId");
+
+                    b.HasIndex("TeamId");
 
                     b.HasIndex("TrackId");
 
                     b.ToTable("Projects");
+                });
+
+            modelBuilder.Entity("A3DET_CODE.Models.Submission", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("DemoUrl")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
+
+                    b.Property<string>("Feedback")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FileUrl")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("GitHubUrl")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("ProjectId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("ReviewedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("Score")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("SubmittedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProjectId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Submissions");
+                });
+
+            modelBuilder.Entity("A3DET_CODE.Models.Task", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("AssignedToId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime?>("CompletedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
+
+                    b.Property<DateTime?>("DueDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Priority")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("ProjectId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("StartedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AssignedToId");
+
+                    b.HasIndex("ProjectId");
+
+                    b.ToTable("Tasks");
+                });
+
+            modelBuilder.Entity("A3DET_CODE.Models.Team", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime?>("CompletedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("CurrentMembers")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<string>("LeaderId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("MaxMembers")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("MentorId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<int?>("ProjectId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("StartedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("TrackId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("LeaderId");
+
+                    b.HasIndex("MentorId");
+
+                    b.HasIndex("ProjectId");
+
+                    b.HasIndex("TrackId");
+
+                    b.ToTable("Teams");
                 });
 
             modelBuilder.Entity("A3DET_CODE.Models.TeamMember", b =>
@@ -575,6 +815,9 @@ namespace A3DET_CODE.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("JoinedAt")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Role")
                         .IsRequired()
@@ -798,45 +1041,6 @@ namespace A3DET_CODE.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("Team", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("LeaderId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("MentorId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("ProjectId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("TrackId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("MentorId");
-
-                    b.HasIndex("ProjectId");
-
-                    b.HasIndex("TrackId");
-
-                    b.ToTable("Teams");
-                });
-
             modelBuilder.Entity("A3DET_CODE.Models.AssessmentQuestion", b =>
                 {
                     b.HasOne("A3DET_CODE.Models.Track", "Track")
@@ -863,6 +1067,17 @@ namespace A3DET_CODE.Migrations
                         .IsRequired();
 
                     b.Navigation("Track");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("A3DET_CODE.Models.EntryAssessment", b =>
+                {
+                    b.HasOne("A3DET_CODE.Models.ApplicationUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("User");
                 });
@@ -975,9 +1190,18 @@ namespace A3DET_CODE.Migrations
 
             modelBuilder.Entity("A3DET_CODE.Models.Project", b =>
                 {
+                    b.HasOne("A3DET_CODE.Models.ApplicationUser", "Client")
+                        .WithMany()
+                        .HasForeignKey("ClientId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
                     b.HasOne("A3DET_CODE.Models.Mentor", null)
                         .WithMany("Projects")
                         .HasForeignKey("MentorId");
+
+                    b.HasOne("A3DET_CODE.Models.Team", "Team")
+                        .WithMany()
+                        .HasForeignKey("TeamId");
 
                     b.HasOne("A3DET_CODE.Models.Track", "Track")
                         .WithMany("Projects")
@@ -985,12 +1209,84 @@ namespace A3DET_CODE.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
+                    b.Navigation("Client");
+
+                    b.Navigation("Team");
+
+                    b.Navigation("Track");
+                });
+
+            modelBuilder.Entity("A3DET_CODE.Models.Submission", b =>
+                {
+                    b.HasOne("A3DET_CODE.Models.Project", "Project")
+                        .WithMany("Submissions")
+                        .HasForeignKey("ProjectId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("A3DET_CODE.Models.ApplicationUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Project");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("A3DET_CODE.Models.Task", b =>
+                {
+                    b.HasOne("A3DET_CODE.Models.ApplicationUser", "AssignedTo")
+                        .WithMany()
+                        .HasForeignKey("AssignedToId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("A3DET_CODE.Models.Project", "Project")
+                        .WithMany("Tasks")
+                        .HasForeignKey("ProjectId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("AssignedTo");
+
+                    b.Navigation("Project");
+                });
+
+            modelBuilder.Entity("A3DET_CODE.Models.Team", b =>
+                {
+                    b.HasOne("A3DET_CODE.Models.ApplicationUser", "Leader")
+                        .WithMany()
+                        .HasForeignKey("LeaderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("A3DET_CODE.Models.Mentor", null)
+                        .WithMany("Teams")
+                        .HasForeignKey("MentorId");
+
+                    b.HasOne("A3DET_CODE.Models.Project", "Project")
+                        .WithMany("Teams")
+                        .HasForeignKey("ProjectId")
+                        .OnDelete(DeleteBehavior.SetNull);
+
+                    b.HasOne("A3DET_CODE.Models.Track", "Track")
+                        .WithMany("Teams")
+                        .HasForeignKey("TrackId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Leader");
+
+                    b.Navigation("Project");
+
                     b.Navigation("Track");
                 });
 
             modelBuilder.Entity("A3DET_CODE.Models.TeamMember", b =>
                 {
-                    b.HasOne("Team", "Team")
+                    b.HasOne("A3DET_CODE.Models.Team", "Team")
                         .WithMany("Members")
                         .HasForeignKey("TeamId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1081,28 +1377,6 @@ namespace A3DET_CODE.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Team", b =>
-                {
-                    b.HasOne("A3DET_CODE.Models.Mentor", null)
-                        .WithMany("Teams")
-                        .HasForeignKey("MentorId");
-
-                    b.HasOne("A3DET_CODE.Models.Project", "Project")
-                        .WithMany("Teams")
-                        .HasForeignKey("ProjectId")
-                        .OnDelete(DeleteBehavior.SetNull);
-
-                    b.HasOne("A3DET_CODE.Models.Track", "Track")
-                        .WithMany("Teams")
-                        .HasForeignKey("TrackId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Project");
-
-                    b.Navigation("Track");
-                });
-
             modelBuilder.Entity("A3DET_CODE.Models.ApplicationUser", b =>
                 {
                     b.Navigation("AssessmentResults");
@@ -1149,7 +1423,16 @@ namespace A3DET_CODE.Migrations
 
                     b.Navigation("PortfolioProjects");
 
+                    b.Navigation("Submissions");
+
+                    b.Navigation("Tasks");
+
                     b.Navigation("Teams");
+                });
+
+            modelBuilder.Entity("A3DET_CODE.Models.Team", b =>
+                {
+                    b.Navigation("Members");
                 });
 
             modelBuilder.Entity("A3DET_CODE.Models.Track", b =>
@@ -1161,11 +1444,6 @@ namespace A3DET_CODE.Migrations
                     b.Navigation("Projects");
 
                     b.Navigation("Teams");
-                });
-
-            modelBuilder.Entity("Team", b =>
-                {
-                    b.Navigation("Members");
                 });
 #pragma warning restore 612, 618
         }

@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 using A3DET_CODE.Models;
 using A3DET_CODE.Repositories.Interfaces;
 using A3DET_CODE.ViewModels.Project;
+using Microsoft.EntityFrameworkCore;
+using A3DET_CODE.Data;
 
 namespace A3DET_CODE.Controllers
 {
@@ -11,17 +13,20 @@ namespace A3DET_CODE.Controllers
 	public class ProjectsController : Controller
 	{
 		private readonly IProjectRepository _projectRepository;
+		private readonly ApplicationDbContext _context;
 		private readonly ITeamRepository _teamRepository;
 		private readonly UserManager<ApplicationUser> _userManager;
 		private readonly ILogger<ProjectsController> _logger;
 
 		public ProjectsController(
 			IProjectRepository projectRepository,
+			ApplicationDbContext context,
 			ITeamRepository teamRepository,
 			UserManager<ApplicationUser> userManager,
 			ILogger<ProjectsController> logger)
 		{
 			_projectRepository = projectRepository;
+			_context = context;
 			_teamRepository = teamRepository;
 			_userManager = userManager;
 			_logger = logger;
@@ -69,8 +74,8 @@ namespace A3DET_CODE.Controllers
 			return View(viewModels);
 		}
 
-		// GET: Projects/Details/5
-		public async Task<IActionResult> Details(int id)
+        // GET: Projects/Details/5
+        public async Task<IActionResult> Details(int id)
 		{
 			var user = await _userManager.GetUserAsync(User);
 			if (user == null)
@@ -113,42 +118,65 @@ namespace A3DET_CODE.Controllers
 			return View(viewModel);
 		}
 
-		// GET: Projects/Create
-		public IActionResult Create()
-		{
-			return View();
-		}
+        // GET: Projects/Create
+        public async Task<IActionResult> Create()
+        {
+            var tracks = await _context.Tracks.ToListAsync();
+            ViewBag.Tracks = tracks;
+            return View();
+        }
 
-		// POST: Projects/Create
-		[HttpPost]
+        // POST: Projects/Create
+        [HttpPost]
 		[ValidateAntiForgeryToken]
 		public async Task<IActionResult> Create(ProjectViewModel model)
 		{
-			if (!ModelState.IsValid)
-				return View(model);
-
-			var user = await _userManager.GetUserAsync(User);
-			if (user == null)
-				return RedirectToAction("Login", "Account");
-
-			var project = new Project
+			try
 			{
-				Title = model.Title,
-				Description = model.Description,
-				TechStack = model.TechStack,
-				Type = model.Type,
-				Status = "Open",
-				TrackId = model.TrackId,
-				Progress = 0,
-				CreatedAt = DateTime.UtcNow
-			};
+				if (!ModelState.IsValid)
+					return View(model);
 
-			await _projectRepository.AddAsync(project);
-			await _projectRepository.UpdateAsync(project);
+				var user = await _userManager.GetUserAsync(User);
+				if (user == null)
+					return RedirectToAction("Login", "Account");
 
-			TempData["Success"] = "Project created successfully!";
-			return RedirectToAction(nameof(Details), new { id = project.Id });
-		}
+				var project = new Project
+				{
+					Title = model.Title,
+					Description = model.Description,
+					TechStack = model.TechStack,
+					Type = model.Type,
+					Status = "Open",
+					TrackId = model.TrackId,
+					Progress = 0,
+					CreatedAt = DateTime.UtcNow
+				};
+
+				await _projectRepository.AddAsync(project);
+				//await _projectRepository.UpdateAsync(project);
+				await _context.SaveChangesAsync();
+
+				TempData["Success"] = "Project created successfully!";
+				return RedirectToAction(nameof(Details), new { id = project.Id });
+			}
+            catch (DbUpdateException ex)
+            {
+                var innerException = ex.InnerException?.Message ?? ex.Message;
+                TempData["Error"] = $"Database error: {innerException}";
+
+                var tracks = await _context.Tracks.ToListAsync();
+                ViewBag.Tracks = tracks;
+                return View(model);
+            }
+            catch (Exception ex)
+            {
+                TempData["Error"] = $"Error: {ex.Message}";
+
+                var tracks = await _context.Tracks.ToListAsync();
+                ViewBag.Tracks = tracks;
+                return View(model);
+            }
+        }
 
 		// POST: Projects/AssignTeam/5
 		[HttpPost]

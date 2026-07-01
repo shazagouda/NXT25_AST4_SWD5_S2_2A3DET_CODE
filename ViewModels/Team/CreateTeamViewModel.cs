@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using A3DET_CODE.ViewModels.Track;
+using System.ComponentModel.DataAnnotations;
 
 namespace A3DET_CODE.ViewModels.Team
 {
@@ -22,6 +23,6 @@ namespace A3DET_CODE.ViewModels.Team
 		[Display(Name = "Maximum Members")]
 		public int MaxMembers { get; set; } = 5;
 
-		//public List<TrackViewModel> Tracks { get; set; } = new();
+		public List<TrackViewModel> Tracks { get; set; } = new();
 	}
 }

@@ -1,0 +1,499 @@
+﻿@model A3DET_CODE.ViewModels.Team.TeamDetailsViewModel
+@{
+    ViewData["Title"] = Model.Name;
+}
+
+<div class="team-details-page">
+    <div class="container py-4">
+        <!-- Breadcrumb -->
+        <nav aria-label="breadcrumb" class="mb-4">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a asp-action="Index">Teams</a></li>
+                <li class="breadcrumb-item active">@Model.Name</li>
+            </ol>
+        </nav>
+
+        <!-- Alerts -->
+        @if (TempData["Success"] != null)
+        {
+            <div class="alert alert-success alert-dismissible fade show">
+                <i class="fa-solid fa-check-circle me-2"></i>@TempData["Success"]
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+        }
+
+        @if (TempData["Error"] != null)
+        {
+            <div class="alert alert-danger alert-dismissible fade show">
+                <i class="fa-solid fa-exclamation-circle me-2"></i>@TempData["Error"]
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+        }
+
+        <div class="row g-4">
+            <!-- Main Content -->
+            <div class="col-lg-8">
+                <div class="team-detail-card">
+                    <!-- Header -->
+                    <div class="team-detail-header">
+                        <div>
+                            <div class="team-detail-badges">
+                                <span class="track-badge" style="background-color: @Model.TrackColor;">
+                                    @Model.TrackName
+                                </span>
+                                <span class="status-badge @(Model.Status == "Open" ? "status-open" : "status-full")">
+                                    @Model.Status
+                                </span>
+                                <span class="members-badge">
+                                    <i class="fa-solid fa-users"></i>
+                                    @Model.CurrentMembers / @Model.MaxMembers
+                                </span>
+                            </div>
+                            <h1 class="team-detail-title">@Model.Name</h1>
+                            <p class="team-detail-desc">@Model.Description</p>
+                        </div>
+                        <div class="team-detail-actions">
+                            @if (Model.CanJoin)
+                            {
+                                <form asp-action="Join" asp-route-id="@Model.Id" method="post">
+                                    @Html.AntiForgeryToken()
+                                    <button type="submit" class="btn btn-success">
+                                        <i class="fa-solid fa-user-plus me-2"></i>Join Team
+                                    </button>
+                                </form>
+                            }
+                            @if (Model.IsLeader)
+                            {
+                                <form asp-action="Delete" asp-route-id="@Model.Id" method="post" 
+                                      onsubmit="return confirm('Delete this team? This cannot be undone.')">
+                                    @Html.AntiForgeryToken()
+                                    <button type="submit" class="btn btn-outline-danger">
+                                        <i class="fa-solid fa-trash me-2"></i>Delete
+                                    </button>
+                                </form>
+                            }
+                            @if (Model.CanLeave)
+                            {
+                                <form asp-action="Leave" asp-route-id="@Model.Id" method="post">
+                                    @Html.AntiForgeryToken()
+                                    <button type="submit" class="btn btn-outline-warning">
+                                        <i class="fa-solid fa-sign-out-alt me-2"></i>Leave
+                                    </button>
+                                </form>
+                            }
+                        </div>
+                    </div>
+
+                    <!-- Meta Info -->
+                    <div class="team-detail-meta">
+                        <div class="meta-item">
+                            <span class="meta-label">Created</span>
+                            <span class="meta-value">@Model.CreatedAt.ToString("MMM dd, yyyy")</span>
+                        </div>
+                        <div class="meta-item">
+                            <span class="meta-label">Leader</span>
+                            <span class="meta-value">
+                                <span class="leader-avatar">@Model.LeaderInitials</span>
+                                @Model.LeaderName
+                            </span>
+                        </div>
+                        @if (Model.ProjectId.HasValue)
+                        {
+                            <div class="meta-item">
+                                <span class="meta-label">Project</span>
+                                <span class="meta-value">
+                                    <a asp-controller="Projects" asp-action="Details" asp-route-id="@Model.ProjectId" class="project-link">
+                                        @Model.ProjectTitle
+                                        <i class="fa-solid fa-arrow-right ms-1"></i>
+                                    </a>
+                                </span>
+                            </div>
+                        }
+                    </div>
+                </div>
+
+                <!-- Members -->
+                <div class="team-members-card">
+                    <div class="card-header">
+                        <h5 class="mb-0">
+                            <i class="fa-solid fa-users me-2"></i>
+                            Members (@Model.CurrentMembers)
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="members-grid">
+                            @foreach (var member in Model.Members)
+                            {
+                                <div class="member-item">
+                                    <span class="member-avatar-lg" style="background: @(member.Role == "Leader" ? "#2F6FED" : "#15C6AE");">
+                                        @member.Initials
+                                    </span>
+                                    <div class="member-info">
+                                        <div class="member-name">
+                                            @member.FullName
+                                            @if (member.Role == "Leader")
+                                            {
+                                                <span class="leader-badge">👑 Leader</span>
+                                            }
+                                        </div>
+                                        <div class="member-role">@member.Role</div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sidebar -->
+            <div class="col-lg-4">
+                <!-- Quick Actions -->
+                <div class="sidebar-card">
+                    <div class="card-header">
+                        <h5 class="mb-0">Quick Actions</h5>
+                    </div>
+                    <div class="card-body">
+                        @if (Model.IsLeader)
+                        {
+                            <a asp-controller="Projects" asp-action="Create" class="btn btn-primary w-100 mb-2">
+                                <i class="fa-solid fa-plus me-2"></i>Create Project
+                            </a>
+                            <button class="btn btn-outline-primary w-100" onclick="alert('Assign Project coming soon!')">
+                                <i class="fa-solid fa-project-diagram me-2"></i>Assign Project
+                            </button>
+                        }
+                        else
+                        {
+                            <p class="text-muted text-center mb-0">
+                                <i class="fa-solid fa-info-circle me-2"></i>
+                                You are a member of this team
+                            </p>
+                        }
+                    </div>
+                </div>
+
+                <!-- Team Stats -->
+                <div class="sidebar-card">
+                    <div class="card-header">
+                        <h5 class="mb-0">Team Stats</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="stat-item">
+                            <span class="stat-label">Status</span>
+                            <span class="stat-value">
+                                <span class="status-badge-sm @(Model.Status == "Open" ? "status-open" : "status-full")">
+                                    @Model.Status
+                                </span>
+                            </span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Members</span>
+                            <span class="stat-value">@Model.CurrentMembers / @Model.MaxMembers</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Available Slots</span>
+                            <span class="stat-value">@(Model.MaxMembers - Model.CurrentMembers)</span>
+                        </div>
+                        <div class="stat-item progress-item">
+                            <span class="stat-label">Capacity</span>
+                            <div class="stat-value w-100">
+                                <div class="progress" style="height: 6px;">
+                                    <div class="progress-bar" role="progressbar" 
+                                         style="width: @((double)Model.CurrentMembers / Model.MaxMembers * 100)%; background: linear-gradient(90deg, #2F6FED, #15C6AE);" 
+                                         aria-valuenow="@((double)Model.CurrentMembers / Model.MaxMembers * 100)" 
+                                         aria-valuemin="0" 
+                                         aria-valuemax="100">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    <style>
+        .team-details-page {
+            background: var(--color-bg, #F6F7FB);
+            min-height: 100vh;
+            padding-bottom: var(--space-10, 4rem);
+        }
+
+        .team-detail-card,
+        .team-members-card,
+        .sidebar-card {
+            background: var(--color-surface, #FFFFFF);
+            border-radius: var(--radius-lg, 20px);
+            border: 1px solid var(--color-border, #E4E7EF);
+            overflow: hidden;
+            margin-bottom: var(--space-5, 1.5rem);
+            box-shadow: var(--shadow-sm, 0 2px 8px rgba(10, 22, 40, 0.06));
+        }
+
+        .team-detail-card {
+            padding: var(--space-6, 2rem);
+        }
+
+        .card-header {
+            padding: var(--space-4, 1rem) var(--space-6, 2rem);
+            border-bottom: 1px solid var(--color-border, #E4E7EF);
+            background: var(--color-bg, #F6F7FB);
+        }
+
+        .card-body {
+            padding: var(--space-5, 1.5rem) var(--space-6, 2rem);
+        }
+
+        .team-detail-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            gap: var(--space-4, 1rem);
+            margin-bottom: var(--space-5, 1.5rem);
+        }
+
+        .team-detail-badges {
+            display: flex;
+            gap: var(--space-2, 0.5rem);
+            flex-wrap: wrap;
+            margin-bottom: var(--space-3, 0.75rem);
+        }
+
+        .track-badge {
+            padding: var(--space-1, 0.25rem) var(--space-3, 0.75rem);
+            border-radius: var(--radius-pill, 999px);
+            color: #fff;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .status-badge {
+            padding: var(--space-1, 0.25rem) var(--space-3, 0.75rem);
+            border-radius: var(--radius-pill, 999px);
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+
+        .status-badge-sm {
+            padding: var(--space-1, 0.25rem) var(--space-3, 0.75rem);
+            border-radius: var(--radius-pill, 999px);
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .members-badge {
+            padding: var(--space-1, 0.25rem) var(--space-3, 0.75rem);
+            border-radius: var(--radius-pill, 999px);
+            background: var(--color-blue-100, #E8EFFE);
+            color: var(--color-blue-600, #2F6FED);
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .team-detail-title {
+            font-family: var(--font-display, 'Sora', sans-serif);
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--color-text-900, #0A1628);
+            margin: 0 0 var(--space-2, 0.5rem);
+        }
+
+        .team-detail-desc {
+            color: var(--color-text-600, #5B6478);
+            font-size: 1rem;
+            line-height: 1.7;
+            margin: 0;
+            max-width: 600px;
+        }
+
+        .team-detail-actions {
+            display: flex;
+            gap: var(--space-3, 0.75rem);
+            flex-wrap: wrap;
+        }
+
+        .team-detail-actions .btn {
+            border-radius: var(--radius-pill, 999px);
+            font-weight: 600;
+            font-size: 0.9rem;
+            padding: var(--space-2, 0.5rem) var(--space-5, 1.5rem);
+        }
+
+        .team-detail-meta {
+            display: flex;
+            gap: var(--space-6, 2rem);
+            flex-wrap: wrap;
+            padding-top: var(--space-5, 1.5rem);
+            border-top: 1px solid var(--color-border, #E4E7EF);
+        }
+
+        .meta-item {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-1, 0.25rem);
+        }
+
+        .meta-label {
+            font-size: 0.75rem;
+            color: var(--color-text-400, #94A0B8);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-weight: 600;
+        }
+
+        .meta-value {
+            display: flex;
+            align-items: center;
+            gap: var(--space-2, 0.5rem);
+            font-weight: 500;
+        }
+
+        .leader-avatar {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: #2F6FED;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            font-weight: 600;
+        }
+
+        .project-link {
+            color: var(--color-blue-600, #2F6FED);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .project-link:hover {
+            color: #265fd1;
+        }
+
+        .members-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: var(--space-3, 0.75rem);
+        }
+
+        .member-item {
+            display: flex;
+            align-items: center;
+            gap: var(--space-3, 0.75rem);
+            padding: var(--space-3, 0.75rem) var(--space-4, 1rem);
+            background: var(--color-bg, #F6F7FB);
+            border-radius: var(--radius-sm, 8px);
+            transition: all 0.2s;
+        }
+
+        .member-item:hover {
+            background: var(--color-blue-100, #E8EFFE);
+        }
+
+        .member-avatar-lg {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-weight: 700;
+            font-size: 0.9rem;
+            flex-shrink: 0;
+        }
+
+        .member-info {
+            flex: 1;
+        }
+
+        .member-name {
+            font-weight: 600;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            gap: var(--space-2, 0.5rem);
+            flex-wrap: wrap;
+        }
+
+        .leader-badge {
+            font-size: 0.7rem;
+            background: #FFF8E1;
+            color: #F59E0B;
+            padding: var(--space-1, 0.25rem) var(--space-2, 0.5rem);
+            border-radius: var(--radius-pill, 999px);
+            font-weight: 600;
+        }
+
+        .member-role {
+            font-size: 0.8rem;
+            color: var(--color-text-400, #94A0B8);
+        }
+
+        .sidebar-card .card-body {
+            padding: var(--space-4, 1rem) var(--space-5, 1.5rem);
+        }
+
+        .sidebar-card .btn {
+            border-radius: var(--radius-pill, 999px);
+            font-weight: 600;
+            padding: var(--space-2, 0.5rem) var(--space-4, 1rem);
+        }
+
+        .stat-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: var(--space-2, 0.5rem) 0;
+            border-bottom: 1px solid var(--color-border, #E4E7EF);
+        }
+
+        .stat-item:last-child {
+            border-bottom: none;
+        }
+
+        .stat-item.progress-item {
+            flex-direction: column;
+            align-items: stretch;
+            gap: var(--space-2, 0.5rem);
+        }
+
+        .stat-label {
+            color: var(--color-text-400, #94A0B8);
+            font-size: 0.85rem;
+        }
+
+        .stat-value {
+            font-weight: 600;
+            color: var(--color-text-900, #0A1628);
+        }
+
+        @@media (max-width: 768px) {
+            .team-detail-header {
+                flex-direction: column;
+            }
+            .team-detail-actions {
+                width: 100%;
+            }
+            .team-detail-actions .btn {
+                flex: 1;
+                justify-content: center;
+            }
+            .team-detail-meta {
+                gap: var(--space-4, 1rem);
+            }
+            .members-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+}

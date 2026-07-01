@@ -253,6 +253,113 @@ using (var scope = app.Services.CreateScope())
             }
         }
 
+        // tracks dummy data
+
+        if (!context.Tracks.Any())
+        {
+            var tracks = new List<Track>
+            {
+                new Track
+                {
+                    Name = "Frontend Development",
+                    Description = "React, accessibility, and modern UI engineering.",
+                    Icon = "FE",
+                    Skills = "HTML, CSS, JavaScript, React, Angular, Vue",
+                    Roadmap = "HTML → CSS → JavaScript → React → Advanced Patterns",
+                    Color = "#2F6FED"
+                },
+                new Track
+                {
+                    Name = "Backend Development",
+                    Description = "APIs, databases, and scalable architecture.",
+                    Icon = "BE",
+                    Skills = "C#, .NET, SQL, API Design, Cloud",
+                    Roadmap = "C# → .NET → SQL → REST APIs → Microservices",
+                    Color = "#22C55E"
+                },
+                new Track
+                {
+                    Name = "AI & Machine Learning",
+                    Description = "Models, data pipelines, and applied ML systems.",
+                    Icon = "AI",
+                    Skills = "Python, Pandas, Scikit-learn, TensorFlow, PyTorch",
+                    Roadmap = "Python → Data Analysis → ML Algorithms → Deep Learning",
+                    Color = "#A78BFA"
+                },
+                new Track
+                {
+                    Name = "Data Science",
+                    Description = "Extract insights from data with statistical analysis.",
+                    Icon = "DS",
+                    Skills = "Python, R, SQL, Statistics, Data Visualization",
+                    Roadmap = "Python → Statistics → Data Visualization → Advanced Analytics",
+                    Color = "#F59E0B"
+                },
+                new Track
+                {
+                    Name = "Mobile Development",
+                    Description = "Native and cross-platform app engineering.",
+                    Icon = "MO",
+                    Skills = "Flutter, Kotlin, Swift, React Native",
+                    Roadmap = "Flutter → Dart → Firebase → Advanced Mobile",
+                    Color = "#38BDF8"
+                },
+                new Track
+                {
+                    Name = "DevOps",
+                    Description = "Automate infrastructure and deployment pipelines.",
+                    Icon = "DO",
+                    Skills = "Docker, Kubernetes, CI/CD, AWS, Azure",
+                    Roadmap = "Linux → Docker → Kubernetes → Cloud → CI/CD",
+                    Color = "#FB923C"
+                },
+                new Track
+                {
+                    Name = "Cybersecurity",
+                    Description = "Protect systems and networks from security threats.",
+                    Icon = "CS",
+                    Skills = "Network Security, Cryptography, Ethical Hacking",
+                    Roadmap = "Networking → Security Basics → Ethical Hacking → Advanced Security",
+                    Color = "#F87171"
+                },
+                new Track
+                {
+                    Name = "Game Development",
+                    Description = "Build immersive games with Unity or Unreal.",
+                    Icon = "GD",
+                    Skills = "C#, C++, Unity, Unreal, Game Design",
+                    Roadmap = "C# → Unity → Game Physics → Advanced Game Development",
+                    Color = "#A3E635"
+                },
+                new Track
+                {
+                    Name = "Embedded Systems",
+                    Description = "Program microcontrollers and IoT devices.",
+                    Icon = "ES",
+                    Skills = "C, C++, Microcontrollers, IoT, RTOS",
+                    Roadmap = "C → Microcontrollers → IoT → RTOS",
+                    Color = "#2DD4BF"
+                },
+                new Track
+                {
+                    Name = "Software Testing",
+                    Description = "Ensure quality with automated testing and QA.",
+                    Icon = "ST",
+                    Skills = "Unit Testing, Selenium, Test Automation, QA",
+                    Roadmap = "Testing Basics → Unit Testing → Selenium → Advanced QA",
+                    Color = "#C084FC"
+                }
+            };
+
+            await context.Tracks.AddRangeAsync(tracks);
+            await context.SaveChangesAsync();
+            Console.WriteLine("✅ 10 Tracks added successfully!");
+        }
+        else
+        {
+            Console.WriteLine("ℹ️ Tracks already exist, skipping seed.");
+        }
+
         Console.WriteLine("✅ Seed data completed!");
     }
     catch (Exception ex)
