@@ -1,0 +1,313 @@
+﻿@model A3DET_CODE.ViewModels.Project.AssignProjectViewModel
+@{
+    ViewData["Title"] = "Assign Project to Team";
+}
+
+<div class="assign-project-page">
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-7">
+                <div class="assign-card">
+                    <div class="assign-header">
+                        <div class="assign-icon">
+                            <i class="fa-solid fa-project-diagram"></i>
+                        </div>
+                        <div>
+                            <h1 class="assign-title">Assign Project</h1>
+                            <p class="assign-subtitle">Select a project to assign to <strong>@Model.TeamName</strong></p>
+                        </div>
+                    </div>
+
+                    @if (TempData["Error"] != null)
+                    {
+                        <div class="alert alert-danger alert-dismissible fade show">
+                            <i class="fa-solid fa-exclamation-circle me-2"></i>@TempData["Error"]
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                        </div>
+                    }
+
+                    <form asp-action="AssignTeam" method="post" class="assign-form">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" asp-for="TeamId" />
+
+                        @if (!ViewData.ModelState.IsValid)
+                        {
+                            <div class="alert alert-danger">
+                                <strong>Please fix the following errors:</strong>
+                                <ul class="mb-0 mt-2">
+                                    @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+                                    {
+                                        <li>@error.ErrorMessage</li>
+                                    }
+                                </ul>
+                            </div>
+                        }
+
+                        <div class="form-group">
+                            <label asp-for="ProjectId" class="form-label">
+                                Select Project <span class="text-danger">*</span>
+                            </label>
+
+                            @if (Model.AvailableProjects.Any())
+                            {
+                                <div class="project-list">
+                                    @foreach (var project in Model.AvailableProjects)
+                                    {
+                                        <div class="project-option">
+                                            <input type="radio" asp-for="ProjectId" value="@project.Id" id="project_@project.Id" />
+                                            <label for="project_@project.Id" class="project-option-label">
+                                                <div class="project-option-info">
+                                                    <div class="project-option-title">@project.Title</div>
+                                                    <div class="project-option-meta">
+                                                        <span class="badge bg-secondary">@project.TrackName</span>
+                                                        <span class="badge @(project.Status == "Open" ? "bg-success" : "bg-warning")">@project.Status</span>
+                                                    </div>
+                                                </div>
+                                            </label>
+                                        </div>
+                                    }
+                                </div>
+                                <span asp-validation-for="ProjectId" class="text-danger"></span>
+                            }
+                            else
+                            {
+                                <div class="empty-projects">
+                                    <i class="fa-solid fa-code"></i>
+                                    <p>No available projects to assign.</p>
+                                    <a asp-controller="Projects" asp-action="Create" class="btn btn-primary btn-sm">
+                                        <i class="fa-solid fa-plus me-2"></i>Create a Project
+                                    </a>
+                                </div>
+                            }
+                        </div>
+
+                        @if (Model.AvailableProjects.Any())
+                        {
+                            <div class="form-actions">
+                                <button type="submit" class="btn btn-primary btn-lg">
+                                    <i class="fa-solid fa-check me-2"></i>Assign Project
+                                </button>
+                                <a asp-controller="Teams" asp-action="Details" asp-route-id="@Model.TeamId" class="btn btn-outline-secondary btn-lg">
+                                    <i class="fa-solid fa-arrow-left me-2"></i>Cancel
+                                </a>
+                            </div>
+                        }
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    <style>
+        .assign-project-page {
+            background: var(--color-bg, #F6F7FB);
+            min-height: 100vh;
+        }
+
+        .assign-card {
+            background: var(--color-surface, #FFFFFF);
+            border-radius: var(--radius-lg, 20px);
+            border: 1px solid var(--color-border, #E4E7EF);
+            padding: 2.5rem;
+            box-shadow: 0 2px 8px rgba(10, 22, 40, 0.06);
+        }
+
+        .assign-header {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--color-border, #E4E7EF);
+        }
+
+        .assign-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: var(--radius-md, 14px);
+            background: var(--color-blue-100, #E8EFFE);
+            color: var(--color-blue-600, #2F6FED);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            flex-shrink: 0;
+        }
+
+        .assign-title {
+            font-family: var(--font-display, 'Sora', sans-serif);
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--color-text-900, #0A1628);
+            margin: 0;
+        }
+
+        .assign-subtitle {
+            color: var(--color-text-600, #5B6478);
+            margin: 0.25rem 0 0;
+            font-size: 1rem;
+        }
+
+            .assign-subtitle strong {
+                color: var(--color-text-900, #0A1628);
+            }
+
+        .assign-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .form-label {
+            font-weight: 600;
+            font-size: 0.95rem;
+            color: var(--color-text-900, #0A1628);
+        }
+
+        .project-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .project-option {
+            display: flex;
+            align-items: center;
+        }
+
+            .project-option input[type="radio"] {
+                display: none;
+            }
+
+        .project-option-label {
+            display: block;
+            width: 100%;
+            padding: 1rem 1.25rem;
+            border: 2px solid var(--color-border, #E4E7EF);
+            border-radius: var(--radius-sm, 8px);
+            cursor: pointer;
+            transition: all 0.2s;
+            background: var(--color-surface, #FFFFFF);
+        }
+
+        .project-option input[type="radio"]:checked + .project-option-label {
+            border-color: var(--color-blue-600, #2F6FED);
+            background: var(--color-blue-100, #E8EFFE);
+            box-shadow: 0 0 0 3px rgba(47, 111, 237, 0.1);
+        }
+
+        .project-option-label:hover {
+            border-color: var(--color-blue-600, #2F6FED);
+        }
+
+        .project-option-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .project-option-title {
+            font-weight: 600;
+            font-size: 1rem;
+            color: var(--color-text-900, #0A1628);
+        }
+
+        .project-option-meta {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+            .project-option-meta .badge {
+                font-size: 0.7rem;
+                padding: 0.25rem 0.6rem;
+            }
+
+        .empty-projects {
+            text-align: center;
+            padding: 2rem 0;
+        }
+
+            .empty-projects i {
+                font-size: 3rem;
+                color: var(--color-text-400, #94A0B8);
+                display: block;
+                margin-bottom: 1rem;
+            }
+
+            .empty-projects p {
+                color: var(--color-text-600, #5B6478);
+                margin-bottom: 1rem;
+            }
+
+        .form-actions {
+            display: flex;
+            gap: 1rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--color-border, #E4E7EF);
+            margin-top: 0.5rem;
+        }
+
+            .form-actions .btn {
+                padding: 0.75rem 2rem;
+                border-radius: var(--radius-pill, 999px);
+                font-weight: 600;
+                font-size: 1rem;
+                min-width: 150px;
+                justify-content: center;
+            }
+
+            .form-actions .btn-primary {
+                background: var(--color-blue-600, #2F6FED);
+                border: none;
+                color: #fff;
+            }
+
+                .form-actions .btn-primary:hover {
+                    background: #265fd1;
+                }
+
+            .form-actions .btn-outline-secondary {
+                border: 1.5px solid var(--color-border, #E4E7EF);
+                color: var(--color-text-600, #5B6478);
+            }
+
+                .form-actions .btn-outline-secondary:hover {
+                    border-color: var(--color-blue-600, #2F6FED);
+                    color: var(--color-blue-600, #2F6FED);
+                }
+
+        @@media (max-width: 640px) {
+            .assign-card {
+                padding: 1.5rem;
+            }
+
+            .assign-header {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .project-option-info {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .form-actions {
+                flex-direction: column;
+            }
+
+                .form-actions .btn {
+                    width: 100%;
+                }
+        }
+    </style>
+}

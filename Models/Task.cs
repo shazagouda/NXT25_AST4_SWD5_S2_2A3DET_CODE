@@ -29,9 +29,10 @@ namespace A3DET_CODE.Models
 		public DateTime? StartedAt { get; set; }
 		public DateTime? CompletedAt { get; set; }
 		public DateTime? DueDate { get; set; }
+        //public DateTime? UpdatedAt { get; set; }
 
-		// Navigation Properties
-		[ForeignKey(nameof(ProjectId))]
+        // Navigation Properties
+        [ForeignKey(nameof(ProjectId))]
 		public virtual Project Project { get; set; } = null!;
 
 		[ForeignKey(nameof(AssignedToId))]

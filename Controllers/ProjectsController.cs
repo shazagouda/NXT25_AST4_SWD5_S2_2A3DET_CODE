@@ -74,6 +74,122 @@ namespace A3DET_CODE.Controllers
 			return View(viewModels);
 		}
 
+        // GET: Projects/AssignTeam/5
+        public async Task<IActionResult> AssignTeam(int teamId)
+        {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+                return RedirectToAction("Login", "Account");
+
+            var team = await _teamRepository.GetTeamWithDetailsAsync(teamId);
+            if (team == null)
+                return NotFound();
+
+            // Check if user is the team leader
+            if (team.LeaderId != user.Id)
+            {
+                TempData["Error"] = "Only the team leader can assign projects.";
+                return RedirectToAction("Details", "Teams", new { id = teamId });
+            }
+
+            // Check if team already has a project
+            if (team.ProjectId.HasValue)
+            {
+                TempData["Error"] = "This team already has an assigned project.";
+                return RedirectToAction("Details", "Teams", new { id = teamId });
+            }
+
+            // Get available projects (Open or InProgress, not assigned to any team)
+            var availableProjects = await _context.Projects
+                .Where(p => (p.Status == "Open" || p.Status == "Pending") && !p.TeamId.HasValue)
+                .Include(p => p.Track)
+                .ToListAsync();
+
+            var viewModel = new AssignProjectViewModel
+            {
+                TeamId = teamId,
+                TeamName = team.Name,
+                AvailableProjects = availableProjects.Select(p => new ProjectSelectViewModel
+                {
+                    Id = p.Id,
+                    Title = p.Title,
+                    TrackName = p.Track?.Name ?? "Unknown",
+                    Status = p.Status
+                }).ToList()
+            };
+
+            return View(viewModel);
+        }
+
+        // POST: Projects/AssignTeam
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AssignTeam(AssignProjectViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                var teamFromDb = await _teamRepository.GetByIdAsync(model.TeamId);  // ✅ Changed name
+                var availableProjects = await _context.Projects
+                    .Where(p => (p.Status == "Open" || p.Status == "Pending") && !p.TeamId.HasValue)
+                    .Include(p => p.Track)
+                    .ToListAsync();
+
+                model.TeamName = teamFromDb?.Name ?? "Unknown";  // ✅ Updated reference
+                model.AvailableProjects = availableProjects.Select(p => new ProjectSelectViewModel
+                {
+                    Id = p.Id,
+                    Title = p.Title,
+                    TrackName = p.Track?.Name ?? "Unknown",
+                    Status = p.Status
+                }).ToList();
+
+                return View(model);
+            }
+
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+                return RedirectToAction("Login", "Account");
+
+            // Get the team
+            var team = await _teamRepository.GetTeamWithDetailsAsync(model.TeamId);  // ✅ This one stays as 'team'
+            if (team == null)
+                return NotFound();
+
+            // Verify user is team leader
+            if (team.LeaderId != user.Id)
+            {
+                TempData["Error"] = "Only the team leader can assign projects.";
+                return RedirectToAction("Details", "Teams", new { id = model.TeamId });
+            }
+
+            // Get the project
+            var project = await _projectRepository.GetByIdAsync(model.ProjectId);
+            if (project == null)
+                return NotFound();
+
+            // Check if project is already assigned
+            if (project.TeamId.HasValue)
+            {
+                TempData["Error"] = "This project is already assigned to another team.";
+                return RedirectToAction("Details", "Teams", new { id = model.TeamId });
+            }
+
+            // Assign project to team
+            project.TeamId = team.Id;
+            project.Status = "InProgress";
+            project.StartedAt = DateTime.UtcNow;
+
+            // Update team
+            team.ProjectId = project.Id;
+            team.Status = "InProgress";
+            team.StartedAt = DateTime.UtcNow;
+
+            await _context.SaveChangesAsync();
+
+            TempData["Success"] = $"Project '{project.Title}' assigned to '{team.Name}' successfully!";
+            return RedirectToAction("Details", "Projects", new { id = project.Id });
+        }
+
         // GET: Projects/Details/5
         public async Task<IActionResult> Details(int id)
 		{
@@ -178,51 +294,51 @@ namespace A3DET_CODE.Controllers
             }
         }
 
-		// POST: Projects/AssignTeam/5
-		[HttpPost]
-		[ValidateAntiForgeryToken]
-		public async Task<IActionResult> AssignTeam(int projectId, int teamId)
-		{
-			var user = await _userManager.GetUserAsync(User);
-			if (user == null)
-				return RedirectToAction("Login", "Account");
+		//// POST: Projects/AssignTeam/5
+		//[HttpPost]
+		//[ValidateAntiForgeryToken]
+		//public async Task<IActionResult> AssignTeam(int projectId, int teamId)
+		//{
+		//	var user = await _userManager.GetUserAsync(User);
+		//	if (user == null)
+		//		return RedirectToAction("Login", "Account");
 
-			var project = await _projectRepository.GetByIdAsync(projectId);
-			if (project == null)
-				return NotFound();
+		//	var project = await _projectRepository.GetByIdAsync(projectId);
+		//	if (project == null)
+		//		return NotFound();
 
-			var team = await _teamRepository.GetByIdAsync(teamId);
-			if (team == null)
-				return NotFound();
+		//	var team = await _teamRepository.GetByIdAsync(teamId);
+		//	if (team == null)
+		//		return NotFound();
 
-			// Check if user is team leader
-			if (team.LeaderId != user.Id)
-			{
-				TempData["Error"] = "Only the team leader can accept project assignments.";
-				return RedirectToAction(nameof(Details), new { id = projectId });
-			}
+		//	// Check if user is team leader
+		//	if (team.LeaderId != user.Id)
+		//	{
+		//		TempData["Error"] = "Only the team leader can accept project assignments.";
+		//		return RedirectToAction(nameof(Details), new { id = projectId });
+		//	}
 
-			// Check if team already has a project
-			if (team.ProjectId.HasValue)
-			{
-				TempData["Error"] = "This team already has an assigned project.";
-				return RedirectToAction(nameof(Details), new { id = projectId });
-			}
+		//	// Check if team already has a project
+		//	if (team.ProjectId.HasValue)
+		//	{
+		//		TempData["Error"] = "This team already has an assigned project.";
+		//		return RedirectToAction(nameof(Details), new { id = projectId });
+		//	}
 
-			project.TeamId = teamId;
-			project.Status = "InProgress";
-			project.StartedAt = DateTime.UtcNow;
+		//	project.TeamId = teamId;
+		//	project.Status = "InProgress";
+		//	project.StartedAt = DateTime.UtcNow;
 
-			team.ProjectId = projectId;
-			team.Status = "InProgress";
-			team.StartedAt = DateTime.UtcNow;
+		//	team.ProjectId = projectId;
+		//	team.Status = "InProgress";
+		//	team.StartedAt = DateTime.UtcNow;
 
-			await _projectRepository.UpdateAsync(project);
-			await _teamRepository.UpdateAsync(team);
+		//	await _projectRepository.UpdateAsync(project);
+		//	await _teamRepository.UpdateAsync(team);
 
-			TempData["Success"] = "Project assigned to team successfully!";
-			return RedirectToAction(nameof(Details), new { id = projectId });
-		}
+		//	TempData["Success"] = "Project assigned to team successfully!";
+		//	return RedirectToAction(nameof(Details), new { id = projectId });
+		//}
 
 		// POST: Projects/UpdateProgress/5
 		[HttpPost]

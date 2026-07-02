@@ -122,58 +122,63 @@ namespace A3DET_CODE.Controllers
 			return View(allTeams);
 		}
 
-		// GET: Teams/Details/5
-		public async Task<IActionResult> Details(int id)
-		{
-			var user = await _userManager.GetUserAsync(User);
-			if (user == null)
-				return RedirectToAction("Login", "Account");
+        // GET: Teams/Details/5
+        public async Task<IActionResult> Details(int id)
+        {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+                return RedirectToAction("Login", "Account");
 
-			var team = await _teamRepository.GetTeamWithDetailsAsync(id);
-			if (team == null)
-				return NotFound();
+            // ✅ Get fresh data from database
+            var team = await _teamRepository.GetTeamWithDetailsAsync(id);
+            if (team == null)
+                return NotFound();
 
-			var viewModel = new TeamDetailsViewModel
-			{
-				Id = team.Id,
-				Name = team.Name,
-				Description = team.Description,
-				LeaderId = team.LeaderId,
-				LeaderName = team.Leader?.FullName ?? "Unknown",
-				LeaderInitials = team.Leader?.FullName?.Substring(0, 1)?.ToUpper() ?? "U",
-				TrackId = team.TrackId,
-				TrackName = team.Track?.Name ?? "Unknown",
-				TrackColor = team.Track?.Color ?? "#2F6FED",
-				ProjectId = team.ProjectId,
-				ProjectTitle = team.Project?.Title,
-				ProjectStatus = team.Project?.Status,
-				MaxMembers = team.MaxMembers,
-				CurrentMembers = team.Members?.Count ?? 0,
-				Status = team.Status,
-				StatusColor = team.Status == "Open" ? "#22C55E" : team.Status == "Full" ? "#F59E0B" : "#94A0B8",
-				CreatedAt = team.CreatedAt,
-				StartedAt = team.StartedAt,
-				CompletedAt = team.CompletedAt,
-				Members = team.Members?.Select(m => new TeamMemberViewModel
-				{
-					UserId = m.UserId,
-					FullName = m.User?.FullName ?? "Unknown",
-					Initials = m.User?.FullName?.Substring(0, 1)?.ToUpper() ?? "U",
-					Role = m.Role,
-					JoinedAt = m.JoinedAt
-				}).ToList() ?? new(),
-				IsLeader = team.LeaderId == user.Id,
-				IsMember = team.Members?.Any(m => m.UserId == user.Id) ?? false
-			};
+            // ✅ Check membership with fresh data
+            var isMember = team.Members?.Any(m => m.UserId == user.Id) ?? false;
+            var isLeader = team.LeaderId == user.Id;
 
-			return View(viewModel);
-		}
+            var viewModel = new TeamDetailsViewModel
+            {
+                Id = team.Id,
+                Name = team.Name,
+                Description = team.Description,
+                LeaderId = team.LeaderId,
+                LeaderName = team.Leader?.FullName ?? "Unknown",
+                LeaderInitials = team.Leader?.FullName?.Substring(0, 1)?.ToUpper() ?? "U",
+                TrackId = team.TrackId,
+                TrackName = team.Track?.Name ?? "Unknown",
+                TrackColor = team.Track?.Color ?? "#2F6FED",
+                ProjectId = team.ProjectId,
+                ProjectTitle = team.Project?.Title,
+                ProjectStatus = team.Project?.Status,
+                MaxMembers = team.MaxMembers,
+                CurrentMembers = team.Members?.Count ?? 0,
+                Status = team.Status,
+                StatusColor = team.Status == "Open" ? "#22C55E" : team.Status == "Full" ? "#F59E0B" : "#94A0B8",
+                CreatedAt = team.CreatedAt,
+                StartedAt = team.StartedAt,
+                CompletedAt = team.CompletedAt,
+                Members = team.Members?.Select(m => new TeamMemberViewModel
+                {
+                    UserId = m.UserId,
+                    FullName = m.User?.FullName ?? "Unknown",
+                    Initials = m.User?.FullName?.Substring(0, 1)?.ToUpper() ?? "U",
+                    Role = m.Role,
+                    JoinedAt = m.JoinedAt
+                }).ToList() ?? new(),
+                IsLeader = isLeader,
+                IsMember = isMember  // ✅ This is the key!
+            };
 
-		// GET: Teams/Create
-		//public IActionResult Create()
-		//{
-		//	return View();
-		//}
+            return View(viewModel);
+        }
+
+        // GET: Teams/Create
+        //public IActionResult Create()
+        //{
+        //	return View();
+        //}
 
         // GET: Teams/Create
         public async Task<IActionResult> Create()
@@ -350,19 +355,22 @@ namespace A3DET_CODE.Controllers
             if (team == null)
                 return NotFound();
 
+            // Check if user is already a member
+            var existingMember = team.Members?.FirstOrDefault(m => m.UserId == user.Id);
+            if (existingMember != null)
+            {
+                TempData["Error"] = "You are already a member of this team!";
+                return RedirectToAction(nameof(Details), new { id });
+            }
+
+            // Check if team is full
             if (team.Members.Count >= team.MaxMembers)
             {
                 TempData["Error"] = "Team is full!";
                 return RedirectToAction(nameof(Details), new { id });
             }
 
-            var exists = await _teamMemberRepository.ExistsAsync(id, user.Id);
-            if (exists)
-            {
-                TempData["Error"] = "You are already a member of this team!";
-                return RedirectToAction(nameof(Details), new { id });
-            }
-
+            // Add member
             var teamMember = new TeamMember
             {
                 TeamId = team.Id,
@@ -371,15 +379,17 @@ namespace A3DET_CODE.Controllers
                 JoinedAt = DateTime.UtcNow
             };
 
-            await _teamMemberRepository.AddAsync(teamMember);
-
+            _context.TeamMembers.Add(teamMember);
             team.CurrentMembers = team.Members.Count + 1;
+
             if (team.CurrentMembers >= team.MaxMembers)
                 team.Status = "Full";
 
-            await _teamRepository.UpdateAsync(team);
+            await _context.SaveChangesAsync();
 
             TempData["Success"] = "You joined the team successfully!";
+
+            // ✅ Redirect to Details with fresh data
             return RedirectToAction(nameof(Details), new { id });
         }
 

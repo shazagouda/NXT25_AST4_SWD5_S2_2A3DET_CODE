@@ -1,0 +1,625 @@
+﻿@model A3DET_CODE.ViewModels.Dashboard.TeamDashboardViewModel
+@{
+    ViewData["Title"] = $"Team Dashboard - {Model.TeamName}";
+    Layout = "_Layout";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/dashboard.css" asp-append-version="true" />
+    <style>
+        .team-dashboard-page {
+            background: var(--color-bg, #F6F7FB);
+            min-height: 100vh;
+            padding: var(--space-6, 2rem) 0;
+        }
+
+        .team-dashboard-header {
+            background: var(--color-surface, #FFFFFF);
+            border-radius: var(--radius-lg, 20px);
+            border: 1px solid var(--color-border, #E4E7EF);
+            padding: var(--space-6, 2rem);
+            margin-bottom: var(--space-6, 2rem);
+            box-shadow: var(--shadow-sm, 0 2px 8px rgba(10, 22, 40, 0.06));
+        }
+
+            .team-dashboard-header .team-name {
+                font-family: var(--font-display, 'Sora', sans-serif);
+                font-size: 2rem;
+                font-weight: 800;
+                color: var(--color-text-900, #0A1628);
+                margin: 0;
+            }
+
+            .team-dashboard-header .team-meta {
+                display: flex;
+                gap: var(--space-3, 0.75rem);
+                flex-wrap: wrap;
+                margin-top: var(--space-3, 0.75rem);
+            }
+
+            .team-dashboard-header .team-description {
+                color: var(--color-text-600, #5B6478);
+                font-size: 1rem;
+                margin-top: var(--space-2, 0.5rem);
+            }
+
+        .quick-actions {
+            display: flex;
+            gap: var(--space-3, 0.75rem);
+            flex-wrap: wrap;
+            margin-top: var(--space-4, 1rem);
+        }
+
+            .quick-actions .btn {
+                border-radius: var(--radius-pill, 999px);
+                font-weight: 600;
+                font-size: 0.85rem;
+                padding: var(--space-2, 0.5rem) var(--space-5, 1.5rem);
+            }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: var(--space-6, 2rem);
+            margin-bottom: var(--space-6, 2rem);
+        }
+
+        .dashboard-card {
+            background: var(--color-surface, #FFFFFF);
+            border-radius: var(--radius-lg, 20px);
+            border: 1px solid var(--color-border, #E4E7EF);
+            padding: var(--space-6, 2rem);
+            box-shadow: var(--shadow-sm, 0 2px 8px rgba(10, 22, 40, 0.06));
+        }
+
+            .dashboard-card .card-title {
+                font-family: var(--font-display, 'Sora', sans-serif);
+                font-size: var(--fs-h4, 1.125rem);
+                font-weight: 700;
+                color: var(--color-text-900, #0A1628);
+                margin: 0 0 var(--space-4, 1rem);
+                display: flex;
+                align-items: center;
+                gap: var(--space-2, 0.5rem);
+            }
+
+        .member-list {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-3, 0.75rem);
+        }
+
+        .member-item {
+            display: flex;
+            align-items: center;
+            gap: var(--space-3, 0.75rem);
+            padding: var(--space-2, 0.5rem) var(--space-3, 0.75rem);
+            background: var(--color-bg, #F6F7FB);
+            border-radius: var(--radius-sm, 8px);
+            transition: all 0.2s;
+        }
+
+            .member-item:hover {
+                background: var(--color-blue-100, #E8EFFE);
+            }
+
+        .member-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-weight: 700;
+            font-size: 0.85rem;
+            flex-shrink: 0;
+        }
+
+        .member-info {
+            flex: 1;
+        }
+
+        .member-name {
+            font-weight: 600;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            gap: var(--space-2, 0.5rem);
+        }
+
+        .member-role {
+            font-size: 0.8rem;
+            color: var(--color-text-400, #94A0B8);
+        }
+
+        .leader-badge {
+            font-size: 0.65rem;
+            background: #FFF8E1;
+            color: #F59E0B;
+            padding: 0.1rem 0.4rem;
+            border-radius: var(--radius-pill, 999px);
+            font-weight: 600;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: var(--space-4, 1rem);
+            margin-top: var(--space-4, 1rem);
+        }
+
+            .stats-grid .stat-item {
+                text-align: center;
+                padding: var(--space-3, 0.75rem);
+                background: var(--color-bg, #F6F7FB);
+                border-radius: var(--radius-sm, 8px);
+            }
+
+            .stats-grid .stat-number {
+                font-family: var(--font-mono, 'JetBrains Mono', monospace);
+                font-size: 1.75rem;
+                font-weight: 700;
+                color: var(--color-blue-600, #2F6FED);
+                display: block;
+            }
+
+            .stats-grid .stat-label {
+                font-size: 0.75rem;
+                color: var(--color-text-400, #94A0B8);
+                margin-top: var(--space-1, 0.25rem);
+            }
+
+        .progress-item {
+            margin-top: var(--space-4, 1rem);
+        }
+
+            .progress-item .progress-label {
+                display: flex;
+                justify-content: space-between;
+                font-size: 0.85rem;
+                color: var(--color-text-600, #5B6478);
+                margin-bottom: var(--space-1, 0.25rem);
+            }
+
+        .activity-list {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-3, 0.75rem);
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .activity-item {
+            display: flex;
+            align-items: flex-start;
+            gap: var(--space-3, 0.75rem);
+            padding: var(--space-2, 0.5rem) var(--space-3, 0.75rem);
+            background: var(--color-bg, #F6F7FB);
+            border-radius: var(--radius-sm, 8px);
+        }
+
+            .activity-item .activity-icon {
+                width: 32px;
+                height: 32px;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                flex-shrink: 0;
+                font-size: 0.75rem;
+            }
+
+                .activity-item .activity-icon.green {
+                    background: var(--color-teal-100, #E2FAF5);
+                    color: var(--color-teal-600, #15C6AE);
+                }
+
+                .activity-item .activity-icon.blue {
+                    background: var(--color-blue-100, #E8EFFE);
+                    color: var(--color-blue-600, #2F6FED);
+                }
+
+                .activity-item .activity-icon.amber {
+                    background: var(--color-amber-100, #FDF1DE);
+                    color: var(--color-amber-500, #F2A33C);
+                }
+
+                .activity-item .activity-icon.purple {
+                    background: #EDE4FF;
+                    color: var(--color-purple, #8B5CF6);
+                }
+
+            .activity-item .activity-content {
+                flex: 1;
+            }
+
+            .activity-item .activity-message {
+                font-size: 0.9rem;
+                color: var(--color-text-900, #0A1628);
+            }
+
+            .activity-item .activity-user {
+                font-weight: 600;
+            }
+
+            .activity-item .activity-time {
+                font-size: 0.7rem;
+                color: var(--color-text-400, #94A0B8);
+            }
+
+        .task-list {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-3, 0.75rem);
+        }
+
+        .task-item {
+            display: flex;
+            align-items: center;
+            gap: var(--space-3, 0.75rem);
+            padding: var(--space-2, 0.5rem) var(--space-3, 0.75rem);
+            background: var(--color-bg, #F6F7FB);
+            border-radius: var(--radius-sm, 8px);
+        }
+
+            .task-item .task-priority {
+                width: 8px;
+                height: 8px;
+                border-radius: 50%;
+                flex-shrink: 0;
+            }
+
+                .task-item .task-priority.high {
+                    background: var(--color-danger, #E14F4F);
+                }
+
+                .task-item .task-priority.medium {
+                    background: var(--color-amber-500, #F2A33C);
+                }
+
+                .task-item .task-priority.low {
+                    background: var(--color-teal-600, #15C6AE);
+                }
+
+            .task-item .task-info {
+                flex: 1;
+            }
+
+            .task-item .task-title {
+                font-weight: 500;
+                font-size: 0.9rem;
+            }
+
+            .task-item .task-due {
+                font-size: 0.7rem;
+                color: var(--color-text-400, #94A0B8);
+            }
+
+            .task-item .task-overdue {
+                color: var(--color-danger, #E14F4F);
+                font-weight: 600;
+            }
+
+            .task-item .task-assignee {
+                display: flex;
+                align-items: center;
+                gap: var(--space-2, 0.5rem);
+            }
+
+                .task-item .task-assignee .avatar-small {
+                    width: 24px;
+                    height: 24px;
+                    border-radius: 50%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    color: #fff;
+                    font-size: 0.6rem;
+                    font-weight: 700;
+                }
+
+        .full-width {
+            grid-column: 1 / -1;
+        }
+
+        @@media (max-width: 992px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @@media (max-width: 640px) {
+            .team-dashboard-header {
+                padding: var(--space-4, 1rem);
+            }
+
+                .team-dashboard-header .team-name {
+                    font-size: 1.5rem;
+                }
+
+            .dashboard-card {
+                padding: var(--space-4, 1rem);
+            }
+
+            .quick-actions {
+                flex-direction: column;
+            }
+
+                .quick-actions .btn {
+                    width: 100%;
+                    justify-content: center;
+                }
+
+            .stats-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+    </style>
+}
+
+<div class="team-dashboard-page">
+    <div class="container">
+
+        <!-- Header -->
+        <div class="team-dashboard-header">
+            <div class="d-flex justify-content-between align-items-start flex-wrap">
+                <div>
+                    <div class="team-meta">
+                        <span class="badge" style="background-color: @Model.TrackColor; color: #fff;">
+                            @Model.TrackName
+                        </span>
+                        <span class="badge @(Model.Status == "Open" ? "bg-success" : Model.Status == "Full" ? "bg-warning" : "bg-secondary")">
+                            @Model.Status
+                        </span>
+                        <span class="badge bg-info">
+                            @Model.CurrentMembers / @Model.MaxMembers members
+                        </span>
+                    </div>
+                    <h1 class="team-name">@Model.TeamName</h1>
+                    <p class="team-description">@Model.TeamDescription</p>
+                </div>
+                <div class="text-end">
+                    @if (Model.IsLeader)
+                    {
+                        <span class="badge bg-primary">👑 Team Leader</span>
+                    }
+                    else
+                    {
+                        <span class="badge bg-secondary">Member</span>
+                    }
+                </div>
+            </div>
+            <div class="quick-actions">
+                @if (Model.ProjectId.HasValue)
+                {
+                    <a asp-controller="Projects" asp-action="Details" asp-route-id="@Model.ProjectId" class="btn btn-primary">
+                        <i class="fa-solid fa-eye me-2"></i>View Project
+                    </a>
+                    <a asp-controller="Tasks" asp-action="Create" asp-route-projectId="@Model.ProjectId" class="btn btn-outline-success">
+                        <i class="fa-solid fa-plus me-2"></i>Create Task
+                    </a>
+                    <a asp-controller="Submissions" asp-action="Create" asp-route-projectId="@Model.ProjectId" class="btn btn-outline-warning">
+                        <i class="fa-solid fa-upload me-2"></i>Submit Work
+                    </a>
+                }
+                else
+                {
+                    <a asp-controller="Projects" asp-action="Create" class="btn btn-primary">
+                        <i class="fa-solid fa-plus me-2"></i>Create Project
+                    </a>
+                }
+                <a asp-controller="Teams" asp-action="Details" asp-route-id="@Model.TeamId" class="btn btn-outline-secondary">
+                    <i class="fa-solid fa-users me-2"></i>Team Details
+                </a>
+            </div>
+        </div>
+
+        <!-- Dashboard Grid -->
+        <div class="dashboard-grid">
+
+            <!-- Left Column -->
+            <div class="dashboard-grid-left">
+
+                <!-- Progress Card -->
+                @if (Model.ProjectId.HasValue)
+                {
+                    <div class="dashboard-card">
+                        <h3 class="card-title">
+                            <i class="fa-solid fa-chart-line"></i> Project Progress
+                        </h3>
+                        <div class="progress-item">
+                            <div class="progress-label">
+                                <span>@Model.ProjectTitle</span>
+                                <span>@Model.ProjectProgress%</span>
+                            </div>
+                            <div class="progress" style="height: 8px;">
+                                <div class="progress-bar" role="progressbar"
+                                     style="width: @Model.ProjectProgress%; background: linear-gradient(90deg, #2F6FED, #15C6AE);"
+                                     aria-valuenow="@Model.ProjectProgress" aria-valuemin="0" aria-valuemax="100">
+                                </div>
+                            </div>
+                            <div class="stats-grid">
+                                <div class="stat-item">
+                                    <span class="stat-number">@Model.TotalTasks</span>
+                                    <span class="stat-label">Total Tasks</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-number text-success">@Model.CompletedTasks</span>
+                                    <span class="stat-label">Completed</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-number text-warning">@Model.InProgressTasks</span>
+                                    <span class="stat-label">In Progress</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-number text-muted">@Model.PendingTasks</span>
+                                    <span class="stat-label">Pending</span>
+                                </div>
+                            </div>
+                            <div class="mt-3">
+                                <span class="text-muted small">Task Completion Rate: </span>
+                                <span class="fw-bold">@Model.TaskCompletionRate%</span>
+                            </div>
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <div class="dashboard-card">
+                        <h3 class="card-title">
+                            <i class="fa-solid fa-rocket"></i> No Project Assigned
+                        </h3>
+                        <p class="text-muted">This team doesn't have a project assigned yet.</p>
+                        @if (Model.IsLeader)
+                        {
+                            <a asp-controller="Projects" asp-action="Create" class="btn btn-primary">
+                                <i class="fa-solid fa-plus me-2"></i>Create a Project
+                            </a>
+                        }
+                    </div>
+                }
+
+                <!-- Members Card -->
+                <div class="dashboard-card">
+                    <h3 class="card-title">
+                        <i class="fa-solid fa-users"></i> Members
+                        <span class="badge bg-secondary ms-2">@Model.CurrentMembers</span>
+                    </h3>
+                    <div class="member-list">
+                        @foreach (var member in Model.Members)
+                        {
+                            <div class="member-item">
+                                <div class="member-avatar" style="background: @(member.Role == "Leader" ? "#2F6FED" : "#15C6AE");">
+                                    @member.Initials
+                                </div>
+                                <div class="member-info">
+                                    <div class="member-name">
+                                        @member.FullName
+                                        @if (member.Role == "Leader")
+                                        {
+                                            <span class="leader-badge">👑 Leader</span>
+                                        }
+                                    </div>
+                                    <div class="member-role">@member.Role</div>
+                                </div>
+                                <div class="text-muted small">@member.JoinedAt.ToString("MMM dd")</div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column -->
+            <div class="dashboard-grid-right">
+
+                <!-- Submissions Stats -->
+                @if (Model.ProjectId.HasValue)
+                {
+                    <div class="dashboard-card">
+                        <h3 class="card-title">
+                            <i class="fa-solid fa-file-lines"></i> Submissions
+                        </h3>
+                        <div class="stats-grid">
+                            <div class="stat-item">
+                                <span class="stat-number">@Model.TotalSubmissions</span>
+                                <span class="stat-label">Total</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-number text-warning">@Model.PendingSubmissions</span>
+                                <span class="stat-label">Pending Review</span>
+                            </div>
+                            <div class="stat-item full-width">
+                                <span class="stat-number">@Model.AverageScore%</span>
+                                <span class="stat-label">Average Score</span>
+                            </div>
+                        </div>
+                        @if (Model.IsLeader && Model.PendingSubmissions > 0)
+                        {
+                            <a asp-controller="Submissions" asp-action="ProjectSubmissions" asp-route-projectId="@Model.ProjectId" class="btn btn-outline-primary btn-sm w-100 mt-3">
+                                <i class="fa-solid fa-pen me-2"></i>Review Pending Submissions
+                            </a>
+                        }
+                    </div>
+                }
+
+                <!-- Upcoming Tasks -->
+                <div class="dashboard-card">
+                    <h3 class="card-title">
+                        <i class="fa-solid fa-clock"></i> Upcoming Tasks
+                        @if (Model.UpcomingTasks.Any())
+                        {
+                            <span class="badge bg-warning ms-2">@Model.UpcomingTasks.Count</span>
+                        }
+                    </h3>
+                    @if (Model.UpcomingTasks.Any())
+                    {
+                        <div class="task-list">
+                            @foreach (var task in Model.UpcomingTasks)
+                            {
+                                <div class="task-item">
+                                    <div class="task-priority @task.Priority.ToLower()"></div>
+                                    <div class="task-info">
+                                        <div class="task-title">@task.Title</div>
+                                        <div class="task-due">
+                                            Due: @task.DueDate.ToString("MMM dd, yyyy")
+                                            @if (task.DueDate < DateTime.Now)
+                                            {
+                                                <span class="task-overdue">(Overdue)</span>
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    }
+                    else
+                    {
+                        <p class="text-muted text-center py-3">No upcoming tasks</p>
+                    }
+                    @if (Model.ProjectId.HasValue)
+                    {
+                        <a asp-controller="Tasks" asp-action="ProjectTasks" asp-route-projectId="@Model.ProjectId" class="btn btn-outline-secondary btn-sm w-100 mt-3">
+                            <i class="fa-solid fa-eye me-2"></i>View All Tasks
+                        </a>
+                    }
+                </div>
+
+                <!-- Recent Activity -->
+                <div class="dashboard-card">
+                    <h3 class="card-title">
+                        <i class="fa-solid fa-bolt"></i> Recent Activity
+                    </h3>
+                    @if (Model.RecentActivities.Any())
+                    {
+                        <div class="activity-list">
+                            @foreach (var activity in Model.RecentActivities.Take(8))
+                            {
+                                <div class="activity-item">
+                                    <div class="activity-icon @activity.IconColor">
+                                        <i class="@activity.Icon"></i>
+                                    </div>
+                                    <div class="activity-content">
+                                        <div class="activity-message">
+                                            <span class="activity-user">@activity.UserName</span>
+                                            @activity.Message
+                                        </div>
+                                        <div class="activity-time">@activity.Timestamp.ToString("MMM dd, h:mm tt")</div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    }
+                    else
+                    {
+                        <p class="text-muted text-center py-3">No recent activity</p>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
