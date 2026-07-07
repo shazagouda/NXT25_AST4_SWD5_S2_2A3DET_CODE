@@ -34,6 +34,9 @@ namespace A3DET_CODE.Models
         public ICollection<UserBadge> UserBadges { get; set; } = new List<UserBadge>();
         public ICollection<Evaluation> Evaluations { get; set; } = new List<Evaluation>();
         public ICollection<AssessmentResult> AssessmentResults { get; set; } = new List<AssessmentResult>();
+        public ICollection<Application> Applications { get; set; } = new List<Application>();
+        public ICollection<Hiring> CompanyHirings { get; set; } = new List<Hiring>();
+        public ICollection<Hiring> StudentHirings { get; set; } = new List<Hiring>();
         public virtual ICollection<MentorMentee> MentorRelationships { get; set; } = new List<MentorMentee>();
     }
 }

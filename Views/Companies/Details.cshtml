@@ -1,0 +1,58 @@
+@model A3DET_CODE.ViewModels.Company.CompanyDetailViewModel
+@{
+    ViewData["Title"] = Model.CompanyName;
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/mentors.css" asp-append-version="true" />
+}
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card shadow-sm border-0 rounded-4 p-4">
+                <div class="d-flex align-items-center gap-4">
+                    <div class="mentor-avatar" style="width: 80px; height: 80px; font-size: 1.5rem; background: linear-gradient(135deg, #2F6FED, #15C6AE);">
+                        @Model.Initials
+                    </div>
+                    <div>
+                        <h2 class="mb-2">@Model.CompanyName</h2>
+                        <p class="text-muted mb-2">@Model.Industry</p>
+                        <span class="badge bg-success">@(Model.IsActive ? "Active" : "Inactive")</span>
+                    </div>
+                </div>
+
+                <hr class="my-4" />
+
+                <div class="mb-4">
+                    <h5>About</h5>
+                    <p class="text-muted">@Model.CompanyDescription</p>
+                </div>
+
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <h6>Email</h6>
+                        <p>@Model.Email</p>
+                    </div>
+                    <div class="col-md-6">
+                        <h6>Website</h6>
+                        <p>
+                            @if (!string.IsNullOrWhiteSpace(Model.Website))
+                            {
+                                <a href="@Model.Website" target="_blank" rel="noopener noreferrer">@Model.Website</a>
+                            }
+                            else
+                            {
+                                <span class="text-muted">Not provided</span>
+                            }
+                        </p>
+                    </div>
+                </div>
+
+                <div class="mt-4">
+                    <a asp-action="Index" class="btn btn-secondary">Back to Companies</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

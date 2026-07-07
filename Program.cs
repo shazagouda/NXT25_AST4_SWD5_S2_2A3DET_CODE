@@ -23,6 +23,10 @@ builder.Services.AddScoped<IProjectRepository, ProjectRepository>();
 builder.Services.AddScoped<ITaskRepository, TaskRepository>();
 builder.Services.AddScoped<ISubmissionRepository, SubmissionRepository>();
 builder.Services.AddScoped<ITeamMemberRepository, TeamMemberRepository>();
+builder.Services.AddScoped<ICompanyRepository, CompanyRepository>();
+builder.Services.AddScoped<IApplicationRepository, ApplicationRepository>();
+builder.Services.AddScoped<IPortfolioRepository, PortfolioRepository>();
+builder.Services.AddScoped<IHiringRepository, HiringRepository>();
 
 // Add DbContext
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
@@ -121,6 +125,25 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
+async System.Threading.Tasks.Task EnsureRoleExistsAsync(RoleManager<IdentityRole> roleManager, string roleName)
+{
+    if (await roleManager.RoleExistsAsync(roleName))
+        return;
+
+    var result = await roleManager.CreateAsync(new IdentityRole(roleName));
+    if (result.Succeeded)
+    {
+        Console.WriteLine($"✅ Role '{roleName}' created.");
+    }
+    else
+    {
+        foreach (var error in result.Errors)
+        {
+            Console.WriteLine($"❌ Error creating role '{roleName}': {error.Description}");
+        }
+    }
+}
+
 // ============ SEED DATA ============
 using (var scope = app.Services.CreateScope())
 {
@@ -135,11 +158,7 @@ using (var scope = app.Services.CreateScope())
         string[] roleNames = { "Student", "Mentor", "Company", "Admin" };
         foreach (var roleName in roleNames)
         {
-            if (!await roleManager.RoleExistsAsync(roleName))
-            {
-                await roleManager.CreateAsync(new IdentityRole(roleName));
-                Console.WriteLine($"✅ Role '{roleName}' created.");
-            }
+            await EnsureRoleExistsAsync(roleManager, roleName);
         }
 
         // Create test student

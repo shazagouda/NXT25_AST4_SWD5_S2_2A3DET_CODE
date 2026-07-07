@@ -1,0 +1,67 @@
+@model A3DET_CODE.ViewModels.Account.RegisterCompanyViewModel
+@{
+    ViewData["Title"] = "Company Registration";
+}
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-7">
+            <div class="card shadow-sm border-0">
+                <div class="card-body p-4 p-md-5">
+                    <h2 class="mb-3">Register as a Company</h2>
+                    <p class="text-muted">Create your company account and start posting projects.</p>
+
+                    <form asp-action="Register" method="post">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label asp-for="CompanyName" class="form-label"></label>
+                                <input asp-for="CompanyName" class="form-control" />
+                                <span asp-validation-for="CompanyName" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-6">
+                                <label asp-for="Email" class="form-label"></label>
+                                <input asp-for="Email" class="form-control" />
+                                <span asp-validation-for="Email" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-6">
+                                <label asp-for="Industry" class="form-label"></label>
+                                <input asp-for="Industry" class="form-control" />
+                                <span asp-validation-for="Industry" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-6">
+                                <label asp-for="Website" class="form-label"></label>
+                                <input asp-for="Website" class="form-control" />
+                                <span asp-validation-for="Website" class="text-danger"></span>
+                            </div>
+                            <div class="col-12">
+                                <label asp-for="CompanyDescription" class="form-label"></label>
+                                <textarea asp-for="CompanyDescription" class="form-control" rows="3"></textarea>
+                                <span asp-validation-for="CompanyDescription" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-6">
+                                <label asp-for="Password" class="form-label"></label>
+                                <input asp-for="Password" class="form-control" />
+                                <span asp-validation-for="Password" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-6">
+                                <label asp-for="ConfirmPassword" class="form-label"></label>
+                                <input asp-for="ConfirmPassword" class="form-control" />
+                                <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-check mt-4">
+                            <input asp-for="AcceptTerms" class="form-check-input" />
+                            <label asp-for="AcceptTerms" class="form-check-label"></label>
+                        </div>
+                        <span asp-validation-for="AcceptTerms" class="text-danger"></span>
+
+                        <button type="submit" class="btn btn-primary mt-4">Create Company Account</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

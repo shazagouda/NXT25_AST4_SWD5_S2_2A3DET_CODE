@@ -1,0 +1,26 @@
+@model IEnumerable<A3DET_CODE.Models.ApplicationUser>
+@{
+    ViewData["Title"] = "Browse Students";
+}
+
+<div class="container py-4">
+    <h2 class="mb-4">Browse Students</h2>
+    <div class="row g-4">
+        @foreach (var student in Model)
+        {
+            <div class="col-md-6 col-lg-4">
+                <div class="card shadow-sm border-0 h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">@student.FullName</h5>
+                        <p class="text-muted mb-2">@student.University</p>
+                        <p class="mb-2"><strong>Skills:</strong> @student.Skills</p>
+                        <div class="d-flex gap-2">
+                            <a asp-action="Details" asp-controller="Profile" asp-route-id="@student.Id" class="btn btn-outline-primary btn-sm">View Profile</a>
+                            <a asp-action="Details" asp-controller="Portfolio" asp-route-id="@student.Id" class="btn btn-outline-secondary btn-sm">View Portfolio</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

@@ -1,0 +1,57 @@
+@model A3DET_CODE.ViewModels.Project.ProjectViewModel
+@{
+    ViewData["Title"] = "Post Project";
+    var tracks = ViewBag.Tracks as IEnumerable<A3DET_CODE.Models.Track> ?? Enumerable.Empty<A3DET_CODE.Models.Track>();
+}
+
+<div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card shadow-sm border-0">
+                <div class="card-body p-4">
+                    <h2 class="mb-3">Post a Project</h2>
+                    <form asp-action="PostProject" method="post">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                        <div class="mb-3">
+                            <label asp-for="Title" class="form-label"></label>
+                            <input asp-for="Title" class="form-control" />
+                            <span asp-validation-for="Title" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Description" class="form-label"></label>
+                            <textarea asp-for="Description" class="form-control" rows="4"></textarea>
+                            <span asp-validation-for="Description" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="TechStack" class="form-label"></label>
+                            <input asp-for="TechStack" class="form-control" />
+                            <span asp-validation-for="TechStack" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Type" class="form-label"></label>
+                            <input asp-for="Type" class="form-control" />
+                            <span asp-validation-for="Type" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="TrackId" class="form-label">Track</label>
+                            <select asp-for="TrackId" class="form-select">
+                                <option value="">Select a track</option>
+                                @foreach (var track in tracks)
+                                {
+                                    <option value="@track.Id">@track.Name</option>
+                                }
+                            </select>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary">Post Project</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

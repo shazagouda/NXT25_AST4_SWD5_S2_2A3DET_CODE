@@ -1,0 +1,135 @@
+@model A3DET_CODE.ViewModels.Company.CompanyPagedViewModel
+@{
+    ViewData["Title"] = "Companies";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/mentors.css" asp-append-version="true" />
+}
+
+<div class="mentors-hero">
+    <div class="container">
+        <div class="mentors-hero-content">
+            <span class="hero-badge">🏢 Trusted Partners</span>
+            <h1>Discover <span class="highlight">Companies</span></h1>
+            <p>Browse organizations already registered on the platform and learn more about the industries and teams they represent.</p>
+            <div class="mentors-stats">
+                <div>
+                    <span class="stat-number">@Model.TotalCount</span>
+                    <span class="stat-label">Registered Companies</span>
+                </div>
+                <div>
+                    <span class="stat-number">@Model.TotalPages</span>
+                    <span class="stat-label">Pages</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<section class="mentors-filters">
+    <div class="container">
+        <form method="get" id="filterForm">
+            <div class="filters-wrapper">
+                <div class="filters-left">
+                    <div class="search-box">
+                        <i class="fa-solid fa-search"></i>
+                        <input type="text" name="search" placeholder="Search by company or industry..." value="@Model.SearchTerm" />
+                    </div>
+                </div>
+                <div class="filters-right">
+                    <div class="filter-group">
+                        <label>Industry</label>
+                        <select name="industry" onchange="this.form.submit()">
+                            <option value="all">All Industries</option>
+                            @foreach (var industry in ViewBag.IndustryList as List<string> ?? new List<string>())
+                            {
+                                <option value="@industry" selected="@(Model.Industry == industry)">@industry</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label>Sort By</label>
+                        <select name="sort" onchange="this.form.submit()">
+                            <option value="name" selected="@(Model.SortBy == "name" || string.IsNullOrEmpty(Model.SortBy))">Name</option>
+                            <option value="newest" selected="@(Model.SortBy == "newest")">Newest</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-sm">Apply</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</section>
+
+<section class="mentors-grid-section">
+    <div class="container">
+        @if (!Model.Companies.Any())
+        {
+            <div class="text-center py-5">
+                <p class="text-muted">No companies found matching your criteria.</p>
+                <a href="@Url.Action("Index")" class="btn btn-secondary btn-sm mt-3">Clear Filters</a>
+            </div>
+        }
+        else
+        {
+            <div class="mentors-grid">
+                @foreach (var company in Model.Companies)
+                {
+                    <div class="mentor-card" onclick="location.href='@Url.Action("Details", new { id = company.Id })'" style="cursor:pointer;">
+                        <div class="mentor-top">
+                            <div class="mentor-avatar" style="background: linear-gradient(135deg, #2F6FED, #15C6AE);">
+                                @company.Initials
+                            </div>
+                            <div class="mentor-info">
+                                <h4 class="mentor-name">@company.CompanyName</h4>
+                                <p class="mentor-expertise">@company.Industry</p>
+                                <div class="mentor-rating">
+                                    <span class="stars">●</span>
+                                    <span class="rating-count">@(company.IsActive ? "Active" : "Inactive")</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mentor-skills">
+                            <span>@company.CompanyDescription</span>
+                        </div>
+                        <div class="mentor-footer">
+                            <span class="mentor-sessions">📍 @company.Email</span>
+                            <a href="@Url.Action("Details", new { id = company.Id })" class="btn-book">View Profile</a>
+                        </div>
+                    </div>
+                }
+            </div>
+
+            @if (Model.TotalPages > 1)
+            {
+                <nav class="pagination-wrapper mt-5">
+                    <ul class="pagination justify-content-center">
+                        @if (Model.HasPreviousPage)
+                        {
+                            <li class="page-item">
+                                <a class="page-link" href="@Url.Action("Index", new { page = Model.CurrentPage - 1, search = Model.SearchTerm, industry = Model.Industry, sort = Model.SortBy })">
+                                    <i class="fa-solid fa-chevron-left"></i>
+                                </a>
+                            </li>
+                        }
+                        @foreach (var pageNumber in Model.GetPageNumbers())
+                        {
+                            <li class="page-item @(pageNumber == Model.CurrentPage ? "active" : "")">
+                                <a class="page-link" href="@Url.Action("Index", new { page = pageNumber, search = Model.SearchTerm, industry = Model.Industry, sort = Model.SortBy })">@pageNumber</a>
+                            </li>
+                        }
+                        @if (Model.HasNextPage)
+                        {
+                            <li class="page-item">
+                                <a class="page-link" href="@Url.Action("Index", new { page = Model.CurrentPage + 1, search = Model.SearchTerm, industry = Model.Industry, sort = Model.SortBy })">
+                                    <i class="fa-solid fa-chevron-right"></i>
+                                </a>
+                            </li>
+                        }
+                    </ul>
+                </nav>
+            }
+        }
+    </div>
+</section>

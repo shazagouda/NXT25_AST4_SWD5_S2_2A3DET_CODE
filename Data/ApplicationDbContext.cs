@@ -28,6 +28,8 @@ namespace A3DET_CODE.Data
         public DbSet<Task> Tasks { get; set; }
         public DbSet<Submission> Submissions { get; set; }
         public DbSet<EntryAssessment> EntryAssessments { get; set; }
+        public DbSet<Application> Applications { get; set; }
+        public DbSet<Hiring> Hirings { get; set; }
 
         // ✅ Mentor System - DbSets الجديدة
         public DbSet<MentorSession> MentorSessions { get; set; }
@@ -127,6 +129,36 @@ namespace A3DET_CODE.Data
                 .WithMany(t => t.AssessmentQuestions)
                 .HasForeignKey(aq => aq.TrackId)
                 .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Application>()
+                .HasOne(a => a.Project)
+                .WithMany(p => p.Applications)
+                .HasForeignKey(a => a.ProjectId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Application>()
+                .HasOne(a => a.Applicant)
+                .WithMany(u => u.Applications)
+                .HasForeignKey(a => a.ApplicantId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Hiring>()
+                .HasOne(h => h.Application)
+                .WithOne(a => a.Hiring)
+                .HasForeignKey<Hiring>(h => h.ApplicationId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Hiring>()
+                .HasOne(h => h.Company)
+                .WithMany(u => u.CompanyHirings)
+                .HasForeignKey(h => h.CompanyId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Hiring>()
+                .HasOne(h => h.Student)
+                .WithMany(u => u.StudentHirings)
+                .HasForeignKey(h => h.StudentId)
+                .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Project>()
                .HasOne(p => p.Client)

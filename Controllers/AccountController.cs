@@ -132,6 +132,7 @@ namespace A3DET_CODE.Controllers
             var result = await _userManager.CreateAsync(user, model.Password);
             if (result.Succeeded)
             {
+                await EnsureRoleExistsAsync("Student");
                 await _userManager.AddToRoleAsync(user, "Student");
 
                 var signInResult = await _signInManager.PasswordSignInAsync(user, model.Password, isPersistent: false, lockoutOnFailure: false);
@@ -189,6 +190,7 @@ namespace A3DET_CODE.Controllers
             var result = await _userManager.CreateAsync(user, model.Password);
             if (result.Succeeded)
             {
+                await EnsureRoleExistsAsync("Mentor");
                 await _userManager.AddToRoleAsync(user, "Mentor");
 
                 // ✅ إنشاء Mentor profile وربطه بالمستخدم
@@ -236,6 +238,14 @@ namespace A3DET_CODE.Controllers
             return (parts[0].Substring(0, 1) + parts[parts.Length - 1].Substring(0, 1)).ToUpper();
         }
 
+        private async System.Threading.Tasks.Task EnsureRoleExistsAsync(string roleName)
+        {
+            if (!await _roleManager.RoleExistsAsync(roleName))
+            {
+                await _roleManager.CreateAsync(new IdentityRole(roleName));
+            }
+        }
+
         // POST: RegisterCompany
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -274,6 +284,7 @@ namespace A3DET_CODE.Controllers
             var result = await _userManager.CreateAsync(user, model.Password);
             if (result.Succeeded)
             {
+                await EnsureRoleExistsAsync("Company");
                 await _userManager.AddToRoleAsync(user, "Company");
                 var signInResult = await _signInManager.PasswordSignInAsync(user, model.Password, isPersistent: false, lockoutOnFailure: false);
                 if (signInResult.Succeeded)

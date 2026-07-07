@@ -92,6 +92,40 @@ namespace A3DET_CODE.Controllers
             return View(viewModel);
         }
 
+        public async Task<IActionResult> Details(string id)
+        {
+            var user = await _userManager.FindByIdAsync(id);
+            if (user == null)
+                return NotFound();
+
+            var roles = await _userManager.GetRolesAsync(user);
+            var role = roles.FirstOrDefault() ?? "Student";
+
+            var viewModel = new ProfileViewModel
+            {
+                UserId = user.Id,
+                FullName = user.FullName,
+                Email = user.Email ?? string.Empty,
+                Role = role,
+                IsActive = user.IsActive,
+                CreatedAt = user.CreatedAt,
+                LastLoginAt = user.LastLoginAt,
+                University = user.University,
+                Faculty = user.Faculty,
+                AcademicYear = user.AcademicYear,
+                JobTitle = user.JobTitle,
+                YearsOfExperience = user.YearsOfExperience,
+                Skills = user.Skills,
+                LinkedInUrl = user.LinkedInUrl,
+                CompanyName = user.CompanyName,
+                Industry = user.Industry,
+                CompanyDescription = user.CompanyDescription,
+                Website = user.Website
+            };
+
+            return View(viewModel);
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(EditProfileViewModel model)

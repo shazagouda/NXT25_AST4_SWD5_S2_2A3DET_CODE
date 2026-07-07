@@ -15,6 +15,7 @@ namespace A3DET_CODE.Controllers
 		private readonly IProjectRepository _projectRepository;
 		private readonly ApplicationDbContext _context;
 		private readonly ITeamRepository _teamRepository;
+		private readonly IApplicationRepository _applicationRepository;
 		private readonly UserManager<ApplicationUser> _userManager;
 		private readonly ILogger<ProjectsController> _logger;
 
@@ -22,12 +23,14 @@ namespace A3DET_CODE.Controllers
 			IProjectRepository projectRepository,
 			ApplicationDbContext context,
 			ITeamRepository teamRepository,
+			IApplicationRepository applicationRepository,
 			UserManager<ApplicationUser> userManager,
 			ILogger<ProjectsController> logger)
 		{
 			_projectRepository = projectRepository;
 			_context = context;
 			_teamRepository = teamRepository;
+			_applicationRepository = applicationRepository;
 			_userManager = userManager;
 			_logger = logger;
 		}

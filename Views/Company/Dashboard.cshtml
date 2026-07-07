@@ -1,0 +1,69 @@
+@model A3DET_CODE.Models.ApplicationUser
+@{
+    ViewData["Title"] = "Company Dashboard";
+    var projects = ViewBag.Projects as IEnumerable<A3DET_CODE.Models.Project> ?? Enumerable.Empty<A3DET_CODE.Models.Project>();
+    var applications = ViewBag.Applications as IEnumerable<A3DET_CODE.Models.Application> ?? Enumerable.Empty<A3DET_CODE.Models.Application>();
+}
+
+<div class="container py-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2 class="mb-1">Company Dashboard</h2>
+            <p class="text-muted mb-0">Welcome, @Model.CompanyName</p>
+        </div>
+        <div class="d-flex gap-2">
+            <a asp-action="BrowseStudents" class="btn btn-outline-primary">Browse Students</a>
+            <a asp-action="BrowseTeams" class="btn btn-outline-primary">Browse Teams</a>
+            <a asp-action="PostProject" class="btn btn-primary">Post Project</a>
+        </div>
+    </div>
+
+    <div class="row g-4">
+        <div class="col-md-6">
+            <div class="card shadow-sm border-0 h-100">
+                <div class="card-body">
+                    <h5 class="card-title">Your Projects</h5>
+                    @if (projects.Any())
+                    {
+                        <ul class="list-group list-group-flush">
+                            @foreach (var project in projects)
+                            {
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <span>@project.Title</span>
+                                    <span class="badge bg-primary">@project.Status</span>
+                                </li>
+                            }
+                        </ul>
+                    }
+                    else
+                    {
+                        <p class="text-muted mb-0">No projects posted yet.</p>
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card shadow-sm border-0 h-100">
+                <div class="card-body">
+                    <h5 class="card-title">Recent Applications</h5>
+                    @if (applications.Any())
+                    {
+                        <ul class="list-group list-group-flush">
+                            @foreach (var application in applications)
+                            {
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <span>@application.Applicant?.FullName - @application.Project?.Title</span>
+                                    <span class="badge bg-info text-dark">@application.Status</span>
+                                </li>
+                            }
+                        </ul>
+                    }
+                    else
+                    {
+                        <p class="text-muted mb-0">No applications yet.</p>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

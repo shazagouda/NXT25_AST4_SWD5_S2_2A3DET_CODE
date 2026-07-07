@@ -1,0 +1,28 @@
+@model IEnumerable<A3DET_CODE.Models.Team>
+@{
+    ViewData["Title"] = "Browse Teams";
+}
+
+<div class="container py-4">
+    <h2 class="mb-4">Browse Teams</h2>
+    <div class="row g-4">
+        @foreach (var team in Model)
+        {
+            <div class="col-md-6 col-lg-4">
+                <div class="card shadow-sm border-0 h-100">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <h5 class="card-title">@team.Name</h5>
+                            <span class="badge bg-primary">@team.Status</span>
+                        </div>
+                        <p class="text-muted">@team.Description</p>
+                        <p class="mb-2"><strong>Track:</strong> @team.Track?.Name</p>
+                        <p class="mb-2"><strong>Members:</strong> @team.Members.Count / @team.MaxMembers</p>
+                        <p class="mb-3"><strong>Project:</strong> @(team.Project?.Title ?? "No project assigned")</p>
+                        <a asp-controller="Teams" asp-action="Details" asp-route-id="@team.Id" class="btn btn-outline-primary btn-sm">View Team</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
