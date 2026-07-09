@@ -9,6 +9,8 @@ namespace A3DET_CODE.ViewModels.Mentor
         [Display(Name = "Full Name")]
         public string FullName { get; set; } = string.Empty;
 
+        public string? ProfileImageUrl { get; set; }
+
         [Display(Name = "Initials")]
         public string Initials { get; set; } = string.Empty;
 

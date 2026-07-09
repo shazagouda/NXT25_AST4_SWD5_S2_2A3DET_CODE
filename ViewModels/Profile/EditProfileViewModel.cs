@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Http;
+using System.ComponentModel.DataAnnotations;
 
 namespace A3DET_CODE.ViewModels.Profile
 {
@@ -11,6 +12,11 @@ namespace A3DET_CODE.ViewModels.Profile
 
         [Display(Name = "Email Address")]
         public string Email { get; set; } = string.Empty;
+
+        [Display(Name = "Profile Image")]
+        public IFormFile? ProfileImage { get; set; }
+
+        public string? CurrentProfileImageUrl { get; set; }
 
         public string Role { get; set; } = string.Empty;
 

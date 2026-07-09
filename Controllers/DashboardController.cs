@@ -250,6 +250,7 @@ namespace A3DET_CODE.Controllers
                 UserName = user.FullName,
                 UserRole = "Student",
                 UserAvatar = user.FullName?.Substring(0, 1).ToUpper() ?? "U",
+                ProfileImageUrl = user.ProfileImageUrl,
                 LastLogin = user.LastLoginAt ?? DateTime.Now,
 
                 TotalProjects = 5,
@@ -297,6 +298,7 @@ namespace A3DET_CODE.Controllers
                 UserName = user.FullName,
                 UserRole = "Company",
                 UserAvatar = user.FullName?.Substring(0, 1).ToUpper() ?? "U",
+                ProfileImageUrl = user.ProfileImageUrl,
                 LastLogin = user.LastLoginAt ?? DateTime.Now,
 
                 TotalJobPosts = 12,

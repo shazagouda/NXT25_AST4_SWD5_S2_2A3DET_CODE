@@ -168,6 +168,12 @@
                     </div>
                     <div class="actions-card-body">
                         <div class="d-flex gap-2 flex-wrap">
+                            <form asp-action="Apply" asp-route-id="@Model.Id" method="post" class="d-inline">
+                                <input type="text" name="coverLetter" class="form-control form-control-sm me-2" placeholder="Short motivation" />
+                                <button type="submit" class="btn btn-primary btn-sm">
+                                    <i class="fa-solid fa-paper-plane me-2"></i>Apply
+                                </button>
+                            </form>
                             <a asp-controller="Tasks" asp-action="ProjectTasks" asp-route-projectId="@Model.Id" class="btn btn-outline-primary btn-sm">
                                 <i class="fa-solid fa-list-check me-2"></i>View Tasks
                             </a>

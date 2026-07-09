@@ -1,0 +1,36 @@
+@model A3DET_CODE.Models.Portfolio
+@{
+    ViewData["Title"] = "Portfolio";
+}
+
+<div class="container py-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2 class="mb-1">Portfolio</h2>
+            <p class="text-muted mb-0">A generated portfolio page for your work.</p>
+        </div>
+        <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-outline-primary">Edit Portfolio</a>
+    </div>
+
+    <div class="card shadow-sm border-0">
+        <div class="card-body">
+            <h4 class="mb-3">@Model.User?.FullName</h4>
+            <p>@Model.Bio</p>
+            <p><strong>Skills:</strong> @Model.Skills</p>
+            <p><strong>GitHub:</strong> @Model.GitHubUrl</p>
+            <p><strong>LinkedIn:</strong> @Model.LinkedInUrl</p>
+            <p><strong>Profile Strength:</strong> @Model.ProfileStrength%</p>
+
+            @if (Model.Projects.Any())
+            {
+                <h5 class="mt-4">Projects</h5>
+                <ul>
+                    @foreach (var item in Model.Projects)
+                    {
+                        <li>@item.Project?.Title</li>
+                    }
+                </ul>
+            }
+        </div>
+    </div>
+</div>

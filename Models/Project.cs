@@ -57,5 +57,6 @@ namespace A3DET_CODE.Models
         public virtual ICollection<Team> Teams { get; set; } = new List<Team>();
         public virtual ICollection<Task> Tasks { get; set; } = new List<Task>();
 		public virtual ICollection<Submission> Submissions { get; set; } = new List<Submission>();
+        public virtual ICollection<Application> Applications { get; set; } = new List<Application>();
     }
 }

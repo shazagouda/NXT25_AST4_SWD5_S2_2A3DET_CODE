@@ -2,6 +2,7 @@
 @{
     ViewData["Title"] = "Mentor Dashboard";
     Layout = "_Layout";
+    var profileImageUrl = string.IsNullOrWhiteSpace(Model.Avatar) ? "/images/default-avatar.png" : Model.Avatar;
 }
 
 @section Styles {
@@ -11,6 +12,9 @@
 
 <div class="dashboard-container">
     <div class="dashboard-header">
+        <div class="dashboard-avatar">
+            <img src="@profileImageUrl" alt="@Model.FullName profile photo" onerror="this.onerror=null;this.src='/images/default-avatar.png';" />
+        </div>
         <div class="dashboard-welcome">
             <h1>Welcome back, @Model.FullName 👨‍🏫</h1>
             <p class="dashboard-subtitle">Guide students and track your impact</p>

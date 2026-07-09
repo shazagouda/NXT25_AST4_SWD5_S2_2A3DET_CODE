@@ -1,0 +1,38 @@
+@model A3DET_CODE.Models.Portfolio
+@{
+    ViewData["Title"] = "Edit Portfolio";
+}
+
+<div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card shadow-sm border-0">
+                <div class="card-body p-4">
+                    <h2 class="mb-3">Edit Portfolio</h2>
+                    <form asp-action="Edit" method="post">
+                        <input asp-for="Id" type="hidden" />
+                        <input asp-for="UserId" type="hidden" />
+
+                        <div class="mb-3">
+                            <label asp-for="Bio" class="form-label"></label>
+                            <textarea asp-for="Bio" class="form-control" rows="4"></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label asp-for="Skills" class="form-label"></label>
+                            <input asp-for="Skills" class="form-control" />
+                        </div>
+                        <div class="mb-3">
+                            <label asp-for="GitHubUrl" class="form-label"></label>
+                            <input asp-for="GitHubUrl" class="form-control" />
+                        </div>
+                        <div class="mb-3">
+                            <label asp-for="LinkedInUrl" class="form-label"></label>
+                            <input asp-for="LinkedInUrl" class="form-control" />
+                        </div>
+                        <button type="submit" class="btn btn-primary">Save Changes</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

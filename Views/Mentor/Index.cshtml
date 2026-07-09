@@ -81,10 +81,11 @@
             <div class="mentors-grid">
                 @foreach (var mentor in Model.Mentors)
                 {
+                    var profileImageUrl = string.IsNullOrWhiteSpace(mentor.ProfileImageUrl) ? "/images/default-avatar.png" : mentor.ProfileImageUrl;
                     <div class="mentor-card" onclick="location.href='@Url.Action("Details", new { id = mentor.Id })'" style="cursor:pointer;">
                         <div class="mentor-top">
                             <div class="mentor-avatar" style="background: linear-gradient(135deg, #2F6FED, #15C6AE);">
-                                @mentor.Initials
+                                <img src="@profileImageUrl" alt="@mentor.FullName profile photo" onerror="this.onerror=null;this.src='/images/default-avatar.png';" />
                             </div>
                             <div class="mentor-info">
                                 <h4 class="mentor-name">@mentor.FullName</h4>
