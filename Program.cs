@@ -2,6 +2,8 @@ using A3DET_CODE.Data;
 using A3DET_CODE.Models;
 using A3DET_CODE.Repositories.Implementations;
 using A3DET_CODE.Repositories.Interfaces;
+using A3DET_CODE.Services.Implementations;
+using A3DET_CODE.Services.Interfaces;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -27,6 +29,7 @@ builder.Services.AddScoped<ICompanyRepository, CompanyRepository>();
 builder.Services.AddScoped<IApplicationRepository, ApplicationRepository>();
 builder.Services.AddScoped<IPortfolioRepository, PortfolioRepository>();
 builder.Services.AddScoped<IHiringRepository, HiringRepository>();
+builder.Services.AddScoped<IProfileImageStorageService, LocalFileProfileImageStorageService>();
 
 // Add DbContext
 builder.Services.AddDbContext<ApplicationDbContext>(options =>

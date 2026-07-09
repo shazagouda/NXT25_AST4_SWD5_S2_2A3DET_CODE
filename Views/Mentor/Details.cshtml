@@ -1,6 +1,7 @@
 ﻿@model A3DET_CODE.ViewModels.Mentor.MentorDetailViewModel
 @{
     ViewData["Title"] = $"{Model.FullName} - Mentor";
+    var profileImageUrl = string.IsNullOrWhiteSpace(Model.ProfileImageUrl) ? "/images/default-avatar.png" : Model.ProfileImageUrl;
 }
 
 @section Styles {
@@ -10,7 +11,7 @@
 <div class="mentor-detail-container">
     <div class="mentor-detail-header">
         <div class="mentor-avatar-large" style="background: linear-gradient(135deg, #2F6FED, #15C6AE); width:120px;height:120px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:3rem;font-weight:700;color:#fff;flex-shrink:0;">
-            @Model.Initials
+            <img src="@profileImageUrl" alt="@Model.FullName profile photo" onerror="this.onerror=null;this.src='/images/default-avatar.png';" />
         </div>
         <div class="mentor-detail-info">
             <div class="mentor-detail-top" style="display:flex;align-items:center;gap:var(--space-3);flex-wrap:wrap;">

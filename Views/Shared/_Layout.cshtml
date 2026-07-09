@@ -1,4 +1,10 @@
-@* *@
+@using A3DET_CODE.Models
+@using Microsoft.AspNetCore.Identity
+@inject UserManager<ApplicationUser> UserManager
+@{
+    var currentUser = User.Identity?.IsAuthenticated == true ? await UserManager.GetUserAsync(User) : null;
+    var navProfileImageUrl = string.IsNullOrWhiteSpace(currentUser?.ProfileImageUrl) ? "/images/default-avatar.png" : currentUser.ProfileImageUrl;
+}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -40,7 +46,7 @@
                         🔔
                     </button>
                     <div class="avatar" title="@User.Identity.Name" onclick="location.href='@Url.Action("Index", "Profile")'">
-                        @(User.Identity.Name?.Substring(0, 1).ToUpper() ?? "U")
+                        <img src="@navProfileImageUrl" alt="Profile photo" onerror="this.onerror=null;this.src='/images/default-avatar.png';" />
                     </div>
                     <a asp-controller="Account" asp-action="Logout" class="btn btn-ghost btn-sm">Logout</a>
                 </div>

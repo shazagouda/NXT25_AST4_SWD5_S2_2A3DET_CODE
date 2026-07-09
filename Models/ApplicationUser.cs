@@ -7,6 +7,7 @@ namespace A3DET_CODE.Models
     {
         public string FullName { get; set; } = string.Empty;
         public string? Role { get; set; }
+        public string? ProfileImageUrl { get; set; }
 
         public string? University { get; set; }
         public string? Faculty { get; set; }

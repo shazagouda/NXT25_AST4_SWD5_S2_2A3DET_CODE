@@ -1,6 +1,7 @@
 ﻿@model A3DET_CODE.ViewModels.Profile.EditProfileViewModel
 @{
     ViewData["Title"] = "Edit Profile";
+    var profileImageUrl = string.IsNullOrWhiteSpace(Model.CurrentProfileImageUrl) ? "/images/default-avatar.png" : Model.CurrentProfileImageUrl;
 }
 
 @section Styles {
@@ -11,7 +12,7 @@
     <div class="profile-header edit-header">
         <div class="profile-header-content">
             <div class="profile-avatar edit-avatar">
-                <span class="avatar-initials">@(User.Identity?.Name?.Substring(0, 1)?.ToUpper() ?? "U")</span>
+                <img src="@profileImageUrl" alt="Current profile photo" onerror="this.onerror=null;this.src='/images/default-avatar.png';" />
             </div>
             <div class="profile-info">
                 <h1>Edit Profile</h1>
@@ -39,7 +40,7 @@
         </div>
     }
 
-    <form asp-action="Edit" method="post" class="profile-form">
+    <form asp-action="Edit" method="post" enctype="multipart/form-data" class="profile-form">
         @Html.AntiForgeryToken()
 
         @if (!ViewData.ModelState.IsValid && ViewData.ModelState[string.Empty]?.Errors.Count > 0)
@@ -53,6 +54,13 @@
         <div class="form-section">
             <h3>Personal Information</h3>
             <div class="form-grid">
+                <div class="form-field full-width">
+                    <label asp-for="ProfileImage">Profile Image</label>
+                    <input asp-for="ProfileImage" type="file" class="form-control" accept=".jpg,.jpeg,.png,.webp" />
+                    <span class="form-hint">Upload a .jpg, .jpeg, .png, or .webp image up to 5 MB.</span>
+                    <span asp-validation-for="ProfileImage" class="text-danger"></span>
+                </div>
+
                 <div class="form-field">
                     <label asp-for="FullName">Full Name <span class="required">*</span></label>
                     <input asp-for="FullName" class="form-control" placeholder="Your full name" />

@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using A3DET_CODE.Models;
 using A3DET_CODE.Data;
+using A3DET_CODE.Services.Interfaces;
 using A3DET_CODE.ViewModels.Profile;
 
 namespace A3DET_CODE.Controllers
@@ -14,11 +15,13 @@ namespace A3DET_CODE.Controllers
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly ApplicationDbContext _context;
+        private readonly IProfileImageStorageService _profileImageStorageService;
 
-        public ProfileController(UserManager<ApplicationUser> userManager, ApplicationDbContext context)
+        public ProfileController(UserManager<ApplicationUser> userManager, ApplicationDbContext context, IProfileImageStorageService profileImageStorageService)
         {
             _userManager = userManager;
             _context = context;
+            _profileImageStorageService = profileImageStorageService;
         }
 
         public async Task<IActionResult> Index()
@@ -39,6 +42,7 @@ namespace A3DET_CODE.Controllers
                 Email = user.Email ?? string.Empty,
                 Role = role,
                 IsActive = user.IsActive,
+                ProfileImageUrl = user.ProfileImageUrl,
                 CreatedAt = user.CreatedAt,
                 LastLoginAt = user.LastLoginAt,
                 University = user.University,
@@ -75,6 +79,7 @@ namespace A3DET_CODE.Controllers
             {
                 FullName = user.FullName,
                 Email = user.Email ?? string.Empty,
+                CurrentProfileImageUrl = user.ProfileImageUrl,
                 Role = role, 
                 University = user.University,
                 Faculty = user.Faculty,
@@ -108,6 +113,7 @@ namespace A3DET_CODE.Controllers
                 Email = user.Email ?? string.Empty,
                 Role = role,
                 IsActive = user.IsActive,
+                ProfileImageUrl = user.ProfileImageUrl,
                 CreatedAt = user.CreatedAt,
                 LastLoginAt = user.LastLoginAt,
                 University = user.University,
@@ -132,6 +138,14 @@ namespace A3DET_CODE.Controllers
         {
             if (!ModelState.IsValid)
             {
+                var currentUser = await _userManager.GetUserAsync(User);
+                if (currentUser != null)
+                {
+                    model.CurrentProfileImageUrl = currentUser.ProfileImageUrl;
+                    var roles = await _userManager.GetRolesAsync(currentUser);
+                    model.Role = roles.FirstOrDefault() ?? "Student";
+                }
+
                 var errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage);
                 TempData["Error"] = string.Join(" ", errors);
                 return View(model);
@@ -145,6 +159,21 @@ namespace A3DET_CODE.Controllers
             }
 
             user.FullName = model.FullName;
+            if (model.ProfileImage != null && model.ProfileImage.Length > 0)
+            {
+                try
+                {
+                    var newImagePath = await _profileImageStorageService.SaveProfileImageAsync(model.ProfileImage, user.ProfileImageUrl);
+                    user.ProfileImageUrl = newImagePath;
+                }
+                catch (InvalidOperationException ex)
+                {
+                    ModelState.AddModelError(nameof(model.ProfileImage), ex.Message);
+                    TempData["Error"] = ex.Message;
+                    return View(model);
+                }
+            }
+
             user.University = model.University;
             user.Faculty = model.Faculty;
             user.AcademicYear = model.AcademicYear;

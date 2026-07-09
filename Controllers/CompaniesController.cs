@@ -60,6 +60,7 @@ namespace A3DET_CODE.Controllers
                 {
                     Id = c.Id,
                     CompanyName = c.CompanyName ?? c.FullName ?? "Company",
+                    ProfileImageUrl = c.ProfileImageUrl,
                     Industry = c.Industry ?? "General",
                     CompanyDescription = c.CompanyDescription ?? "No description provided yet.",
                     Website = c.Website,
@@ -103,13 +104,16 @@ namespace A3DET_CODE.Controllers
             {
                 Id = company.Id,
                 CompanyName = company.CompanyName ?? company.FullName ?? "Company",
+                ProfileImageUrl = company.ProfileImageUrl,
                 Industry = company.Industry ?? "General",
                 CompanyDescription = company.CompanyDescription ?? "No description provided yet.",
                 Website = company.Website,
+                LinkedInUrl = company.LinkedInUrl,
                 Email = company.Email,
                 CreatedAt = company.CreatedAt,
                 IsActive = company.IsActive,
-                Initials = GetInitials(company.CompanyName ?? company.FullName ?? "Company")
+                Initials = GetInitials(company.CompanyName ?? company.FullName ?? "Company"),
+                PostedProjectsCount = await _context.Projects.CountAsync(p => p.ClientId == company.Id)
             };
 
             return View(viewModel);

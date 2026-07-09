@@ -1,6 +1,7 @@
 @model A3DET_CODE.ViewModels.Profile.ProfileViewModel
 @{
     ViewData["Title"] = "Profile";
+    var profileImageUrl = string.IsNullOrWhiteSpace(Model.ProfileImageUrl) ? "/images/default-avatar.png" : Model.ProfileImageUrl;
 }
 
 @section Styles {
@@ -10,7 +11,7 @@
 <div class="profile-container">
     <div class="profile-header">
         <div class="profile-avatar">
-            <span class="avatar-initials">@(Model.FullName?.Substring(0, 1)?.ToUpper() ?? "U")</span>
+            <img src="@profileImageUrl" alt="@Model.FullName profile photo" onerror="this.onerror=null;this.src='/images/default-avatar.png';" />
         </div>
         <div class="profile-info">
             <h1>@(Model.FullName ?? "User")</h1>

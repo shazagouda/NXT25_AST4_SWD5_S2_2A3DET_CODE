@@ -75,6 +75,7 @@ namespace A3DET_CODE.Controllers
                 {
                     Id = m.Id,
                     FullName = m.FullName,
+                    ProfileImageUrl = m.User.ProfileImageUrl,
                     Initials = m.Initials,
                     Expertise = m.Expertise,
                     Rating = m.Rating,
@@ -133,6 +134,7 @@ namespace A3DET_CODE.Controllers
             {
                 Id = mentor.Id,
                 FullName = mentor.FullName,
+                ProfileImageUrl = mentor.User.ProfileImageUrl,
                 Initials = mentor.Initials,
                 Expertise = mentor.Expertise,
                 Rating = mentor.Rating,
@@ -226,6 +228,7 @@ namespace A3DET_CODE.Controllers
                 Expertise = mentor.Expertise,
                 Rating = mentor.Rating,
                 Bio = mentor.Bio,
+                Avatar = user.ProfileImageUrl,
                 TotalSessions = totalSessions,
                 ActiveMentees = mentor.Mentees.Count(mm => mm.IsActive),
                 TotalProjects = mentor.Projects.Count,

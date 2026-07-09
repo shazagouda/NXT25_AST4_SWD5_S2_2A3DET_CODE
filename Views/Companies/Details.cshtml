@@ -1,57 +1,67 @@
 @model A3DET_CODE.ViewModels.Company.CompanyDetailViewModel
 @{
     ViewData["Title"] = Model.CompanyName;
+    var profileImageUrl = string.IsNullOrWhiteSpace(Model.ProfileImageUrl) ? "/images/default-avatar.png" : Model.ProfileImageUrl;
 }
 
 @section Styles {
     <link rel="stylesheet" href="~/css/mentors.css" asp-append-version="true" />
 }
 
-<div class="container py-5">
-    <div class="row justify-content-center">
-        <div class="col-lg-8">
-            <div class="card shadow-sm border-0 rounded-4 p-4">
-                <div class="d-flex align-items-center gap-4">
-                    <div class="mentor-avatar" style="width: 80px; height: 80px; font-size: 1.5rem; background: linear-gradient(135deg, #2F6FED, #15C6AE);">
-                        @Model.Initials
-                    </div>
-                    <div>
-                        <h2 class="mb-2">@Model.CompanyName</h2>
-                        <p class="text-muted mb-2">@Model.Industry</p>
-                        <span class="badge bg-success">@(Model.IsActive ? "Active" : "Inactive")</span>
-                    </div>
-                </div>
+<div class="mentor-detail-container">
+    <div class="mentor-detail-header">
+        <div class="mentor-avatar-large" style="background: linear-gradient(135deg, #2F6FED, #15C6AE); width:120px;height:120px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:3rem;font-weight:700;color:#fff;flex-shrink:0;">
+            <img src="@profileImageUrl" alt="@Model.CompanyName logo" onerror="this.onerror=null;this.src='/images/default-avatar.png';" />
+        </div>
 
-                <hr class="my-4" />
+        <div class="mentor-detail-info">
+            <div class="mentor-detail-top" style="display:flex;align-items:center;gap:var(--space-3);flex-wrap:wrap;">
+                <h1 style="margin:0;">@Model.CompanyName</h1>
+                <span class="badge @(Model.IsActive ? "badge-teal" : "badge-blue")">@(Model.IsActive ? "Active" : "Inactive")</span>
+            </div>
 
-                <div class="mb-4">
-                    <h5>About</h5>
-                    <p class="text-muted">@Model.CompanyDescription</p>
-                </div>
+            @if (!string.IsNullOrWhiteSpace(Model.Industry))
+            {
+                <p class="mentor-expertise" style="font-size:var(--fs-body-lg);color:var(--color-text-600);">@Model.Industry</p>
+            }
 
-                <div class="row g-3">
-                    <div class="col-md-6">
-                        <h6>Email</h6>
-                        <p>@Model.Email</p>
-                    </div>
-                    <div class="col-md-6">
-                        <h6>Website</h6>
-                        <p>
-                            @if (!string.IsNullOrWhiteSpace(Model.Website))
-                            {
-                                <a href="@Model.Website" target="_blank" rel="noopener noreferrer">@Model.Website</a>
-                            }
-                            else
-                            {
-                                <span class="text-muted">Not provided</span>
-                            }
-                        </p>
-                    </div>
-                </div>
+            @if (!string.IsNullOrWhiteSpace(Model.CompanyDescription))
+            {
+                <p class="mentor-bio" style="font-size:var(--fs-body);color:var(--color-text-600);line-height:1.8;">@Model.CompanyDescription</p>
+            }
 
-                <div class="mt-4">
-                    <a asp-action="Index" class="btn btn-secondary">Back to Companies</a>
+            <div class="mentor-detail-stats" style="display:flex;gap:var(--space-5);flex-wrap:wrap;margin:var(--space-4) 0;">
+                <div><span style="font-weight:600;"><i class="fa-solid fa-calendar"></i> @Model.CreatedAt.ToString("MMM yyyy")</span> joined</div>
+                @if (Model.PostedProjectsCount > 0)
+                {
+                    <div><span style="font-weight:600;"><i class="fa-solid fa-briefcase"></i> @Model.PostedProjectsCount</span> posted projects</div>
+                }
+            </div>
+
+            @if (Model.TechnologiesList.Any())
+            {
+                <div class="mentor-skills" style="display:flex;gap:var(--space-2);flex-wrap:wrap;margin-bottom:var(--space-4);">
+                    @foreach (var technology in Model.TechnologiesList)
+                    {
+                        <span class="skill-tag" style="background:var(--color-bg);padding:var(--space-1) var(--space-3);border-radius:var(--radius-pill);font-size:var(--fs-xs);border:1px solid var(--color-border);">@technology</span>
+                    }
                 </div>
+            }
+
+            <div class="mentor-social" style="display:flex;gap:var(--space-3);flex-wrap:wrap;">
+                @if (!string.IsNullOrWhiteSpace(Model.Website))
+                {
+                    <a href="@Model.Website" target="_blank" rel="noopener noreferrer" class="btn btn-secondary btn-sm"><i class="fa-solid fa-globe"></i> Website</a>
+                }
+                @if (!string.IsNullOrWhiteSpace(Model.LinkedInUrl))
+                {
+                    <a href="@Model.LinkedInUrl" target="_blank" rel="noopener noreferrer" class="btn btn-secondary btn-sm"><i class="fa-brands fa-linkedin"></i> LinkedIn</a>
+                }
+                @if (!string.IsNullOrWhiteSpace(Model.Email))
+                {
+                    <a href="mailto:@Model.Email" class="btn btn-secondary btn-sm"><i class="fa-solid fa-envelope"></i> Email</a>
+                }
+                <a asp-action="Index" class="btn btn-secondary btn-sm"><i class="fa-solid fa-arrow-left"></i> Back to Companies</a>
             </div>
         </div>
     </div>

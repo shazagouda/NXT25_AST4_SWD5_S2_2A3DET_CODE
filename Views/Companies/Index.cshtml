@@ -76,10 +76,11 @@
             <div class="mentors-grid">
                 @foreach (var company in Model.Companies)
                 {
+                    var profileImageUrl = string.IsNullOrWhiteSpace(company.ProfileImageUrl) ? "/images/default-avatar.png" : company.ProfileImageUrl;
                     <div class="mentor-card" onclick="location.href='@Url.Action("Details", new { id = company.Id })'" style="cursor:pointer;">
                         <div class="mentor-top">
                             <div class="mentor-avatar" style="background: linear-gradient(135deg, #2F6FED, #15C6AE);">
-                                @company.Initials
+                                <img src="@profileImageUrl" alt="@company.CompanyName logo" onerror="this.onerror=null;this.src='/images/default-avatar.png';" />
                             </div>
                             <div class="mentor-info">
                                 <h4 class="mentor-name">@company.CompanyName</h4>
