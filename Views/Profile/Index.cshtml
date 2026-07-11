@@ -1,145 +1,645 @@
 @model A3DET_CODE.ViewModels.Profile.ProfileViewModel
 @{
-    ViewData["Title"] = "Profile";
+    ViewData["Title"] = Model.FullName + " - Profile";
     var profileImageUrl = string.IsNullOrWhiteSpace(Model.ProfileImageUrl) ? "/images/default-avatar.png" : Model.ProfileImageUrl;
+
+    // Calculate presence text
+    string presenceText = "Offline";
+    bool isOnline = false;
+    if (Model.LastLoginAt.HasValue)
+    {
+        var diff = DateTime.UtcNow - Model.LastLoginAt.Value;
+        if (diff.TotalMinutes < 5)
+        {
+            presenceText = "Active now";
+            isOnline = true;
+        }
+        else if (diff.TotalHours < 1)
+        {
+            presenceText = $"Active {(int)diff.TotalMinutes}m ago";
+        }
+        else if (diff.TotalDays < 1)
+        {
+            presenceText = $"Active {(int)diff.TotalHours}h ago";
+        }
+        else
+        {
+            presenceText = $"Active {(int)diff.TotalDays}d ago";
+        }
+    }
 }
 
 @section Styles {
     <link rel="stylesheet" href="~/css/profile.css" asp-append-version="true" />
+    <style>
+        /* Redesigned Premium Stacked Layout */
+        .profile-container {
+            max-width: 850px;
+            margin: 0 auto;
+            padding: var(--space-6) 0;
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-6);
+        }
+
+        .profile-section-card {
+            background: var(--color-surface);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-lg);
+            padding: var(--space-6);
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition-base);
+        }
+
+        .profile-section-card:hover {
+            box-shadow: var(--shadow-md);
+        }
+
+        .section-header-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--space-4);
+            border-bottom: 2px solid var(--color-bg);
+            padding-bottom: var(--space-3);
+        }
+
+        .section-title {
+            font-size: var(--fs-h4);
+            font-weight: 700;
+            color: var(--color-navy-900);
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+        }
+
+        /* Presence indicator */
+        .presence-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.85rem;
+            color: var(--color-text-600);
+            background: rgba(0, 0, 0, 0.04);
+            padding: 4px 10px;
+            border-radius: 20px;
+            margin-left: 8px;
+            font-weight: 500;
+        }
+
+        .presence-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+
+        .presence-dot.online {
+            background-color: #22C55E;
+            box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.2);
+        }
+
+        .presence-dot.offline {
+            background-color: #94A3B8;
+        }
+
+        /* Badge section items */
+        .badges-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--space-3);
+        }
+
+        .badge-card {
+            background: var(--color-bg);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-md);
+            padding: var(--space-3) var(--space-4);
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+            min-width: 180px;
+            transition: var(--transition-fast);
+        }
+
+        .badge-card:hover {
+            transform: translateY(-2px);
+            border-color: var(--color-blue-300);
+        }
+
+        .badge-icon {
+            font-size: 1.8rem;
+        }
+
+        /* Project Cards (LinkedIn feed style) */
+        .project-feed-list {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-5);
+        }
+
+        .project-post-card {
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-md);
+            background: var(--color-surface);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .project-post-banner {
+            height: 120px;
+            background: linear-gradient(135deg, var(--color-blue-600) 0%, var(--color-teal-600) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 2.5rem;
+        }
+
+        .project-post-content {
+            padding: var(--space-4);
+        }
+
+        .project-post-title {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: var(--color-navy-900);
+            margin-bottom: var(--space-2);
+        }
+
+        .project-post-desc {
+            font-size: 0.9rem;
+            color: var(--color-text-600);
+            line-height: 1.5;
+            margin-bottom: var(--space-3);
+        }
+
+        .project-post-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .tag-chip {
+            background: var(--color-bg);
+            color: var(--color-text-700);
+            border: 1px solid var(--color-border);
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        /* About Section grid layout */
+        .about-section-grid {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr;
+            gap: var(--space-5);
+        }
+
+        .about-left {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-4);
+        }
+
+        .about-right {
+            border-left: 2px solid var(--color-bg);
+            padding-left: var(--space-5);
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-4);
+        }
+
+        @@media (max-width: 768px) {
+            .about-section-grid {
+                grid-template-columns: 1fr;
+            }
+            .about-right {
+                border-left: none;
+                padding-left: 0;
+                border-top: 2px solid var(--color-bg);
+                padding-top: var(--space-4);
+            }
+        }
+
+        .skills-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .skill-chip {
+            background: rgba(47, 111, 237, 0.08);
+            color: var(--color-blue-600);
+            padding: 4px 10px;
+            border-radius: 16px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            border: 1px solid rgba(47, 111, 237, 0.15);
+        }
+
+        .about-stat-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.9rem;
+        }
+
+        .about-stat-label {
+            color: var(--color-text-500);
+            font-weight: 500;
+        }
+
+        .about-stat-value {
+            color: var(--color-navy-900);
+            font-weight: 600;
+        }
+
+        /* Custom profile section styles */
+        .custom-section-item {
+            position: relative;
+            background: var(--color-surface);
+            border-radius: var(--radius-md);
+            padding: var(--space-5);
+            margin-bottom: var(--space-4);
+            border: 1px solid var(--color-border);
+            border-left: 4px solid var(--color-blue-600);
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition-fast);
+        }
+
+        .custom-section-item:hover {
+            box-shadow: var(--shadow-md);
+            transform: translateY(-1px);
+        }
+
+        .custom-section-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .custom-section-actions {
+            position: absolute;
+            top: 14px;
+            right: 14px;
+            display: flex;
+            gap: 6px;
+        }
+
+        .custom-section-title {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: var(--color-navy-900);
+            margin-bottom: var(--space-2);
+            padding-right: 120px;
+            letter-spacing: -0.01em;
+        }
+
+        .custom-section-content {
+            font-size: 0.9rem;
+            color: var(--color-text-700);
+            white-space: pre-wrap;
+            line-height: 1.7;
+            margin: 0;
+        }
+
+        .custom-section-divider {
+            border: none;
+            border-top: 1px solid var(--color-border);
+            margin: var(--space-3) 0;
+        }
+
+        .add-section-form-card {
+            background: var(--color-bg);
+            border: 1px dashed var(--color-blue-400, #60a5fa);
+            border-radius: var(--radius-md);
+            padding: var(--space-5);
+            margin-bottom: var(--space-4);
+        }
+
+        .add-section-form-card h5 {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--color-navy-900);
+            margin-bottom: var(--space-4);
+        }
+
+        .strength-bar {
+            height: 8px;
+            background: #E2E8F0;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-top: 4px;
+        }
+
+        .strength-progress {
+            height: 100%;
+            background: linear-gradient(90deg, var(--color-blue-600), var(--color-teal-600));
+        }
+    </style>
 }
 
 <div class="profile-container">
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success show mb-4">
+            <span>✅ @TempData["Success"]</span>
+        </div>
+    }
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger show mb-4" style="background:#FEE2E2; border:1px solid #EF4444; color:#B91C1C; padding:12px 16px; border-radius:4px;">
+            <span>❌ @TempData["Error"]</span>
+        </div>
+    }
+
+    <!-- SECTION A: User Card (Header) -->
     <div class="profile-header">
         <div class="profile-avatar">
             <img src="@profileImageUrl" alt="@Model.FullName profile photo" onerror="this.onerror=null;this.src='/images/default-avatar.png';" />
         </div>
         <div class="profile-info">
-            <h1>@(Model.FullName ?? "User")</h1>
+            <h1 class="d-flex align-items-center flex-wrap gap-2">
+                <span>@(Model.FullName ?? "User")</span>
+                @if (!Model.IsOwnProfile)
+                {
+                    <span class="presence-indicator" title="Presence Status">
+                        <span class="presence-dot @(isOnline ? "online" : "offline")"></span>
+                        <span>@presenceText</span>
+                    </span>
+                }
+            </h1>
             <div class="profile-badge">
                 <span class="badge badge-blue">@Model.Role</span>
-                <span class="badge badge-teal">@(Model.IsActive ? "Active" : "Inactive")</span>
+                @if (!Model.IsOwnProfile)
+                {
+                    <span class="badge badge-teal">@(Model.IsActive ? "Active" : "Inactive")</span>
+                }
             </div>
-            <p class="profile-email">@Model.Email</p>
-            <p class="profile-joined">Joined: @Model.CreatedAt.ToString("MMMM dd, yyyy")</p>
+            <p class="profile-email">✉️ @Model.Email</p>
         </div>
         <div class="profile-actions">
-            <a asp-action="Edit" class="btn btn-secondary">Edit Profile</a>
+            @if (Model.IsOwnProfile)
+            {
+                <a asp-action="Edit" class="btn btn-secondary">Edit Profile</a>
+            }
         </div>
     </div>
 
-    <div class="profile-stats">
-        <div class="stat-card">
-            <div class="stat-number">@Model.TotalProjects</div>
-            <div class="stat-label">Projects</div>
+    <!-- SECTION B: Badges Section -->
+    <div class="profile-section-card">
+        <div class="section-header-row">
+            <h3 class="section-title">🏅 Earned Badges</h3>
         </div>
-        <div class="stat-card">
-            <div class="stat-number">@Model.TotalBadges</div>
-            <div class="stat-label">Badges</div>
-        </div>
-        <div class="stat-card">
-            <div class="stat-number">@(Model.LastLoginAt?.ToString("MMM dd") ?? "Never")</div>
-            <div class="stat-label">Last Login</div>
+        <div class="badges-container">
+            @if (Model.Badges.Any())
+            {
+                @foreach (var badge in Model.Badges)
+                {
+                    <div class="badge-card">
+                        <span class="badge-icon">@badge.Icon</span>
+                        <div>
+                            <div class="font-weight-bold text-dark" style="font-size: 0.9rem;">@badge.Name</div>
+                            <div class="text-muted" style="font-size: 0.75rem;">@badge.Description</div>
+                        </div>
+                    </div>
+                }
+            }
+            else
+            {
+                <div class="text-muted italic" style="font-size: 0.9rem;">No badges earned yet. Complete roadmaps and projects to earn badges!</div>
+            }
         </div>
     </div>
 
-    <div class="profile-details">
+    <!-- SECTION C: Projects Section -->
+    <div class="profile-section-card">
+        <div class="section-header-row">
+            <h3 class="section-title">💻 Projects & Contributions</h3>
+        </div>
+        <div class="project-feed-list">
+            @if (Model.Projects.Any())
+            {
+                @foreach (var project in Model.Projects)
+                {
+                    <div class="project-post-card">
+                        <div class="project-post-banner">
+                            💻
+                        </div>
+                        <div class="project-post-content">
+                            <div class="project-post-title">@project.Title</div>
+                            <div class="project-post-desc">@project.Description</div>
+                            <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 pt-2 border-top">
+                                <div class="project-post-tags">
+                                    @if (!string.IsNullOrEmpty(project.TechStack))
+                                    {
+                                        foreach (var tag in project.TechStack.Split(',').Select(t => t.Trim()))
+                                        {
+                                            <span class="tag-chip">@tag</span>
+                                        }
+                                    }
+                                </div>
+                                <a asp-controller="Projects" asp-action="Details" asp-route-id="@project.Id" class="btn btn-outline-primary btn-sm">View Project Details</a>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+            else
+            {
+                <div class="text-center py-4 text-muted">
+                    <p>No associated projects or team contributions found.</p>
+                </div>
+            }
+        </div>
+    </div>
 
-        @if (Model.Role == "Student")
-        {
-            <div class="detail-section">
-                <h3>Academic Information</h3>
-                <div class="detail-grid">
-                    <div class="detail-item">
-                        <span class="detail-label">University</span>
-                        <span class="detail-value">@(Model.University ?? "Not specified")</span>
-                    </div>
-                    <div class="detail-item">
-                        <span class="detail-label">Faculty</span>
-                        <span class="detail-value">@(Model.Faculty ?? "Not specified")</span>
-                    </div>
-                    <div class="detail-item">
-                        <span class="detail-label">Academic Year</span>
-                        <span class="detail-value">@(Model.AcademicYear ?? "Not specified")</span>
+    <!-- SECTION D: About Section -->
+    <div class="profile-section-card">
+        <div class="section-header-row">
+            <h3 class="section-title">ℹ️ About & Portfolio</h3>
+        </div>
+        <div class="about-section-grid">
+            <div class="about-left">
+                <div>
+                    <h5 class="font-weight-bold text-muted mb-2" style="font-size: 0.85rem; text-transform: uppercase;">Bio Summary</h5>
+                    <p class="text-dark" style="font-size: 0.95rem; line-height: 1.6;">@(Model.Portfolio?.Bio ?? "No bio summary added yet.")</p>
+                </div>
+                <div>
+                    <h5 class="font-weight-bold text-muted mb-2" style="font-size: 0.85rem; text-transform: uppercase;">Skills & Tags</h5>
+                    <div class="skills-container">
+                        @{
+                            var skillsList = string.IsNullOrWhiteSpace(Model.Skills)
+                                ? new List<string>()
+                                : Model.Skills.Split(new[] { ',', ';', ':' }, StringSplitOptions.RemoveEmptyEntries).Select(s => s.Trim()).ToList();
+                        }
+                        @if (skillsList.Any())
+                        {
+                            foreach (var skill in skillsList)
+                            {
+                                <span class="skill-chip">@skill</span>
+                            }
+                        }
+                        else
+                        {
+                            <span class="text-muted italic" style="font-size: 0.85rem;">No skills specified</span>
+                        }
                     </div>
                 </div>
             </div>
-            <div class="profile-actions">
-                <a asp-controller="Dashboard" asp-action="StudentDashboard" class="btn btn-primary">Go to Dashboard</a>
+
+            <div class="about-right">
+                <div class="about-stat-row">
+                    <span class="about-stat-label">Track Enrolled</span>
+                    <span class="about-stat-value">@(Model.EnrolledTrack ?? "Not enrolled in a track")</span>
+                </div>
+                <div class="about-stat-row">
+                    <span class="about-stat-label">Member Since</span>
+                    <span class="about-stat-value">@Model.CreatedAt.ToString("MMMM dd, yyyy")</span>
+                </div>
+                <div class="about-stat-row">
+                    <span class="about-stat-label">LinkedIn</span>
+                    <span class="about-stat-value">
+                        @if (!string.IsNullOrEmpty(Model.LinkedInUrl))
+                        {
+                            <a href="@Model.LinkedInUrl" target="_blank">View LinkedIn</a>
+                        }
+                        else
+                        {
+                            <span class="text-muted italic">Not added</span>
+                        }
+                    </span>
+                </div>
+                <div class="about-stat-row">
+                    <span class="about-stat-label">GitHub</span>
+                    <span class="about-stat-value">
+                        @if (Model.Portfolio != null && !string.IsNullOrEmpty(Model.Portfolio.GitHubUrl))
+                        {
+                            <a href="@Model.Portfolio.GitHubUrl" target="_blank">View GitHub</a>
+                        }
+                        else
+                        {
+                            <span class="text-muted italic">Not added</span>
+                        }
+                    </span>
+                </div>
+                @if (Model.IsOwnProfile && Model.Portfolio != null)
+                {
+                    <div class="mt-3 pt-2 border-top">
+                        <a asp-controller="Portfolio" asp-action="Edit" asp-route-id="@Model.Portfolio.Id" class="btn btn-outline-primary btn-sm w-100">Edit Portfolio Details</a>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
+    <!-- SECTION E: Custom Sections (persisted to DB) -->
+    <div class="profile-section-card">
+        <div class="section-header-row">
+            <h3 class="section-title">📂 Custom Sections</h3>
+            @if (Model.IsOwnProfile)
+            {
+                <button class="btn btn-primary btn-sm" onclick="toggleAddForm()">+ Add Section</button>
+            }
+        </div>
+
+        @if (Model.IsOwnProfile)
+        {
+            <!-- Add Custom Section Form -->
+            <div id="add-section-form-container" style="display:none;" class="add-section-form-card">
+                <form asp-action="AddCustomSection" method="post">
+                    <h5>📝 New Custom Section</h5>
+                    <div class="mb-3">
+                        <label class="form-label font-weight-bold" style="font-size:0.85rem;">Section Title</label>
+                        <input type="text" name="title" class="form-control" placeholder="e.g. Certifications, Publications, Awards" required />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label font-weight-bold" style="font-size:0.85rem;">Content</label>
+                        <textarea name="content" rows="6" class="form-control"
+                                  placeholder="Write your content here. Each line will be preserved as a separate line when displayed."
+                                  required></textarea>
+                        <small class="text-muted">Line breaks are preserved — you can write multi-line content or simple lists.</small>
+                    </div>
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-success btn-sm">✔ Save Section</button>
+                        <button type="button" class="btn btn-secondary btn-sm" onclick="toggleAddForm()">Cancel</button>
+                    </div>
+                </form>
             </div>
         }
 
-        @if (Model.Role == "Mentor")
-        {
-            <div class="detail-section">
-                <h3>Professional Information</h3>
-                <div class="detail-grid">
-                    <div class="detail-item">
-                        <span class="detail-label">Job Title</span>
-                        <span class="detail-value">@(Model.JobTitle ?? "Not specified")</span>
-                    </div>
-                    <div class="detail-item">
-                        <span class="detail-label">Years of Experience</span>
-                        <span class="detail-value">@(Model.YearsOfExperience?.ToString() ?? "Not specified")</span>
-                    </div>
-                    <div class="detail-item">
-                        <span class="detail-label">Skills</span>
-                        <span class="detail-value">@(Model.Skills ?? "Not specified")</span>
-                    </div>
-                    <div class="detail-item">
-                        <span class="detail-label">LinkedIn</span>
-                        <span class="detail-value">
-                            @if (!string.IsNullOrEmpty(Model.LinkedInUrl))
-                            {
-                                <a href="@Model.LinkedInUrl" target="_blank">View Profile</a>
-                            }
-                            else
-                            {
-                                <span>Not specified</span>
-                            }
-                        </span>
-                    </div>
-                </div>
-            </div>
-            <div class="profile-actions">
-                <a asp-controller="Mentor" asp-action="Dashboard" class="btn btn-primary">Go to Dashboard</a>
-            </div>
-        }
+        <div id="custom-sections-list">
+            @if (Model.CustomSections.Any())
+            {
+                @foreach (var customSection in Model.CustomSections)
+                {
+                    <div class="custom-section-item" id="section-item-@customSection.Id">
+                        @if (Model.IsOwnProfile)
+                        {
+                            <div class="custom-section-actions">
+                                <button class="btn btn-sm btn-outline-primary py-0 px-2" onclick="showEditForm(@customSection.Id)" style="font-size:0.78rem; letter-spacing:0;">Edit</button>
+                                <form asp-action="DeleteCustomSection" method="post" style="display:inline;" onsubmit="return confirm('Delete this section?');">
+                                    <input type="hidden" name="id" value="@customSection.Id" />
+                                    <button type="submit" class="btn btn-sm btn-outline-danger py-0 px-2" style="font-size:0.78rem;">Delete</button>
+                                </form>
+                            </div>
+                        }
+                        <h4 class="custom-section-title">@customSection.Title</h4>
+                        <hr class="custom-section-divider" />
+                        <p class="custom-section-content">@customSection.Content</p>
 
-        @if (Model.Role == "Company")
-        {
-            <div class="detail-section">
-                <h3>Company Information</h3>
-                <div class="detail-grid">
-                    <div class="detail-item">
-                        <span class="detail-label">Company Name</span>
-                        <span class="detail-value">@(Model.CompanyName ?? "Not specified")</span>
+                        @if (Model.IsOwnProfile)
+                        {
+                            <!-- Edit Form inline (hidden by default) -->
+                            <div id="edit-form-@customSection.Id" style="display:none;" class="mt-3 pt-3 border-top">
+                                <form asp-action="EditCustomSection" method="post">
+                                    <input type="hidden" name="id" value="@customSection.Id" />
+                                    <div class="mb-2">
+                                        <label class="form-label font-weight-bold" style="font-size:0.83rem;">Section Title</label>
+                                        <input type="text" name="title" value="@customSection.Title" class="form-control form-control-sm" required />
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label font-weight-bold" style="font-size:0.83rem;">Content</label>
+                                        <textarea name="content" rows="6" class="form-control form-control-sm" required>@customSection.Content</textarea>
+                                        <small class="text-muted">Line breaks are preserved in the display.</small>
+                                    </div>
+                                    <div class="d-flex gap-2">
+                                        <button type="submit" class="btn btn-success btn-sm">✔ Save</button>
+                                        <button type="button" class="btn btn-secondary btn-sm" onclick="hideEditForm(@customSection.Id)">Cancel</button>
+                                    </div>
+                                </form>
+                            </div>
+                        }
                     </div>
-                    <div class="detail-item">
-                        <span class="detail-label">Industry</span>
-                        <span class="detail-value">@(Model.Industry ?? "Not specified")</span>
-                    </div>
-                    <div class="detail-item">
-                        <span class="detail-label">Website</span>
-                        <span class="detail-value">
-                            @if (!string.IsNullOrEmpty(Model.Website))
-                            {
-                                <a href="@Model.Website" target="_blank">@Model.Website</a>
-                            }
-                            else
-                            {
-                                <span>Not specified</span>
-                            }
-                        </span>
-                    </div>
-                    <div class="detail-item">
-                        <span class="detail-label">Description</span>
-                        <span class="detail-value">@(Model.CompanyDescription ?? "Not specified")</span>
-                    </div>
-                </div>
-            </div>
-            <div class="profile-actions">
-                <a asp-controller="Dashboard" asp-action="CompanyDashboard" class="btn btn-primary">Go to Dashboard</a>
-            </div>
-        }
+                }
+            }
+            else
+            {
+                <div class="text-muted italic py-2" style="font-size: 0.95rem;">No custom sections added yet.</div>
+            }
+        </div>
     </div>
 </div>
+
+@section Scripts {
+    <script>
+        function toggleAddForm() {
+            var el = document.getElementById("add-section-form-container");
+            if (el.style.display === "none") {
+                el.style.display = "block";
+            } else {
+                el.style.display = "none";
+            }
+        }
+
+        function showEditForm(id) {
+            document.getElementById("edit-form-" + id).style.display = "block";
+        }
+
+        function hideEditForm(id) {
+            document.getElementById("edit-form-" + id).style.display = "none";
+        }
+    </script>
+}

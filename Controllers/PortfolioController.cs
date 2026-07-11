@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 using A3DET_CODE.Data;
 using A3DET_CODE.Models;
 using A3DET_CODE.Repositories.Interfaces;
+using System;
+using System.Threading.Tasks;
 
 namespace A3DET_CODE.Controllers
 {
@@ -23,17 +25,7 @@ namespace A3DET_CODE.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var user = await _userManager.GetUserAsync(User);
-            if (user == null)
-                return RedirectToAction("Login", "Account");
-
-            var portfolio = await _portfolioRepository.GetByUserIdAsync(user.Id);
-            if (portfolio == null)
-            {
-                return RedirectToAction(nameof(Generate));
-            }
-
-            return View(portfolio);
+            return RedirectToAction("Index", "Profile");
         }
 
         public async Task<IActionResult> Generate()
@@ -44,15 +36,15 @@ namespace A3DET_CODE.Controllers
 
             var existing = await _portfolioRepository.GetByUserIdAsync(user.Id);
             if (existing != null)
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index", "Profile");
 
             var portfolio = new Portfolio
             {
                 UserId = user.Id,
-                Bio = user.CompanyDescription ?? user.JobTitle ?? user.FullName,
-                Skills = user.Skills,
-                GitHubUrl = user.LinkedInUrl,
-                LinkedInUrl = user.LinkedInUrl,
+                Bio = user.CompanyDescription ?? string.Empty,
+                Skills = user.Skills ?? string.Empty,
+                GitHubUrl = string.Empty,
+                LinkedInUrl = user.LinkedInUrl ?? string.Empty,
                 ProfileStrength = 70,
                 UpdatedAt = DateTime.UtcNow
             };
@@ -60,7 +52,7 @@ namespace A3DET_CODE.Controllers
             _context.Portfolios.Add(portfolio);
             await _context.SaveChangesAsync();
 
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("Index", "Profile");
         }
 
         public async Task<IActionResult> Edit(int id)
@@ -79,28 +71,24 @@ namespace A3DET_CODE.Controllers
             if (!ModelState.IsValid)
                 return View(portfolio);
 
-            portfolio.UpdatedAt = DateTime.UtcNow;
-            await _portfolioRepository.UpdateAsync(portfolio);
+            var existing = await _context.Portfolios.FindAsync(portfolio.Id);
+            if (existing == null)
+                return NotFound();
+
+            existing.Bio = portfolio.Bio;
+            existing.Skills = portfolio.Skills;
+            existing.GitHubUrl = portfolio.GitHubUrl;
+            existing.LinkedInUrl = portfolio.LinkedInUrl;
+            existing.UpdatedAt = DateTime.UtcNow;
+
+            await _portfolioRepository.UpdateAsync(existing);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("Index", "Profile");
         }
 
         public async Task<IActionResult> Details(string id)
         {
-            if (int.TryParse(id, out var portfolioId))
-            {
-                var portfolio = await _portfolioRepository.GetByIdAsync(portfolioId);
-                if (portfolio == null)
-                    return NotFound();
-
-                return View(portfolio);
-            }
-
-            var userPortfolio = await _portfolioRepository.GetByUserIdAsync(id);
-            if (userPortfolio == null)
-                return RedirectToAction(nameof(Generate));
-
-            return View(userPortfolio);
+            return RedirectToAction("Index", "Profile", new { id });
         }
     }
 }

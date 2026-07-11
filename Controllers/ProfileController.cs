@@ -1,4 +1,3 @@
-﻿
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -7,6 +6,10 @@ using A3DET_CODE.Models;
 using A3DET_CODE.Data;
 using A3DET_CODE.Services.Interfaces;
 using A3DET_CODE.ViewModels.Profile;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace A3DET_CODE.Controllers
 {
@@ -24,16 +27,80 @@ namespace A3DET_CODE.Controllers
             _profileImageStorageService = profileImageStorageService;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string? id)
         {
-            var user = await _userManager.GetUserAsync(User);
-            if (user == null)
+            var currentUser = await _userManager.GetUserAsync(User);
+            if (currentUser == null)
                 return RedirectToAction("Login", "Account");
 
-            await _context.Entry(user).ReloadAsync();
+            var targetUserId = string.IsNullOrEmpty(id) ? currentUser.Id : id;
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == targetUserId);
+            if (user == null)
+                return NotFound();
 
             var roles = await _userManager.GetRolesAsync(user);
             var role = roles.FirstOrDefault() ?? "Student";
+            bool isOwnProfile = (currentUser.Id == targetUserId);
+
+            // Fetch portfolio
+            var portfolio = await _context.Portfolios
+                .Include(p => p.Projects).ThenInclude(pp => pp.Project)
+                .FirstOrDefaultAsync(p => p.UserId == targetUserId);
+
+            if (portfolio == null && isOwnProfile)
+            {
+                portfolio = new Portfolio
+                {
+                    UserId = targetUserId,
+                    Bio = user.CompanyDescription ?? string.Empty,
+                    Skills = user.Skills ?? string.Empty,
+                    GitHubUrl = string.Empty,
+                    LinkedInUrl = user.LinkedInUrl ?? string.Empty,
+                    ProfileStrength = 70,
+                    UpdatedAt = DateTime.UtcNow
+                };
+                _context.Portfolios.Add(portfolio);
+                await _context.SaveChangesAsync();
+            }
+
+            // Fetch projects
+            var portfolioProjects = portfolio?.Projects.Select(pp => pp.Project).Where(p => p != null).Select(p => p!).ToList() ?? new List<Project>();
+            var teamProjects = await _context.TeamMembers
+                .Where(tm => tm.UserId == targetUserId)
+                .Select(tm => tm.Team.Project)
+                .Where(p => p != null)
+                .Select(p => p!)
+                .Distinct()
+                .ToListAsync();
+            var allProjects = portfolioProjects.Union(teamProjects).DistinctBy(p => p.Id).ToList();
+
+            // Fetch user badges
+            var badges = await _context.UserBadges
+                .Include(ub => ub.Badge)
+                .Where(ub => ub.UserId == targetUserId)
+                .Select(ub => ub.Badge)
+                .ToListAsync();
+
+            // Fetch enrolled track
+            var enrolledTrackName = await _context.TeamMembers
+                .Where(tm => tm.UserId == targetUserId)
+                .Select(tm => tm.Team.Track.Name)
+                .FirstOrDefaultAsync();
+
+            if (string.IsNullOrEmpty(enrolledTrackName))
+            {
+                enrolledTrackName = await _context.AssessmentResults
+                    .Where(ar => ar.UserId == targetUserId)
+                    .OrderByDescending(ar => ar.CompletedAt)
+                    .Select(ar => ar.Track.Name)
+                    .FirstOrDefaultAsync();
+            }
+
+            // Fetch custom sections
+            var customSections = await _context.CustomProfileSections
+                .Where(cps => cps.UserId == targetUserId)
+                .OrderBy(cps => cps.DisplayOrder)
+                .ToListAsync();
 
             var viewModel = new ProfileViewModel
             {
@@ -50,18 +117,28 @@ namespace A3DET_CODE.Controllers
                 AcademicYear = user.AcademicYear,
                 JobTitle = user.JobTitle,
                 YearsOfExperience = user.YearsOfExperience,
-                Skills = user.Skills,
-                LinkedInUrl = user.LinkedInUrl,
+                Skills = portfolio?.Skills ?? user.Skills,
+                LinkedInUrl = portfolio?.LinkedInUrl ?? user.LinkedInUrl,
                 CompanyName = user.CompanyName,
                 Industry = user.Industry,
                 CompanyDescription = user.CompanyDescription,
-                Website = user.Website
+                Website = user.Website,
+                IsOwnProfile = isOwnProfile,
+                Portfolio = portfolio,
+                Projects = allProjects,
+                TotalProjects = allProjects.Count,
+                TotalBadges = badges.Count > 0 ? badges.Count : 3, // fallback to 3 as before
+                EnrolledTrack = enrolledTrackName,
+                CustomSections = customSections,
+                Badges = badges
             };
 
-            viewModel.TotalProjects = await _context.Projects.CountAsync();
-            viewModel.TotalBadges = 3;
-
             return View(viewModel);
+        }
+
+        public async Task<IActionResult> Details(string id)
+        {
+            return RedirectToAction(nameof(Index), new { id });
         }
 
         public async Task<IActionResult> Edit()
@@ -81,41 +158,6 @@ namespace A3DET_CODE.Controllers
                 Email = user.Email ?? string.Empty,
                 CurrentProfileImageUrl = user.ProfileImageUrl,
                 Role = role, 
-                University = user.University,
-                Faculty = user.Faculty,
-                AcademicYear = user.AcademicYear,
-                JobTitle = user.JobTitle,
-                YearsOfExperience = user.YearsOfExperience,
-                Skills = user.Skills,
-                LinkedInUrl = user.LinkedInUrl,
-                CompanyName = user.CompanyName,
-                Industry = user.Industry,
-                CompanyDescription = user.CompanyDescription,
-                Website = user.Website
-            };
-
-            return View(viewModel);
-        }
-
-        public async Task<IActionResult> Details(string id)
-        {
-            var user = await _userManager.FindByIdAsync(id);
-            if (user == null)
-                return NotFound();
-
-            var roles = await _userManager.GetRolesAsync(user);
-            var role = roles.FirstOrDefault() ?? "Student";
-
-            var viewModel = new ProfileViewModel
-            {
-                UserId = user.Id,
-                FullName = user.FullName,
-                Email = user.Email ?? string.Empty,
-                Role = role,
-                IsActive = user.IsActive,
-                ProfileImageUrl = user.ProfileImageUrl,
-                CreatedAt = user.CreatedAt,
-                LastLoginAt = user.LastLoginAt,
                 University = user.University,
                 Faculty = user.Faculty,
                 AcademicYear = user.AcademicYear,
@@ -190,6 +232,18 @@ namespace A3DET_CODE.Controllers
 
             if (result.Succeeded)
             {
+                // Sync portfolio if it exists
+                var portfolio = await _context.Portfolios.FirstOrDefaultAsync(p => p.UserId == user.Id);
+                if (portfolio != null)
+                {
+                    portfolio.Skills = model.Skills;
+                    portfolio.LinkedInUrl = model.LinkedInUrl;
+                    portfolio.Bio = model.CompanyDescription ?? model.JobTitle ?? model.FullName;
+                    portfolio.UpdatedAt = DateTime.UtcNow;
+                    _context.Portfolios.Update(portfolio);
+                    await _context.SaveChangesAsync();
+                }
+
                 TempData["Success"] = "Profile updated successfully!";
                 return RedirectToAction("Index");
             }
@@ -201,6 +255,96 @@ namespace A3DET_CODE.Controllers
             }
 
             return View(model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddCustomSection(string title, string content)
+        {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+                return RedirectToAction("Login", "Account");
+
+            if (string.IsNullOrWhiteSpace(title) || string.IsNullOrWhiteSpace(content))
+            {
+                TempData["Error"] = "Title and Content are required.";
+                return RedirectToAction(nameof(Index));
+            }
+
+            var maxOrder = await _context.CustomProfileSections
+                .Where(cps => cps.UserId == user.Id)
+                .Select(cps => (int?)cps.DisplayOrder)
+                .MaxAsync() ?? 0;
+
+            var section = new CustomProfileSection
+            {
+                UserId = user.Id,
+                Title = title,
+                Content = content,
+                DisplayOrder = maxOrder + 1,
+                CreatedAt = DateTime.UtcNow,
+                UpdatedAt = DateTime.UtcNow
+            };
+
+            _context.CustomProfileSections.Add(section);
+            await _context.SaveChangesAsync();
+
+            TempData["Success"] = "Custom section added successfully!";
+            return RedirectToAction(nameof(Index));
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditCustomSection(int id, string title, string content)
+        {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+                return RedirectToAction("Login", "Account");
+
+            var section = await _context.CustomProfileSections.FirstOrDefaultAsync(cps => cps.Id == id && cps.UserId == user.Id);
+            if (section == null)
+            {
+                TempData["Error"] = "Section not found or access denied.";
+                return RedirectToAction(nameof(Index));
+            }
+
+            if (string.IsNullOrWhiteSpace(title) || string.IsNullOrWhiteSpace(content))
+            {
+                TempData["Error"] = "Title and Content are required.";
+                return RedirectToAction(nameof(Index));
+            }
+
+            section.Title = title;
+            section.Content = content;
+            section.UpdatedAt = DateTime.UtcNow;
+
+            _context.CustomProfileSections.Update(section);
+            await _context.SaveChangesAsync();
+
+            TempData["Success"] = "Custom section updated successfully!";
+            return RedirectToAction(nameof(Index));
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteCustomSection(int id)
+        {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+                return RedirectToAction("Login", "Account");
+
+            var section = await _context.CustomProfileSections.FirstOrDefaultAsync(cps => cps.Id == id && cps.UserId == user.Id);
+            if (section == null)
+            {
+                TempData["Error"] = "Section not found or access denied.";
+                return RedirectToAction(nameof(Index));
+            }
+
+            _context.CustomProfileSections.Remove(section);
+            await _context.SaveChangesAsync();
+
+            TempData["Success"] = "Custom section deleted successfully!";
+            return RedirectToAction(nameof(Index));
         }
     }
 }

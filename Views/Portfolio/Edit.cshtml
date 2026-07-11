@@ -1,38 +1,253 @@
 @model A3DET_CODE.Models.Portfolio
 @{
     ViewData["Title"] = "Edit Portfolio";
+    var skillsList = string.IsNullOrWhiteSpace(Model.Skills)
+        ? new List<string>()
+        : Model.Skills.Split(new[] { ',', ';' }, StringSplitOptions.RemoveEmptyEntries)
+                      .Select(s => s.Trim())
+                      .Where(s => !string.IsNullOrEmpty(s))
+                      .ToList();
 }
 
-<div class="container py-4">
-    <div class="row justify-content-center">
-        <div class="col-lg-8">
-            <div class="card shadow-sm border-0">
-                <div class="card-body p-4">
-                    <h2 class="mb-3">Edit Portfolio</h2>
-                    <form asp-action="Edit" method="post">
-                        <input asp-for="Id" type="hidden" />
-                        <input asp-for="UserId" type="hidden" />
+@section Styles {
+    <link rel="stylesheet" href="~/css/profile.css" asp-append-version="true" />
+    <style>
+        .portfolio-edit-container {
+            max-width: 750px;
+            margin: 0 auto;
+            padding: var(--space-6) 0;
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-5);
+        }
 
-                        <div class="mb-3">
-                            <label asp-for="Bio" class="form-label"></label>
-                            <textarea asp-for="Bio" class="form-control" rows="4"></textarea>
-                        </div>
-                        <div class="mb-3">
-                            <label asp-for="Skills" class="form-label"></label>
-                            <input asp-for="Skills" class="form-control" />
-                        </div>
-                        <div class="mb-3">
-                            <label asp-for="GitHubUrl" class="form-label"></label>
-                            <input asp-for="GitHubUrl" class="form-control" />
-                        </div>
-                        <div class="mb-3">
-                            <label asp-for="LinkedInUrl" class="form-label"></label>
-                            <input asp-for="LinkedInUrl" class="form-control" />
-                        </div>
-                        <button type="submit" class="btn btn-primary">Save Changes</button>
-                    </form>
+        /* Tag/chip skill input */
+        .skill-tag-input-wrapper {
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-md);
+            padding: 8px 10px;
+            background: #fff;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            min-height: 48px;
+            cursor: text;
+            transition: border-color 0.15s;
+        }
+
+        .skill-tag-input-wrapper:focus-within {
+            border-color: var(--color-blue-600);
+            box-shadow: 0 0 0 3px rgba(47, 111, 237, 0.12);
+        }
+
+        .skill-chip-tag {
+            background: rgba(47, 111, 237, 0.1);
+            color: var(--color-blue-600);
+            border: 1px solid rgba(47, 111, 237, 0.2);
+            border-radius: 16px;
+            padding: 3px 10px 3px 10px;
+            font-size: 0.82rem;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            white-space: nowrap;
+        }
+
+        .skill-chip-remove {
+            cursor: pointer;
+            color: var(--color-blue-600);
+            font-size: 1rem;
+            line-height: 1;
+            opacity: 0.6;
+            transition: opacity 0.1s;
+            background: none;
+            border: none;
+            padding: 0;
+        }
+
+        .skill-chip-remove:hover { opacity: 1; }
+
+        .skill-text-input {
+            border: none;
+            outline: none;
+            flex: 1;
+            min-width: 140px;
+            font-size: 0.9rem;
+            background: transparent;
+            padding: 2px 4px;
+            color: var(--color-navy-900);
+        }
+
+        .skill-hint {
+            font-size: 0.78rem;
+            color: var(--color-text-500);
+            margin-top: 5px;
+        }
+    </style>
+}
+
+<div class="portfolio-edit-container">
+    <!-- Header card -->
+    <div class="profile-header edit-header">
+        <div class="profile-header-content">
+            <div class="profile-info">
+                <h1>Edit Portfolio Details</h1>
+                <p class="profile-subtitle">Update your bio, skills, and social links — these appear in the About section of your profile.</p>
+            </div>
+        </div>
+        <div class="profile-actions">
+            <a asp-controller="Profile" asp-action="Index" class="btn btn-secondary btn-sm">
+                ← Back to Profile
+            </a>
+        </div>
+    </div>
+
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success show">✅ @TempData["Success"]</div>
+    }
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger show">❌ @TempData["Error"]</div>
+    }
+
+    <form asp-action="Edit" method="post" class="profile-form">
+        @Html.AntiForgeryToken()
+        <input asp-for="Id" type="hidden" />
+        <input asp-for="UserId" type="hidden" />
+
+        <!-- Bio section -->
+        <div class="form-section">
+            <h3>Bio Summary</h3>
+            <div class="form-field full-width">
+                <label asp-for="Bio" class="form-label">Bio / Summary</label>
+                <textarea asp-for="Bio" class="form-control" rows="5"
+                          placeholder="Write a short summary about yourself — your background, what you're working on, or what you're passionate about."></textarea>
+                <span class="form-hint">This appears at the top of your About section.</span>
+            </div>
+        </div>
+
+        <!-- Skills section with chip-tag input -->
+        <div class="form-section">
+            <h3>Skills &amp; Tags</h3>
+            <div class="form-field full-width">
+                <label class="form-label">Skills</label>
+
+                <!-- Hidden field that actually stores the comma-separated value -->
+                <input type="hidden" name="Skills" id="skillsHidden" value="@Model.Skills" />
+
+                <!-- Visual chip wrapper -->
+                <div class="skill-tag-input-wrapper" id="skillTagWrapper" onclick="document.getElementById('skillTextInput').focus()">
+                    @foreach (var skill in skillsList)
+                    {
+                        <span class="skill-chip-tag" data-skill="@skill">
+                            @skill
+                            <button type="button" class="skill-chip-remove" onclick="removeSkill(this)" title="Remove">×</button>
+                        </span>
+                    }
+                    <input type="text" id="skillTextInput" class="skill-text-input"
+                           placeholder="@(skillsList.Any() ? "Add more…" : "e.g. C#, React, UI Design")" />
+                </div>
+                <p class="skill-hint">Type a skill and press <strong>Enter</strong> or <strong>comma</strong> to add it. Click × to remove.</p>
+            </div>
+        </div>
+
+        <!-- Links section -->
+        <div class="form-section">
+            <h3>Social Links</h3>
+            <div class="form-grid">
+                <div class="form-field">
+                    <label asp-for="GitHubUrl" class="form-label">GitHub URL</label>
+                    <input asp-for="GitHubUrl" class="form-control" placeholder="https://github.com/your-username" />
+                </div>
+                <div class="form-field">
+                    <label asp-for="LinkedInUrl" class="form-label">LinkedIn URL</label>
+                    <input asp-for="LinkedInUrl" class="form-control" placeholder="https://linkedin.com/in/your-profile" />
                 </div>
             </div>
         </div>
-    </div>
+
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">
+                💾 Save Changes
+            </button>
+            <a asp-controller="Profile" asp-action="Index" class="btn btn-secondary">
+                Cancel
+            </a>
+        </div>
+    </form>
 </div>
+
+@section Scripts {
+    <script>
+        // --- Skill chip tag input logic ---
+        var skillInput = document.getElementById('skillTextInput');
+        var hiddenField = document.getElementById('skillsHidden');
+
+        function getSkills() {
+            var chips = document.querySelectorAll('#skillTagWrapper .skill-chip-tag');
+            return Array.from(chips).map(c => c.getAttribute('data-skill').trim()).filter(s => s.length > 0);
+        }
+
+        function syncHidden() {
+            hiddenField.value = getSkills().join(', ');
+        }
+
+        function addSkill(val) {
+            val = val.trim();
+            if (!val) return;
+            // Prevent duplicates (case-insensitive)
+            var existing = getSkills().map(s => s.toLowerCase());
+            if (existing.includes(val.toLowerCase())) {
+                skillInput.value = '';
+                return;
+            }
+
+            var chip = document.createElement('span');
+            chip.className = 'skill-chip-tag';
+            chip.setAttribute('data-skill', val);
+            chip.innerHTML = val + ' <button type="button" class="skill-chip-remove" onclick="removeSkill(this)" title="Remove">&times;</button>';
+
+            var wrapper = document.getElementById('skillTagWrapper');
+            wrapper.insertBefore(chip, skillInput);
+            skillInput.value = '';
+            skillInput.placeholder = 'Add more…';
+            syncHidden();
+        }
+
+        function removeSkill(btn) {
+            btn.closest('.skill-chip-tag').remove();
+            syncHidden();
+            if (getSkills().length === 0) {
+                skillInput.placeholder = 'e.g. C#, React, UI Design';
+            }
+        }
+
+        skillInput.addEventListener('keydown', function (e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                addSkill(this.value);
+            } else if (e.key === ',') {
+                e.preventDefault();
+                addSkill(this.value);
+            } else if (e.key === 'Backspace' && this.value === '') {
+                // Remove last chip on backspace if input is empty
+                var chips = document.querySelectorAll('#skillTagWrapper .skill-chip-tag');
+                if (chips.length > 0) {
+                    chips[chips.length - 1].remove();
+                    syncHidden();
+                }
+            }
+        });
+
+        // Sync on form submit just in case
+        document.querySelector('form').addEventListener('submit', function () {
+            // If there's text in the input box when user hits submit, add it as a skill
+            if (skillInput.value.trim()) {
+                addSkill(skillInput.value);
+            }
+            syncHidden();
+        });
+    </script>
+}

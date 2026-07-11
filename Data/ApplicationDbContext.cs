@@ -30,6 +30,7 @@ namespace A3DET_CODE.Data
         public DbSet<EntryAssessment> EntryAssessments { get; set; }
         public DbSet<Application> Applications { get; set; }
         public DbSet<Hiring> Hirings { get; set; }
+        public DbSet<CustomProfileSection> CustomProfileSections { get; set; }
 
         // ✅ Mentor System - DbSets الجديدة
         public DbSet<MentorSession> MentorSessions { get; set; }
@@ -92,6 +93,12 @@ namespace A3DET_CODE.Data
                 .HasOne(ub => ub.User)
                 .WithMany(u => u.UserBadges)
                 .HasForeignKey(ub => ub.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<CustomProfileSection>()
+                .HasOne(cps => cps.User)
+                .WithMany()
+                .HasForeignKey(cps => cps.UserId)
                 .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<UserBadge>()
