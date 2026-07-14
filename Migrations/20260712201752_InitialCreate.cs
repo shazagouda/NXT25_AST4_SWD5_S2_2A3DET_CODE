@@ -32,6 +32,7 @@ namespace A3DET_CODE.Migrations
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     FullName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Role = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ProfileImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     University = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Faculty = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     AcademicYear = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -74,7 +75,10 @@ namespace A3DET_CODE.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Icon = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Level = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Category = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    RequiredCount = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -215,6 +219,30 @@ namespace A3DET_CODE.Migrations
                     table.PrimaryKey("PK_AspNetUserTokens", x => new { x.UserId, x.LoginProvider, x.Name });
                     table.ForeignKey(
                         name: "FK_AspNetUserTokens_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "CustomProfileSections",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Title = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    Content = table.Column<string>(type: "nvarchar(4000)", maxLength: 4000, nullable: false),
+                    DisplayOrder = table.Column<int>(type: "int", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CustomProfileSections", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_CustomProfileSections_AspNetUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
@@ -458,6 +486,65 @@ namespace A3DET_CODE.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Applications",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ProjectId = table.Column<int>(type: "int", nullable: false),
+                    ApplicantId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    CoverLetter = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
+                    Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    AppliedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Applications", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Applications_AspNetUsers_ApplicantId",
+                        column: x => x.ApplicantId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Hirings",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ApplicationId = table.Column<int>(type: "int", nullable: false),
+                    CompanyId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    StudentId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Notes = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    HiredAt = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Hirings", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Hirings_Applications_ApplicationId",
+                        column: x => x.ApplicationId,
+                        principalTable: "Applications",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Hirings_AspNetUsers_CompanyId",
+                        column: x => x.CompanyId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Hirings_AspNetUsers_StudentId",
+                        column: x => x.StudentId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Evaluations",
                 columns: table => new
                 {
@@ -671,6 +758,103 @@ namespace A3DET_CODE.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Reports",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ReporterId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    ReportedUserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    ProjectId = table.Column<int>(type: "int", nullable: true),
+                    TeamId = table.Column<int>(type: "int", nullable: true),
+                    Reason = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    AdditionalDetails = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    IsAnonymous = table.Column<bool>(type: "bit", nullable: false),
+                    Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ResolvedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    ResolvedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ResolutionNote = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Reports", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Reports_AspNetUsers_ReportedUserId",
+                        column: x => x.ReportedUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Reports_AspNetUsers_ReporterId",
+                        column: x => x.ReporterId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Reports_Projects_ProjectId",
+                        column: x => x.ProjectId,
+                        principalTable: "Projects",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.SetNull);
+                    table.ForeignKey(
+                        name: "FK_Reports_Teams_TeamId",
+                        column: x => x.TeamId,
+                        principalTable: "Teams",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.SetNull);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Reviews",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ReviewerId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    ReviewedUserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    ProjectId = table.Column<int>(type: "int", nullable: true),
+                    TeamId = table.Column<int>(type: "int", nullable: true),
+                    OverallRating = table.Column<int>(type: "int", nullable: false),
+                    TeamworkRating = table.Column<int>(type: "int", nullable: false),
+                    TechnicalSkillsRating = table.Column<int>(type: "int", nullable: false),
+                    DeliveryRating = table.Column<int>(type: "int", nullable: false),
+                    CommunicationRating = table.Column<int>(type: "int", nullable: false),
+                    Comment = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
+                    IsPublic = table.Column<bool>(type: "bit", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Reviews", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Reviews_AspNetUsers_ReviewedUserId",
+                        column: x => x.ReviewedUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Reviews_AspNetUsers_ReviewerId",
+                        column: x => x.ReviewerId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Reviews_Projects_ProjectId",
+                        column: x => x.ProjectId,
+                        principalTable: "Projects",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.SetNull);
+                    table.ForeignKey(
+                        name: "FK_Reviews_Teams_TeamId",
+                        column: x => x.TeamId,
+                        principalTable: "Teams",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.SetNull);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "TeamMembers",
                 columns: table => new
                 {
@@ -697,6 +881,16 @@ namespace A3DET_CODE.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Applications_ApplicantId",
+                table: "Applications",
+                column: "ApplicantId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Applications_ProjectId",
+                table: "Applications",
+                column: "ProjectId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -753,6 +947,11 @@ namespace A3DET_CODE.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_CustomProfileSections_UserId",
+                table: "CustomProfileSections",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_EntryAssessments_UserId",
                 table: "EntryAssessments",
                 column: "UserId");
@@ -771,6 +970,22 @@ namespace A3DET_CODE.Migrations
                 name: "IX_Evaluations_UserId",
                 table: "Evaluations",
                 column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Hirings_ApplicationId",
+                table: "Hirings",
+                column: "ApplicationId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Hirings_CompanyId",
+                table: "Hirings",
+                column: "CompanyId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Hirings_StudentId",
+                table: "Hirings",
+                column: "StudentId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_MentorMentees_ApplicationUserId",
@@ -838,6 +1053,46 @@ namespace A3DET_CODE.Migrations
                 column: "TrackId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Reports_ProjectId",
+                table: "Reports",
+                column: "ProjectId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Reports_ReportedUserId",
+                table: "Reports",
+                column: "ReportedUserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Reports_ReporterId",
+                table: "Reports",
+                column: "ReporterId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Reports_TeamId",
+                table: "Reports",
+                column: "TeamId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Reviews_ProjectId",
+                table: "Reviews",
+                column: "ProjectId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Reviews_ReviewedUserId",
+                table: "Reviews",
+                column: "ReviewedUserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Reviews_ReviewerId",
+                table: "Reviews",
+                column: "ReviewerId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Reviews_TeamId",
+                table: "Reviews",
+                column: "TeamId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Submissions_ProjectId",
                 table: "Submissions",
                 column: "ProjectId");
@@ -903,6 +1158,14 @@ namespace A3DET_CODE.Migrations
                 column: "UserId");
 
             migrationBuilder.AddForeignKey(
+                name: "FK_Applications_Projects_ProjectId",
+                table: "Applications",
+                column: "ProjectId",
+                principalTable: "Projects",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Cascade);
+
+            migrationBuilder.AddForeignKey(
                 name: "FK_Evaluations_Projects_ProjectId",
                 table: "Evaluations",
                 column: "ProjectId",
@@ -942,22 +1205,6 @@ namespace A3DET_CODE.Migrations
                 table: "Teams");
 
             migrationBuilder.DropForeignKey(
-                name: "FK_Projects_Tracks_TrackId",
-                table: "Projects");
-
-            migrationBuilder.DropForeignKey(
-                name: "FK_Teams_Tracks_TrackId",
-                table: "Teams");
-
-            migrationBuilder.DropForeignKey(
-                name: "FK_Projects_Mentors_MentorId",
-                table: "Projects");
-
-            migrationBuilder.DropForeignKey(
-                name: "FK_Teams_Mentors_MentorId",
-                table: "Teams");
-
-            migrationBuilder.DropForeignKey(
                 name: "FK_Teams_Projects_ProjectId",
                 table: "Teams");
 
@@ -986,10 +1233,16 @@ namespace A3DET_CODE.Migrations
                 name: "Companies");
 
             migrationBuilder.DropTable(
+                name: "CustomProfileSections");
+
+            migrationBuilder.DropTable(
                 name: "EntryAssessments");
 
             migrationBuilder.DropTable(
                 name: "Evaluations");
+
+            migrationBuilder.DropTable(
+                name: "Hirings");
 
             migrationBuilder.DropTable(
                 name: "MentorMentees");
@@ -999,6 +1252,12 @@ namespace A3DET_CODE.Migrations
 
             migrationBuilder.DropTable(
                 name: "PortfolioProject");
+
+            migrationBuilder.DropTable(
+                name: "Reports");
+
+            migrationBuilder.DropTable(
+                name: "Reviews");
 
             migrationBuilder.DropTable(
                 name: "Submissions");
@@ -1016,6 +1275,9 @@ namespace A3DET_CODE.Migrations
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
+                name: "Applications");
+
+            migrationBuilder.DropTable(
                 name: "Badges");
 
             migrationBuilder.DropTable(
@@ -1025,16 +1287,16 @@ namespace A3DET_CODE.Migrations
                 name: "AspNetUsers");
 
             migrationBuilder.DropTable(
-                name: "Tracks");
+                name: "Projects");
+
+            migrationBuilder.DropTable(
+                name: "Teams");
 
             migrationBuilder.DropTable(
                 name: "Mentors");
 
             migrationBuilder.DropTable(
-                name: "Projects");
-
-            migrationBuilder.DropTable(
-                name: "Teams");
+                name: "Tracks");
         }
     }
 }

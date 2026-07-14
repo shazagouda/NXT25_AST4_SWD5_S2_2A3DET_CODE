@@ -1,0 +1,88 @@
+﻿@model IEnumerable<A3DET_CODE.Models.Report>
+@{
+    ViewData["Title"] = "My Reports";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/profile.css" asp-append-version="true" />
+}
+
+<div class="profile-container">
+    <div class="profile-header">
+        <h1>📋 My Reports</h1>
+        <p class="profile-subtitle">Reports you have submitted</p>
+    </div>
+
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success show">
+            <span>✅ @TempData["Success"]</span>
+        </div>
+    }
+
+    @if (!Model.Any())
+    {
+        <div class="card" style="padding: var(--space-6); text-align: center;">
+            <p style="font-size: 1.1rem; color: var(--color-text-600);">You haven't submitted any reports yet.</p>
+        </div>
+    }
+    else
+    {
+        <div class="report-list">
+            @foreach (var report in Model)
+            {
+                <div class="card" style="padding: var(--space-5); margin-bottom: var(--space-4);">
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                        <div>
+                            <h4>Report #@report.Id</h4>
+                            <p style="font-size: var(--fs-small); color: var(--color-text-600);">
+                                <strong>Reason:</strong> @report.Reason
+                            </p>
+                            <p style="font-size: var(--fs-small); color: var(--color-text-600);">
+                                <strong>Status:</strong>
+                                <span class="badge @(report.Status == "Pending" ? "badge-amber" : "badge-teal")">
+                                    @report.Status
+                                </span>
+                            </p>
+                            @if (!string.IsNullOrEmpty(report.AdditionalDetails))
+                            {
+                                <p style="font-size: var(--fs-small); color: var(--color-text-600);">
+                                    <strong>Details:</strong> @report.AdditionalDetails
+                                </p>
+                            }
+                            <p style="font-size: var(--fs-xs); color: var(--color-text-400);">
+                                Submitted: @report.CreatedAt.ToString("MMM dd, yyyy HH:mm")
+                            </p>
+                        </div>
+                        <div>
+                            <span class="badge @(report.IsAnonymous ? "badge-blue" : "badge-amber")">
+                                @(report.IsAnonymous ? "Anonymous" : "Public")
+                            </span>
+                        </div>
+                    </div>
+                    <div style="margin-top: var(--space-3); padding-top: var(--space-3); border-top: 1px solid var(--color-border);">
+                        <p style="font-size: var(--fs-small); color: var(--color-text-600);">
+                            <strong>Reported User:</strong> @report.ReportedUser?.FullName
+                        </p>
+                        @if (report.Project != null)
+                        {
+                            <p style="font-size: var(--fs-small); color: var(--color-text-600);">
+                                <strong>Project:</strong> @report.Project.Title
+                            </p>
+                        }
+                        @if (report.Team != null)
+                        {
+                            <p style="font-size: var(--fs-small); color: var(--color-text-600);">
+                                <strong>Team:</strong> @report.Team.Name
+                            </p>
+                        }
+                    </div>
+                </div>
+            }
+        </div>
+    }
+
+    <div style="margin-top: var(--space-4);">
+        <a asp-action="Index" class="btn btn-secondary">← Back to Profile</a>
+    </div>
+</div>

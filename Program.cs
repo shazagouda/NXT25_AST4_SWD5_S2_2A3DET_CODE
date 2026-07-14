@@ -19,7 +19,6 @@ builder.Logging.AddDebug();
 builder.Services.AddControllersWithViews();
 
 // injecting the repository pattern
-
 builder.Services.AddScoped<ITeamRepository, TeamRepository>();
 builder.Services.AddScoped<IProjectRepository, ProjectRepository>();
 builder.Services.AddScoped<ITaskRepository, TaskRepository>();
@@ -128,6 +127,9 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
+// ============================================================
+// ✅ HELPER FUNCTION
+// ============================================================
 async System.Threading.Tasks.Task EnsureRoleExistsAsync(RoleManager<IdentityRole> roleManager, string roleName)
 {
     if (await roleManager.RoleExistsAsync(roleName))
@@ -155,16 +157,20 @@ using (var scope = app.Services.CreateScope())
     {
         var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
         var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
-        var context = services.GetRequiredService<ApplicationDbContext>(); // ✅ استخرجنا الـ DbContext
+        var context = services.GetRequiredService<ApplicationDbContext>();
 
-        // Create roles
+        // ============================================================
+        // ✅ 1. CREATE ROLES
+        // ============================================================
         string[] roleNames = { "Student", "Mentor", "Company", "Admin" };
         foreach (var roleName in roleNames)
         {
             await EnsureRoleExistsAsync(roleManager, roleName);
         }
 
-        // Create test student
+        // ============================================================
+        // ✅ 2. CREATE TEST STUDENT
+        // ============================================================
         var studentEmail = "student@a3det.com";
         var studentUser = await userManager.FindByEmailAsync(studentEmail);
         if (studentUser == null)
@@ -197,7 +203,9 @@ using (var scope = app.Services.CreateScope())
             }
         }
 
-        // Create test mentor user if not exists
+        // ============================================================
+        // ✅ 3. CREATE TEST MENTOR
+        // ============================================================
         var mentorEmail = "mentor@a3det.com";
         var mentorUser = await userManager.FindByEmailAsync(mentorEmail);
         if (mentorUser == null)
@@ -220,11 +228,10 @@ using (var scope = app.Services.CreateScope())
             {
                 await userManager.AddToRoleAsync(user, "Mentor");
                 Console.WriteLine($"✅ User '{mentorEmail}' created!");
-                mentorUser = user; // تعيين المتغير للمستخدم الذي تم إنشاؤه
+                mentorUser = user;
             }
         }
 
-        // ✅ الآن نستخدم `context` لإنشاء مينتور مرتبط بالمستخدم
         if (mentorUser != null)
         {
             var existingMentor = await context.Mentors.FirstOrDefaultAsync(m => m.UserId == mentorUser.Id);
@@ -250,7 +257,9 @@ using (var scope = app.Services.CreateScope())
             }
         }
 
-        // Create test company
+        // ============================================================
+        // ✅ 4. CREATE TEST COMPANY
+        // ============================================================
         var companyEmail = "company@a3det.com";
         var companyUser = await userManager.FindByEmailAsync(companyEmail);
         if (companyUser == null)
@@ -275,111 +284,54 @@ using (var scope = app.Services.CreateScope())
             }
         }
 
-        // tracks dummy data
-
+        // ============================================================
+        // ✅ 5. SEED TRACKS
+        // ============================================================
         if (!context.Tracks.Any())
         {
             var tracks = new List<Track>
             {
-                new Track
-                {
-                    Name = "Frontend Development",
-                    Description = "React, accessibility, and modern UI engineering.",
-                    Icon = "FE",
-                    Skills = "HTML, CSS, JavaScript, React, Angular, Vue",
-                    Roadmap = "HTML → CSS → JavaScript → React → Advanced Patterns",
-                    Color = "#2F6FED"
-                },
-                new Track
-                {
-                    Name = "Backend Development",
-                    Description = "APIs, databases, and scalable architecture.",
-                    Icon = "BE",
-                    Skills = "C#, .NET, SQL, API Design, Cloud",
-                    Roadmap = "C# → .NET → SQL → REST APIs → Microservices",
-                    Color = "#22C55E"
-                },
-                new Track
-                {
-                    Name = "AI & Machine Learning",
-                    Description = "Models, data pipelines, and applied ML systems.",
-                    Icon = "AI",
-                    Skills = "Python, Pandas, Scikit-learn, TensorFlow, PyTorch",
-                    Roadmap = "Python → Data Analysis → ML Algorithms → Deep Learning",
-                    Color = "#A78BFA"
-                },
-                new Track
-                {
-                    Name = "Data Science",
-                    Description = "Extract insights from data with statistical analysis.",
-                    Icon = "DS",
-                    Skills = "Python, R, SQL, Statistics, Data Visualization",
-                    Roadmap = "Python → Statistics → Data Visualization → Advanced Analytics",
-                    Color = "#F59E0B"
-                },
-                new Track
-                {
-                    Name = "Mobile Development",
-                    Description = "Native and cross-platform app engineering.",
-                    Icon = "MO",
-                    Skills = "Flutter, Kotlin, Swift, React Native",
-                    Roadmap = "Flutter → Dart → Firebase → Advanced Mobile",
-                    Color = "#38BDF8"
-                },
-                new Track
-                {
-                    Name = "DevOps",
-                    Description = "Automate infrastructure and deployment pipelines.",
-                    Icon = "DO",
-                    Skills = "Docker, Kubernetes, CI/CD, AWS, Azure",
-                    Roadmap = "Linux → Docker → Kubernetes → Cloud → CI/CD",
-                    Color = "#FB923C"
-                },
-                new Track
-                {
-                    Name = "Cybersecurity",
-                    Description = "Protect systems and networks from security threats.",
-                    Icon = "CS",
-                    Skills = "Network Security, Cryptography, Ethical Hacking",
-                    Roadmap = "Networking → Security Basics → Ethical Hacking → Advanced Security",
-                    Color = "#F87171"
-                },
-                new Track
-                {
-                    Name = "Game Development",
-                    Description = "Build immersive games with Unity or Unreal.",
-                    Icon = "GD",
-                    Skills = "C#, C++, Unity, Unreal, Game Design",
-                    Roadmap = "C# → Unity → Game Physics → Advanced Game Development",
-                    Color = "#A3E635"
-                },
-                new Track
-                {
-                    Name = "Embedded Systems",
-                    Description = "Program microcontrollers and IoT devices.",
-                    Icon = "ES",
-                    Skills = "C, C++, Microcontrollers, IoT, RTOS",
-                    Roadmap = "C → Microcontrollers → IoT → RTOS",
-                    Color = "#2DD4BF"
-                },
-                new Track
-                {
-                    Name = "Software Testing",
-                    Description = "Ensure quality with automated testing and QA.",
-                    Icon = "ST",
-                    Skills = "Unit Testing, Selenium, Test Automation, QA",
-                    Roadmap = "Testing Basics → Unit Testing → Selenium → Advanced QA",
-                    Color = "#C084FC"
-                }
+                new Track { Name = "Frontend Development", Description = "React, accessibility, and modern UI engineering.", Icon = "FE", Skills = "HTML, CSS, JavaScript, React, Angular, Vue", Roadmap = "HTML → CSS → JavaScript → React → Advanced Patterns", Color = "#2F6FED" },
+                new Track { Name = "Backend Development", Description = "APIs, databases, and scalable architecture.", Icon = "BE", Skills = "C#, .NET, SQL, API Design, Cloud", Roadmap = "C# → .NET → SQL → REST APIs → Microservices", Color = "#22C55E" },
+                new Track { Name = "AI & Machine Learning", Description = "Models, data pipelines, and applied ML systems.", Icon = "AI", Skills = "Python, Pandas, Scikit-learn, TensorFlow, PyTorch", Roadmap = "Python → Data Analysis → ML Algorithms → Deep Learning", Color = "#A78BFA" },
+                new Track { Name = "Data Science", Description = "Extract insights from data with statistical analysis.", Icon = "DS", Skills = "Python, R, SQL, Statistics, Data Visualization", Roadmap = "Python → Statistics → Data Visualization → Advanced Analytics", Color = "#F59E0B" },
+                new Track { Name = "Mobile Development", Description = "Native and cross-platform app engineering.", Icon = "MO", Skills = "Flutter, Kotlin, Swift, React Native", Roadmap = "Flutter → Dart → Firebase → Advanced Mobile", Color = "#38BDF8" },
+                new Track { Name = "DevOps", Description = "Automate infrastructure and deployment pipelines.", Icon = "DO", Skills = "Docker, Kubernetes, CI/CD, AWS, Azure", Roadmap = "Linux → Docker → Kubernetes → Cloud → CI/CD", Color = "#FB923C" },
+                new Track { Name = "Cybersecurity", Description = "Protect systems and networks from security threats.", Icon = "CS", Skills = "Network Security, Cryptography, Ethical Hacking", Roadmap = "Networking → Security Basics → Ethical Hacking → Advanced Security", Color = "#F87171" },
+                new Track { Name = "Game Development", Description = "Build immersive games with Unity or Unreal.", Icon = "GD", Skills = "C#, C++, Unity, Unreal, Game Design", Roadmap = "C# → Unity → Game Physics → Advanced Game Development", Color = "#A3E635" },
+                new Track { Name = "Embedded Systems", Description = "Program microcontrollers and IoT devices.", Icon = "ES", Skills = "C, C++, Microcontrollers, IoT, RTOS", Roadmap = "C → Microcontrollers → IoT → RTOS", Color = "#2DD4BF" },
+                new Track { Name = "Software Testing", Description = "Ensure quality with automated testing and QA.", Icon = "ST", Skills = "Unit Testing, Selenium, Test Automation, QA", Roadmap = "Testing Basics → Unit Testing → Selenium → Advanced QA", Color = "#C084FC" }
             };
 
             await context.Tracks.AddRangeAsync(tracks);
             await context.SaveChangesAsync();
             Console.WriteLine("✅ 10 Tracks added successfully!");
         }
-        else
+
+        // ============================================================
+        // ✅ 6. SEED BADGES (جديد)
+        // ============================================================
+        if (!context.Badges.Any())
         {
-            Console.WriteLine("ℹ️ Tracks already exist, skipping seed.");
+            var badges = new List<Badge>
+            {
+                new Badge { Name = "Rising Developer", Icon = "🚀", Description = "Completed 5 projects successfully", Level = "Beginner", Category = "Project", RequiredCount = 5 },
+                new Badge { Name = "Consistent Builder", Icon = "💪", Description = "Completed 10 projects", Level = "Intermediate", Category = "Project", RequiredCount = 10 },
+                new Badge { Name = "Team Player", Icon = "🤝", Description = "Collaborated on 3 team projects", Level = "Beginner", Category = "Team", RequiredCount = 3 },
+                new Badge { Name = "Project Master", Icon = "🏆", Description = "Completed 15 projects with high ratings", Level = "Advanced", Category = "Project", RequiredCount = 15 },
+                new Badge { Name = "High Performer", Icon = "⭐", Description = "Average rating 4.5+ from 10 reviews", Level = "Advanced", Category = "Review", RequiredCount = 10 },
+                new Badge { Name = "Team Leader", Icon = "👑", Description = "Led 5 team projects", Level = "Expert", Category = "Team", RequiredCount = 5 },
+                new Badge { Name = "Track Explorer", Icon = "📚", Description = "Completed 3 different tracks", Level = "Intermediate", Category = "Learning", RequiredCount = 3 },
+                new Badge { Name = "Track Master", Icon = "🎯", Description = "Completed 5 tracks", Level = "Expert", Category = "Learning", RequiredCount = 5 },
+                new Badge { Name = "Top Learner", Icon = "🏅", Description = "Top 10% in assessment scores", Level = "Expert", Category = "Learning", RequiredCount = 1 },
+                new Badge { Name = "Graduate", Icon = "🎓", Description = "Completed all requirements for a track", Level = "Advanced", Category = "Learning", RequiredCount = 1 },
+                new Badge { Name = "Review Master", Icon = "📝", Description = "Wrote 20 helpful reviews", Level = "Advanced", Category = "Review", RequiredCount = 20 },
+                new Badge { Name = "Top Employer", Icon = "🌟", Description = "Hired 5 students from platform", Level = "Expert", Category = "Company", RequiredCount = 5 }
+            };
+
+            await context.Badges.AddRangeAsync(badges);
+            await context.SaveChangesAsync();
+            Console.WriteLine("✅ 12 Badges added successfully!");
         }
 
         Console.WriteLine("✅ Seed data completed!");

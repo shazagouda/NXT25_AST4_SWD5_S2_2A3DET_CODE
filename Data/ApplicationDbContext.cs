@@ -30,11 +30,14 @@ namespace A3DET_CODE.Data
         public DbSet<EntryAssessment> EntryAssessments { get; set; }
         public DbSet<Application> Applications { get; set; }
         public DbSet<Hiring> Hirings { get; set; }
+        public DbSet<CustomProfileSection> CustomProfileSections { get; set; }
 
         // ✅ Mentor System - DbSets الجديدة
         public DbSet<MentorSession> MentorSessions { get; set; }
         public DbSet<MentorMentee> MentorMentees { get; set; }
 
+        public DbSet<Report> Reports { get; set; }
+        public DbSet<Review> Reviews { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -92,6 +95,12 @@ namespace A3DET_CODE.Data
                 .HasOne(ub => ub.User)
                 .WithMany(u => u.UserBadges)
                 .HasForeignKey(ub => ub.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<CustomProfileSection>()
+                .HasOne(cps => cps.User)
+                .WithMany()
+                .HasForeignKey(cps => cps.UserId)
                 .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<UserBadge>()
@@ -235,7 +244,55 @@ namespace A3DET_CODE.Data
                 .HasOne(mm => mm.Student)
                 .WithMany() 
                 .HasForeignKey(mm => mm.StudentId)
-                .OnDelete(DeleteBehavior.Restrict); 
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Report>()
+                .HasOne(r => r.Reporter)
+                .WithMany()
+                .HasForeignKey(r => r.ReporterId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Report>()
+                .HasOne(r => r.ReportedUser)
+                .WithMany()
+                .HasForeignKey(r => r.ReportedUserId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Report>()
+                .HasOne(r => r.Project)
+                .WithMany()
+                .HasForeignKey(r => r.ProjectId)
+                .OnDelete(DeleteBehavior.SetNull);
+
+            modelBuilder.Entity<Report>()
+                .HasOne(r => r.Team)
+                .WithMany()
+                .HasForeignKey(r => r.TeamId)
+                .OnDelete(DeleteBehavior.SetNull);
+
+            modelBuilder.Entity<Review>()
+                .HasOne(r => r.Reviewer)
+                .WithMany()
+                .HasForeignKey(r => r.ReviewerId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Review>()
+                .HasOne(r => r.ReviewedUser)
+                .WithMany()
+                .HasForeignKey(r => r.ReviewedUserId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Review>()
+                .HasOne(r => r.Project)
+                .WithMany()
+                .HasForeignKey(r => r.ProjectId)
+                .OnDelete(DeleteBehavior.SetNull);
+
+            modelBuilder.Entity<Review>()
+                .HasOne(r => r.Team)
+                .WithMany()
+                .HasForeignKey(r => r.TeamId)
+                .OnDelete(DeleteBehavior.SetNull);
         }
     }
 }

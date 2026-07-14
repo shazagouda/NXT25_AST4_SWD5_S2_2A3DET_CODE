@@ -1,0 +1,120 @@
+﻿@model IEnumerable<A3DET_CODE.Models.Review>
+@{
+    ViewData["Title"] = "My Reviews";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/profile.css" asp-append-version="true" />
+}
+
+<div class="profile-container">
+    <div class="profile-header">
+        <h1>⭐ My Reviews</h1>
+        <p class="profile-subtitle">Reviews you have written</p>
+    </div>
+
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success show">
+            <span>✅ @TempData["Success"]</span>
+        </div>
+    }
+
+    @if (!Model.Any())
+    {
+        <div class="card" style="padding: var(--space-6); text-align: center;">
+            <p style="font-size: 1.1rem; color: var(--color-text-600);">You haven't written any reviews yet.</p>
+        </div>
+    }
+    else
+    {
+        <div class="review-list">
+            @foreach (var review in Model)
+            {
+                <div class="card" style="padding: var(--space-5); margin-bottom: var(--space-4);">
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                        <div>
+                            <h4>Review for @review.ReviewedUser?.FullName</h4>
+                            <div style="display: flex; gap: var(--space-2); align-items: center; margin: var(--space-2) 0;">
+                                <span style="color: var(--color-amber-500); font-size: 1.2rem;">
+                                    @for (int i = 1; i <= 5; i++)
+                                    {
+                                        if (i <= review.OverallRating)
+                                        {
+                                            <span>★</span>
+                                        }
+                                        else
+                                        {
+                                            <span>☆</span>
+                                        }
+                                    }
+                                </span>
+                                <span style="font-size: var(--fs-small); color: var(--color-text-600);">
+                                    @review.OverallRating / 5
+                                </span>
+                            </div>
+                            @if (!string.IsNullOrEmpty(review.Comment))
+                            {
+                                <p style="font-size: var(--fs-small); color: var(--color-text-600);">
+                                    "@review.Comment"
+                                </p>
+                            }
+                            <p style="font-size: var(--fs-xs); color: var(--color-text-400);">
+                                Created: @review.CreatedAt.ToString("MMM dd, yyyy HH:mm")
+                            </p>
+                        </div>
+                        <div>
+                            <span class="badge @(review.IsPublic ? "badge-teal" : "badge-amber")">
+                                @(review.IsPublic ? "Public" : "Private")
+                            </span>
+                        </div>
+                    </div>
+                    <div style="margin-top: var(--space-3); padding-top: var(--space-3); border-top: 1px solid var(--color-border);">
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-2);">
+                            <div>
+                                <span style="font-size: var(--fs-xs); color: var(--color-text-400);">Teamwork</span>
+                                <div style="display: flex; gap: var(--space-1);">
+                                    @for (int i = 1; i <= 5; i++)
+                                    {
+                                        <span style="color: var(--color-amber-500); font-size: 0.9rem;">@(i <= review.TeamworkRating ? "★" : "☆")</span>
+                                    }
+                                </div>
+                            </div>
+                            <div>
+                                <span style="font-size: var(--fs-xs); color: var(--color-text-400);">Technical Skills</span>
+                                <div style="display: flex; gap: var(--space-1);">
+                                    @for (int i = 1; i <= 5; i++)
+                                    {
+                                        <span style="color: var(--color-amber-500); font-size: 0.9rem;">@(i <= review.TechnicalSkillsRating ? "★" : "☆")</span>
+                                    }
+                                </div>
+                            </div>
+                            <div>
+                                <span style="font-size: var(--fs-xs); color: var(--color-text-400);">Delivery</span>
+                                <div style="display: flex; gap: var(--space-1);">
+                                    @for (int i = 1; i <= 5; i++)
+                                    {
+                                        <span style="color: var(--color-amber-500); font-size: 0.9rem;">@(i <= review.DeliveryRating ? "★" : "☆")</span>
+                                    }
+                                </div>
+                            </div>
+                            <div>
+                                <span style="font-size: var(--fs-xs); color: var(--color-text-400);">Communication</span>
+                                <div style="display: flex; gap: var(--space-1);">
+                                    @for (int i = 1; i <= 5; i++)
+                                    {
+                                        <span style="color: var(--color-amber-500); font-size: 0.9rem;">@(i <= review.CommunicationRating ? "★" : "☆")</span>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+
+    <div style="margin-top: var(--space-4);">
+        <a asp-action="Index" class="btn btn-secondary">← Back to Profile</a>
+    </div>
+</div>
