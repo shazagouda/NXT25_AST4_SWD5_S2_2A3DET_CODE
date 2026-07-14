@@ -24,5 +24,6 @@ namespace A3DET_CODE.Repositories.Interfaces
 		Task<int> GetProjectProgressAsync(int projectId);
 		Task<bool> IsProjectAssignedToTeamAsync(int projectId, int teamId);
 		Task<bool> ProjectExistsAsync(int id);
-	}
+		Task<bool> SaveChangesAsync();
+    }
 }

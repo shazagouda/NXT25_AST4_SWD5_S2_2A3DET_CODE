@@ -30,5 +30,6 @@
 		public bool CanJoin => IsOpen && !IsFull && !IsMember;
 		public bool CanLeave => IsMember && !IsLeader;
 		public bool CanDelete => IsLeader;
-	}
+        public int PendingRequestsCount { get; set; }
+    }
 }

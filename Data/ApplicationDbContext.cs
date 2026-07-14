@@ -38,6 +38,7 @@ namespace A3DET_CODE.Data
 
         public DbSet<Report> Reports { get; set; }
         public DbSet<Review> Reviews { get; set; }
+        public DbSet<JoinRequest> JoinRequests { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -293,6 +294,26 @@ namespace A3DET_CODE.Data
                 .WithMany()
                 .HasForeignKey(r => r.TeamId)
                 .OnDelete(DeleteBehavior.SetNull);
+
+            modelBuilder.Entity<JoinRequest>(entity =>
+            {
+                entity.HasOne(jr => jr.Team)
+                    .WithMany() // Teams don't have a collection of JoinRequests
+                    .HasForeignKey(jr => jr.TeamId)
+                    .OnDelete(DeleteBehavior.Restrict);
+
+                entity.HasOne(jr => jr.User)
+                    .WithMany() // Users don't have a collection of JoinRequests
+                    .HasForeignKey(jr => jr.UserId)
+                    .OnDelete(DeleteBehavior.Restrict);
+
+                // Prevent duplicate join requests for the same team/user
+                entity.HasIndex(jr => new { jr.TeamId, jr.UserId })
+                    .IsUnique();
+
+                entity.Property(jr => jr.Status)
+                    .HasMaxLength(20);
+            });
         }
     }
 }

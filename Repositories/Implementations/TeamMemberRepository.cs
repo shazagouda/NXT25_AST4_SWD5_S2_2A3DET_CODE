@@ -65,5 +65,10 @@ namespace A3DET_CODE.Repositories.Implementations
             return await _context.TeamMembers
                 .CountAsync(tm => tm.TeamId == teamId);
         }
+
+        public async Task<bool> SaveChangesAsync()
+        {
+            return await _context.SaveChangesAsync() >= 0;
+        }
     }
 }

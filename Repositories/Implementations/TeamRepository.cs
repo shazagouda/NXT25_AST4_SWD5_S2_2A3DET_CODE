@@ -75,11 +75,16 @@ namespace A3DET_CODE.Repositories.Implementations
 
 		public async Task<IEnumerable<Team>> GetTeamsByLeaderAsync(string leaderId)
 		{
-			return await _context.Teams
-				.Where(t => t.LeaderId == leaderId)
-				.Include(t => t.Members)
-				.ToListAsync();
-		}
+            return await _context.Teams
+                .Where(t => t.LeaderId == leaderId)
+                .Include(t => t.Track)
+                .Include(t => t.Project)
+                    .ThenInclude(p => p.Track)
+                .Include(t => t.Members)
+                    .ThenInclude(m => m.User)
+                .OrderByDescending(t => t.CreatedAt)
+                .ToListAsync();
+        }
 
 		public async Task<IEnumerable<Team>> GetTeamsByUserAsync(string userId)
 		{
@@ -138,5 +143,10 @@ namespace A3DET_CODE.Repositories.Implementations
 		{
 			return await _context.Teams.AnyAsync(t => t.Id == id);
 		}
-	}
+        public async Task<bool> SaveChangesAsync()
+		{
+			return await _context.SaveChangesAsync() >= 0;
+		}
+
+    }
 }

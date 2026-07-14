@@ -29,6 +29,8 @@ builder.Services.AddScoped<IApplicationRepository, ApplicationRepository>();
 builder.Services.AddScoped<IPortfolioRepository, PortfolioRepository>();
 builder.Services.AddScoped<IHiringRepository, HiringRepository>();
 builder.Services.AddScoped<IProfileImageStorageService, LocalFileProfileImageStorageService>();
+builder.Services.AddScoped<IJoinRequestRepository, JoinRequestRepository>();
+builder.Services.AddScoped<ITrackRepository, TrackRepository>();
 
 // Add DbContext
 builder.Services.AddDbContext<ApplicationDbContext>(options =>

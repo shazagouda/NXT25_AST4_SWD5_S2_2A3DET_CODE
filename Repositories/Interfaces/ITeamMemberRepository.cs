@@ -13,5 +13,6 @@ namespace A3DET_CODE.Repositories.Interfaces
         Task<TeamMember?> GetAsync(int teamId, string userId);
         Task<bool> ExistsAsync(int teamId, string userId);
         Task<int> CountByTeamIdAsync(int teamId);
+        Task<bool> SaveChangesAsync();
     }
 }

@@ -1,0 +1,170 @@
+@model IEnumerable<A3DET_CODE.ViewModels.Submission.SubmissionViewModel>
+@{
+    ViewData["Title"] = "Project Submissions";
+    bool canReview = ViewBag.CanReview ?? false;
+}
+
+<div class="submissions-page">
+    <div class="container py-4">
+        <!-- Breadcrumb -->
+        <nav aria-label="breadcrumb" class="mb-4">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a asp-controller="Projects" asp-action="Index">Projects</a></li>
+                <li class="breadcrumb-item"><a asp-controller="Projects" asp-action="Details" asp-route-id="@ViewBag.ProjectId">@ViewBag.ProjectTitle</a></li>
+                <li class="breadcrumb-item active">Submissions</li>
+            </ol>
+        </nav>
+
+        <!-- Alerts -->
+        @if (TempData["Success"] != null)
+        {
+            <div class="alert alert-success alert-dismissible fade show">
+                <i class="fa-solid fa-check-circle me-2"></i>@TempData["Success"]
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+        }
+
+        @if (TempData["Error"] != null)
+        {
+            <div class="alert alert-danger alert-dismissible fade show">
+                <i class="fa-solid fa-exclamation-circle me-2"></i>@TempData["Error"]
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+        }
+
+        <!-- Header -->
+        <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
+            <div>
+                <h2 class="mb-1"><i class="fa-solid fa-file-lines text-info me-2"></i>Submissions</h2>
+                <p class="text-muted mb-0">Review submitted work for @ViewBag.ProjectTitle</p>
+            </div>
+            @if (!canReview)
+            {
+                <a asp-action="Create" asp-route-projectId="@ViewBag.ProjectId" class="btn btn-warning">
+                    <i class="fa-solid fa-upload me-2"></i>Submit Work
+                </a>
+            }
+        </div>
+
+        @if (!Model.Any())
+        {
+            <div class="text-center py-5 rounded" style="background-color: var(--bg-secondary); border: 1px dashed var(--border-color);">
+                <div class="empty-state-icon" style="font-size: 3rem; color: var(--text-muted); mb-3">📂</div>
+                <h4 class="mt-3">No Submissions Yet</h4>
+                <p class="text-muted">There are no project submissions to review.</p>
+                @if (!canReview)
+                {
+                    <a asp-action="Create" asp-route-projectId="@ViewBag.ProjectId" class="btn btn-outline-warning mt-2">
+                        Be the first to submit
+                    </a>
+                }
+            </div>
+        }
+        else
+        {
+            <div class="row g-4">
+                @foreach (var sub in Model)
+                {
+                    <div class="col-md-6">
+                        <div class="card h-100" style="background-color: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: 12px;">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-start mb-3">
+                                    <div class="d-flex align-items-center">
+                                        <div class="avatar-circle d-flex align-items-center justify-content-center me-2"
+                                             style="width: 32px; height: 32px; border-radius: 50%; background: var(--bg-tertiary); font-size: 13px; font-weight: bold;">
+                                            @sub.UserInitials
+                                        </div>
+                                        <div>
+                                            <div style="font-size: 14px; font-weight: bold;">@sub.UserName</div>
+                                            <div style="font-size: 11px; color: var(--text-secondary);">@sub.SubmittedAt.ToString("MMM dd, yyyy HH:mm")</div>
+                                        </div>
+                                    </div>
+                                    <span class="badge @(sub.IsApproved ? "bg-success" : sub.IsRejected ? "bg-danger" : sub.IsRevision ? "bg-warning text-dark" : "bg-secondary")">
+                                        @sub.Status
+                                    </span>
+                                </div>
+
+                                <h5 class="card-title fw-bold mb-2">@sub.Title</h5>
+                                <p class="card-text text-muted small mb-3">@sub.Description</p>
+
+                                <div class="d-flex gap-2 flex-wrap mb-3">
+                                    @if (!string.IsNullOrEmpty(sub.GitHubUrl))
+                                    {
+                                        <a href="@sub.GitHubUrl" target="_blank" class="btn btn-sm" style="background-color: #24292e; color: white;">
+                                            <i class="fa-brands fa-github me-1"></i> Repository
+                                        </a>
+                                    }
+                                    @if (!string.IsNullOrEmpty(sub.DemoUrl))
+                                    {
+                                        <a href="@sub.DemoUrl" target="_blank" class="btn btn-sm btn-outline-primary">
+                                            <i class="fa-solid fa-link me-1"></i> Live Demo
+                                        </a>
+                                    }
+                                    @if (!string.IsNullOrEmpty(sub.FileUrl))
+                                    {
+                                        <a href="@sub.FileUrl" target="_blank" class="btn btn-sm btn-outline-secondary">
+                                            <i class="fa-solid fa-file-download me-1"></i> Download
+                                        </a>
+                                    }
+                                </div>
+
+                                @if (sub.HasScore || !string.IsNullOrEmpty(sub.Feedback))
+                                {
+                                    <div class="p-3 rounded mt-3" style="background-color: var(--bg-tertiary);">
+                                        @if (sub.HasScore)
+                                        {
+                                            <div class="mb-2">
+                                                <span class="fw-bold">Score:</span>
+                                                <span class="badge bg-primary">@sub.Score / 100</span>
+                                            </div>
+                                        }
+                                        @if (!string.IsNullOrEmpty(sub.Feedback))
+                                        {
+                                            <div class="small">
+                                                <span class="fw-bold d-block mb-1">Feedback:</span>
+                                                <span class="text-muted">@sub.Feedback</span>
+                                            </div>
+                                        }
+                                    </div>
+                                }
+                            </div>
+
+                            @if (canReview)
+                            {
+                                <div class="card-footer bg-transparent pt-0 pb-3" style="border-top: 1px solid var(--border-color);">
+                                    <form asp-action="Review" method="post" class="mt-3">
+                                        @Html.AntiForgeryToken()
+                                        <input type="hidden" name="id" value="@sub.Id" />
+
+                                        <div class="row g-2 mb-2">
+                                            <div class="col-md-4">
+                                                <label class="form-label small fw-bold mb-1">Status</label>
+                                                <select name="status" class="form-select form-select-sm" style="background-color: var(--bg-tertiary); border-color: var(--border-color); color: var(--text-primary);">
+                                                    <option value="Pending" selected="@(sub.Status == "Pending")">Pending</option>
+                                                    <option value="Approved" selected="@(sub.Status == "Approved")">Approve</option>
+                                                    <option value="Revision" selected="@(sub.Status == "Revision")">Request Revision</option>
+                                                    <option value="Rejected" selected="@(sub.Status == "Rejected")">Reject</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <label class="form-label small fw-bold mb-1">Score (0-100)</label>
+                                                <input type="number" name="score" class="form-control form-control-sm" value="@sub.Score" min="0" max="100" style="background-color: var(--bg-tertiary); border-color: var(--border-color); color: var(--text-primary);" />
+                                            </div>
+                                        </div>
+
+                                        <div class="mb-2">
+                                            <label class="form-label small fw-bold mb-1">Feedback</label>
+                                            <textarea name="feedback" class="form-control form-control-sm" rows="2" style="background-color: var(--bg-tertiary); border-color: var(--border-color); color: var(--text-primary);">@sub.Feedback</textarea>
+                                        </div>
+
+                                        <button type="submit" class="btn btn-primary btn-sm w-100">Submit Review</button>
+                                    </form>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+    </div>
+</div>

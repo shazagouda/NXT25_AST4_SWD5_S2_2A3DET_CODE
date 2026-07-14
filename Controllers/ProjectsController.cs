@@ -5,77 +5,402 @@ using A3DET_CODE.Models;
 using A3DET_CODE.Repositories.Interfaces;
 using A3DET_CODE.ViewModels.Project;
 using Microsoft.EntityFrameworkCore;
-using A3DET_CODE.Data;
+using Microsoft.AspNetCore.Identity.Data;
 
 namespace A3DET_CODE.Controllers
 {
-	[Authorize]
-	public class ProjectsController : Controller
-	{
-		private readonly IProjectRepository _projectRepository;
-		private readonly ApplicationDbContext _context;
-		private readonly ITeamRepository _teamRepository;
-		private readonly IApplicationRepository _applicationRepository;
-		private readonly UserManager<ApplicationUser> _userManager;
-		private readonly ILogger<ProjectsController> _logger;
+    [Authorize]
+    public class ProjectsController : Controller
+    {
+        private readonly IProjectRepository _projectRepository;
+        private readonly ITeamRepository _teamRepository;
+        private readonly ITeamMemberRepository _teamMemberRepository;
+        private readonly IJoinRequestRepository _joinRequestRepository;
+        private readonly IApplicationRepository _applicationRepository;
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly ILogger<ProjectsController> _logger;
+        private readonly ITrackRepository _trackRepository;
 
-		public ProjectsController(
-			IProjectRepository projectRepository,
-			ApplicationDbContext context,
-			ITeamRepository teamRepository,
-			IApplicationRepository applicationRepository,
-			UserManager<ApplicationUser> userManager,
-			ILogger<ProjectsController> logger)
-		{
-			_projectRepository = projectRepository;
-			_context = context;
-			_teamRepository = teamRepository;
-			_applicationRepository = applicationRepository;
-			_userManager = userManager;
-			_logger = logger;
-		}
+        public ProjectsController(
+            IProjectRepository projectRepository,
+            ITeamRepository teamRepository,
+            ITeamMemberRepository teamMemberRepository,
+            IJoinRequestRepository joinRequestRepository,
+            IApplicationRepository applicationRepository,
+            UserManager<ApplicationUser> userManager,
+            ILogger<ProjectsController> logger,
+            ITrackRepository trackRepository)
+        {
+            _projectRepository = projectRepository;
+            _teamRepository = teamRepository;
+            _teamMemberRepository = teamMemberRepository;
+            _joinRequestRepository = joinRequestRepository;
+            _applicationRepository = applicationRepository;
+            _userManager = userManager;
+            _logger = logger;
+            _trackRepository = trackRepository;
+        }
 
-		// GET: Projects
-		public async Task<IActionResult> Index()
-		{
-			var user = await _userManager.GetUserAsync(User);
-			if (user == null)
-				return RedirectToAction("Login", "Account");
+        // ============================================================
+        // NEW: Take Project (User becomes leader, team auto-created)
+        // ============================================================
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> TakeProject(int id)
+        {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+                return RedirectToAction("Login", "Account");
 
-			var projects = await _projectRepository.GetAvailableProjectsAsync();
+            var project = await _projectRepository.GetProjectWithDetailsAsync(id);
+            if (project == null)
+                return NotFound();
 
-			var viewModels = projects.Select(p => new ProjectViewModel
-			{
-				Id = p.Id,
-				Title = p.Title,
-				Description = p.Description,
-				TechStack = p.TechStack,
-				Type = p.Type,
-				Status = p.Status,
-				TrackId = p.TrackId,
-				TrackName = p.Track?.Name ?? "Unknown",
-				TeamId = p.TeamId,
-				TeamName = p.Team?.Name,
-				ClientId = p.ClientId,
-				ClientName = p.Client?.FullName,
-				RepositoryUrl = p.RepositoryUrl,
-				DemoUrl = p.DemoUrl,
-				Progress = p.Progress,
-				CreatedAt = p.CreatedAt,
-				StartedAt = p.StartedAt,
-				CompletedAt = p.CompletedAt,
-				Deadline = p.Deadline,
-				TotalTasks = p.Tasks?.Count ?? 0,
-				CompletedTasks = p.Tasks?.Count(t => t.Status == "Completed") ?? 0,
-				PendingTasks = p.Tasks?.Count(t => t.Status != "Completed") ?? 0,
-				TotalSubmissions = p.Submissions?.Count ?? 0,
-				AverageScore = p.Submissions != null && p.Submissions.Any()
-					? Math.Round(p.Submissions.Average(s => s.Score ?? 0), 2)
-					: 0
-			}).ToList();
+            // Check if project is available
+            if (project.Status != "Open" || project.TeamId.HasValue)
+            {
+                TempData["Error"] = "This project is no longer available.";
+                return RedirectToAction("Projects", "Home");
+            }
 
-			return View(viewModels);
-		}
+            // Create team
+            var team = new Team
+            {
+                Name = $"Team for {project.Title}",
+                Description = $"Team working on {project.Title}",
+                LeaderId = user.Id,
+                TrackId = project.TrackId,
+                MaxMembers = 5,
+                Status = "Open",
+                CurrentMembers = 1,
+                CreatedAt = DateTime.UtcNow
+            };
+
+            await _teamRepository.AddAsync(team);
+            await _teamRepository.SaveChangesAsync();
+
+            // Add leader as team member
+            var teamMember = new TeamMember
+            {
+                TeamId = team.Id,
+                UserId = user.Id,
+                Role = "Leader",
+                JoinedAt = DateTime.UtcNow
+            };
+
+            await _teamMemberRepository.AddAsync(teamMember);
+            await _teamMemberRepository.SaveChangesAsync();
+
+            // Assign project to team
+            project.TeamId = team.Id;
+            project.Status = "InProgress";
+            project.StartedAt = DateTime.UtcNow;
+
+            await _projectRepository.UpdateAsync(project);
+            await _projectRepository.SaveChangesAsync();
+
+            TempData["Success"] = $"You are now the leader of '{project.Title}'!";
+            return RedirectToAction("Details", "Projects", new { id = project.Id });
+        }
+
+        // ============================================================
+        // NEW: Request to Join a Project
+        // ============================================================
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> RequestToJoin(int id, string? returnUrl = null)
+        {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+                return RedirectToAction("Login", "Account");
+
+            var project = await _projectRepository.GetProjectWithDetailsAsync(id);
+            if (project == null)
+                return NotFound();
+
+            // Check if project has a team
+            if (!project.TeamId.HasValue)
+            {
+                TempData["Error"] = "This project doesn't have a team yet. Take the project instead!";
+                if (!string.IsNullOrEmpty(returnUrl)) return LocalRedirect(returnUrl);
+                return RedirectToAction("Projects", "Home");
+            }
+
+            var team = project.Team;
+            if (team == null)
+            {
+                TempData["Error"] = "Team not found.";
+                if (!string.IsNullOrEmpty(returnUrl)) return LocalRedirect(returnUrl);
+                return RedirectToAction("Projects", "Home");
+            }
+
+            // Check if team is full
+            if (team.CurrentMembers >= team.MaxMembers)
+            {
+                TempData["Error"] = "This team is full!";
+                if (!string.IsNullOrEmpty(returnUrl)) return LocalRedirect(returnUrl);
+                return RedirectToAction("Projects", "Home");
+            }
+
+            // Check if user is already a member
+            var isMember = await _teamMemberRepository.ExistsAsync(team.Id, user.Id);
+            if (isMember)
+            {
+                TempData["Error"] = "You are already a member of this team.";
+                if (!string.IsNullOrEmpty(returnUrl)) return LocalRedirect(returnUrl);
+                return RedirectToAction("Details", "Projects", new { id });
+            }
+
+            // Check if user already has a pending request
+            var hasPending = await _joinRequestRepository.HasPendingRequestAsync(team.Id, user.Id);
+            if (hasPending)
+            {
+                TempData["Error"] = "You already have a pending request to join this team.";
+                if (!string.IsNullOrEmpty(returnUrl)) return LocalRedirect(returnUrl);
+                return RedirectToAction("Projects", "Home");
+            }
+
+            // Create join request
+            var joinRequest = new JoinRequest
+            {
+                TeamId = team.Id,
+                UserId = user.Id,
+                Status = "Pending",
+                RequestedAt = DateTime.UtcNow
+            };
+
+            await _joinRequestRepository.AddAsync(joinRequest);
+            await _joinRequestRepository.SaveChangesAsync();
+
+            TempData["Success"] = $"Request to join '{project.Title}' sent successfully! Wait for the leader to approve.";
+            if (!string.IsNullOrEmpty(returnUrl)) return LocalRedirect(returnUrl);
+            return RedirectToAction("Projects", "Home");
+        }
+
+        // ============================================================
+        // Existing Actions (keep as is)
+        // ============================================================
+
+        // GET: Projects
+        public async Task<IActionResult> Index()
+        {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+                return RedirectToAction("Login", "Account");
+
+            var projects = await _projectRepository.GetAvailableProjectsAsync();
+
+            var viewModels = projects.Select(p => new ProjectViewModel
+            {
+                Id = p.Id,
+                Title = p.Title,
+                Description = p.Description,
+                TechStack = p.TechStack,
+                Type = p.Type,
+                Status = p.Status,
+                TrackId = p.TrackId,
+                TrackName = p.Track?.Name ?? "Unknown",
+                TeamId = p.TeamId,
+                TeamName = p.Team?.Name,
+                ClientId = p.ClientId,
+                ClientName = p.Client?.FullName,
+                RepositoryUrl = p.RepositoryUrl,
+                DemoUrl = p.DemoUrl,
+                Progress = p.Progress,
+                CreatedAt = p.CreatedAt,
+                StartedAt = p.StartedAt,
+                CompletedAt = p.CompletedAt,
+                Deadline = p.Deadline,
+                TotalTasks = p.Tasks?.Count ?? 0,
+                CompletedTasks = p.Tasks?.Count(t => t.Status == "Completed") ?? 0,
+                PendingTasks = p.Tasks?.Count(t => t.Status != "Completed") ?? 0,
+                TotalSubmissions = p.Submissions?.Count ?? 0,
+                AverageScore = p.Submissions != null && p.Submissions.Any()
+                    ? Math.Round(p.Submissions.Average(s => s.Score ?? 0), 2)
+                    : 0
+            }).ToList();
+
+            return View(viewModels);
+        }
+
+        // GET: Projects/Details/5
+        public async Task<IActionResult> Details(int id)
+        {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+                return RedirectToAction("Login", "Account");
+
+            var project = await _projectRepository.GetProjectWithDetailsAsync(id);
+            if (project == null)
+                return NotFound();
+
+            bool isLeader = false;
+            bool isMember = false;
+            IEnumerable<JoinRequest> pendingRequests = new List<JoinRequest>();
+
+            if (project.Team != null)
+            {
+                isLeader = project.Team.LeaderId == user.Id;
+                isMember = await _teamMemberRepository.ExistsAsync(project.Team.Id, user.Id);
+
+                if (isLeader)
+                {
+                    pendingRequests = await _joinRequestRepository.GetPendingRequestsByTeamIdAsync(project.Team.Id);
+                }
+            }
+
+            bool hasPendingRequest = false;
+            if (project.Team != null && !isLeader && !isMember)
+            {
+                hasPendingRequest = await _joinRequestRepository.HasPendingRequestAsync(project.Team.Id, user.Id);
+            }
+
+            var viewModel = new ProjectViewModel
+            {
+                Id = project.Id,
+                Title = project.Title,
+                Description = project.Description,
+                TechStack = project.TechStack,
+                Type = project.Type,
+                Status = project.Status,
+                TrackId = project.TrackId,
+                TrackName = project.Track?.Name ?? "Unknown",
+                TeamId = project.TeamId,
+                TeamName = project.Team?.Name,
+                ClientId = project.ClientId,
+                ClientName = project.Client?.FullName,
+                RepositoryUrl = project.RepositoryUrl,
+                DemoUrl = project.DemoUrl,
+                Progress = project.Progress,
+                CreatedAt = project.CreatedAt,
+                StartedAt = project.StartedAt,
+                CompletedAt = project.CompletedAt,
+                Deadline = project.Deadline,
+                TotalTasks = project.Tasks?.Count ?? 0,
+                CompletedTasks = project.Tasks?.Count(t => t.Status == "Completed") ?? 0,
+                PendingTasks = project.Tasks?.Count(t => t.Status != "Completed") ?? 0,
+                TotalSubmissions = project.Submissions?.Count ?? 0,
+                AverageScore = project.Submissions != null && project.Submissions.Any()
+                    ? Math.Round(project.Submissions.Average(s => s.Score ?? 0), 2)
+                    : 0,
+                IsLeader = isLeader,
+                IsMember = isMember,
+                TeamMembers = project.Team?.Members?.Select(m => new TeamMemberInfo
+                {
+                    Id = m.UserId,
+                    Name = m.User?.FullName ?? "Unknown",
+                    Initials = m.User?.FullName?.Substring(0, 1).ToUpper() ?? "U",
+                    Role = m.Role
+                }).ToList() ?? new List<TeamMemberInfo>(),
+                HasPendingJoinRequest = hasPendingRequest,
+                PendingJoinRequests = pendingRequests.Select(r => new A3DET_CODE.ViewModels.Team.JoinRequestViewModel
+                {
+                    Id = r.Id,
+                    UserId = r.UserId,
+                    UserName = r.User?.FullName ?? "Unknown",
+                    UserInitials = r.User?.FullName?.Substring(0, 1).ToUpper() ?? "U",
+                    RequestedAt = r.RequestedAt,
+                    Status = r.Status
+                }).ToList()
+            };
+
+            return View(viewModel);
+        }
+
+        // GET: Projects/Create
+        public async Task<IActionResult> Create()
+        {
+            var tracks = await _trackRepository.GetAllAsync();
+            ViewBag.Tracks = tracks;
+            return View();
+        }
+
+        // POST: Projects/Create
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create(ProjectViewModel model)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                    return View(model);
+
+                var user = await _userManager.GetUserAsync(User);
+                if (user == null)
+                    return RedirectToAction("Login", "Account");
+
+                var project = new Project
+                {
+                    Title = model.Title,
+                    Description = model.Description,
+                    TechStack = model.TechStack,
+                    Type = model.Type,
+                    Status = "InProgress",
+                    TrackId = model.TrackId,
+                    Progress = 0,
+                    CreatedAt = DateTime.UtcNow,
+                    StartedAt = DateTime.UtcNow
+                };
+
+                await _projectRepository.AddAsync(project);
+                await _projectRepository.SaveChangesAsync();
+
+                // Create team for the project
+                var team = new Team
+                {
+                    Name = $"Team for {project.Title}",
+                    Description = $"Team working on {project.Title}",
+                    LeaderId = user.Id,
+                    TrackId = project.TrackId,
+                    MaxMembers = 5,
+                    Status = "InProgress",
+                    CurrentMembers = 1,
+                    ProjectId = project.Id,
+                    CreatedAt = DateTime.UtcNow,
+                    StartedAt = DateTime.UtcNow
+                };
+
+                await _teamRepository.AddAsync(team);
+                await _teamRepository.SaveChangesAsync();
+
+                // Add creator as the team leader
+                var teamMember = new TeamMember
+                {
+                    TeamId = team.Id,
+                    UserId = user.Id,
+                    Role = "Leader",
+                    JoinedAt = DateTime.UtcNow
+                };
+
+                await _teamMemberRepository.AddAsync(teamMember);
+                await _teamMemberRepository.SaveChangesAsync();
+
+                // Update project with the new TeamId
+                project.TeamId = team.Id;
+                await _projectRepository.UpdateAsync(project);
+                await _projectRepository.SaveChangesAsync();
+
+                TempData["Success"] = "Project created successfully! You are now the team leader.";
+                return RedirectToAction("Projects", "Home");
+            }
+            catch (DbUpdateException ex)
+            {
+                var innerException = ex.InnerException?.Message ?? ex.Message;
+                TempData["Error"] = $"Database error: {innerException}";
+
+                var tracks = await _trackRepository.GetAllAsync();
+                ViewBag.Tracks = tracks;
+                return View(model);
+            }
+            catch (Exception ex)
+            {
+                TempData["Error"] = $"Error: {ex.Message}";
+
+                var tracks = await _trackRepository.GetAllAsync();
+                ViewBag.Tracks = tracks;
+                return View(model);
+            }
+        }
 
         // GET: Projects/AssignTeam/5
         public async Task<IActionResult> AssignTeam(int teamId)
@@ -88,25 +413,19 @@ namespace A3DET_CODE.Controllers
             if (team == null)
                 return NotFound();
 
-            // Check if user is the team leader
             if (team.LeaderId != user.Id)
             {
                 TempData["Error"] = "Only the team leader can assign projects.";
                 return RedirectToAction("Details", "Teams", new { id = teamId });
             }
 
-            // Check if team already has a project
             if (team.ProjectId.HasValue)
             {
                 TempData["Error"] = "This team already has an assigned project.";
                 return RedirectToAction("Details", "Teams", new { id = teamId });
             }
 
-            // Get available projects (Open or InProgress, not assigned to any team)
-            var availableProjects = await _context.Projects
-                .Where(p => (p.Status == "Open" || p.Status == "Pending") && !p.TeamId.HasValue)
-                .Include(p => p.Track)
-                .ToListAsync();
+            var availableProjects = await _projectRepository.GetAvailableProjectsAsync();
 
             var viewModel = new AssignProjectViewModel
             {
@@ -131,13 +450,10 @@ namespace A3DET_CODE.Controllers
         {
             if (!ModelState.IsValid)
             {
-                var teamFromDb = await _teamRepository.GetByIdAsync(model.TeamId);  // ✅ Changed name
-                var availableProjects = await _context.Projects
-                    .Where(p => (p.Status == "Open" || p.Status == "Pending") && !p.TeamId.HasValue)
-                    .Include(p => p.Track)
-                    .ToListAsync();
+                var teamFromDb = await _teamRepository.GetByIdAsync(model.TeamId);
+                var availableProjects = await _projectRepository.GetAvailableProjectsAsync();
 
-                model.TeamName = teamFromDb?.Name ?? "Unknown";  // ✅ Updated reference
+                model.TeamName = teamFromDb?.Name ?? "Unknown";
                 model.AvailableProjects = availableProjects.Select(p => new ProjectSelectViewModel
                 {
                     Id = p.Id,
@@ -153,228 +469,71 @@ namespace A3DET_CODE.Controllers
             if (user == null)
                 return RedirectToAction("Login", "Account");
 
-            // Get the team
-            var team = await _teamRepository.GetTeamWithDetailsAsync(model.TeamId);  // ✅ This one stays as 'team'
+            var team = await _teamRepository.GetTeamWithDetailsAsync(model.TeamId);
             if (team == null)
                 return NotFound();
 
-            // Verify user is team leader
             if (team.LeaderId != user.Id)
             {
                 TempData["Error"] = "Only the team leader can assign projects.";
                 return RedirectToAction("Details", "Teams", new { id = model.TeamId });
             }
 
-            // Get the project
             var project = await _projectRepository.GetByIdAsync(model.ProjectId);
             if (project == null)
                 return NotFound();
 
-            // Check if project is already assigned
             if (project.TeamId.HasValue)
             {
                 TempData["Error"] = "This project is already assigned to another team.";
                 return RedirectToAction("Details", "Teams", new { id = model.TeamId });
             }
 
-            // Assign project to team
             project.TeamId = team.Id;
             project.Status = "InProgress";
             project.StartedAt = DateTime.UtcNow;
 
-            // Update team
             team.ProjectId = project.Id;
             team.Status = "InProgress";
             team.StartedAt = DateTime.UtcNow;
 
-            await _context.SaveChangesAsync();
+            await _teamRepository.SaveChangesAsync();
 
             TempData["Success"] = $"Project '{project.Title}' assigned to '{team.Name}' successfully!";
             return RedirectToAction("Details", "Projects", new { id = project.Id });
         }
 
-        // GET: Projects/Details/5
-        public async Task<IActionResult> Details(int id)
-		{
-			var user = await _userManager.GetUserAsync(User);
-			if (user == null)
-				return RedirectToAction("Login", "Account");
-
-			var project = await _projectRepository.GetProjectWithDetailsAsync(id);
-			if (project == null)
-				return NotFound();
-
-			var viewModel = new ProjectViewModel
-			{
-				Id = project.Id,
-				Title = project.Title,
-				Description = project.Description,
-				TechStack = project.TechStack,
-				Type = project.Type,
-				Status = project.Status,
-				TrackId = project.TrackId,
-				TrackName = project.Track?.Name ?? "Unknown",
-				TeamId = project.TeamId,
-				TeamName = project.Team?.Name,
-				ClientId = project.ClientId,
-				ClientName = project.Client?.FullName,
-				RepositoryUrl = project.RepositoryUrl,
-				DemoUrl = project.DemoUrl,
-				Progress = project.Progress,
-				CreatedAt = project.CreatedAt,
-				StartedAt = project.StartedAt,
-				CompletedAt = project.CompletedAt,
-				Deadline = project.Deadline,
-				TotalTasks = project.Tasks?.Count ?? 0,
-				CompletedTasks = project.Tasks?.Count(t => t.Status == "Completed") ?? 0,
-				PendingTasks = project.Tasks?.Count(t => t.Status != "Completed") ?? 0,
-				TotalSubmissions = project.Submissions?.Count ?? 0,
-				AverageScore = project.Submissions != null && project.Submissions.Any()
-					? Math.Round(project.Submissions.Average(s => s.Score ?? 0), 2)
-					: 0
-			};
-
-			return View(viewModel);
-		}
-
-        // GET: Projects/Create
-        public async Task<IActionResult> Create()
-        {
-            var tracks = await _context.Tracks.ToListAsync();
-            ViewBag.Tracks = tracks;
-            return View();
-        }
-
-        // POST: Projects/Create
+        // POST: Projects/UpdateProgress/5
         [HttpPost]
-		[ValidateAntiForgeryToken]
-		public async Task<IActionResult> Create(ProjectViewModel model)
-		{
-			try
-			{
-				if (!ModelState.IsValid)
-					return View(model);
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> UpdateProgress(int id, int progress)
+        {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+                return RedirectToAction("Login", "Account");
 
-				var user = await _userManager.GetUserAsync(User);
-				if (user == null)
-					return RedirectToAction("Login", "Account");
+            var project = await _projectRepository.GetProjectWithTeamAsync(id);
+            if (project == null)
+                return NotFound();
 
-				var project = new Project
-				{
-					Title = model.Title,
-					Description = model.Description,
-					TechStack = model.TechStack,
-					Type = model.Type,
-					Status = "Open",
-					TrackId = model.TrackId,
-					Progress = 0,
-					CreatedAt = DateTime.UtcNow
-				};
-
-				await _projectRepository.AddAsync(project);
-				//await _projectRepository.UpdateAsync(project);
-				await _context.SaveChangesAsync();
-
-				TempData["Success"] = "Project created successfully!";
-				return RedirectToAction(nameof(Details), new { id = project.Id });
-			}
-            catch (DbUpdateException ex)
+            if (project.Team?.LeaderId != user.Id)
             {
-                var innerException = ex.InnerException?.Message ?? ex.Message;
-                TempData["Error"] = $"Database error: {innerException}";
-
-                var tracks = await _context.Tracks.ToListAsync();
-                ViewBag.Tracks = tracks;
-                return View(model);
+                TempData["Error"] = "Only the team leader can update project progress.";
+                return RedirectToAction("Details", new { id });
             }
-            catch (Exception ex)
+
+            project.Progress = Math.Clamp(progress, 0, 100);
+
+            if (project.Progress >= 100)
             {
-                TempData["Error"] = $"Error: {ex.Message}";
-
-                var tracks = await _context.Tracks.ToListAsync();
-                ViewBag.Tracks = tracks;
-                return View(model);
+                project.Status = "Completed";
+                project.CompletedAt = DateTime.UtcNow;
             }
+
+            await _projectRepository.UpdateAsync(project);
+
+            TempData["Success"] = "Project progress updated successfully!";
+            return RedirectToAction("Details", new { id });
         }
-
-		//// POST: Projects/AssignTeam/5
-		//[HttpPost]
-		//[ValidateAntiForgeryToken]
-		//public async Task<IActionResult> AssignTeam(int projectId, int teamId)
-		//{
-		//	var user = await _userManager.GetUserAsync(User);
-		//	if (user == null)
-		//		return RedirectToAction("Login", "Account");
-
-		//	var project = await _projectRepository.GetByIdAsync(projectId);
-		//	if (project == null)
-		//		return NotFound();
-
-		//	var team = await _teamRepository.GetByIdAsync(teamId);
-		//	if (team == null)
-		//		return NotFound();
-
-		//	// Check if user is team leader
-		//	if (team.LeaderId != user.Id)
-		//	{
-		//		TempData["Error"] = "Only the team leader can accept project assignments.";
-		//		return RedirectToAction(nameof(Details), new { id = projectId });
-		//	}
-
-		//	// Check if team already has a project
-		//	if (team.ProjectId.HasValue)
-		//	{
-		//		TempData["Error"] = "This team already has an assigned project.";
-		//		return RedirectToAction(nameof(Details), new { id = projectId });
-		//	}
-
-		//	project.TeamId = teamId;
-		//	project.Status = "InProgress";
-		//	project.StartedAt = DateTime.UtcNow;
-
-		//	team.ProjectId = projectId;
-		//	team.Status = "InProgress";
-		//	team.StartedAt = DateTime.UtcNow;
-
-		//	await _projectRepository.UpdateAsync(project);
-		//	await _teamRepository.UpdateAsync(team);
-
-		//	TempData["Success"] = "Project assigned to team successfully!";
-		//	return RedirectToAction(nameof(Details), new { id = projectId });
-		//}
-
-		// POST: Projects/UpdateProgress/5
-		[HttpPost]
-		[ValidateAntiForgeryToken]
-		public async Task<IActionResult> UpdateProgress(int id, int progress)
-		{
-			var user = await _userManager.GetUserAsync(User);
-			if (user == null)
-				return RedirectToAction("Login", "Account");
-
-			var project = await _projectRepository.GetProjectWithTeamAsync(id);
-			if (project == null)
-				return NotFound();
-
-			// Check if user is team leader
-			if (project.Team?.LeaderId != user.Id)
-			{
-				TempData["Error"] = "Only the team leader can update project progress.";
-				return RedirectToAction(nameof(Details), new { id });
-			}
-
-			project.Progress = Math.Clamp(progress, 0, 100);
-
-			if (project.Progress >= 100)
-			{
-				project.Status = "Completed";
-				project.CompletedAt = DateTime.UtcNow;
-			}
-
-			await _projectRepository.UpdateAsync(project);
-
-			TempData["Success"] = "Project progress updated successfully!";
-			return RedirectToAction(nameof(Details), new { id });
-		}
-	}
+    }
 }

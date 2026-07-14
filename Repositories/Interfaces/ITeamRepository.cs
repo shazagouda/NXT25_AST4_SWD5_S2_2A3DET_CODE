@@ -25,5 +25,6 @@ namespace A3DET_CODE.Repositories.Interfaces
 		Task<bool> IsUserTeamLeaderAsync(int teamId, string userId);
 		Task<IEnumerable<TeamMember>> GetTeamMembersAsync(int teamId);
 		Task<bool> TeamExistsAsync(int id);
+		Task<bool> SaveChangesAsync();
 	}
 }

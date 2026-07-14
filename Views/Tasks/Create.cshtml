@@ -1,0 +1,102 @@
+@model A3DET_CODE.ViewModels.Task.TaskViewModel
+@{
+    ViewData["Title"] = "Create Task";
+}
+
+<div class="tasks-create-page">
+    <div class="container py-4">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <!-- Breadcrumb -->
+                <nav aria-label="breadcrumb" class="mb-4">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a asp-controller="Projects" asp-action="Index">Projects</a></li>
+                        <li class="breadcrumb-item"><a asp-controller="Projects" asp-action="Details" asp-route-id="@Model.ProjectId">@Model.ProjectTitle</a></li>
+                        <li class="breadcrumb-item"><a asp-controller="Tasks" asp-action="ProjectTasks" asp-route-projectId="@Model.ProjectId">Tasks</a></li>
+                        <li class="breadcrumb-item active">Create</li>
+                    </ol>
+                </nav>
+
+                <div class="card shadow-sm" style="background-color: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: 12px;">
+                    <div class="card-header border-bottom-0 pt-4 pb-0 bg-transparent">
+                        <h3 class="mb-0"><i class="fa-solid fa-plus-circle text-success me-2"></i>Create New Task</h3>
+                        <p class="text-muted mt-2">Assign a new task for @Model.ProjectTitle</p>
+                    </div>
+                    <div class="card-body">
+                        <form asp-action="Create" method="post" class="needs-validation" novalidate>
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" asp-for="ProjectId" />
+                            <input type="hidden" asp-for="ProjectTitle" />
+
+                            <div class="row g-4">
+                                <div class="col-12">
+                                    <div class="form-floating">
+                                        <input asp-for="Title" class="form-control" style="background-color: var(--bg-tertiary); border-color: var(--border-color); color: var(--text-primary);" placeholder="Task Title" required />
+                                        <label asp-for="Title" class="text-muted"><i class="fa-solid fa-heading me-2"></i>Task Title *</label>
+                                    </div>
+                                    <span asp-validation-for="Title" class="text-danger small mt-1 d-block"></span>
+                                </div>
+
+                                <div class="col-12">
+                                    <div class="form-floating">
+                                        <textarea asp-for="Description" class="form-control" style="background-color: var(--bg-tertiary); border-color: var(--border-color); color: var(--text-primary); height: 120px;" placeholder="Description"></textarea>
+                                        <label asp-for="Description" class="text-muted"><i class="fa-solid fa-align-left me-2"></i>Detailed Description</label>
+                                    </div>
+                                    <span asp-validation-for="Description" class="text-danger small mt-1 d-block"></span>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <select asp-for="AssignedToId" class="form-select" style="background-color: var(--bg-tertiary); border-color: var(--border-color); color: var(--text-primary);" required>
+                                            <option value="" disabled selected>-- Select Team Member --</option>
+                                            @if (ViewBag.TeamMembers != null)
+                                            {
+                                                foreach (var member in ViewBag.TeamMembers)
+                                                {
+                                                    <option value="@member.Id">@member.Name</option>
+                                                }
+                                            }
+                                        </select>
+                                        <label asp-for="AssignedToId" class="text-muted"><i class="fa-solid fa-user-check me-2"></i>Assign To *</label>
+                                    </div>
+                                    <span asp-validation-for="AssignedToId" class="text-danger small mt-1 d-block"></span>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <select asp-for="Priority" class="form-select" style="background-color: var(--bg-tertiary); border-color: var(--border-color); color: var(--text-primary);">
+                                            <option value="Low">🟢 Low Priority</option>
+                                            <option value="Medium" selected>🟡 Medium Priority</option>
+                                            <option value="High">🔴 High Priority</option>
+                                        </select>
+                                        <label asp-for="Priority" class="text-muted"><i class="fa-solid fa-flag me-2"></i>Priority Level</label>
+                                    </div>
+                                    <span asp-validation-for="Priority" class="text-danger small mt-1 d-block"></span>
+                                </div>
+
+                                <div class="col-md-12">
+                                    <div class="form-floating">
+                                        <input asp-for="DueDate" type="date" class="form-control" style="background-color: var(--bg-tertiary); border-color: var(--border-color); color: var(--text-primary);" />
+                                        <label asp-for="DueDate" class="text-muted"><i class="fa-regular fa-calendar-days me-2"></i>Due Date (Optional)</label>
+                                    </div>
+                                    <span asp-validation-for="DueDate" class="text-danger small mt-1 d-block"></span>
+                                </div>
+                            </div>
+
+                            <div class="d-flex justify-content-end gap-3 mt-5 pt-4 border-top" style="border-color: var(--border-color) !important;">
+                                <a asp-controller="Tasks" asp-action="ProjectTasks" asp-route-projectId="@Model.ProjectId" class="btn btn-outline-secondary px-4 py-2" style="border-radius: 8px;">Cancel</a>
+                                <button type="submit" class="btn btn-success px-4 py-2" style="border-radius: 8px; background: linear-gradient(135deg, #10b981, #059669); border: none; box-shadow: 0 4px 6px rgba(16, 185, 129, 0.2);">
+                                    <i class="fa-solid fa-paper-plane me-2"></i>Create Task
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
