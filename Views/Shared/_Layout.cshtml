@@ -1,10 +1,6 @@
-@using A3DET_CODE.Models
-@using Microsoft.AspNetCore.Identity
-@inject UserManager<ApplicationUser> UserManager
-@{
-    var currentUser = User.Identity?.IsAuthenticated == true ? await UserManager.GetUserAsync(User) : null;
-    var navProfileImageUrl = string.IsNullOrWhiteSpace(currentUser?.ProfileImageUrl) ? "/images/default-avatar.png" : currentUser.ProfileImageUrl;
-}
+@* =========================================================
+   _Layout.cshtml — MASTER LAYOUT
+   ========================================================= *@
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -21,6 +17,7 @@
 </head>
 <body>
 
+    <!-- ============ NAVBAR ============ -->
     <header class="navbar" id="siteNavbar">
         <div class="navbar-inner">
             <a href="@Url.Action("Index", "Home")" class="brand">
@@ -30,14 +27,16 @@
 
             @if (User.Identity?.IsAuthenticated == true)
             {
+                <!-- ====== DESKTOP NAV (Authenticated) ====== -->
                 <nav class="nav-links">
-                    <a asp-controller="Home" asp-action="Index" class="nav-link">Home</a>
+                    <a asp-controller="Home" asp-action="Projects" class="nav-link is-active">Home</a>   <!-- ✅ Home points to Projects -->
                     <a asp-controller="Dashboard" asp-action="Index" class="nav-link">Dashboard</a>
                     <a asp-controller="Profile" asp-action="Index" class="nav-link">Profile</a>
-                    <a href="/tracks/Tracks.html" class="nav-link">Tracks</a>
-                    <a asp-controller="Mentor" asp-action="Index" class="nav-link">Mentors</a>
-                    <a asp-controller="Teams" asp-action="Index" class="nav-link">Teams</a>
-                    <a asp-controller="Projects" asp-action="Index" class="nav-link">Projects</a>
+                    <a asp-controller="Assessment" asp-action="Index" class="nav-link">Assessment</a>
+                    <a asp-controller="Tracks" asp-action="Index" class="nav-link">Tracks</a>
+                    <!--team removed-->
+                    <!-- ✅ Projects link REMOVED (Home now points to Projects) -->
+                    <a asp-controller="Portfolio" asp-action="Index" class="nav-link">Portfolio</a>
                 </nav>
                 <div class="nav-actions">
                     <button class="nav-icon-btn" aria-label="Notifications" onclick="location.href='@Url.Action("Index", "Notifications")'">
@@ -45,18 +44,19 @@
                         🔔
                     </button>
                     <div class="avatar" title="@User.Identity.Name" onclick="location.href='@Url.Action("Index", "Profile")'">
-                        <img src="@navProfileImageUrl" alt="Profile photo" onerror="this.onerror=null;this.src='/images/default-avatar.png';" />
+                        @(User.Identity.Name?.Substring(0, 1).ToUpper() ?? "U")
                     </div>
                     <a asp-controller="Account" asp-action="Logout" class="btn btn-ghost btn-sm">Logout</a>
                 </div>
             }
             else
             {
+                <!-- ====== DESKTOP NAV (Guest) ====== -->
                 <nav class="nav-links">
-                    <a asp-controller="Home" asp-action="Index" class="nav-link is-active">Home</a>
-
+                    <a asp-controller="Home" asp-action="Index" class="nav-link is-active">Home</a>   <!-- ✅ Guest stays on Index -->
                     <a href="/tracks/Tracks.html" class="nav-link">Tracks</a>
-                    <a asp-controller="Mentor" asp-action="Index" class="nav-link">Mentors</a>
+                    <a asp-controller="Roadmaps" asp-action="Index" class="nav-link">Roadmaps</a>
+                    <a asp-controller="Mentors" asp-action="Index" class="nav-link">Mentors</a>
                     <a asp-controller="Companies" asp-action="Index" class="nav-link">Companies</a>
                     <a asp-controller="About" asp-action="Index" class="nav-link">About</a>
                     <a asp-controller="ContactUs" asp-action="Index" class="nav-link">Contact Us</a>
@@ -72,19 +72,24 @@
             </button>
         </div>
 
+        <!-- ============ MOBILE MENU ============ -->
         <div class="mobile-menu" id="mobileMenu">
             @if (User.Identity?.IsAuthenticated == true)
             {
-                <a asp-controller="Home" asp-action="Index" class="nav-link">Home</a>
+                <!-- ====== MOBILE NAV (Authenticated) ====== -->
+                <a asp-controller="Home" asp-action="Projects" class="nav-link">Home</a>   <!-- ✅ Home points to Projects -->
+                <a asp-controller="Dashboard" asp-action="Index" class="nav-link">Dashboard</a>
                 <a asp-controller="Profile" asp-action="Index" class="nav-link">Profile</a>
                 <a asp-controller="Assessment" asp-action="Index" class="nav-link">Assessment</a>
-                <a href="/tracks/Tracks.html" class="nav-link">Tracks</a>
-                <a asp-controller="Teams" asp-action="Index" class="nav-link">Teams</a>
-                <a asp-controller="Projects" asp-action="Index" class="nav-link">Projects</a>
+                <a asp-controller="Tracks" asp-action="Index" class="nav-link">Tracks</a>
+                <!--team removed-->
+                <!-- ✅ Projects link REMOVED -->
+                <a asp-controller="Portfolio" asp-action="Index" class="nav-link">Portfolio</a>
                 <a asp-controller="Account" asp-action="Logout" class="nav-link">Logout</a>
             }
             else
             {
+                <!-- ====== MOBILE NAV (Guest) ====== -->
                 <a asp-controller="Home" asp-action="Index" class="nav-link">Home</a>
                 <a href="/tracks/Tracks.html" class="nav-link">Tracks</a>
                 <a asp-controller="Roadmaps" asp-action="Index" class="nav-link">Roadmaps</a>
@@ -98,10 +103,12 @@
         </div>
     </header>
 
+    <!-- ============ PAGE CONTENT ============ -->
     <main>
         @RenderBody()
     </main>
 
+    <!-- ============ FOOTER ============ -->
     <footer class="footer">
         <div class="container">
             <div class="footer-grid">
@@ -114,7 +121,6 @@
                 </div>
                 <div>
                     <h4>Platform</h4>
-        
                     <a asp-controller="Tracks" asp-action="Index">Tracks</a>
                     <a asp-controller="Roadmaps" asp-action="Index">Roadmaps</a>
                     <a asp-controller="Assessment" asp-action="Index">Assessment</a>

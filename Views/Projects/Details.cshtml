@@ -1,4 +1,4 @@
-﻿@model A3DET_CODE.ViewModels.Project.ProjectViewModel
+@model A3DET_CODE.ViewModels.Project.ProjectViewModel
 @{
     ViewData["Title"] = Model.Title;
 }
@@ -168,24 +168,50 @@
                     </div>
                     <div class="actions-card-body">
                         <div class="d-flex gap-2 flex-wrap">
-                            <form asp-action="Apply" asp-route-id="@Model.Id" method="post" class="d-inline">
-                                <input type="text" name="coverLetter" class="form-control form-control-sm me-2" placeholder="Short motivation" />
-                                <button type="submit" class="btn btn-primary btn-sm">
-                                    <i class="fa-solid fa-paper-plane me-2"></i>Apply
-                                </button>
-                            </form>
-                            <a asp-controller="Tasks" asp-action="ProjectTasks" asp-route-projectId="@Model.Id" class="btn btn-outline-primary btn-sm">
-                                <i class="fa-solid fa-list-check me-2"></i>View Tasks
-                            </a>
-                            <a asp-controller="Tasks" asp-action="Create" asp-route-projectId="@Model.Id" class="btn btn-outline-success btn-sm">
-                                <i class="fa-solid fa-plus me-2"></i>Add Task
-                            </a>
-                            <a asp-controller="Submissions" asp-action="ProjectSubmissions" asp-route-projectId="@Model.Id" class="btn btn-outline-info btn-sm">
-                                <i class="fa-solid fa-file-lines me-2"></i>View Submissions
-                            </a>
-                            <a asp-controller="Submissions" asp-action="Create" asp-route-projectId="@Model.Id" class="btn btn-outline-warning btn-sm">
-                                <i class="fa-solid fa-upload me-2"></i>Submit Project
-                            </a>
+                            @if (Model.IsLeader)
+                            {
+                                <a asp-controller="Tasks" asp-action="ProjectTasks" asp-route-projectId="@Model.Id" class="btn btn-outline-primary btn-sm">
+                                    <i class="fa-solid fa-list-check me-2"></i>View Tasks
+                                </a>
+                                <a asp-controller="Tasks" asp-action="Create" asp-route-projectId="@Model.Id" class="btn btn-outline-success btn-sm">
+                                    <i class="fa-solid fa-plus me-2"></i>Add Task
+                                </a>
+                                <a asp-controller="Submissions" asp-action="ProjectSubmissions" asp-route-projectId="@Model.Id" class="btn btn-outline-info btn-sm">
+                                    <i class="fa-solid fa-file-lines me-2"></i>View Submissions
+                                </a>
+                            }
+                            else if (Model.IsMember)
+                            {
+                                <a asp-controller="Tasks" asp-action="ProjectTasks" asp-route-projectId="@Model.Id" class="btn btn-outline-primary btn-sm">
+                                    <i class="fa-solid fa-list-check me-2"></i>View Tasks
+                                </a>
+                                <a asp-controller="Submissions" asp-action="Create" asp-route-projectId="@Model.Id" class="btn btn-outline-warning btn-sm">
+                                    <i class="fa-solid fa-upload me-2"></i>Submit Project
+                                </a>
+                                <a asp-controller="Submissions" asp-action="ProjectSubmissions" asp-route-projectId="@Model.Id" class="btn btn-outline-info btn-sm">
+                                    <i class="fa-solid fa-file-lines me-2"></i>View Submissions
+                                </a>
+                            }
+                            else
+                            {
+                                if (Model.HasPendingJoinRequest)
+                                {
+                                    <button class="btn btn-secondary btn-sm" disabled>
+                                        <i class="fa-solid fa-clock-rotate-left me-2"></i>Pending Request
+                                    </button>
+                                }
+                                else
+                                {
+                                    <form asp-action="RequestToJoin" asp-controller="Projects" method="post" class="d-inline">
+                                        @Html.AntiForgeryToken()
+                                        <input type="hidden" name="id" value="@Model.Id" />
+                                        <input type="hidden" name="returnUrl" value="@Url.Action("Details", "Projects", new { id = Model.Id })" />
+                                        <button type="submit" class="btn btn-primary btn-sm">
+                                            <i class="fa-solid fa-paper-plane me-2"></i>Request to Join
+                                        </button>
+                                    </form>
+                                }
+                            }
                         </div>
                     </div>
                 </div>
@@ -199,19 +225,34 @@
                         <h5 class="mb-0"><i class="fa-solid fa-users me-2"></i>Team</h5>
                     </div>
                     <div class="sidebar-card-body">
-                        @if (Model.IsAssigned)
+                        @if (Model.IsAssigned && Model.TeamMembers.Any())
                         {
-                            <div class="team-info">
-                                <div class="team-name">
+                            <div class="team-info mb-3">
+                                <div class="team-name mb-1">
                                     <i class="fa-solid fa-users me-2"></i>
                                     <span class="fw-bold">@Model.TeamName</span>
                                 </div>
-                                <div class="team-id text-muted small">
-                                    Team ID: @Model.TeamId
-                                </div>
-                                <a asp-controller="Teams" asp-action="Details" asp-route-id="@Model.TeamId" class="btn btn-outline-primary btn-sm w-100 mt-3">
-                                    View Team
-                                </a>
+                            </div>
+                            <div class="team-members-list d-flex flex-column gap-2">
+                                @foreach (var member in Model.TeamMembers)
+                                {
+                                    <div class="d-flex align-items-center p-2 rounded" style="background-color: var(--bg-secondary); border: 1px solid var(--border-color);">
+                                        <div class="avatar-circle d-flex align-items-center justify-content-center me-3"
+                                             style="width: 36px; height: 36px; border-radius: 50%; background: linear-gradient(135deg, var(--primary-color), var(--primary-dark)); color: white; font-weight: bold; font-size: 14px; box-shadow: 0 2px 4px rgba(47, 111, 237, 0.2);">
+                                            @member.Initials
+                                        </div>
+                                        <div class="flex-grow-1">
+                                            <div class="fw-bold" style="font-size: 14px; color: var(--text-primary);">@member.Name</div>
+                                            <div style="font-size: 12px; color: var(--text-secondary);">
+                                                @if (member.Role == "Leader")
+                                                {
+                                                    <i class="fa-solid fa-crown text-warning me-1"></i>
+                                                }
+                                                @member.Role
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
                             </div>
                         }
                         else
@@ -225,352 +266,401 @@
                             </div>
                         }
                     </div>
-                </div>
 
-                <!-- Quick Stats -->
-                <div class="sidebar-card">
-                    <div class="sidebar-card-header">
-                        <h5 class="mb-0"><i class="fa-solid fa-chart-simple me-2"></i>Stats</h5>
-                    </div>
-                    <div class="sidebar-card-body">
-                        <div class="stat-item">
-                            <span class="stat-label">Status</span>
-                            <span class="stat-value">
-                                <span class="status-badge-sm @(Model.Status == "Open" ? "status-open" : Model.Status == "InProgress" ? "status-progress" : "status-completed")">
-                                    @Model.Status
+                    <!-- Pending Join Requests (Leader Only) -->
+                    @if (Model.IsLeader && Model.PendingJoinRequests.Any())
+                    {
+                        <div class="sidebar-card">
+                            <div class="sidebar-card-header d-flex justify-content-between align-items-center">
+                                <h5 class="mb-0 text-warning"><i class="fa-solid fa-bell me-2"></i>Requests</h5>
+                                <span class="badge bg-warning text-dark rounded-pill">@Model.PendingJoinRequests.Count</span>
+                            </div>
+                            <div class="sidebar-card-body">
+                                <div class="d-flex flex-column gap-3">
+                                    @foreach (var req in Model.PendingJoinRequests)
+                                    {
+                                        <div class="request-card p-3 rounded" style="background-color: var(--bg-secondary); border: 1px solid var(--border-color);">
+                                            <div class="d-flex align-items-center mb-2">
+                                                <div class="avatar-circle d-flex align-items-center justify-content-center me-2"
+                                                     style="width: 32px; height: 32px; border-radius: 50%; background: var(--bg-tertiary); color: var(--text-primary); font-size: 12px; font-weight: bold;">
+                                                    @req.UserInitials
+                                                </div>
+                                                <div>
+                                                    <div class="fw-bold" style="font-size: 14px; color: var(--text-primary);">@req.UserName</div>
+                                                    <div style="font-size: 11px; color: var(--text-secondary);">@req.RequestedAt.ToString("MMM dd, yyyy")</div>
+                                                </div>
+                                            </div>
+                                            <div class="d-flex gap-2 mt-2">
+                                                <form asp-controller="Teams" asp-action="AcceptMember" method="post" class="flex-grow-1">
+                                                    @Html.AntiForgeryToken()
+                                                    <input type="hidden" name="id" value="@Model.TeamId" />
+                                                    <input type="hidden" name="userId" value="@req.UserId" />
+                                                    <input type="hidden" name="returnUrl" value="@Url.Action("Details", "Projects", new { id = Model.Id })" />
+                                                    <button type="submit" class="btn btn-success btn-sm w-100 py-1" style="font-size: 12px;">
+                                                        <i class="fa-solid fa-check me-1"></i> Accept
+                                                    </button>
+                                                </form>
+                                                <form asp-controller="Teams" asp-action="RejectMember" method="post" class="flex-grow-1">
+                                                    @Html.AntiForgeryToken()
+                                                    <input type="hidden" name="id" value="@Model.TeamId" />
+                                                    <input type="hidden" name="userId" value="@req.UserId" />
+                                                    <input type="hidden" name="returnUrl" value="@Url.Action("Details", "Projects", new { id = Model.Id })" />
+                                                    <button type="submit" class="btn btn-outline-danger btn-sm w-100 py-1" style="font-size: 12px;">
+                                                        <i class="fa-solid fa-xmark me-1"></i> Reject
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    }
+
+                    <!-- Quick Stats -->
+                    <div class="sidebar-card">
+                        <div class="sidebar-card-header">
+                            <h5 class="mb-0"><i class="fa-solid fa-chart-simple me-2"></i>Stats</h5>
+                        </div>
+                        <div class="sidebar-card-body">
+                            <div class="stat-item">
+                                <span class="stat-label">Status</span>
+                                <span class="stat-value">
+                                    <span class="status-badge-sm @(Model.Status == "Open" ? "status-open" : Model.Status == "InProgress" ? "status-progress" : "status-completed")">
+                                        @Model.Status
+                                    </span>
                                 </span>
-                            </span>
-                        </div>
-                        <div class="stat-item">
-                            <span class="stat-label">Type</span>
-                            <span class="stat-value">@Model.Type</span>
-                        </div>
-                        <div class="stat-item">
-                            <span class="stat-label">Track</span>
-                            <span class="stat-value">@Model.TrackName</span>
-                        </div>
-                        <div class="stat-item">
-                            <span class="stat-label">Progress</span>
-                            <span class="stat-value">@Model.Progress%</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">Type</span>
+                                <span class="stat-value">@Model.Type</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">Track</span>
+                                <span class="stat-value">@Model.TrackName</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">Progress</span>
+                                <span class="stat-value">@Model.Progress%</span>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 
-@section Styles {
-    <style>
-        .project-details-page {
-            background: var(--color-bg, #F6F7FB);
-            min-height: 100vh;
-            padding-bottom: 2rem;
-        }
-
-        .project-detail-card,
-        .progress-card,
-        .actions-card,
-        .sidebar-card {
-            background: var(--color-surface, #FFFFFF);
-            border-radius: 20px;
-            border: 1px solid var(--color-border, #E4E7EF);
-            overflow: hidden;
-            margin-bottom: 1.5rem;
-            box-shadow: 0 2px 8px rgba(10, 22, 40, 0.06);
-        }
-
-        .project-detail-card {
-            padding: 2rem;
-        }
-
-        .project-detail-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            flex-wrap: wrap;
-            gap: 1rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .project-detail-badges {
-            display: flex;
-            gap: 0.5rem;
-            flex-wrap: wrap;
-            margin-bottom: 0.75rem;
-        }
-
-        .badge-type {
-            padding: 0.25rem 0.75rem;
-            border-radius: 999px;
-            background: var(--color-bg, #F6F7FB);
-            color: var(--color-text-600, #5B6478);
-            font-size: 0.75rem;
-            font-weight: 600;
-            text-transform: uppercase;
-        }
-
-        .badge-track {
-            padding: 0.25rem 0.75rem;
-            border-radius: 999px;
-            color: #fff;
-            font-size: 0.75rem;
-            font-weight: 600;
-        }
-
-        .status-badge {
-            padding: 0.25rem 0.75rem;
-            border-radius: 999px;
-            font-size: 0.75rem;
-            font-weight: 700;
-            text-transform: uppercase;
-        }
-
-        .project-detail-title {
-            font-family: var(--font-display, 'Sora', sans-serif);
-            font-size: 1.75rem;
-            font-weight: 800;
-            color: var(--color-text-900, #0A1628);
-            margin: 0 0 0.5rem;
-        }
-
-        .project-detail-desc {
-            color: var(--color-text-600, #5B6478);
-            font-size: 1rem;
-            line-height: 1.7;
-            margin: 0;
-            max-width: 650px;
-        }
-
-        .project-detail-meta {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1.5rem 2.5rem;
-            padding-top: 1.5rem;
-            border-top: 1px solid var(--color-border, #E4E7EF);
-        }
-
-        .meta-item {
-            display: flex;
-            flex-direction: column;
-            gap: 0.25rem;
-        }
-
-        .meta-label {
-            font-size: 0.75rem;
-            color: var(--color-text-400, #94A0B8);
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            font-weight: 600;
-        }
-
-        .meta-value {
-            font-weight: 500;
-            color: var(--color-text-900, #0A1628);
-        }
-
-        .tech-badge-sm {
-            padding: 0.15rem 0.5rem;
-            background: var(--color-bg, #F6F7FB);
-            border: 1px solid var(--color-border, #E4E7EF);
-            border-radius: 4px;
-            font-size: 0.7rem;
-            color: var(--color-text-600, #5B6478);
-            display: inline-block;
-            margin-right: 0.25rem;
-        }
-
-        .project-detail-links {
-            display: flex;
-            gap: 0.75rem;
-            padding-top: 1.5rem;
-            border-top: 1px solid var(--color-border, #E4E7EF);
-            margin-top: 1.5rem;
-        }
-
-        .progress-card-header {
-            padding: 1rem 1.5rem;
-            border-bottom: 1px solid var(--color-border, #E4E7EF);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: var(--color-bg, #F6F7FB);
-        }
-
-        .progress-percentage {
-            font-family: var(--font-mono, 'JetBrains Mono', monospace);
-            font-size: 1.1rem;
-            font-weight: 700;
-            color: var(--color-blue-600, #2F6FED);
-        }
-
-        .progress-card-body {
-            padding: 1.5rem;
-        }
-
-        .progress-stats {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-            gap: 1rem;
-            margin-top: 1rem;
-            padding-top: 1rem;
-            border-top: 1px solid var(--color-border, #E4E7EF);
-        }
-
-            .progress-stats .stat-item {
-                text-align: center;
+    @section Styles {
+        <style>
+            .project-details-page {
+                background: var(--color-bg, #F6F7FB);
+                min-height: 100vh;
+                padding-bottom: 2rem;
             }
 
-            .progress-stats .stat-label {
-                display: block;
-                font-size: 0.7rem;
-                color: var(--color-text-400, #94A0B8);
-                text-transform: uppercase;
-                letter-spacing: 0.04em;
+            .project-detail-card,
+            .progress-card,
+            .actions-card,
+            .sidebar-card {
+                background: var(--color-surface, #FFFFFF);
+                border-radius: 20px;
+                border: 1px solid var(--color-border, #E4E7EF);
+                overflow: hidden;
+                margin-bottom: 1.5rem;
+                box-shadow: 0 2px 8px rgba(10, 22, 40, 0.06);
             }
 
-            .progress-stats .stat-value {
-                display: block;
-                font-size: 1.25rem;
-                font-weight: 700;
-                margin-top: 0.25rem;
+            .project-detail-card {
+                padding: 2rem;
             }
 
-        .actions-card-header {
-            padding: 0.75rem 1.5rem;
-            border-bottom: 1px solid var(--color-border, #E4E7EF);
-            background: var(--color-bg, #F6F7FB);
-        }
-
-        .actions-card-body {
-            padding: 1.25rem 1.5rem;
-        }
-
-            .actions-card-body .btn {
-                border-radius: 999px;
-                padding: 0.4rem 1rem;
-                font-weight: 600;
-                font-size: 0.85rem;
-            }
-
-        .sidebar-card-header {
-            padding: 0.75rem 1.5rem;
-            border-bottom: 1px solid var(--color-border, #E4E7EF);
-            background: var(--color-bg, #F6F7FB);
-        }
-
-        .sidebar-card-body {
-            padding: 1.25rem 1.5rem;
-        }
-
-            .sidebar-card-body .stat-item {
+            .project-detail-header {
                 display: flex;
                 justify-content: space-between;
-                padding: 0.5rem 0;
-                border-bottom: 1px solid var(--color-border, #E4E7EF);
+                align-items: flex-start;
+                flex-wrap: wrap;
+                gap: 1rem;
+                margin-bottom: 1.5rem;
             }
 
-                .sidebar-card-body .stat-item:last-child {
-                    border-bottom: none;
-                }
-
-            .sidebar-card-body .stat-label {
-                color: var(--color-text-400, #94A0B8);
-                font-size: 0.85rem;
+            .project-detail-badges {
+                display: flex;
+                gap: 0.5rem;
+                flex-wrap: wrap;
+                margin-bottom: 0.75rem;
             }
 
-            .sidebar-card-body .stat-value {
+            .badge-type {
+                padding: 0.25rem 0.75rem;
+                border-radius: 999px;
+                background: var(--color-bg, #F6F7FB);
+                color: var(--color-text-600, #5B6478);
+                font-size: 0.75rem;
                 font-weight: 600;
-                color: var(--color-text-900, #0A1628);
-                font-size: 0.9rem;
+                text-transform: uppercase;
             }
 
-        .status-badge-sm {
-            padding: 0.15rem 0.5rem;
-            border-radius: 999px;
-            font-size: 0.7rem;
-            font-weight: 700;
-            text-transform: uppercase;
-        }
-
-        .team-info {
-            text-align: center;
-        }
-
-        .team-name {
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: var(--color-text-900, #0A1628);
-        }
-
-        .empty-team {
-            padding: 0.5rem 0;
-        }
-
-            .empty-team .empty-icon-small {
-                font-size: 2.5rem;
-                color: var(--color-text-400, #94A0B8);
-                margin-bottom: 0.5rem;
-                display: block;
+            .badge-track {
+                padding: 0.25rem 0.75rem;
+                border-radius: 999px;
+                color: #fff;
+                font-size: 0.75rem;
+                font-weight: 600;
             }
 
-        .text-danger {
-            color: var(--color-danger, #E14F4F) !important;
-        }
-
-        .text-success {
-            color: var(--color-teal-600, #15C6AE) !important;
-        }
-
-        .text-warning {
-            color: var(--color-amber-500, #F2A33C) !important;
-        }
-
-        .text-info {
-            color: var(--color-blue-600, #2F6FED) !important;
-        }
-
-        @@media (max-width: 768px) {
-            .project-detail-card {
-                padding: 1.25rem;
+            .status-badge {
+                padding: 0.25rem 0.75rem;
+                border-radius: 999px;
+                font-size: 0.75rem;
+                font-weight: 700;
+                text-transform: uppercase;
             }
 
             .project-detail-title {
-                font-size: 1.4rem;
+                font-family: var(--font-display, 'Sora', sans-serif);
+                font-size: 1.75rem;
+                font-weight: 800;
+                color: var(--color-text-900, #0A1628);
+                margin: 0 0 0.5rem;
+            }
+
+            .project-detail-desc {
+                color: var(--color-text-600, #5B6478);
+                font-size: 1rem;
+                line-height: 1.7;
+                margin: 0;
+                max-width: 650px;
             }
 
             .project-detail-meta {
-                gap: 1rem;
+                display: flex;
+                flex-wrap: wrap;
+                gap: 1.5rem 2.5rem;
+                padding-top: 1.5rem;
+                border-top: 1px solid var(--color-border, #E4E7EF);
             }
 
-            .progress-stats {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            .actions-card-body .d-flex {
+            .meta-item {
+                display: flex;
                 flex-direction: column;
+                gap: 0.25rem;
             }
 
-            .actions-card-body .btn {
-                width: 100%;
-                justify-content: center;
+            .meta-label {
+                font-size: 0.75rem;
+                color: var(--color-text-400, #94A0B8);
+                text-transform: uppercase;
+                letter-spacing: 0.05em;
+                font-weight: 600;
             }
-        }
 
-        @@media (max-width: 480px) {
-            .project-detail-meta {
-                flex-direction: column;
-                gap: 0.75rem;
+            .meta-value {
+                font-weight: 500;
+                color: var(--color-text-900, #0A1628);
+            }
+
+            .tech-badge-sm {
+                padding: 0.15rem 0.5rem;
+                background: var(--color-bg, #F6F7FB);
+                border: 1px solid var(--color-border, #E4E7EF);
+                border-radius: 4px;
+                font-size: 0.7rem;
+                color: var(--color-text-600, #5B6478);
+                display: inline-block;
+                margin-right: 0.25rem;
             }
 
             .project-detail-links {
-                flex-direction: column;
+                display: flex;
+                gap: 0.75rem;
+                padding-top: 1.5rem;
+                border-top: 1px solid var(--color-border, #E4E7EF);
+                margin-top: 1.5rem;
             }
 
-                .project-detail-links .btn {
+            .progress-card-header {
+                padding: 1rem 1.5rem;
+                border-bottom: 1px solid var(--color-border, #E4E7EF);
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                background: var(--color-bg, #F6F7FB);
+            }
+
+            .progress-percentage {
+                font-family: var(--font-mono, 'JetBrains Mono', monospace);
+                font-size: 1.1rem;
+                font-weight: 700;
+                color: var(--color-blue-600, #2F6FED);
+            }
+
+            .progress-card-body {
+                padding: 1.5rem;
+            }
+
+            .progress-stats {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+                gap: 1rem;
+                margin-top: 1rem;
+                padding-top: 1rem;
+                border-top: 1px solid var(--color-border, #E4E7EF);
+            }
+
+                .progress-stats .stat-item {
+                    text-align: center;
+                }
+
+                .progress-stats .stat-label {
+                    display: block;
+                    font-size: 0.7rem;
+                    color: var(--color-text-400, #94A0B8);
+                    text-transform: uppercase;
+                    letter-spacing: 0.04em;
+                }
+
+                .progress-stats .stat-value {
+                    display: block;
+                    font-size: 1.25rem;
+                    font-weight: 700;
+                    margin-top: 0.25rem;
+                }
+
+            .actions-card-header {
+                padding: 0.75rem 1.5rem;
+                border-bottom: 1px solid var(--color-border, #E4E7EF);
+                background: var(--color-bg, #F6F7FB);
+            }
+
+            .actions-card-body {
+                padding: 1.25rem 1.5rem;
+            }
+
+                .actions-card-body .btn {
+                    border-radius: 999px;
+                    padding: 0.4rem 1rem;
+                    font-weight: 600;
+                    font-size: 0.85rem;
+                }
+
+            .sidebar-card-header {
+                padding: 0.75rem 1.5rem;
+                border-bottom: 1px solid var(--color-border, #E4E7EF);
+                background: var(--color-bg, #F6F7FB);
+            }
+
+            .sidebar-card-body {
+                padding: 1.25rem 1.5rem;
+            }
+
+                .sidebar-card-body .stat-item {
+                    display: flex;
+                    justify-content: space-between;
+                    padding: 0.5rem 0;
+                    border-bottom: 1px solid var(--color-border, #E4E7EF);
+                }
+
+                    .sidebar-card-body .stat-item:last-child {
+                        border-bottom: none;
+                    }
+
+                .sidebar-card-body .stat-label {
+                    color: var(--color-text-400, #94A0B8);
+                    font-size: 0.85rem;
+                }
+
+                .sidebar-card-body .stat-value {
+                    font-weight: 600;
+                    color: var(--color-text-900, #0A1628);
+                    font-size: 0.9rem;
+                }
+
+            .status-badge-sm {
+                padding: 0.15rem 0.5rem;
+                border-radius: 999px;
+                font-size: 0.7rem;
+                font-weight: 700;
+                text-transform: uppercase;
+            }
+
+            .team-info {
+                text-align: center;
+            }
+
+            .team-name {
+                font-size: 1.1rem;
+                font-weight: 600;
+                color: var(--color-text-900, #0A1628);
+            }
+
+            .empty-team {
+                padding: 0.5rem 0;
+            }
+
+                .empty-team .empty-icon-small {
+                    font-size: 2.5rem;
+                    color: var(--color-text-400, #94A0B8);
+                    margin-bottom: 0.5rem;
+                    display: block;
+                }
+
+            .text-danger {
+                color: var(--color-danger, #E14F4F) !important;
+            }
+
+            .text-success {
+                color: var(--color-teal-600, #15C6AE) !important;
+            }
+
+            .text-warning {
+                color: var(--color-amber-500, #F2A33C) !important;
+            }
+
+            .text-info {
+                color: var(--color-blue-600, #2F6FED) !important;
+            }
+
+            @@media (max-width: 768px) {
+                .project-detail-card {
+                    padding: 1.25rem;
+                }
+
+                .project-detail-title {
+                    font-size: 1.4rem;
+                }
+
+                .project-detail-meta {
+                    gap: 1rem;
+                }
+
+                .progress-stats {
+                    grid-template-columns: repeat(2, 1fr);
+                }
+
+                .actions-card-body .d-flex {
+                    flex-direction: column;
+                }
+
+                .actions-card-body .btn {
                     width: 100%;
                     justify-content: center;
                 }
-        }
-    </style>
-}
+            }
+
+            @@media (max-width: 480px) {
+                .project-detail-meta {
+                    flex-direction: column;
+                    gap: 0.75rem;
+                }
+
+                .project-detail-links {
+                    flex-direction: column;
+                }
+
+                    .project-detail-links .btn {
+                        width: 100%;
+                        justify-content: center;
+                    }
+            }
+        </style>
+    }

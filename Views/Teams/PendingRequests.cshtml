@@ -1,0 +1,276 @@
+@model A3DET_CODE.ViewModels.Team.PendingRequestsViewModel
+@{
+    ViewData["Title"] = $"Pending Requests - {Model.TeamName}";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/home-projects.css" asp-append-version="true" />
+}
+
+<div class="container" style="padding: var(--space-6) 0;">
+    <div class="page-header">
+        <div class="page-header-left">
+            <h1>Pending Join Requests</h1>
+            <p class="text-muted">@Model.TeamName</p>
+        </div>
+        <div class="page-header-right">
+            @if (Model.ProjectId.HasValue)
+            {
+                <a asp-controller="Projects" asp-action="Details" asp-route-id="@Model.ProjectId.Value" class="btn btn-secondary btn-sm">
+                    <i class="fa-solid fa-arrow-left"></i> Back to Project
+                </a>
+            }
+            else
+            {
+                <a asp-controller="Teams" asp-action="Details" asp-route-id="@Model.TeamId" class="btn btn-secondary btn-sm">
+                    <i class="fa-solid fa-arrow-left"></i> Back to Team
+                </a>
+            }
+        </div>
+    </div>
+
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success show">
+            <i class="fa-solid fa-check-circle"></i> @TempData["Success"]
+        </div>
+    }
+
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger show">
+            <i class="fa-solid fa-exclamation-circle"></i> @TempData["Error"]
+        </div>
+    }
+
+    @if (Model.Requests != null && Model.Requests.Any())
+    {
+        <div class="requests-list">
+            @foreach (var request in Model.Requests)
+            {
+                <div class="request-item">
+                    <div class="request-user">
+                        <div class="user-avatar" style="background: linear-gradient(135deg, var(--color-blue-600), var(--color-teal-600));">
+                            @request.UserInitials
+                        </div>
+                        <div class="user-info">
+                            <div class="user-name">@request.UserName</div>
+                            <div class="user-requested">Requested: @request.RequestedAt.ToString("MMM dd, yyyy")</div>
+                        </div>
+                    </div>
+                    <div class="request-actions">
+                        <form asp-action="AcceptMember" asp-controller="Teams" method="post" class="d-inline">
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="id" value="@Model.TeamId" />
+                            <input type="hidden" name="userId" value="@request.UserId" />
+                            <button type="submit" class="btn btn-success btn-sm">
+                                <i class="fa-solid fa-check"></i> Accept
+                            </button>
+                        </form>
+                        <form asp-action="RejectMember" asp-controller="Teams" method="post" class="d-inline">
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="id" value="@Model.TeamId" />
+                            <input type="hidden" name="userId" value="@request.UserId" />
+                            <button type="submit" class="btn btn-danger btn-sm">
+                                <i class="fa-solid fa-xmark"></i> Reject
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+        <div class="empty-state">
+            <div class="empty-state-icon">📭</div>
+            <h3>No Pending Requests</h3>
+            <p>There are no pending join requests for this team.</p>
+        </div>
+    }
+</div>
+
+<style>
+    .page-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: var(--space-6);
+        flex-wrap: wrap;
+        gap: var(--space-4);
+    }
+
+        .page-header h1 {
+            font-family: var(--font-display);
+            font-size: var(--fs-h2);
+            font-weight: 700;
+            color: var(--color-text-900);
+            margin: 0;
+        }
+
+    .text-muted {
+        color: var(--color-text-400);
+        font-size: var(--fs-small);
+        margin: 0;
+    }
+
+    .requests-list {
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-4);
+    }
+
+    .request-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: var(--space-4) var(--space-5);
+        background: var(--color-surface);
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius-lg);
+        transition: var(--transition-base);
+        flex-wrap: wrap;
+        gap: var(--space-3);
+    }
+
+        .request-item:hover {
+            box-shadow: var(--shadow-md);
+        }
+
+    .request-user {
+        display: flex;
+        align-items: center;
+        gap: var(--space-4);
+    }
+
+    .user-avatar {
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: var(--font-display);
+        font-size: 1.2rem;
+        font-weight: 700;
+        color: #fff;
+        flex-shrink: 0;
+    }
+
+    .user-name {
+        font-weight: 600;
+        font-size: var(--fs-body);
+        color: var(--color-text-900);
+    }
+
+    .user-requested {
+        font-size: var(--fs-xs);
+        color: var(--color-text-400);
+    }
+
+    .request-actions {
+        display: flex;
+        gap: var(--space-2);
+    }
+
+    .btn-success {
+        background: var(--color-teal-600);
+        color: #fff;
+    }
+
+        .btn-success:hover {
+            background: #0E8C79;
+        }
+
+    .btn-danger {
+        background: var(--color-danger);
+        color: #fff;
+    }
+
+        .btn-danger:hover {
+            background: #c0392b;
+        }
+
+    .btn-sm {
+        padding: var(--space-2) var(--space-4);
+        font-size: var(--fs-small);
+        border-radius: var(--radius-pill);
+        border: none;
+        cursor: pointer;
+        transition: var(--transition-fast);
+        display: inline-flex;
+        align-items: center;
+        gap: var(--space-2);
+    }
+
+        .btn-sm:hover {
+            transform: translateY(-2px);
+        }
+
+    .alert {
+        padding: var(--space-4) var(--space-5);
+        border-radius: var(--radius-sm);
+        font-size: var(--fs-small);
+        margin-bottom: var(--space-4);
+        display: none;
+        align-items: center;
+        gap: var(--space-3);
+    }
+
+        .alert.show {
+            display: flex;
+            animation: fadeSlide 0.5s ease;
+        }
+
+    .alert-success {
+        background: var(--color-teal-100);
+        border: 1px solid var(--color-teal-600);
+        color: #0E8C79;
+    }
+
+    .alert-danger {
+        background: #FEE8E8;
+        border: 1px solid var(--color-danger);
+        color: var(--color-danger);
+    }
+
+    @@keyframes fadeSlide {
+        from {
+            opacity: 0;
+            transform: translateY(-10px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .empty-state {
+        text-align: center;
+        padding: var(--space-8) var(--space-4);
+        background: var(--color-surface);
+        border-radius: var(--radius-lg);
+        border: 1px dashed var(--color-border);
+    }
+
+    .empty-state-icon {
+        font-size: 4rem;
+        margin-bottom: var(--space-4);
+    }
+
+    .empty-state h3 {
+        font-family: var(--font-display);
+        font-size: var(--fs-h3);
+        font-weight: 700;
+        color: var(--color-text-900);
+        margin-bottom: var(--space-2);
+    }
+
+    .empty-state p {
+        font-size: var(--fs-body);
+        color: var(--color-text-600);
+        max-width: 400px;
+        margin: 0 auto;
+    }
+</style>

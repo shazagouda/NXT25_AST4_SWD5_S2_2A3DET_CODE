@@ -1,0 +1,323 @@
+@model A3DET_CODE.ViewModels.Home.ProjectsHomeViewModel
+@{
+    ViewData["Title"] = "Projects";
+    ViewData["Description"] = "Browse available projects, join teams, and start building.";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/home-projects.css" asp-append-version="true" />
+}
+
+<!-- ============ HERO ============ -->
+<section class="projects-hero">
+    <div class="container">
+        <div class="projects-hero-content">
+            <div class="hero-badge">🚀 Project Marketplace</div>
+            <h1>Find Your <span class="highlight">Next Project</span></h1>
+            <p>Browse available projects, take one as a leader, or join a team and start building real-world solutions.</p>
+        </div>
+    </div>
+</section>
+
+<!-- ============ TOOLBAR ============ -->
+<section class="projects-toolbar">
+    <div class="container">
+        <div class="toolbar-wrapper">
+            <div class="toolbar-left">
+                <button class="btn btn-primary" id="createProjectBtn">
+                    <i class="fa-solid fa-plus"></i> New Project
+                </button>
+                <div class="filter-group">
+                    <select id="trackFilter" class="filter-select">
+                        <option value="">All Tracks</option>
+                        @if (ViewBag.Tracks != null)
+                        {
+                            @foreach (var track in ViewBag.Tracks)
+                            {
+                                <option value="@track.Id">@track.Name</option>
+                            }
+                        }
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <select id="statusFilter" class="filter-select">
+                        <option value="">All Status</option>
+                        <option value="Open">Open</option>
+                        <option value="InProgress">In Progress</option>
+                        <option value="Completed">Completed</option>
+                    </select>
+                </div>
+            </div>
+            <div class="toolbar-right">
+                <div class="search-box">
+                    <i class="fa-solid fa-search"></i>
+                    <input type="text" id="projectSearch" placeholder="Search projects..." />
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============ PROJECTS DIRECTORY ============ -->
+<section class="projects-grid-section">
+    <div class="container">
+        @{
+            var hasAvailable = Model.AvailableProjects != null && Model.AvailableProjects.Any();
+            var hasRequestable = Model.RequestableProjects != null && Model.RequestableProjects.Any();
+        }
+
+        @if (!hasAvailable && !hasRequestable)
+        {
+            <div class="empty-state">
+                <div class="empty-state-icon">📋</div>
+                <h3>No Available Projects</h3>
+                <p>There are no open projects right now. Be the first to create one!</p>
+            </div>
+        }
+        else
+        {
+            @if (hasAvailable)
+            {
+                <h3 class="sub-section-title" style="margin-bottom: var(--space-4);">Available Projects (No Team)</h3>
+                <div class="projects-grid" id="projectsGrid" style="margin-bottom: var(--space-6);">
+                    @foreach (var project in Model.AvailableProjects)
+                    {
+                        <div class="project-card" data-track="@project.TrackId" data-status="@project.Status">
+                            <div class="project-card-top">
+                                <div class="project-track-badge" style="background: @(project.TrackColor ?? "#2F6FED")">
+                                    📌
+                                </div>
+                                <span class="project-status status-open">Open</span>
+                            </div>
+                            <h3 class="project-title">@project.Title</h3>
+                            <p class="project-description">@project.Description</p>
+                            <div class="project-tech-stack">
+                                @if (!string.IsNullOrEmpty(project.TechStack))
+                                {
+                                    @foreach (var tech in project.TechStack.Split(new[] { ',', '·' }, StringSplitOptions.RemoveEmptyEntries).Take(3))
+                                    {
+                                        <span class="tech-tag">@tech.Trim()</span>
+                                    }
+                                }
+                            </div>
+                            <div class="project-footer">
+                                <span class="project-track-name">@project.TrackName</span>
+                                <form asp-action="TakeProject" asp-controller="Projects" method="post" class="d-inline">
+                                    @Html.AntiForgeryToken()
+                                    <input type="hidden" name="id" value="@project.Id" />
+                                    <button type="submit" class="btn btn-primary btn-sm">Take Project</button>
+                                </form>
+                            </div>
+                        </div>
+                    }
+                </div>
+            }
+
+            @if (hasRequestable)
+            {
+                <h3 class="sub-section-title" style="margin-bottom: var(--space-4);">Projects You Can Join</h3>
+                <div class="projects-grid" id="requestableGrid">
+                    @foreach (var project in Model.RequestableProjects)
+                    {
+                        <div class="project-card" data-track="@project.TrackId" data-status="@project.Status">
+                            <div class="project-card-top">
+                                <div class="project-track-badge" style="background: @(project.TrackColor ?? "#2F6FED")">
+                                    📌
+                                </div>
+                                <span class="project-status status-progress">In Progress</span>
+                            </div>
+                            <h3 class="project-title">@project.Title</h3>
+                            <p class="project-description">@project.Description</p>
+                            <div class="project-tech-stack">
+                                @if (!string.IsNullOrEmpty(project.TechStack))
+                                {
+                                    @foreach (var tech in project.TechStack.Split(new[] { ',', '·' }, StringSplitOptions.RemoveEmptyEntries).Take(3))
+                                    {
+                                        <span class="tech-tag">@tech.Trim()</span>
+                                    }
+                                }
+                            </div>
+                            <div class="project-meta">
+                                <span>👥 @project.MemberCount/@project.MaxMembers members</span>
+                                <span class="project-leader">👤 Leader: @(project.LeaderName ?? "Unknown")</span>
+                            </div>
+                            <div class="project-footer">
+                                <span class="project-track-name">@project.TrackName</span>
+                                @if (project.CanRequestToJoin)
+                                {
+                                    if (project.HasPendingJoinRequest)
+                                    {
+                                        <button class="btn btn-secondary btn-sm" disabled>
+                                            <i class="fa-solid fa-clock-rotate-left me-2"></i>Pending Request
+                                        </button>
+                                    }
+                                    else
+                                    {
+                                        <form asp-action="RequestToJoin" asp-controller="Projects" method="post" class="d-inline">
+                                            @Html.AntiForgeryToken()
+                                            <input type="hidden" name="id" value="@project.Id" />
+                                            <button type="submit" class="btn btn-secondary btn-sm">Request to Join</button>
+                                        </form>
+                                    }
+                                }
+                                else
+                                {
+                                    <span class="text-muted" style="font-size: var(--fs-xs);">Already in this project</span>
+                                }
+                            </div>
+                        </div>
+                    }
+                </div>
+            }
+        }
+    </div>
+</section>
+
+<!-- ============ MY PROJECTS ============ -->
+<section class="my-projects-section">
+    <div class="container">
+        <div class="section-header">
+            <h2>My Projects</h2>
+            @if (Model.PendingRequestsCount > 0)
+            {
+                <span class="section-badge">@Model.PendingRequestsCount pending requests</span>
+            }
+        </div>
+
+        <!-- ✅ LEADER PROJECTS -->
+        @if (Model.LeaderProjects != null && Model.LeaderProjects.Any())
+        {
+            <h4 class="sub-section-title">Leading</h4>
+            <div class="projects-grid mini-grid">
+                @foreach (var project in Model.LeaderProjects)
+                {
+                    <div class="project-card mini-card">
+                        <div class="project-card-top">
+                            <div class="project-track-badge small" style="background: @(project.TrackColor ?? "#2F6FED")">
+                                📌
+                            </div>
+                            <span class="project-status status-progress">In Progress</span>
+                        </div>
+                        <h4 class="project-title">@project.Title</h4>
+                        <div class="project-meta">
+                            <span>👥 @project.MemberCount/@project.MaxMembers members</span>
+                            @if (project.PendingRequestsCount > 0)
+                            {
+                                <a asp-controller="Teams" asp-action="PendingRequests" asp-route-id="@project.TeamId" class="btn btn-secondary btn-xs">
+                                    @project.PendingRequestsCount Pending
+                                </a>
+                            }
+                        </div>
+                        <div class="project-progress">
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: @project.Progress%;"></div>
+                            </div>
+                            <span class="progress-text">@project.Progress%</span>
+                        </div>
+                        <a asp-controller="Projects" asp-action="Details" asp-route-id="@project.Id" class="btn btn-ghost btn-block btn-sm">View Project</a>
+                    </div>
+                }
+            </div>
+        }
+
+        <!-- ✅ MEMBER PROJECTS -->
+        @if (Model.MemberProjects != null && Model.MemberProjects.Any())
+        {
+            <h4 class="sub-section-title">Member</h4>
+            <div class="projects-grid mini-grid">
+                @foreach (var project in Model.MemberProjects)
+                {
+                    <div class="project-card mini-card">
+                        <div class="project-card-top">
+                            <div class="project-track-badge small" style="background: @(project.TrackColor ?? "#2F6FED")">
+                                📌
+                            </div>
+                            <span class="project-status status-progress">In Progress</span>
+                        </div>
+                        <h4 class="project-title">@project.Title</h4>
+                        <div class="project-meta">
+                            <span>👥 @project.MemberCount/@project.MaxMembers members</span>
+                        </div>
+                        <div class="project-progress">
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: @project.Progress%;"></div>
+                            </div>
+                            <span class="progress-text">@project.Progress%</span>
+                        </div>
+                        <a asp-controller="Projects" asp-action="Details" asp-route-id="@project.Id" class="btn btn-ghost btn-block btn-sm">View Project</a>
+                    </div>
+                }
+            </div>
+        }
+
+        <!-- ✅ EMPTY STATE -->
+        @if ((Model.LeaderProjects == null || !Model.LeaderProjects.Any()) &&
+        (Model.MemberProjects == null || !Model.MemberProjects.Any()))
+        {
+            <div class="empty-state small">
+                <div class="empty-state-icon">🚀</div>
+                <p>You haven't joined any projects yet. Take a project above to get started!</p>
+            </div>
+        }
+    </div>
+</section>
+
+<!-- ============ CREATE PROJECT MODAL ============ -->
+<div class="modal-overlay" id="createProjectModal">
+    <div class="modal-container">
+        <div class="modal-header">
+            <h3>Create New Project</h3>
+            <button class="modal-close" id="closeModalBtn">&times;</button>
+        </div>
+        <form asp-action="Create" asp-controller="Projects" method="post" id="createProjectForm">
+            @Html.AntiForgeryToken()
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="projectTitle">Project Title *</label>
+                    <input type="text" id="projectTitle" name="Title" class="form-control" placeholder="e.g., E-Commerce Platform" required />
+                </div>
+                <div class="form-group">
+                    <label for="projectDescription">Description *</label>
+                    <textarea id="projectDescription" name="Description" class="form-control" rows="4" placeholder="Describe your project..." required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="projectTechStack">Tech Stack *</label>
+                    <input type="text" id="projectTechStack" name="TechStack" class="form-control" placeholder="e.g., React, .NET, SQL" required />
+                </div>
+                <div class="form-group">
+                    <label for="projectType">Project Type *</label>
+                    <select id="projectType" name="Type" class="form-control" required>
+                        <option value="">Select type...</option>
+                        <option value="Web">Web Application</option>
+                        <option value="Mobile">Mobile Application</option>
+                        <option value="Full-stack">Full-stack</option>
+                        <option value="API">API / Backend</option>
+                        <option value="Desktop">Desktop Application</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="projectTrack">Track *</label>
+                    <select id="projectTrack" name="TrackId" class="form-control" required>
+                        <option value="">Select track...</option>
+                        @if (ViewBag.Tracks != null)
+                        {
+                            @foreach (var track in ViewBag.Tracks)
+                            {
+                                <option value="@track.Id">@track.Name</option>
+                            }
+                        }
+                    </select>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" id="cancelModalBtn">Cancel</button>
+                <button type="submit" class="btn btn-primary">Create Project</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/js/home-projects.js" asp-append-version="true"></script>
+}

@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace A3DET_CODE.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20260712201752_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20260713203647_AddJoinRequest")]
+    partial class AddJoinRequest
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -462,6 +462,45 @@ namespace A3DET_CODE.Migrations
                     b.HasIndex("StudentId");
 
                     b.ToTable("Hirings");
+                });
+
+            modelBuilder.Entity("A3DET_CODE.Models.JoinRequest", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("RequestedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("RespondedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ResponseMessage")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.Property<int>("TeamId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.HasIndex("TeamId", "UserId")
+                        .IsUnique();
+
+                    b.ToTable("JoinRequests");
                 });
 
             modelBuilder.Entity("A3DET_CODE.Models.Mentor", b =>
@@ -1416,6 +1455,25 @@ namespace A3DET_CODE.Migrations
                     b.Navigation("Company");
 
                     b.Navigation("Student");
+                });
+
+            modelBuilder.Entity("A3DET_CODE.Models.JoinRequest", b =>
+                {
+                    b.HasOne("A3DET_CODE.Models.Team", "Team")
+                        .WithMany()
+                        .HasForeignKey("TeamId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("A3DET_CODE.Models.ApplicationUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Team");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("A3DET_CODE.Models.Mentor", b =>

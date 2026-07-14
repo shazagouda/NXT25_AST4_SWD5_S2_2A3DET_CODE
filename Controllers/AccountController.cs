@@ -29,7 +29,7 @@ namespace A3DET_CODE.Controllers
         public IActionResult Login(string? returnUrl = null)
         {
             if (User.Identity?.IsAuthenticated == true)
-                return RedirectToAction("Index", "Profile");
+                return RedirectToAction("Projects", "Home");
 
             ViewData["ReturnUrl"] = returnUrl;
             return View(new LoginViewModel());
@@ -69,7 +69,14 @@ namespace A3DET_CODE.Controllers
             {
                 user.LastLoginAt = DateTime.UtcNow;
                 await _userManager.UpdateAsync(user);
-                return RedirectToAction("Index", "Profile");
+
+                if (!string.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl))
+                {
+                    return Redirect(returnUrl);
+                }
+
+                // ✅ REDIRECT TO PROJECT MARKETPLACE
+                return RedirectToAction("Projects", "Home");
             }
 
             if (result.IsLockedOut)
@@ -86,7 +93,7 @@ namespace A3DET_CODE.Controllers
         public IActionResult SignUp()
         {
             if (User.Identity?.IsAuthenticated == true)
-                return RedirectToAction("Index", "Profile");
+                return RedirectToAction("Projects", "Home");
             return View();
         }
 
@@ -137,7 +144,7 @@ namespace A3DET_CODE.Controllers
 
                 var signInResult = await _signInManager.PasswordSignInAsync(user, model.Password, isPersistent: false, lockoutOnFailure: false);
                 if (signInResult.Succeeded)
-                    return RedirectToAction("Index", "Profile");
+                    return RedirectToAction("Projects", "Home");
                 else
                     ModelState.AddModelError(string.Empty, "Account created but sign-in failed. Please login manually.");
             }
@@ -216,7 +223,7 @@ namespace A3DET_CODE.Controllers
                     user, model.Password, isPersistent: false, lockoutOnFailure: false);
 
                 if (signInResult.Succeeded)
-                    return RedirectToAction("Index", "Profile");
+                    return RedirectToAction("Projects", "Home");
                 else
                     ModelState.AddModelError(string.Empty, "Account created but sign-in failed. Please login manually.");
             }
@@ -288,7 +295,7 @@ namespace A3DET_CODE.Controllers
                 await _userManager.AddToRoleAsync(user, "Company");
                 var signInResult = await _signInManager.PasswordSignInAsync(user, model.Password, isPersistent: false, lockoutOnFailure: false);
                 if (signInResult.Succeeded)
-                    return RedirectToAction("Index", "Profile");
+                    return RedirectToAction("Projects", "Home");
                 else
                     ModelState.AddModelError(string.Empty, "Account created but sign-in failed. Please login manually.");
             }
