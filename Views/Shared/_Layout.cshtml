@@ -56,6 +56,10 @@
                             <a asp-controller="Assessment" asp-action="Index" class="nav-link">Assessment</a>
                             <a asp-controller="Roadmaps" asp-action="Index" class="nav-link">Tracks</a>
                         }
+                        @if (User.IsInRole("Student"))
+                        {
+                            <a asp-controller="Students" asp-action="Index" class="nav-link"><i class="bi bi-people-fill"></i> Students</a>
+                        }
                         @if (User.IsInRole("Company"))
                         {
                             <a asp-controller="Booking" asp-action="Index" class="nav-link" style="color:var(--color-blue-600); font-weight:600;">Bookings</a>
@@ -129,6 +133,10 @@
                     {
                         <a asp-controller="Assessment" asp-action="Index" class="nav-link">Assessment</a>
                         <a asp-controller="Roadmaps" asp-action="Index" class="nav-link">Tracks</a>
+                    }
+                    @if (User.IsInRole("Student"))
+                    {
+                        <a asp-controller="Students" asp-action="Index" class="nav-link"><i class="bi bi-people-fill"></i> Students</a>
                     }
                 }
                 <a asp-controller="Account" asp-action="Logout" class="nav-link">Logout</a>

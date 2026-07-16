@@ -72,30 +72,36 @@
 }
 
 [data-theme="dark"] {
-  /* Deep Navy palette â€” matches tracks page dark aesthetic */
-  --color-navy-900: #0B162C;
-  --color-navy-700: #12203A;
-  --color-navy-500: #94A3B8;
-  --color-blue-600: #14B8A6;
-  --color-blue-500: #38BDF8;
-  --color-blue-100: rgba(20, 184, 166, 0.18);
-  --color-teal-600: #14B8A6;
-  --color-teal-100: rgba(20, 184, 166, 0.18);
+  /* Soft Ice-Blue & Teal theme matching the ADATK brand identity */
+  --color-navy-900: #0b2229;
+  --color-navy-700: #143740;
+  --color-navy-500: #4a8e9e;
+  --color-blue-600: #0d9488; /* ADATK Brand Teal */
+  --color-blue-500: #06b6d4; /* ADATK Brand Cyan */
+  --color-blue-100: rgba(13, 148, 136, 0.15);
+  --color-teal-600: #0d9488;
+  --color-teal-100: rgba(13, 148, 136, 0.15);
   --color-amber-500: #F2A33C;
   --color-amber-100: rgba(242, 163, 60, 0.18);
-  --color-bg: #0B1E2D;
-  --color-surface: rgba(15, 23, 42, 0.75);
-  --color-border: rgba(20, 184, 166, 0.2);
-  --color-text-900: #F8FAFC;
-  --color-text-600: #CBD5E1;
-  --color-text-400: #94A3B8;
+  --color-bg: #0b2229;
+  --color-surface: rgba(20, 55, 64, 0.75);
+  --color-border: rgba(13, 148, 136, 0.25);
+  --color-text-900: #ffffff;
+  --color-text-600: #e2f4f7;
+  --color-text-400: #aed9e6;
   --color-danger: #EF4444;
-  --color-nav-bg: rgba(11, 30, 45, 0.88);
-  --color-nav-scrolled: rgba(15, 23, 42, 0.97);
+  --color-nav-bg: rgba(11, 34, 41, 0.88);
+  --color-nav-scrolled: rgba(20, 55, 64, 0.97);
 
-  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.35);
-  --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.45);
-  --shadow-lg: 0 20px 48px rgba(0, 0, 0, 0.55);
+  --shadow-sm: 0 2px 8px rgba(5, 20, 25, 0.35);
+  --shadow-md: 0 8px 24px rgba(5, 20, 25, 0.45);
+  --shadow-lg: 0 20px 48px rgba(5, 20, 25, 0.55);
+  
+  /* Additional helper variables for dashboard/nested elements */
+  --color-dark: #0b2229;
+  --color-dark-2: #143740;
+  --color-dark-3: #0f2c35;
+  --color-light: #ffffff;
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -112,16 +118,16 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* Vibrant grid lines on dark mode background */
 [data-theme="dark"] body {
-  background: linear-gradient(135deg, #022C22 0%, #082F49 50%, #0F172A 100%);
+  background: linear-gradient(180deg, #4a8e9e 0%, #1e5464 50%, #0b2229 100%);
   background-image:
-    linear-gradient(rgba(20, 184, 166, 0.04) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(20, 184, 166, 0.04) 1px, transparent 1px),
-    linear-gradient(135deg, #022C22 0%, #082F49 50%, #0F172A 100%);
+    linear-gradient(rgba(13, 148, 136, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(13, 148, 136, 0.03) 1px, transparent 1px),
+    linear-gradient(180deg, #4a8e9e 0%, #1e5464 50%, #0b2229 100%);
   background-size: 64px 64px, 64px 64px, 100% 100%;
   background-attachment: fixed;
 }
+
 
 img { max-width: 100%; display: block; }
 
@@ -585,5 +591,17 @@ p { color: var(--color-text-600); }
 }
 @media (max-width: 768px) {
   .footer-grid { grid-template-columns: 1fr 1fr; }
+}
+
+/* Make headers and profile text elements perfectly visible in dark mode */
+[data-theme="dark"] .section-title,
+[data-theme="dark"] .project-post-title,
+[data-theme="dark"] .about-stat-value,
+[data-theme="dark"] .custom-section-title,
+[data-theme="dark"] .add-section-form-card h5,
+[data-theme="dark"] .reviewer-name,
+[data-theme="dark"] .modal-title,
+[data-theme="dark"] .skill-text-input {
+  color: var(--color-text-900) !important;
 }
 

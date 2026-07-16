@@ -1,4 +1,4 @@
-﻿
+
 .profile-container {
     max-width: 900px;
     margin: 0 auto;
@@ -37,6 +37,7 @@
         z-index: 0;
     }
 
+.profile-header > *,
 .profile-avatar,
 .profile-info,
 .profile-actions {
