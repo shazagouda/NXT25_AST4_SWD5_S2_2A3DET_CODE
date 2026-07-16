@@ -11,6 +11,14 @@
             <p><strong>Skills:</strong> @Model.Skills</p>
             <p><strong>GitHub:</strong> @Model.GitHubUrl</p>
             <p><strong>LinkedIn:</strong> @Model.LinkedInUrl</p>
+            @if (User.IsInRole("Company"))
+            {
+                <div class="mt-4">
+                    <a asp-controller="Booking" asp-action="Create" asp-route-targetType="Student" asp-route-targetId="@Model.UserId" class="btn btn-primary">
+                        <i class="fa-solid fa-handshake"></i> Hire Student
+                    </a>
+                </div>
+            }
         </div>
     </div>
 </div>

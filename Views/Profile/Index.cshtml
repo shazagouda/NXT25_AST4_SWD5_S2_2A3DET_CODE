@@ -654,13 +654,13 @@
     @if (TempData["Success"] != null)
     {
         <div class="alert-success show">
-            <span>✅ @TempData["Success"]</span>
+            <span><i class="bi bi-check-circle-fill"></i> @TempData["Success"]</span>
         </div>
     }
     @if (TempData["Error"] != null)
     {
         <div class="alert-danger show">
-            <span>❌ @TempData["Error"]</span>
+            <span><i class="bi bi-exclamation-triangle-fill"></i> @TempData["Error"]</span>
         </div>
     }
 
@@ -689,23 +689,24 @@
                     <span class="badge badge-teal">@(Model.IsActive ? "Active" : "Inactive")</span>
                 }
             </div>
-            <p class="profile-email">✉️ @Model.Email</p>
+            <p class="profile-email"><i class="bi bi-envelope"></i> @Model.Email</p>
         </div>
         <div class="profile-actions">
             @if (Model.IsOwnProfile)
             {
-                <a asp-action="Edit" class="btn btn-secondary">📝 Edit Profile</a>
-                <a asp-controller="Dashboard" asp-action="Index" class="btn btn-primary">📊 Dashboard</a>
-                <a asp-action="MyReports" class="btn btn-ghost">📋 My Reports</a>
-                <a asp-action="MyReviews" class="btn btn-ghost">⭐ My Reviews</a>
+                <a asp-action="Edit" class="btn btn-secondary"><i class="bi bi-pencil-square"></i> Edit Profile</a>
+                <a asp-controller="Wallet" asp-action="Index" class="btn btn-secondary" style="border-color: var(--color-blue-400); color: var(--color-blue-600);"><i class="bi bi-credit-card"></i> My Wallet</a>
+                <a asp-controller="Dashboard" asp-action="Index" class="btn btn-primary"><i class="bi bi-speedometer2"></i> Dashboard</a>
+                <a asp-action="MyReports" class="btn btn-ghost"><i class="bi bi-flag"></i> My Reports</a>
+                <a asp-action="MyReviews" class="btn btn-ghost"><i class="bi bi-star"></i> My Reviews</a>
             }
             else
             {
                 <button class="btn btn-primary" onclick="openReviewModal('@Model.UserId', '@Model.FullName')">
-                    ⭐ Review
+                    <i class="bi bi-star-fill"></i> Review
                 </button>
                 <button class="btn btn-danger" onclick="openReportModal('@Model.UserId', '@Model.FullName')">
-                    🚨 Report User
+                    <i class="bi bi-exclamation-triangle-fill"></i> Report User
                 </button>
             }
         </div>
@@ -731,7 +732,7 @@
         {
             <div class="stat-card" style="border-color: var(--color-danger);">
                 <div class="stat-number" style="color: var(--color-danger);">@Model.PendingReports</div>
-                <div class="stat-label">⚠️ Pending Reports</div>
+                <div class="stat-label"><i class="bi bi-exclamation-diamond-fill"></i> Pending Reports</div>
             </div>
         }
         <div class="stat-card">
@@ -815,7 +816,7 @@
     ============================================================ -->
     <div class="profile-section-card">
         <div class="section-header-row">
-            <h3 class="section-title">⭐ Reviews (@Model.TotalReviews)</h3>
+            <h3 class="section-title"><i class="bi bi-star"></i> Reviews (@Model.TotalReviews)</h3>
         </div>
         <div class="reviews-list">
             @if (Model.Reviews.Any())
@@ -867,7 +868,7 @@
     ============================================================ -->
     <div class="profile-section-card">
         <div class="section-header-row">
-            <h3 class="section-title">ℹ️ About & Portfolio</h3>
+            <h3 class="section-title"><i class="bi bi-info-circle"></i> About & Portfolio</h3>
         </div>
         <div class="about-section-grid">
             <div class="about-left">
@@ -948,7 +949,7 @@
     ============================================================ -->
     <div class="profile-section-card">
         <div class="section-header-row">
-            <h3 class="section-title">📂 Custom Sections</h3>
+            <h3 class="section-title"><i class="bi bi-folder-fill"></i> Custom Sections</h3>
             @if (Model.IsOwnProfile)
             {
                 <button class="btn btn-primary btn-sm" onclick="toggleAddForm()">+ Add Section</button>
@@ -959,7 +960,7 @@
         {
             <div id="add-section-form-container" style="display:none;" class="add-section-form-card">
                 <form asp-action="AddCustomSection" method="post">
-                    <h5>📝 New Custom Section</h5>
+                    <h5><i class="bi bi-pencil-fill"></i> New Custom Section</h5>
                     <div class="mb-3">
                         <label class="form-label font-weight-bold" style="font-size:0.85rem;">Section Title</label>
                         <input type="text" name="title" class="form-control" placeholder="e.g. Certifications, Publications, Awards" required />
@@ -1069,11 +1070,11 @@ REPORT MODAL
                     <label for="reportAnonymous" class="form-check-label">Report anonymously (your identity will not be shared)</label>
                 </div>
 
-                <small class="text-muted">⚠️ This report will be reviewed by our moderation team.</small>
+                <small class="text-muted"><i class="bi bi-exclamation-triangle-fill"></i> This report will be reviewed by our moderation team.</small>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" onclick="closeReportModal()">Cancel</button>
-                <button type="submit" class="btn btn-danger">🚨 Submit Report</button>
+                <button type="submit" class="btn btn-danger"><i class="bi bi-exclamation-triangle-fill"></i> Submit Report</button>
             </div>
         </form>
     </div>
@@ -1085,7 +1086,7 @@ REVIEW MODAL
 <div class="modal-overlay" id="reviewModal">
     <div class="modal-content">
         <div class="modal-header">
-            <h4 class="modal-title">⭐ Rate & Review</h4>
+            <h4 class="modal-title"><i class="bi bi-star-fill"></i> Rate & Review</h4>
             <button class="modal-close" onclick="closeReviewModal()">&times;</button>
         </div>
         <form asp-action="Review" method="post" id="reviewForm">
@@ -1161,11 +1162,11 @@ REVIEW MODAL
                     <label for="reviewPublic" class="form-check-label">Make this review public</label>
                 </div>
 
-                <small class="text-muted">💡 Your honest feedback helps others learn and grow.</small>
+                <small class="text-muted"><i class="bi bi-lightbulb-fill" style="color: var(--color-amber-500);"></i> Your honest feedback helps others learn and grow.</small>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" onclick="closeReviewModal()">Cancel</button>
-                <button type="submit" class="btn btn-primary">⭐ Submit Review</button>
+                <button type="submit" class="btn btn-primary"><i class="bi bi-star-fill"></i> Submit Review</button>
             </div>
         </form>
     </div>

@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -228,7 +228,9 @@ namespace A3DET_CODE.Controllers
             var roles = await _userManager.GetRolesAsync(user);
             var role = roles.FirstOrDefault() ?? "Student";
 
-            if (role == "Student")
+            if (role == "Admin")
+                return RedirectToAction("Dashboard", "Admin");
+            else if (role == "Student")
                 return RedirectToAction("StudentDashboard");
             else if (role == "Mentor")
                 return RedirectToAction("Dashboard", "Mentor");

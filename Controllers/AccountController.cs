@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using A3DET_CODE.Models;
 using A3DET_CODE.Data;
@@ -71,11 +71,13 @@ namespace A3DET_CODE.Controllers
                 await _userManager.UpdateAsync(user);
 
                 if (!string.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl))
-                {
                     return Redirect(returnUrl);
-                }
 
-                // ✅ REDIRECT TO PROJECT MARKETPLACE
+                // Admin goes to Admin Dashboard
+                var roles = await _userManager.GetRolesAsync(user);
+                if (roles.Contains("Admin"))
+                    return RedirectToAction("Dashboard", "Admin");
+
                 return RedirectToAction("Projects", "Home");
             }
 

@@ -1,4 +1,4 @@
-﻿@model List<A3DET_CODE.ViewModels.Mentor.MentorReviewViewModel>
+@model List<A3DET_CODE.ViewModels.Mentor.MentorReviewViewModel>
 @{
     ViewData["Title"] = "My Reviews";
 }
@@ -46,7 +46,7 @@
                     }
                     @if (!string.IsNullOrEmpty(review.SessionTopic))
                     {
-                        <span class="badge badge-blue" style="margin-top:var(--space-3);">📌 @review.SessionTopic</span>
+                        <span class="badge badge-blue" style="margin-top:var(--space-3);"><i class="bi bi-pin-angle-fill"></i> @review.SessionTopic</span>
                     }
                 </div>
             }

@@ -1,4 +1,4 @@
-﻿@model IEnumerable<A3DET_CODE.Models.Review>
+@model IEnumerable<A3DET_CODE.Models.Review>
 @{
     ViewData["Title"] = "My Reviews";
 }
@@ -9,14 +9,14 @@
 
 <div class="profile-container">
     <div class="profile-header">
-        <h1>⭐ My Reviews</h1>
+        <h1><i class="bi bi-star-fill"></i> My Reviews</h1>
         <p class="profile-subtitle">Reviews you have written</p>
     </div>
 
     @if (TempData["Success"] != null)
     {
         <div class="alert alert-success show">
-            <span>✅ @TempData["Success"]</span>
+            <span><i class="bi bi-check-circle-fill"></i> @TempData["Success"]</span>
         </div>
     }
 

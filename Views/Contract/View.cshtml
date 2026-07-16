@@ -1,0 +1,158 @@
+@model A3DET_CODE.ViewModels.Contract.ContractViewModel
+@{
+    ViewData["Title"] = "Contract " + Model.ContractNumber;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/booking.css" asp-append-version="true" />
+}
+
+<div class="contract-page">
+    <div class="container">
+        <a href="@Url.Action("MyBookings", "Booking")" class="back-link">← Back to Bookings</a>
+
+        @if (TempData["Success"] != null)
+        {
+            <div class="alert alert-success">@TempData["Success"]</div>
+        }
+        @if (TempData["Info"] != null)
+        {
+            <div class="alert alert-info">@TempData["Info"]</div>
+        }
+
+        <div class="contract-document card">
+            <!-- Contract Header -->
+            <div class="contract-header">
+                <div class="contract-logo">
+                    <div class="brand-mark">A3</div>
+                    <span class="brand-text">A3DET <span style="color:var(--color-blue-600)">CODE</span></span>
+                </div>
+                <div class="contract-meta">
+                    <h1>Service Agreement</h1>
+                    <p class="contract-number">Contract No: <strong>@Model.ContractNumber</strong></p>
+                    <p class="contract-date">Generated on @Model.CreatedAt.ToString("MMMM dd, yyyy")</p>
+                    <span class="status-badge status-@Model.Status.ToLower().Replace("fullysigned", "fullysigned")">
+                        @(Model.Status == "PendingSignatures" ? "Pending Signatures" :
+                          Model.Status == "PartyASigned" ? "Party A Signed" :
+                          Model.Status == "FullySigned" ? "Fully Executed" : Model.Status)
+                    </span>
+                </div>
+            </div>
+
+            <!-- Parties Section -->
+            <div class="contract-section">
+                <h3 class="section-title">Parties</h3>
+                <div class="parties-grid">
+                    <div class="party-box">
+                        <span class="party-tag">Party A — Client</span>
+                        <div class="party-details">
+                            <div class="party-avatar-sm">@Model.PartyAInitials</div>
+                            <div>
+                                <h4>@Model.PartyAName</h4>
+                                <p>@Model.PartyARole</p>
+                                <p class="party-email">@Model.PartyAEmail</p>
+                            </div>
+                        </div>
+                        @if (Model.PartyASignedAt.HasValue)
+                        {
+                            <div class="signature-display">
+                                <img src="@Model.PartyASignature" alt="Party A Signature" class="signature-img" />
+                                <p class="signed-date"><i class="bi bi-check-circle-fill"></i> Signed on @Model.PartyASignedAt.Value.ToString("MMM dd, yyyy 'at' hh:mm tt")</p>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="signature-pending">
+                                <p><i class="bi bi-clock-history"></i> Awaiting signature</p>
+                            </div>
+                        }
+                    </div>
+
+                    <div class="party-box">
+                        <span class="party-tag">Party B — Service Provider</span>
+                        <div class="party-details">
+                            <div class="party-avatar-sm target">@Model.PartyBInitials</div>
+                            <div>
+                                <h4>@Model.PartyBName</h4>
+                                <p>@Model.PartyBRole</p>
+                                <p class="party-email">@Model.PartyBEmail</p>
+                            </div>
+                        </div>
+                        @if (Model.PartyBSignedAt.HasValue)
+                        {
+                            <div class="signature-display">
+                                <img src="@Model.PartyBSignature" alt="Party B Signature" class="signature-img" />
+                                <p class="signed-date"><i class="bi bi-check-circle-fill"></i> Signed on @Model.PartyBSignedAt.Value.ToString("MMM dd, yyyy 'at' hh:mm tt")</p>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="signature-pending">
+                                <p><i class="bi bi-clock-history"></i> Awaiting signature</p>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+
+            <!-- Booking Information -->
+            <div class="contract-section">
+                <h3 class="section-title">Booking Information</h3>
+                <div class="info-grid">
+                    <div class="info-item"><span class="info-label">Service Type</span><span class="info-value">@Model.TargetType Consultation</span></div>
+                    <div class="info-item"><span class="info-label">Topic</span><span class="info-value">@Model.Topic</span></div>
+                    <div class="info-item"><span class="info-label">Duration</span><span class="info-value">@Model.DurationMinutes minutes</span></div>
+                    <div class="info-item"><span class="info-label">Start Date</span><span class="info-value">@Model.StartDate.ToString("MMMM dd, yyyy 'at' hh:mm tt")</span></div>
+                    <div class="info-item"><span class="info-label">Hourly Rate</span><span class="info-value">$@Model.HourlyRate.ToString("F2")</span></div>
+                    <div class="info-item"><span class="info-label">Total Amount</span><span class="info-value total">$@Model.TotalAmount.ToString("F2")</span></div>
+                    <div class="info-item"><span class="info-label">Platform Fee</span><span class="info-value">$@Model.PlatformFee.ToString("F2")</span></div>
+                </div>
+            </div>
+
+            <!-- Terms & Conditions -->
+            <div class="contract-section">
+                <h3 class="section-title">Terms & Conditions</h3>
+                <div class="terms-content">
+                    @foreach (var line in Model.Terms.Split('\n'))
+                    {
+                        if (string.IsNullOrWhiteSpace(line)) { <br /> }
+                        else if (line.TrimStart().StartsWith("TERMS") || line.Contains("AGREEMENT") || line.Contains("SCOPE") || line.Contains("COMPENSATION") || line.Contains("OBLIGATIONS") || line.Contains("CANCELLATION") || line.Contains("PLATFORM") || line.Contains("DISPUTE") || line.Contains("ACKNOWLEDGMENT"))
+                        { <h4 class="terms-heading">@line.Trim()</h4> }
+                        else { <p>@line.Trim()</p> }
+                    }
+                </div>
+            </div>
+
+            <!-- Sign Action -->
+            @if (Model.CanSign)
+            {
+                <div class="contract-sign-action">
+                    <a asp-controller="Contract" asp-action="Sign" asp-route-id="@Model.Id" class="btn btn-primary btn-lg">
+                        <i class="bi bi-pencil-fill"></i> Sign This Contract
+                    </a>
+                </div>
+            }
+            else if (Model.IsFullySigned)
+            {
+                <div class="contract-completed">
+                    <div class="completed-icon"><i class="bi bi-patch-check-fill" style="color: var(--color-teal-600);"></i></div>
+                    <h3>Contract Fully Executed</h3>
+                    <p>Both parties have signed this contract. It is now legally binding.</p>
+                    
+                    <div style="margin-top: 20px;" class="contract-sign-action">
+                        <button onclick="window.print()" class="btn btn-download btn-lg">
+                            <i class="bi bi-file-earmark-pdf"></i> Download PDF
+                        </button>
+                    </div>
+                </div>
+            }
+
+            <!-- Footer -->
+            <div class="contract-footer">
+                <p>This document is legally binding upon electronic signature by both parties.</p>
+                <p>© @DateTime.Now.Year A3DET CODE Platform. All rights reserved.</p>
+            </div>
+        </div>
+    </div>
+</div>

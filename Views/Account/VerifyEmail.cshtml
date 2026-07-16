@@ -1,4 +1,4 @@
-﻿
+
 @{
     ViewData["Title"] = "Verify Email";
     Layout = "_AccountLayout";
@@ -13,7 +13,7 @@
 {
     <div class="alert alert-success">
         <div style="text-align: center;">
-            <div style="font-size: 4rem; margin-bottom: 1rem;">✅</div>
+            <div style="font-size: 4rem; margin-bottom: 1rem;"><i class="bi bi-check-circle-fill" style="color: #0E8C79;"></i></div>
             <h3 style="color: #0E8C79;">Success!</h3>
             <p>@ViewData["Success"]</p>
             <p style="margin-top: 1rem;">
@@ -26,7 +26,7 @@ else if (ViewData["Error"] != null)
 {
     <div class="alert alert-danger">
         <div style="text-align: center;">
-            <div style="font-size: 4rem; margin-bottom: 1rem;">❌</div>
+            <div style="font-size: 4rem; margin-bottom: 1rem;"><i class="bi bi-x-circle-fill" style="color: #E14F4F;"></i></div>
             <h3 style="color: #E14F4F;">Verification Failed</h3>
             <p>@ViewData["Error"]</p>
         </div>
@@ -36,7 +36,7 @@ else
 {
     <div class="alert alert-info">
         <div style="text-align: center;">
-            <div style="font-size: 3rem; margin-bottom: 1rem;">📧</div>
+            <div style="font-size: 3rem; margin-bottom: 1rem;"><i class="bi bi-envelope-check-fill" style="color: var(--color-blue-600);"></i></div>
             <h3>Check Your Email</h3>
             <p>We've sent a verification link to your email address.</p>
             <p style="font-size: var(--fs-small); color: var(--color-text-400);">

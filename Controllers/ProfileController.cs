@@ -49,6 +49,10 @@ namespace A3DET_CODE.Controllers
             var role = roles.FirstOrDefault() ?? "Student";
             bool isOwnProfile = (currentUser.Id == targetUserId);
 
+            // Admin: redirect to admin dashboard when viewing own profile
+            if (isOwnProfile && role == "Admin")
+                return RedirectToAction("Dashboard", "Admin");
+
             // 🔹 Fetch portfolio
             var portfolio = await _context.Portfolios
                 .Include(p => p.Projects)
@@ -213,7 +217,8 @@ namespace A3DET_CODE.Controllers
                 CompanyName = user.CompanyName,
                 Industry = user.Industry,
                 CompanyDescription = user.CompanyDescription,
-                Website = user.Website
+                Website = user.Website,
+                HourlyRate = user.HourlyRate
             };
 
             return View(viewModel);
@@ -272,6 +277,7 @@ namespace A3DET_CODE.Controllers
             user.Industry = model.Industry;
             user.CompanyDescription = model.CompanyDescription;
             user.Website = model.Website;
+            user.HourlyRate = model.HourlyRate;
 
             var result = await _userManager.UpdateAsync(user);
 
@@ -286,6 +292,15 @@ namespace A3DET_CODE.Controllers
                     portfolio.Bio = model.CompanyDescription ?? model.JobTitle ?? model.FullName;
                     portfolio.UpdatedAt = DateTime.UtcNow;
                     _context.Portfolios.Update(portfolio);
+                    await _context.SaveChangesAsync();
+                }
+
+                // Sync Mentor hourly rate if applicable
+                var mentor = await _context.Mentors.FirstOrDefaultAsync(m => m.UserId == user.Id);
+                if (mentor != null && model.HourlyRate.HasValue)
+                {
+                    mentor.HourlyRate = model.HourlyRate.Value;
+                    _context.Mentors.Update(mentor);
                     await _context.SaveChangesAsync();
                 }
 
@@ -311,7 +326,7 @@ namespace A3DET_CODE.Controllers
             if (user == null)
                 return RedirectToAction("Login", "Account");
 
-            var reports = await _context.Reports
+            var submitted = await _context.Reports
                 .Include(r => r.ReportedUser)
                 .Include(r => r.Project)
                 .Include(r => r.Team)
@@ -319,7 +334,21 @@ namespace A3DET_CODE.Controllers
                 .OrderByDescending(r => r.CreatedAt)
                 .ToListAsync();
 
-            return View(reports);
+            var received = await _context.Reports
+                .Include(r => r.Reporter)
+                .Include(r => r.Project)
+                .Include(r => r.Team)
+                .Where(r => r.ReportedUserId == user.Id)
+                .OrderByDescending(r => r.CreatedAt)
+                .ToListAsync();
+
+            var model = new ViewModels.Profile.MyReportsViewModel
+            {
+                SubmittedReports = submitted,
+                ReceivedReports = received
+            };
+
+            return View(model);
         }
 
         // ============================================================

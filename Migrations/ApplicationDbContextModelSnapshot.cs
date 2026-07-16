@@ -96,6 +96,9 @@ namespace A3DET_CODE.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<decimal?>("HourlyRate")
+                        .HasColumnType("decimal(18,2)");
+
                     b.Property<string>("Industry")
                         .HasColumnType("nvarchar(max)");
 
@@ -155,6 +158,9 @@ namespace A3DET_CODE.Migrations
                     b.Property<string>("UserName")
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
+
+                    b.Property<decimal>("WalletBalance")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("Website")
                         .HasColumnType("nvarchar(max)");
@@ -282,6 +288,101 @@ namespace A3DET_CODE.Migrations
                     b.ToTable("Badges");
                 });
 
+            modelBuilder.Entity("A3DET_CODE.Models.Booking", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("BookerUserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime?>("CompletedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("DurationMinutes")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("EndDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<decimal>("HourlyRate")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("NetAmount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("Notes")
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
+
+                    b.Property<DateTime?>("PaidAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("PaymentStatus")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.Property<decimal>("PlatformFee")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<DateTime>("ScheduledAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.Property<string>("StripePaymentIntentId")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<string>("StripeSessionId")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<int?>("TargetMentorId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("TargetStudentId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int?>("TargetTeamId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("TargetType")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.Property<string>("Topic")
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<decimal>("TotalPrice")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BookerUserId");
+
+                    b.HasIndex("TargetMentorId");
+
+                    b.HasIndex("TargetStudentId");
+
+                    b.HasIndex("TargetTeamId");
+
+                    b.ToTable("Bookings");
+                });
+
             modelBuilder.Entity("A3DET_CODE.Models.Company", b =>
                 {
                     b.Property<int>("Id")
@@ -308,6 +409,91 @@ namespace A3DET_CODE.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Companies");
+                });
+
+            modelBuilder.Entity("A3DET_CODE.Models.Contract", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("BookingId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ContractNumber")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(2000)
+                        .HasColumnType("nvarchar(2000)");
+
+                    b.Property<DateTime?>("EndDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("PartyASignature")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("PartyASignedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("PartyAUserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("PartyBSignature")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("PartyBSignedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("PartyBTeamId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("PartyBUserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
+
+                    b.Property<string>("Terms")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<decimal>("TotalAmount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BookingId")
+                        .IsUnique();
+
+                    b.HasIndex("ContractNumber")
+                        .IsUnique();
+
+                    b.HasIndex("PartyAUserId");
+
+                    b.HasIndex("PartyBTeamId");
+
+                    b.HasIndex("PartyBUserId");
+
+                    b.ToTable("Contracts");
                 });
 
             modelBuilder.Entity("A3DET_CODE.Models.CustomProfileSection", b =>
@@ -525,6 +711,9 @@ namespace A3DET_CODE.Migrations
                     b.Property<string>("GitHubUrl")
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
+
+                    b.Property<decimal>("HourlyRate")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("Initials")
                         .IsRequired()
@@ -1059,6 +1248,9 @@ namespace A3DET_CODE.Migrations
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
 
+                    b.Property<decimal?>("HourlyRate")
+                        .HasColumnType("decimal(18,2)");
+
                     b.Property<string>("LeaderId")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
@@ -1198,6 +1390,41 @@ namespace A3DET_CODE.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("UserBadges");
+                });
+
+            modelBuilder.Entity("A3DET_CODE.Models.WalletTransaction", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("WalletTransactions");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -1380,6 +1607,71 @@ namespace A3DET_CODE.Migrations
                     b.Navigation("Track");
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("A3DET_CODE.Models.Booking", b =>
+                {
+                    b.HasOne("A3DET_CODE.Models.ApplicationUser", "BookerUser")
+                        .WithMany()
+                        .HasForeignKey("BookerUserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("A3DET_CODE.Models.Mentor", "TargetMentor")
+                        .WithMany()
+                        .HasForeignKey("TargetMentorId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("A3DET_CODE.Models.ApplicationUser", "TargetStudent")
+                        .WithMany()
+                        .HasForeignKey("TargetStudentId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("A3DET_CODE.Models.Team", "TargetTeam")
+                        .WithMany()
+                        .HasForeignKey("TargetTeamId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("BookerUser");
+
+                    b.Navigation("TargetMentor");
+
+                    b.Navigation("TargetStudent");
+
+                    b.Navigation("TargetTeam");
+                });
+
+            modelBuilder.Entity("A3DET_CODE.Models.Contract", b =>
+                {
+                    b.HasOne("A3DET_CODE.Models.Booking", "Booking")
+                        .WithOne("Contract")
+                        .HasForeignKey("A3DET_CODE.Models.Contract", "BookingId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("A3DET_CODE.Models.ApplicationUser", "PartyAUser")
+                        .WithMany()
+                        .HasForeignKey("PartyAUserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("A3DET_CODE.Models.Team", "PartyBTeam")
+                        .WithMany()
+                        .HasForeignKey("PartyBTeamId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("A3DET_CODE.Models.ApplicationUser", "PartyBUser")
+                        .WithMany()
+                        .HasForeignKey("PartyBUserId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("Booking");
+
+                    b.Navigation("PartyAUser");
+
+                    b.Navigation("PartyBTeam");
+
+                    b.Navigation("PartyBUser");
                 });
 
             modelBuilder.Entity("A3DET_CODE.Models.CustomProfileSection", b =>
@@ -1760,6 +2052,17 @@ namespace A3DET_CODE.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("A3DET_CODE.Models.WalletTransaction", b =>
+                {
+                    b.HasOne("A3DET_CODE.Models.ApplicationUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -1840,6 +2143,11 @@ namespace A3DET_CODE.Migrations
             modelBuilder.Entity("A3DET_CODE.Models.Badge", b =>
                 {
                     b.Navigation("UserBadges");
+                });
+
+            modelBuilder.Entity("A3DET_CODE.Models.Booking", b =>
+                {
+                    b.Navigation("Contract");
                 });
 
             modelBuilder.Entity("A3DET_CODE.Models.Mentor", b =>

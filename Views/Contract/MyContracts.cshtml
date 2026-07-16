@@ -1,0 +1,77 @@
+@model A3DET_CODE.ViewModels.Contract.MyContractsViewModel
+@{
+    ViewData["Title"] = "My Contracts";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/booking.css" asp-append-version="true" />
+}
+
+<div class="contracts-page">
+    <div class="container">
+        <div class="bookings-header">
+            <div>
+                <h1>My Contracts</h1>
+                <p>View and manage your service agreements</p>
+            </div>
+        </div>
+
+        @if (!Model.Contracts.Any())
+        {
+            <div class="empty-state">
+                <div class="empty-icon"><i class="bi bi-file-earmark-text"></i></div>
+                <h3>No contracts yet</h3>
+                <p>Contracts are automatically generated after a booking payment is confirmed.</p>
+            </div>
+        }
+        else
+        {
+            <div class="contracts-grid">
+                @foreach (var contract in Model.Contracts)
+                {
+                    <div class="contract-card card">
+                        <div class="contract-card-header">
+                            <div>
+                                <span class="contract-card-number">@contract.ContractNumber</span>
+                                <h4>@contract.Title</h4>
+                            </div>
+                            <span class="status-badge status-@contract.Status.ToLower()">
+                                @(contract.Status == "PendingSignatures" ? "Pending" :
+                                  contract.Status == "PartyASigned" ? "Partially Signed" :
+                                  contract.Status == "FullySigned" ? "Executed" : contract.Status)
+                            </span>
+                        </div>
+
+                        <div class="contract-card-parties">
+                            <div class="contract-party">
+                                <span class="party-avatar-xs">@contract.PartyAInitials</span>
+                                <span>@contract.PartyAName</span>
+                                @if (contract.PartyASignedAt.HasValue) { <span class="signed-check"><i class="bi bi-check-circle-fill"></i></span> }
+                            </div>
+                            <span class="party-arrow">↔</span>
+                            <div class="contract-party">
+                                <span class="party-avatar-xs target">@contract.PartyBInitials</span>
+                                <span>@contract.PartyBName</span>
+                                @if (contract.PartyBSignedAt.HasValue) { <span class="signed-check"><i class="bi bi-check-circle-fill"></i></span> }
+                            </div>
+                        </div>
+
+                        <div class="contract-card-info">
+                            <span>$@contract.TotalAmount.ToString("F2")</span>
+                            <span>@contract.StartDate.ToString("MMM dd, yyyy")</span>
+                        </div>
+
+                        <div class="contract-card-actions">
+                            <a asp-controller="Contract" asp-action="View" asp-route-id="@contract.Id" class="btn btn-secondary btn-sm">View</a>
+                            @if (contract.CanSign)
+                            {
+                                <a asp-controller="Contract" asp-action="Sign" asp-route-id="@contract.Id" class="btn btn-primary btn-sm"><i class="bi bi-pencil-fill"></i> Sign</a>
+                            }
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+    </div>
+</div>

@@ -1,4 +1,4 @@
-﻿@model A3DET_CODE.ViewModels.Team.TeamDetailsViewModel
+@model A3DET_CODE.ViewModels.Team.TeamDetailsViewModel
 @{
     ViewData["Title"] = Model.Name;
 }
@@ -85,6 +85,12 @@
                             {
                                 <a asp-controller="Dashboard" asp-action="TeamDashboard" asp-route-teamId="@Model.Id" class="btn btn-primary">
                                     <i class="fa-solid fa-chart-pie me-2"></i>Team Dashboard
+                                </a>
+                            }
+                            @if (User.IsInRole("Company"))
+                            {
+                                <a asp-controller="Booking" asp-action="Create" asp-route-targetType="Team" asp-route-targetId="@Model.Id" class="btn btn-primary">
+                                    <i class="fa-solid fa-handshake me-2"></i>Hire Team
                                 </a>
                             }
                         </div>

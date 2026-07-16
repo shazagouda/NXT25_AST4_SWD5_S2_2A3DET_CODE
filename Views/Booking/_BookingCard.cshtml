@@ -1,0 +1,119 @@
+@model A3DET_CODE.ViewModels.Booking.BookingDetailsViewModel
+@using Microsoft.AspNetCore.Identity
+@inject UserManager<A3DET_CODE.Models.ApplicationUser> UserManager
+
+<div class="booking-card card">
+    <div class="booking-card-header">
+        <div class="booking-parties">
+            <div class="booking-avatar">
+                @if (!string.IsNullOrEmpty(Model.TargetImageUrl))
+                {
+                    <img src="@Model.TargetImageUrl" alt="@Model.TargetName" />
+                }
+                else
+                {
+                    <span>@Model.TargetInitials</span>
+                }
+            </div>
+            <div class="booking-info">
+                <span class="booking-type-badge">@Model.TargetType</span>
+                <h4>@Model.TargetName</h4>
+                <p class="booking-expertise">@Model.TargetExpertise</p>
+            </div>
+        </div>
+        <div class="booking-status">
+            <span class="status-badge status-@Model.Status.ToLower()">@Model.Status</span>
+            <span class="payment-badge payment-@Model.PaymentStatus.ToLower()">@Model.PaymentStatus</span>
+        </div>
+    </div>
+
+    <div class="booking-card-body">
+        <div class="booking-detail">
+            <span class="detail-icon"><i class="bi bi-calendar-event"></i></span>
+            <div>
+                <span class="detail-label">Date</span>
+                <span class="detail-value">@Model.ScheduledAt.ToString("MMM dd, yyyy")</span>
+            </div>
+        </div>
+        <div class="booking-detail">
+            <span class="detail-icon"><i class="bi bi-clock"></i></span>
+            <div>
+                <span class="detail-label">Time</span>
+                <span class="detail-value">@Model.ScheduledAt.ToString("hh:mm tt")</span>
+            </div>
+        </div>
+        <div class="booking-detail">
+            <span class="detail-icon"><i class="bi bi-hourglass-split"></i></span>
+            <div>
+                <span class="detail-label">Duration</span>
+                <span class="detail-value">@Model.DurationMinutes min</span>
+            </div>
+        </div>
+        <div class="booking-detail">
+            <span class="detail-icon"><i class="bi bi-wallet2"></i></span>
+            <div>
+                <span class="detail-label">Total</span>
+                <span class="detail-value price">$@Model.TotalPrice.ToString("F2")</span>
+            </div>
+        </div>
+    </div>
+
+    @if (!string.IsNullOrEmpty(Model.Topic))
+    {
+        <div class="booking-topic">
+            <strong>Topic:</strong> @Model.Topic
+        </div>
+    }
+
+    <div class="booking-card-actions">
+        <a asp-controller="Booking" asp-action="Details" asp-route-id="@Model.Id" class="btn btn-secondary btn-sm">View Details</a>
+
+        @{
+            var isBooker = User.Identity != null && UserManager.GetUserId(User) == Model.BookerUserId;
+            var isTarget = !isBooker;
+        }
+
+        @if (Model.Status == "Pending" && isTarget)
+        {
+            <form asp-controller="Booking" asp-action="Accept" asp-route-id="@Model.Id" method="post" style="display:inline;">
+                @Html.AntiForgeryToken()
+                <button type="submit" class="btn btn-primary btn-sm">Accept</button>
+            </form>
+            <form asp-controller="Booking" asp-action="Reject" asp-route-id="@Model.Id" method="post" style="display:inline;" onsubmit="return confirm('Are you sure you want to reject this request?')">
+                @Html.AntiForgeryToken()
+                <button type="submit" class="btn btn-ghost btn-sm" style="color:var(--color-danger)">Reject</button>
+            </form>
+        }
+
+        @if (Model.Status == "PendingPayment" && isBooker)
+        {
+            <form asp-controller="Booking" asp-action="Pay" asp-route-id="@Model.Id" method="post" style="display:inline;">
+                @Html.AntiForgeryToken()
+                <button type="submit" class="btn btn-primary btn-sm">Pay $@Model.TotalPrice.ToString("F2")</button>
+            </form>
+        }
+
+        @if (Model.HasContract)
+        {
+            <a asp-controller="Contract" asp-action="View" asp-route-id="@Model.ContractId" class="btn btn-primary btn-sm">
+                @(Model.ContractStatus == "FullySigned" ? "View Contract" : "Sign Contract")
+            </a>
+        }
+        @if (Model.CanCancel)
+        {
+            <form asp-controller="Booking" asp-action="Cancel" asp-route-id="@Model.Id" method="post" style="display:inline;"
+                  onsubmit="return confirm('Are you sure you want to cancel this booking?')">
+                @Html.AntiForgeryToken()
+                <button type="submit" class="btn btn-ghost btn-sm" style="color:var(--color-danger)">Cancel</button>
+            </form>
+        }
+        @if (Model.Status == "Cancelled" || Model.Status == "Rejected")
+        {
+            <form asp-controller="Booking" asp-action="Delete" asp-route-id="@Model.Id" method="post" style="display:inline;"
+                  onsubmit="return confirm('Are you sure you want to permanently delete this booking record?')">
+                @Html.AntiForgeryToken()
+                <button type="submit" class="btn btn-ghost btn-sm" style="color:var(--color-danger)">Delete</button>
+            </form>
+        }
+    </div>
+</div>

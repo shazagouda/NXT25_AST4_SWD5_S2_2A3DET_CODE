@@ -1,4 +1,4 @@
-﻿@model List<A3DET_CODE.ViewModels.Mentor.SessionViewModel>
+@model List<A3DET_CODE.ViewModels.Mentor.SessionViewModel>
 @{
     ViewData["Title"] = "My Sessions";
 }
@@ -18,7 +18,7 @@
 
     @if (TempData["Success"] != null)
     {
-        <div class="alert alert-success">✅ @TempData["Success"]</div>
+        <div class="alert alert-success"><i class="bi bi-check-circle-fill"></i> @TempData["Success"]</div>
     }
 
     @if (!Model.Any())
@@ -54,7 +54,7 @@
                             <td>
                                 @if (session.StudentRating.HasValue)
                                 {
-                                    <span>⭐ @session.StudentRating.Value / 5</span>
+                                    <span><i class="bi bi-star-fill" style="color: var(--color-amber-500);"></i> @session.StudentRating.Value / 5</span>
                                 }
                                 else
                                 {

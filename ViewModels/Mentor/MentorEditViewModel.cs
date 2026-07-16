@@ -1,4 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 
 namespace A3DET_CODE.ViewModels.Mentor
 {
@@ -38,5 +38,10 @@ namespace A3DET_CODE.ViewModels.Mentor
 
         public string? ExistingAvatar { get; set; }
         public bool IsVerified { get; set; }
+
+        [Required(ErrorMessage = "Hourly rate is required")]
+        [Range(0, 1000, ErrorMessage = "Hourly rate must be between 0 and 1000")]
+        [Display(Name = "Hourly Rate ($)")]
+        public decimal HourlyRate { get; set; }
     }
 }

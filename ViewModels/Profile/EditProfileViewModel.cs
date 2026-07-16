@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http;
 using System.ComponentModel.DataAnnotations;
 
 namespace A3DET_CODE.ViewModels.Profile
@@ -55,5 +55,9 @@ namespace A3DET_CODE.ViewModels.Profile
         [Display(Name = "Website")]
         [Url(ErrorMessage = "Invalid URL")]
         public string? Website { get; set; }
+
+        [Display(Name = "Hourly Rate ($)")]
+        [Range(0, 1000, ErrorMessage = "Hourly rate must be between 0 and 1000")]
+        public decimal? HourlyRate { get; set; }
     }
 }

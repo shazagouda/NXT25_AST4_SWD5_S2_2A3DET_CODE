@@ -31,6 +31,7 @@ builder.Services.AddScoped<IHiringRepository, HiringRepository>();
 builder.Services.AddScoped<IProfileImageStorageService, LocalFileProfileImageStorageService>();
 builder.Services.AddScoped<IJoinRequestRepository, JoinRequestRepository>();
 builder.Services.AddScoped<ITrackRepository, TrackRepository>();
+builder.Services.AddScoped<IEmailService, EmailService>();
 
 // Add DbContext
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
@@ -283,6 +284,31 @@ using (var scope = app.Services.CreateScope())
             {
                 await userManager.AddToRoleAsync(user, "Company");
                 Console.WriteLine($"✅ User '{companyEmail}' created!");
+            }
+        }
+
+        // ============================================================
+        // ✅ 4.5 CREATE TEST ADMIN
+        // ============================================================
+        var adminEmail = "admin@a3detcode.com";
+        var adminUser = await userManager.FindByEmailAsync(adminEmail);
+        if (adminUser == null)
+        {
+            var user = new ApplicationUser
+            {
+                UserName = adminEmail,
+                Email = adminEmail,
+                FullName = "System Admin",
+                Role = "Admin",
+                CreatedAt = DateTime.UtcNow,
+                IsActive = true,
+                EmailConfirmed = true
+            };
+            var result = await userManager.CreateAsync(user, "Admin@123456");
+            if (result.Succeeded)
+            {
+                await userManager.AddToRoleAsync(user, "Admin");
+                Console.WriteLine($"✅ User '{adminEmail}' created!");
             }
         }
 

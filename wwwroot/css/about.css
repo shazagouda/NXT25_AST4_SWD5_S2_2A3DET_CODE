@@ -1,9 +1,9 @@
-﻿
+
 .about-hero {
     padding: var(--space-12) 0 var(--space-10);
     position: relative;
     overflow: hidden;
-    background: linear-gradient(135deg, var(--color-navy-900) 0%, var(--color-navy-700) 100%);
+    background: linear-gradient(135deg, #0A1628 0%, #142440 55%, #1B3050 100%);
 }
 
     .about-hero::before {
@@ -440,8 +440,21 @@
 
 .stats-section {
     padding: var(--space-12) 0;
-    background: var(--color-navy-900);
+    background: linear-gradient(135deg, #0A1628 0%, #142440 100%);
+    position: relative;
+    overflow: hidden;
 }
+.stats-section::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+        linear-gradient(rgba(76,132,244,0.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(76,132,244,0.06) 1px, transparent 1px);
+    background-size: 56px 56px;
+    pointer-events: none;
+}
+.stats-section .container { position: relative; z-index: 1; }
 
 .stats-band {
     background: transparent;
@@ -585,7 +598,7 @@
 }
 
 .cta-band {
-    background: linear-gradient(135deg, var(--color-navy-900) 0%, var(--color-navy-700) 100%);
+    background: linear-gradient(135deg, #0A1628 0%, #142440 100%);
     border-radius: var(--radius-lg);
     padding: var(--space-10);
     text-align: center;
@@ -719,38 +732,66 @@
 }
 
 [data-theme="light"] .about-hero {
-    background: linear-gradient(135deg, var(--color-bg) 0%, var(--color-blue-100) 100%);
+    background: linear-gradient(135deg, #0A1628 0%, #142440 55%, #1B3050 100%);
 }
 
 [data-theme="light"] .about-hero-inner h1 {
-    background: linear-gradient(135deg, var(--color-text-900) 0%, var(--color-blue-600) 100%);
+    background: linear-gradient(135deg, #fff 0%, var(--color-blue-500) 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
 }
 
 [data-theme="light"] .stats-section {
-    background: var(--color-navy-900);
+    background: linear-gradient(135deg, #0A1628 0%, #142440 100%);
 }
 
 [data-theme="dark"] .about-hero {
-    background: linear-gradient(135deg, var(--color-navy-900) 0%, var(--color-navy-700) 100%);
+    background: linear-gradient(135deg, #0A1628 0%, #142440 55%, #1B3050 100%);
 }
 
 [data-theme="dark"] .gap-section,
 [data-theme="dark"] .pillars-section,
 [data-theme="dark"] .roles-section {
-    background: var(--color-dark-2);
+    background: var(--color-surface);
 }
 
 [data-theme="dark"] .stages-section {
-    background: var(--color-dark);
+    background: var(--color-bg);
 }
 
 [data-theme="dark"] .stage-card {
-    background: var(--color-dark-3);
+    background: rgba(20,36,64,0.6);
 }
 
 [data-theme="dark"] .gap-section .gap-cards .gap-card {
-    background: var(--color-dark-3);
+    background: rgba(20,36,64,0.6);
 }
+
+[data-theme="dark"] .cta-section {
+    background: var(--color-bg);
+}
+
+[data-theme="dark"] .cta-band {
+    background: linear-gradient(135deg, #142440 0%, #1B3050 100%);
+    border: 1px solid rgba(76,132,244,0.12);
+}
+
+[data-theme="dark"] .pillar-card-modern {
+    background: rgba(20,36,64,0.6);
+    border-color: rgba(76,132,244,0.1);
+}
+
+[data-theme="dark"] .pillar-card-modern:hover {
+    border-color: rgba(76,132,244,0.3);
+}
+
+[data-theme="dark"] .role-card-modern {
+    background: rgba(20,36,64,0.6);
+    border-color: rgba(76,132,244,0.1);
+}
+
+[data-theme="dark"] .role-card-modern:hover {
+    border-color: rgba(76,132,244,0.3);
+}
+

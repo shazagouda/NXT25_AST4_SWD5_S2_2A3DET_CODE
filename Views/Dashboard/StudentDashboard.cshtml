@@ -20,49 +20,50 @@
             <p class="dashboard-subtitle">Track your progress and discover new opportunities</p>
         </div>
         <div class="dashboard-actions">
+            <a asp-controller="Booking" asp-action="MyBookings" class="btn btn-primary" style="background-color: var(--color-teal-600); border-color: var(--color-teal-600);">My Bookings</a>
+            <a asp-controller="Contract" asp-action="MyContracts" class="btn btn-secondary">My Contracts</a>
             <a asp-controller="Projects" asp-action="Create" class="btn btn-primary">+ New Project</a>
-            <a asp-controller="Teams" asp-action="Create" class="btn btn-secondary">Join Team</a>
         </div>
     </div>
 
     <div class="stats-grid">
         <div class="stat-card">
-            <div class="stat-icon blue">📊</div>
+            <div class="stat-icon blue"><i class="bi bi-bar-chart-fill"></i></div>
             <div class="stat-content">
                 <div class="stat-number">@Model.TotalProjects</div>
                 <div class="stat-label">Total Projects</div>
             </div>
         </div>
         <div class="stat-card">
-            <div class="stat-icon green">✅</div>
+            <div class="stat-icon green"><i class="bi bi-check-circle-fill"></i></div>
             <div class="stat-content">
                 <div class="stat-number">@Model.CompletedProjects</div>
                 <div class="stat-label">Completed</div>
             </div>
         </div>
         <div class="stat-card">
-            <div class="stat-icon amber">🔄</div>
+            <div class="stat-icon amber"><i class="bi bi-arrow-repeat"></i></div>
             <div class="stat-content">
                 <div class="stat-number">@Model.InProgressProjects</div>
                 <div class="stat-label">In Progress</div>
             </div>
         </div>
         <div class="stat-card">
-            <div class="stat-icon purple">👥</div>
+            <div class="stat-icon purple"><i class="bi bi-people-fill"></i></div>
             <div class="stat-content">
                 <div class="stat-number">@Model.TotalTeams</div>
                 <div class="stat-label">Teams</div>
             </div>
         </div>
         <div class="stat-card">
-            <div class="stat-icon gold">🏅</div>
+            <div class="stat-icon gold"><i class="bi bi-award-fill"></i></div>
             <div class="stat-content">
                 <div class="stat-number">@Model.TotalBadges</div>
                 <div class="stat-label">Badges Earned</div>
             </div>
         </div>
         <div class="stat-card">
-            <div class="stat-icon cyan">⭐</div>
+            <div class="stat-icon cyan"><i class="bi bi-star-fill"></i></div>
             <div class="stat-content">
                 <div class="stat-number">@Model.TotalPoints</div>
                 <div class="stat-label">Total Points</div>
@@ -89,7 +90,7 @@
             <div class="progress-bar">
                 <div class="progress-fill" style="width: @Model.TrackProgress%"></div>
             </div>
-            <a asp-controller="Tracks" asp-action="Details" asp-route-id="1" class="btn btn-ghost btn-sm">Continue Learning →</a>
+            <a asp-controller="Roadmaps" asp-action="Index" class="btn btn-ghost btn-sm">Continue Learning <i class="bi bi-arrow-right"></i></a>
         </div>
 
         <div class="card activities-card">

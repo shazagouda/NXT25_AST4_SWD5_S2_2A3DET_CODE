@@ -1,0 +1,122 @@
+@model A3DET_CODE.ViewModels.Booking.MyBookingsViewModel
+@{
+    ViewData["Title"] = "My Bookings";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/booking.css" asp-append-version="true" />
+}
+
+<div class="bookings-page">
+    <div class="container">
+        <div class="bookings-header">
+            <div>
+                <h1>My Bookings</h1>
+                <p>Manage your sent and received bookings</p>
+            </div>
+        </div>
+
+        @if (TempData["Success"] != null)
+        {
+            <div class="alert alert-success">@TempData["Success"]</div>
+        }
+        @if (TempData["Error"] != null)
+        {
+            <div class="alert alert-error">@TempData["Error"]</div>
+        }
+
+        <!-- Tabs -->
+        <div class="bookings-tabs">
+            <button class="tab-btn active" data-tab="all" onclick="switchTab('all')">
+                All <span class="tab-count">@Model.AllBookings.Count</span>
+            </button>
+            @if (Model.CurrentUserRole != "Mentor")
+            {
+                <button class="tab-btn" data-tab="sent" onclick="switchTab('sent')">
+                    Sent <span class="tab-count">@Model.SentBookings.Count</span>
+                </button>
+            }
+            <button class="tab-btn" data-tab="received" onclick="switchTab('received')">
+                Received <span class="tab-count">@Model.ReceivedBookings.Count</span>
+            </button>
+        </div>
+
+        <!-- All Bookings -->
+        <div class="tab-content active" id="tab-all">
+            @if (!Model.AllBookings.Any())
+            {
+                <div class="empty-state">
+                    <div class="empty-icon">📋</div>
+                    <h3>No bookings yet</h3>
+                    <p>Visit the Mentor page or Company marketplace to book a consultation.</p>
+                </div>
+            }
+            else
+            {
+                <div class="bookings-grid">
+                    @foreach (var booking in Model.AllBookings)
+                    {
+                        @await Html.PartialAsync("_BookingCard", booking)
+                    }
+                </div>
+            }
+        </div>
+
+        <!-- Sent Bookings -->
+        @if (Model.CurrentUserRole != "Mentor")
+        {
+            <div class="tab-content" id="tab-sent">
+                @if (!Model.SentBookings.Any())
+                {
+                    <div class="empty-state">
+                        <div class="empty-icon">📤</div>
+                        <h3>No sent bookings</h3>
+                        <p>You haven't made any booking requests yet.</p>
+                    </div>
+                }
+                else
+                {
+                    <div class="bookings-grid">
+                        @foreach (var booking in Model.SentBookings)
+                        {
+                            @await Html.PartialAsync("_BookingCard", booking)
+                        }
+                    </div>
+                }
+            </div>
+        }
+
+        <!-- Received Bookings -->
+        <div class="tab-content" id="tab-received">
+            @if (!Model.ReceivedBookings.Any())
+            {
+                <div class="empty-state">
+                    <div class="empty-icon">📥</div>
+                    <h3>No received bookings</h3>
+                    <p>No one has booked your services yet.</p>
+                </div>
+            }
+            else
+            {
+                <div class="bookings-grid">
+                    @foreach (var booking in Model.ReceivedBookings)
+                    {
+                        @await Html.PartialAsync("_BookingCard", booking)
+                    }
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function switchTab(tab) {
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            document.querySelector(`[data-tab="${tab}"]`).classList.add('active');
+            document.getElementById(`tab-${tab}`).classList.add('active');
+        }
+    </script>
+}

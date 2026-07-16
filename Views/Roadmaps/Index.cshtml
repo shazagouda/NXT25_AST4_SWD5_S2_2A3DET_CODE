@@ -1,0 +1,123 @@
+@{
+    ViewData["Title"] = "Roadmaps";
+    ViewData["Description"] = "Structured learning roadmaps for every technical track — from foundations to job-ready.";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/roadmaps.css" asp-append-version="true" />
+}
+
+<!-- ============ HERO ============ -->
+<section class="rm-hero">
+    <div class="rm-hero-grid"></div>
+    <div class="rm-hero-glow"></div>
+    <div class="container">
+        <div class="rm-hero-inner reveal">
+            <span class="eyebrow"><i class="bi bi-geo-alt-fill"></i> Structured Paths</span>
+            <h1>Technical <span class="rm-accent">Roadmaps</span></h1>
+            <p>Every track broken into clear, progressive milestones — from foundations to real deliverables. Pick your track and follow the path that's already worked for thousands.</p>
+            <div class="rm-hero-stats">
+                <div class="rm-stat">
+                    <span class="rm-stat-num">10</span>
+                    <span class="rm-stat-lbl">Tracks</span>
+                </div>
+                <div class="rm-stat-divider"></div>
+                <div class="rm-stat">
+                    <span class="rm-stat-num">3</span>
+                    <span class="rm-stat-lbl">Stages Each</span>
+                </div>
+                <div class="rm-stat-divider"></div>
+                <div class="rm-stat">
+                    <span class="rm-stat-num">100%</span>
+                    <span class="rm-stat-lbl">Free to Browse</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============ ROADMAPS GRID ============ -->
+<section class="section rm-section">
+    <div class="container">
+        <div class="section-head reveal" style="text-align:center; max-width:none; margin-bottom:var(--space-10);">
+            <span class="eyebrow">Choose Your Path</span>
+            <h2>10 Tracks · 3 Stages · 1 Goal</h2>
+            <p style="max-width:560px;margin:0 auto;">Each roadmap walks you from zero to portfolio-ready. Click any track to see the full breakdown.</p>
+        </div>
+
+        <div class="rm-grid">
+            @{
+                var roadmaps = new[]
+                {
+                    ("bi-display",          "Frontend Development",    "React · Vue · Angular · UX",         "#f472b6", "fe",  new[]{"HTML & CSS Mastery","JavaScript & React","Production UI Project"}),
+                    ("bi-gear-fill",         "Backend Development",     "APIs · Databases · Microservices",    "#22c55e", "be",  new[]{"Core Language & Tools","REST APIs & Databases","Scalable System Project"}),
+                    ("bi-cpu",              "AI & Machine Learning",   "Python · PyTorch · MLOps",            "#a78bfa", "ai",  new[]{"Math & Python Foundations","Models & Pipelines","Applied ML Capstone"}),
+                    ("bi-bar-chart-fill",    "Data Science",            "Pandas · SQL · Visualization",        "#f59e0b", "ds",  new[]{"Statistics & Python","Data Wrangling & EDA","Insight-Driven Project"}),
+                    ("bi-phone-fill",        "Mobile Development",      "Flutter · React Native · Swift",      "#38bdf8", "mob", new[]{"Mobile UI Fundamentals","State & APIs","Full App Delivery"}),
+                    ("bi-infinity",          "DevOps & Cloud",          "Docker · CI/CD · Kubernetes",         "#fb923c", "dev", new[]{"Linux & Scripting","Containers & Pipelines","Cloud-Native Project"}),
+                    ("bi-shield-fill",       "Cybersecurity",           "Ethical Hacking · Defense · SIEM",    "#f87171", "sec", new[]{"Networks & OS Basics","Attacks & Defense","Security Audit Project"}),
+                    ("bi-controller",        "Game Development",        "Unity · Unreal · C#/C++",             "#a3e635", "gm",  new[]{"Game Loop Foundations","Physics & Mechanics","Full Game Release"}),
+                    ("bi-cpu-fill",          "Embedded Systems",        "C · RTOS · IoT · Microcontrollers",  "#2dd4bf", "emb", new[]{"Electronics & C","RTOS & Protocols","IoT Hardware Project"}),
+                    ("bi-bug-fill",          "Software Testing",        "Selenium · Jest · QA · Automation",  "#c084fc", "qa",  new[]{"Testing Fundamentals","Test Automation","Full QA Delivery"})
+                };
+            }
+
+            @foreach (var rm in roadmaps)
+            {
+                <div class="rm-card reveal" data-accent="@rm.Item4">
+                    <div class="rm-card-top">
+                        <div class="rm-card-icon" style="background:@(rm.Item4)22; color:@rm.Item4">
+                            <i class="bi @rm.Item1"></i>
+                        </div>
+                        <div>
+                            <h3 class="rm-card-title">@rm.Item2</h3>
+                            <p class="rm-card-sub">@rm.Item3</p>
+                        </div>
+                    </div>
+                    <div class="rm-stages">
+                        @for (int i = 0; i < rm.Item6.Length; i++)
+                        {
+                            <div class="rm-stage">
+                                <div class="rm-stage-dot" style="border-color:@rm.Item4; @(i == 0 ? $"background:{rm.Item4}" : "")"></div>
+                                @if (i < rm.Item6.Length - 1)
+                                {
+                                    <div class="rm-stage-line"></div>
+                                }
+                                <span class="rm-stage-num">STAGE @(i + 1)</span>
+                                <span class="rm-stage-lbl">@rm.Item6[i]</span>
+                            </div>
+                        }
+                    </div>
+                    <a href="/tracks/Tracks.html" class="rm-card-cta" style="color:@rm.Item4; border-color:@(rm.Item4)44">
+                        View Full Track <i class="bi bi-arrow-right"></i>
+                    </a>
+                </div>
+            }
+        </div>
+    </div>
+</section>
+
+<!-- ============ CTA BAND ============ -->
+<section class="section" style="padding-top:0;">
+    <div class="container">
+        <div class="rm-cta reveal">
+            <div class="rm-cta-left">
+                <span class="eyebrow">Not Sure Where to Start?</span>
+                <h2>Take the Assessment First</h2>
+                <p>50 questions. 15 minutes. A ranked list of tracks tailored to your thinking style and problem-solving approach — no guesswork.</p>
+            </div>
+            <div class="rm-cta-right">
+                <a asp-controller="Assessment" asp-action="Index" class="btn btn-primary" style="font-size:1rem; padding:1rem 2rem;">
+                    Start the Assessment <i class="bi bi-arrow-right"></i>
+                </a>
+                <a href="/tracks/Tracks.html" class="btn btn-secondary" style="font-size:1rem; padding:1rem 2rem;">
+                    Browse Tracks
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    <script src="~/js/global.js" asp-append-version="true"></script>
+}

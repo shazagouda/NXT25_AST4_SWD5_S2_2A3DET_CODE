@@ -1,0 +1,261 @@
+/* ============================================================
+   BOOKING & CONTRACT SYSTEM STYLES
+   ============================================================ */
+
+/* === ALERTS === */
+.alert{padding:14px 20px;border-radius:var(--radius-md);margin-bottom:var(--space-5);font-weight:500;font-size:var(--fs-small)}
+.alert-success{background:#E2FAF5;color:#0E8C79;border:1px solid #15C6AE}
+.alert-error{background:#FDE8E8;color:#C53030;border:1px solid #E14F4F}
+.alert-info{background:var(--color-blue-100);color:var(--color-blue-600);border:1px solid var(--color-blue-600)}
+.back-link{display:inline-flex;align-items:center;gap:6px;font-weight:500;color:var(--color-text-600);margin-bottom:var(--space-5);transition:var(--transition-fast)}
+.back-link:hover{color:var(--color-blue-600)}
+
+/* === BOOKING PAGE === */
+.booking-page,.bookings-page,.booking-details-page,.contract-page,.contract-sign-page,.contracts-page{padding:var(--space-8) 0 var(--space-12)}
+.booking-header,.bookings-header{margin-bottom:var(--space-8)}
+.booking-header h1,.bookings-header h1{font-size:var(--fs-h2);margin-bottom:var(--space-2)}
+.booking-header p,.bookings-header p{color:var(--color-text-600)}
+
+/* === BOOKING LAYOUT (2-col) === */
+.booking-layout{display:grid;grid-template-columns:380px 1fr;gap:var(--space-6);align-items:start}
+@media(max-width:900px){.booking-layout{grid-template-columns:1fr}}
+
+/* === TARGET CARD === */
+.booking-target-card{padding:var(--space-6)}
+.target-header{display:flex;gap:var(--space-5);margin-bottom:var(--space-6)}
+.target-avatar-lg{width:80px;height:80px;border-radius:var(--radius-md);background:var(--color-navy-700);color:#fff;display:flex;align-items:center;justify-content:center;font-family:var(--font-mono);font-size:1.5rem;font-weight:700;overflow:hidden;flex-shrink:0}
+.target-avatar-lg img{width:100%;height:100%;object-fit:cover}
+.target-type-badge{display:inline-block;padding:2px 10px;border-radius:var(--radius-pill);background:var(--color-blue-100);color:var(--color-blue-600);font-size:var(--fs-xs);font-weight:600;margin-bottom:6px}
+.target-info h2{font-size:1.25rem;margin-bottom:4px}
+.target-expertise{color:var(--color-text-600);font-size:var(--fs-small)}
+.target-rating{display:flex;align-items:center;gap:4px;margin-top:6px;font-weight:600;font-size:var(--fs-small)}
+.rating-star{color:#F2A33C}
+.target-skills{margin-bottom:var(--space-5)}
+.target-skills h4{font-size:var(--fs-small);margin-bottom:var(--space-3);color:var(--color-text-600)}
+.skills-tags{display:flex;flex-wrap:wrap;gap:6px}
+.skill-tag{padding:4px 12px;border-radius:var(--radius-pill);background:var(--color-bg);font-size:var(--fs-xs);color:var(--color-text-600);border:1px solid var(--color-border)}
+.target-rate{background:linear-gradient(135deg,var(--color-navy-900),var(--color-navy-700));border-radius:var(--radius-md);padding:var(--space-5);text-align:center}
+.rate-display{display:flex;align-items:baseline;justify-content:center;gap:4px}
+.rate-amount{font-size:2rem;font-weight:800;color:#fff;font-family:var(--font-display)}
+.rate-label{color:var(--color-text-400);font-size:var(--fs-small)}
+.rate-note{color:var(--color-text-400);font-size:var(--fs-xs);margin-top:6px}
+
+/* === BOOKING FORM === */
+.booking-form-card{padding:var(--space-6)}
+.booking-form-card h3{margin-bottom:var(--space-5)}
+.form-group{margin-bottom:var(--space-5)}
+.form-label{display:block;font-weight:600;font-size:var(--fs-small);margin-bottom:var(--space-2);color:var(--color-navy-900)}
+.form-input{width:100%;padding:12px 16px;border:1.5px solid var(--color-border);border-radius:var(--radius-sm);font-size:var(--fs-body);font-family:var(--font-body);transition:var(--transition-fast);background:var(--color-surface)}
+.form-input:focus{outline:none;border-color:var(--color-blue-600);box-shadow:0 0 0 3px rgba(47,111,237,0.12)}
+.form-textarea{resize:vertical;min-height:80px}
+.form-error{color:var(--color-danger);font-size:var(--fs-xs);margin-top:4px}
+
+/* Duration Options */
+.duration-options{display:flex;flex-wrap:wrap;gap:8px}
+.duration-btn{padding:8px 18px;border-radius:var(--radius-pill);border:1.5px solid var(--color-border);background:var(--color-surface);font-size:var(--fs-small);font-weight:500;cursor:pointer;transition:var(--transition-fast)}
+.duration-btn:hover{border-color:var(--color-blue-600);color:var(--color-blue-600)}
+.duration-btn.active{background:var(--color-blue-600);color:#fff;border-color:var(--color-blue-600)}
+
+/* Price Breakdown */
+.price-breakdown{background:var(--color-bg);border-radius:var(--radius-md);padding:var(--space-5);margin-bottom:var(--space-5)}
+.price-breakdown h4{margin-bottom:var(--space-4);font-size:var(--fs-small);text-transform:uppercase;letter-spacing:.04em;color:var(--color-text-600)}
+.price-row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;font-size:var(--fs-small);color:var(--color-text-600)}
+.fee-row{border-top:1px dashed var(--color-border);padding-top:12px;margin-top:4px}
+.fee-amount{color:var(--color-teal-600)}
+.total-row{border-top:2px solid var(--color-navy-900);padding-top:12px;margin-top:8px;font-weight:700;color:var(--color-navy-900);font-size:var(--fs-body)}
+.total-amount{font-size:1.25rem;color:var(--color-blue-600);font-weight:800}
+
+/* Pay Button */
+.btn-pay{width:100%;padding:16px;font-size:1.1rem;gap:10px;margin-bottom:var(--space-3)}
+.payment-note{display:flex;align-items:center;justify-content:center;gap:6px;font-size:var(--fs-xs);color:var(--color-text-400);text-align:center}
+.btn-block{width:100%;text-align:center}
+.btn-lg{padding:16px 32px;font-size:1.05rem}
+
+/* === MY BOOKINGS === */
+.bookings-tabs{display:flex;gap:4px;margin-bottom:var(--space-6);background:var(--color-surface);border-radius:var(--radius-md);padding:4px;border:1px solid var(--color-border)}
+.tab-btn{padding:10px 24px;border-radius:var(--radius-sm);font-weight:500;font-size:var(--fs-small);color:var(--color-text-600);transition:var(--transition-fast);display:flex;align-items:center;gap:8px}
+.tab-btn.active{background:var(--color-blue-600);color:#fff}
+.tab-btn:hover:not(.active){background:var(--color-bg)}
+.tab-count{padding:2px 8px;border-radius:var(--radius-pill);background:rgba(0,0,0,.08);font-size:var(--fs-xs)}
+.tab-btn.active .tab-count{background:rgba(255,255,255,.2)}
+.tab-content{display:none}.tab-content.active{display:block}
+.bookings-grid,.contracts-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(380px,1fr));gap:var(--space-5)}
+@media(max-width:640px){.bookings-grid,.contracts-grid{grid-template-columns:1fr}}
+
+/* Empty State */
+.empty-state{text-align:center;padding:var(--space-12) var(--space-6);background:var(--color-surface);border-radius:var(--radius-lg);border:2px dashed var(--color-border)}
+.empty-icon{font-size:3rem;margin-bottom:var(--space-4)}
+.empty-state h3{margin-bottom:var(--space-2)}
+.empty-state p{color:var(--color-text-600)}
+
+/* === BOOKING CARD === */
+.booking-card{padding:var(--space-5)}
+.booking-card-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:var(--space-4)}
+.booking-parties{display:flex;gap:var(--space-3)}
+.booking-avatar{width:48px;height:48px;border-radius:var(--radius-sm);background:var(--color-navy-700);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:var(--fs-small);overflow:hidden;flex-shrink:0}
+.booking-avatar img{width:100%;height:100%;object-fit:cover}
+.booking-type-badge{font-size:10px;font-weight:600;color:var(--color-blue-600);text-transform:uppercase;letter-spacing:.06em}
+.booking-info h4{font-size:var(--fs-body);margin:2px 0}
+.booking-expertise{font-size:var(--fs-xs);color:var(--color-text-400)}
+.booking-status{display:flex;flex-direction:column;gap:4px;align-items:flex-end}
+
+/* Status Badges */
+.status-badge,.payment-badge{display:inline-block;padding:4px 12px;border-radius:var(--radius-pill);font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.04em}
+.status-pendingpayment,.status-pending,.status-pendingsignatures{background:#FDF1DE;color:#9C6A12}
+.status-confirmed,.status-partyasigned,.payment-paid{background:#E2FAF5;color:#0E8C79}
+.status-inprogress{background:var(--color-blue-100);color:var(--color-blue-600)}
+.status-completed,.status-fullysigned,.status-active{background:#D1FAE5;color:#065F46}
+.status-cancelled,.payment-failed{background:#FDE8E8;color:#C53030}
+.payment-pending{background:#FDF1DE;color:#9C6A12}
+.payment-refunded{background:var(--color-bg);color:var(--color-text-600)}
+
+.booking-card-body{display:grid;grid-template-columns:repeat(4,1fr);gap:var(--space-3);padding:var(--space-4) 0;border-top:1px solid var(--color-border);border-bottom:1px solid var(--color-border);margin-bottom:var(--space-3)}
+@media(max-width:500px){.booking-card-body{grid-template-columns:repeat(2,1fr)}}
+.booking-detail{display:flex;gap:8px;align-items:flex-start}
+.detail-icon{font-size:1.1rem}
+.detail-label{display:block;font-size:10px;color:var(--color-text-400);text-transform:uppercase;letter-spacing:.04em}
+.detail-value{font-size:var(--fs-small);font-weight:600;color:var(--color-navy-900)}
+.detail-value.price{color:var(--color-blue-600)}
+.booking-topic{padding:8px 0;font-size:var(--fs-small);color:var(--color-text-600);margin-bottom:var(--space-3)}
+.booking-card-actions{display:flex;gap:8px;flex-wrap:wrap}
+
+/* === DETAILS PAGE === */
+.details-layout{display:grid;grid-template-columns:1fr 360px;gap:var(--space-6);align-items:start}
+@media(max-width:900px){.details-layout{grid-template-columns:1fr}}
+.details-main{padding:var(--space-6)}
+.details-header{margin-bottom:var(--space-6)}
+.details-title{display:flex;align-items:center;gap:var(--space-4);flex-wrap:wrap;margin-bottom:var(--space-2)}
+.details-title h1{font-size:var(--fs-h3)}
+.details-badges{display:flex;gap:8px}
+.details-date{color:var(--color-text-400);font-size:var(--fs-small)}
+
+.details-parties{display:flex;align-items:center;gap:var(--space-5);margin-bottom:var(--space-6);padding:var(--space-5);background:var(--color-bg);border-radius:var(--radius-md)}
+@media(max-width:640px){.details-parties{flex-direction:column}}
+.party-card{flex:1}
+.party-label{font-size:10px;text-transform:uppercase;letter-spacing:.06em;color:var(--color-text-400);font-weight:600}
+.party-info{display:flex;gap:var(--space-3);margin-top:8px;align-items:center}
+.party-avatar{width:44px;height:44px;border-radius:50%;background:var(--color-navy-700);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:var(--fs-small);overflow:hidden}
+.party-avatar.target{background:var(--color-blue-600)}
+.party-avatar img{width:100%;height:100%;object-fit:cover}
+.party-info h4{font-size:var(--fs-small);margin-bottom:2px}
+.party-info p{font-size:var(--fs-xs);color:var(--color-text-400)}
+.party-connector{color:var(--color-blue-600)}
+
+.details-session h3{margin-bottom:var(--space-4)}
+.session-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:var(--space-4)}
+@media(max-width:500px){.session-grid{grid-template-columns:1fr}}
+.session-item{display:flex;flex-direction:column;gap:2px;padding:var(--space-3);background:var(--color-bg);border-radius:var(--radius-sm)}
+.session-icon{font-size:1.2rem}
+.session-label{font-size:10px;text-transform:uppercase;letter-spacing:.04em;color:var(--color-text-400)}
+.session-value{font-weight:600;font-size:var(--fs-small)}
+.session-notes{margin-top:var(--space-4);padding:var(--space-4);background:var(--color-bg);border-radius:var(--radius-sm);font-size:var(--fs-small);color:var(--color-text-600)}
+
+.sidebar-card{padding:var(--space-5);margin-bottom:var(--space-5)}
+.sidebar-card h3{font-size:var(--fs-body);margin-bottom:var(--space-4)}
+.contract-status{margin-bottom:var(--space-4)}
+
+/* === CONTRACT DOCUMENT === */
+.contract-document{max-width:800px;margin:0 auto;padding:var(--space-8)}
+.contract-header{display:flex;justify-content:space-between;align-items:flex-start;padding-bottom:var(--space-6);border-bottom:2px solid var(--color-navy-900);margin-bottom:var(--space-6)}
+.contract-logo{display:flex;align-items:center;gap:var(--space-2)}
+.contract-logo .brand-mark{width:40px;height:40px;border-radius:var(--radius-sm);background:linear-gradient(135deg,var(--color-blue-600),var(--color-teal-600));display:flex;align-items:center;justify-content:center;color:#fff;font-family:var(--font-mono);font-weight:700;font-size:1rem}
+.brand-text{font-family:var(--font-display);font-weight:800;font-size:1.1rem}
+.contract-meta{text-align:right}
+.contract-meta h1{font-size:1.4rem;margin-bottom:4px}
+.contract-number{font-family:var(--font-mono);font-size:var(--fs-small);color:var(--color-text-600)}
+.contract-date{font-size:var(--fs-xs);color:var(--color-text-400);margin-bottom:8px}
+
+.contract-section{margin-bottom:var(--space-6);padding-bottom:var(--space-6);border-bottom:1px solid var(--color-border)}
+.section-title{font-size:var(--fs-body);text-transform:uppercase;letter-spacing:.06em;color:var(--color-blue-600);margin-bottom:var(--space-4)}
+.parties-grid{display:grid;grid-template-columns:1fr 1fr;gap:var(--space-5)}
+@media(max-width:640px){.parties-grid{grid-template-columns:1fr}}
+.party-box{padding:var(--space-5);background:var(--color-bg);border-radius:var(--radius-md);border:1px solid var(--color-border)}
+.party-tag{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--color-blue-600);background:var(--color-blue-100);padding:3px 10px;border-radius:var(--radius-pill)}
+.party-details{display:flex;gap:var(--space-3);margin-top:var(--space-3);align-items:center}
+.party-avatar-sm{width:40px;height:40px;border-radius:50%;background:var(--color-navy-700);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:var(--fs-xs)}
+.party-avatar-sm.target{background:var(--color-blue-600)}
+.party-email{font-size:var(--fs-xs);color:var(--color-text-400)}
+.signature-display{margin-top:var(--space-4);padding-top:var(--space-4);border-top:1px solid var(--color-border)}
+.signature-img{max-width:200px;height:80px;object-fit:contain;border:1px solid var(--color-border);border-radius:var(--radius-sm);padding:8px;background:#fff}
+.signed-date{font-size:var(--fs-xs);color:#0E8C79;margin-top:6px;font-weight:500}
+.signature-pending{margin-top:var(--space-4);padding:var(--space-3);background:var(--color-amber-100);border-radius:var(--radius-sm);text-align:center}
+.signature-pending p{font-size:var(--fs-small);color:#9C6A12;font-weight:500}
+
+.info-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:var(--space-3)}
+.info-item{padding:var(--space-3);background:var(--color-bg);border-radius:var(--radius-sm)}
+.info-label{display:block;font-size:10px;text-transform:uppercase;letter-spacing:.04em;color:var(--color-text-400);margin-bottom:4px}
+.info-value{font-weight:600;font-size:var(--fs-small);color:var(--color-navy-900)}
+.info-value.total{color:var(--color-blue-600);font-size:1.1rem}
+
+.terms-content{max-height:400px;overflow-y:auto;padding:var(--space-5);background:var(--color-bg);border-radius:var(--radius-md);border:1px solid var(--color-border)}
+.terms-content p{font-size:var(--fs-small);line-height:1.7;margin-bottom:4px}
+.terms-heading{font-size:var(--fs-small);margin:var(--space-4) 0 var(--space-2);color:var(--color-navy-900)}
+
+.contract-sign-action{text-align:center;padding:var(--space-6) 0}
+.contract-completed{text-align:center;padding:var(--space-6);background:linear-gradient(135deg,#E2FAF5,#D1FAE5);border-radius:var(--radius-md)}
+.completed-icon{font-size:3rem;margin-bottom:var(--space-3)}
+.contract-completed h3{color:#065F46;margin-bottom:var(--space-2)}
+.contract-completed p{color:#0E8C79}
+.contract-footer{text-align:center;padding-top:var(--space-6);border-top:1px solid var(--color-border);margin-top:var(--space-6)}
+.contract-footer p{font-size:var(--fs-xs);color:var(--color-text-400)}
+
+/* === CONTRACT SIGN PAGE === */
+.sign-layout{display:grid;grid-template-columns:1fr 1fr;gap:var(--space-6);align-items:start}
+@media(max-width:900px){.sign-layout{grid-template-columns:1fr}}
+.sign-summary{padding:var(--space-6)}
+.contract-logo-sm{display:flex;align-items:center;gap:var(--space-2);margin-bottom:var(--space-4)}
+.contract-logo-sm .brand-mark{width:32px;height:32px;font-size:.8rem}
+.contract-logo-sm span{font-family:var(--font-display);font-weight:700;font-size:var(--fs-small)}
+.sign-summary h2{font-size:1.15rem;margin-bottom:4px}
+.sign-info-grid{display:grid;grid-template-columns:1fr 1fr;gap:var(--space-3);margin:var(--space-5) 0}
+.sign-info-item{padding:var(--space-3);background:var(--color-bg);border-radius:var(--radius-sm)}
+.terms-preview{margin-top:var(--space-5)}
+.terms-preview h4{font-size:var(--fs-small);margin-bottom:var(--space-3)}
+.terms-scroll{max-height:300px;overflow-y:auto;padding:var(--space-4);background:var(--color-bg);border-radius:var(--radius-sm);border:1px solid var(--color-border)}
+.terms-scroll p{font-size:var(--fs-xs);line-height:1.6;margin-bottom:4px;color:var(--color-text-600)}
+
+.sign-form{padding:var(--space-6)}
+.sign-agree{margin-bottom:var(--space-6)}
+.checkbox-container{display:flex;align-items:flex-start;gap:12px;cursor:pointer;font-size:var(--fs-small);line-height:1.5}
+.checkbox-container input{width:20px;height:20px;accent-color:var(--color-blue-600);margin-top:2px;flex-shrink:0}
+
+.signature-section{margin-bottom:var(--space-6)}
+.signature-title{font-size:var(--fs-small);text-transform:uppercase;letter-spacing:.08em;color:var(--color-danger);margin-bottom:var(--space-2)}
+.signature-instruction{font-size:var(--fs-small);color:var(--color-text-600);margin-bottom:var(--space-4)}
+.signature-canvas-wrapper{border:2px solid var(--color-border);border-radius:var(--radius-md);overflow:hidden;background:#fff;cursor:crosshair}
+.signature-canvas-wrapper canvas{display:block;width:100%;touch-action:none}
+.signature-actions{display:flex;justify-content:space-between;align-items:center;margin-top:var(--space-3)}
+.sig-status{font-size:var(--fs-xs)}
+.sig-empty{color:var(--color-text-400)}
+.sig-captured{color:#0E8C79;font-weight:600}
+.sign-disclaimer{font-size:var(--fs-xs);color:var(--color-text-400);text-align:center;margin-top:var(--space-4);line-height:1.6}
+
+/* === CONTRACT CARDS === */
+.contract-card{padding:var(--space-5)}
+.contract-card-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:var(--space-4)}
+.contract-card-number{font-family:var(--font-mono);font-size:var(--fs-xs);color:var(--color-text-400)}
+.contract-card-header h4{font-size:var(--fs-body);margin-top:4px}
+.contract-card-parties{display:flex;align-items:center;gap:var(--space-3);padding:var(--space-3) 0;border-top:1px solid var(--color-border);margin-bottom:var(--space-3)}
+.contract-party{display:flex;align-items:center;gap:6px;font-size:var(--fs-small)}
+.party-avatar-xs{width:28px;height:28px;border-radius:50%;background:var(--color-navy-700);color:#fff;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700}
+.party-avatar-xs.target{background:var(--color-blue-600)}
+.party-arrow{color:var(--color-text-400)}
+.signed-check{font-size:12px}
+.contract-card-info{display:flex;justify-content:space-between;font-size:var(--fs-small);color:var(--color-text-600);margin-bottom:var(--space-4)}
+.contract-card-actions{display:flex;gap:8px}
+
+/* === PDF DOWNLOAD BUTTON === */
+.btn-download{background:var(--color-navy-900);color:#fff;box-shadow:0 4px 12px rgba(10,22,40,.2)}
+.btn-download:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(10,22,40,.25)}
+
+/* === PRINT STYLES FOR PDF === */
+@media print{
+    body{background:#fff!important}
+    .navbar,.footer,.back-link,.contract-sign-action,.btn-download,.alert,.booking-card-actions,.contract-card-actions{display:none!important}
+    .contract-document{max-width:100%;padding:20px;box-shadow:none;border:none}
+    .contract-page{padding:0}
+    .container{max-width:100%;padding:0}
+    .card{box-shadow:none;border:1px solid #ddd}
+    .terms-content{max-height:none;overflow:visible}
+    .signature-img{border:1px solid #ccc}
+}

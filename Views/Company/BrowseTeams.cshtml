@@ -19,7 +19,13 @@
                         <p class="mb-2"><strong>Track:</strong> @team.Track?.Name</p>
                         <p class="mb-2"><strong>Members:</strong> @team.Members.Count / @team.MaxMembers</p>
                         <p class="mb-3"><strong>Project:</strong> @(team.Project?.Title ?? "No project assigned")</p>
-                        <a asp-controller="Teams" asp-action="Details" asp-route-id="@team.Id" class="btn btn-outline-primary btn-sm">View Team</a>
+                        <div class="d-flex gap-2">
+                            <a asp-controller="Teams" asp-action="Details" asp-route-id="@team.Id" class="btn btn-outline-primary btn-sm">View Team</a>
+                            @if (User.IsInRole("Company"))
+                            {
+                                <a asp-controller="Booking" asp-action="Create" asp-route-targetType="Team" asp-route-targetId="@team.Id" class="btn btn-primary btn-sm">Hire Team</a>
+                            }
+                        </div>
                     </div>
                 </div>
             </div>

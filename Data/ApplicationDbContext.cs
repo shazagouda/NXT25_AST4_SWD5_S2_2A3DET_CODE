@@ -39,6 +39,11 @@ namespace A3DET_CODE.Data
         public DbSet<Report> Reports { get; set; }
         public DbSet<Review> Reviews { get; set; }
         public DbSet<JoinRequest> JoinRequests { get; set; }
+
+        // ✅ Booking & Contract System
+        public DbSet<Booking> Bookings { get; set; }
+        public DbSet<Contract> Contracts { get; set; }
+        public DbSet<WalletTransaction> WalletTransactions { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -314,6 +319,71 @@ namespace A3DET_CODE.Data
                 entity.Property(jr => jr.Status)
                     .HasMaxLength(20);
             });
+
+            // ============================================================
+            // ✅ BOOKING SYSTEM RELATIONSHIPS
+            // ============================================================
+
+            // Booking -> BookerUser
+            modelBuilder.Entity<Booking>()
+                .HasOne(b => b.BookerUser)
+                .WithMany()
+                .HasForeignKey(b => b.BookerUserId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // Booking -> TargetMentor
+            modelBuilder.Entity<Booking>()
+                .HasOne(b => b.TargetMentor)
+                .WithMany()
+                .HasForeignKey(b => b.TargetMentorId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // Booking -> TargetStudent
+            modelBuilder.Entity<Booking>()
+                .HasOne(b => b.TargetStudent)
+                .WithMany()
+                .HasForeignKey(b => b.TargetStudentId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // Booking -> TargetTeam
+            modelBuilder.Entity<Booking>()
+                .HasOne(b => b.TargetTeam)
+                .WithMany()
+                .HasForeignKey(b => b.TargetTeamId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // Contract -> Booking (one-to-one)
+            modelBuilder.Entity<Contract>()
+                .HasOne(c => c.Booking)
+                .WithOne(b => b.Contract)
+                .HasForeignKey<Contract>(c => c.BookingId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            // Contract -> PartyA
+            modelBuilder.Entity<Contract>()
+                .HasOne(c => c.PartyAUser)
+                .WithMany()
+                .HasForeignKey(c => c.PartyAUserId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // Contract -> PartyB
+            modelBuilder.Entity<Contract>()
+                .HasOne(c => c.PartyBUser)
+                .WithMany()
+                .HasForeignKey(c => c.PartyBUserId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // Contract -> Team
+            modelBuilder.Entity<Contract>()
+                .HasOne(c => c.PartyBTeam)
+                .WithMany()
+                .HasForeignKey(c => c.PartyBTeamId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // Contract unique number index
+            modelBuilder.Entity<Contract>()
+                .HasIndex(c => c.ContractNumber)
+                .IsUnique();
         }
     }
 }

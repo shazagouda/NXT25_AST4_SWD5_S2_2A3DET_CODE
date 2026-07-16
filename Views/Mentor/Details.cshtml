@@ -1,4 +1,4 @@
-﻿@model A3DET_CODE.ViewModels.Mentor.MentorDetailViewModel
+@model A3DET_CODE.ViewModels.Mentor.MentorDetailViewModel
 @{
     ViewData["Title"] = $"{Model.FullName} - Mentor";
     var profileImageUrl = string.IsNullOrWhiteSpace(Model.ProfileImageUrl) ? "/images/default-avatar.png" : Model.ProfileImageUrl;
@@ -32,10 +32,10 @@
                 <p class="mentor-bio" style="font-size:var(--fs-body);color:var(--color-text-600);line-height:1.8;">@Model.Bio</p>
             }
             <div class="mentor-detail-stats" style="display:flex;gap:var(--space-5);flex-wrap:wrap;margin:var(--space-4) 0;">
-                <div><span style="font-weight:600;">📅 @Model.YearsOfExperience</span> years</div>
-                <div><span style="font-weight:600;">👨‍🎓 @Model.ActiveMenteesCount</span> active mentees</div>
-                <div><span style="font-weight:600;">📋 @Model.ProjectsCount</span> projects</div>
-                <div><span style="font-weight:600;">👥 @Model.TeamsCount</span> teams</div>
+                <div><span style="font-weight:600;"><i class="bi bi-calendar-event"></i> @Model.YearsOfExperience</span> years</div>
+                <div><span style="font-weight:600;"><i class="bi bi-mortarboard-fill"></i> @Model.ActiveMenteesCount</span> active mentees</div>
+                <div><span style="font-weight:600;"><i class="bi bi-clipboard-data-fill"></i> @Model.ProjectsCount</span> projects</div>
+                <div><span style="font-weight:600;"><i class="bi bi-people-fill"></i> @Model.TeamsCount</span> teams</div>
             </div>
             <div class="mentor-skills" style="display:flex;gap:var(--space-2);flex-wrap:wrap;margin-bottom:var(--space-4);">
                 @foreach (var skill in Model.SkillsList)
@@ -53,6 +53,9 @@
                     <a href="@Model.GitHubUrl" target="_blank" class="btn btn-secondary btn-sm"><i class="fa-brands fa-github"></i> GitHub</a>
                 }
                 <a href="mailto:@Model.Email" class="btn btn-secondary btn-sm"><i class="fa-solid fa-envelope"></i> Email</a>
+                <a asp-controller="Booking" asp-action="Create" asp-route-targetType="Mentor" asp-route-targetId="@Model.Id" class="btn btn-primary btn-sm ms-2">
+                    <i class="fa-solid fa-calendar-check"></i> Book Consultation
+                </a>
             </div>
         </div>
     </div>

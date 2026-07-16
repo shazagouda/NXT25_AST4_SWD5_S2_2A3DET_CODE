@@ -1,0 +1,109 @@
+@model A3DET_CODE.ViewModels.Contract.ContractViewModel
+@{
+    ViewData["Title"] = "Sign Contract " + Model.ContractNumber;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/booking.css" asp-append-version="true" />
+}
+
+<div class="contract-sign-page">
+    <div class="container">
+        <a href="@Url.Action("View", new { id = Model.Id })" class="back-link">← Back to Contract</a>
+
+        @if (TempData["Error"] != null)
+        {
+            <div class="alert alert-error">@TempData["Error"]</div>
+        }
+
+        <div class="sign-layout">
+            <!-- Contract Summary -->
+            <div class="sign-summary card">
+                <div class="contract-logo-sm">
+                    <div class="brand-mark">A3</div>
+                    <span>A3DET CODE</span>
+                </div>
+                <h2>@Model.Title</h2>
+                <p class="contract-number">@Model.ContractNumber</p>
+
+                <div class="sign-info-grid">
+                    <div class="sign-info-item">
+                        <span class="info-label">Client</span>
+                        <span class="info-value">@Model.PartyAName</span>
+                    </div>
+                    <div class="sign-info-item">
+                        <span class="info-label">Service Provider</span>
+                        <span class="info-value">@Model.PartyBName</span>
+                    </div>
+                    <div class="sign-info-item">
+                        <span class="info-label">Amount</span>
+                        <span class="info-value total">$@Model.TotalAmount.ToString("F2")</span>
+                    </div>
+                    <div class="sign-info-item">
+                        <span class="info-label">Start Date</span>
+                        <span class="info-value">@Model.StartDate.ToString("MMM dd, yyyy")</span>
+                    </div>
+                </div>
+
+                <div class="terms-preview">
+                    <h4>Terms & Conditions</h4>
+                    <div class="terms-scroll">
+                        @foreach (var line in Model.Terms.Split('\n'))
+                        {
+                            if (!string.IsNullOrWhiteSpace(line)) { <p>@line.Trim()</p> }
+                        }
+                    </div>
+                </div>
+            </div>
+
+            <!-- Signature Form -->
+            <div class="sign-form card">
+                <form asp-controller="Contract" asp-action="Sign" method="post" id="signForm">
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" name="ContractId" value="@Model.Id" />
+                    <input type="hidden" name="SignatureData" id="signatureData" />
+
+                    <div class="sign-agree">
+                        <label class="checkbox-container">
+                            <input type="checkbox" name="AgreeToTerms" value="true" id="agreeCheck" required />
+                            <span class="checkmark"></span>
+                            <span>I agree to the terms and conditions mentioned above.</span>
+                        </label>
+                    </div>
+
+                    <div class="signature-section">
+                        <h3 class="signature-title">ELECTRONIC SIGNATURE</h3>
+                        <p class="signature-instruction">Please draw your signature inside the box below:</p>
+
+                        <div class="signature-canvas-wrapper">
+                            <canvas id="signatureCanvas" width="560" height="200"></canvas>
+                        </div>
+
+                        <div class="signature-actions">
+                            <button type="button" class="btn btn-secondary btn-sm" id="clearBtn" onclick="clearSignature()">
+                                <i class="bi bi-arrow-counterclockwise"></i> Clear
+                            </button>
+                            <span id="sigStatus" class="sig-status">
+                                <span class="sig-empty">Draw your signature above</span>
+                            </span>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-lg btn-block" id="signBtn" disabled>
+                        <i class="bi bi-pencil-fill"></i> Finalize & Sign Digitally
+                    </button>
+
+                    <p class="sign-disclaimer">
+                        By clicking "Finalize & Sign Digitally", you confirm that this is your legal electronic signature
+                        and you agree to be bound by the terms of this contract.
+                    </p>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/js/contract.js" asp-append-version="true"></script>
+}

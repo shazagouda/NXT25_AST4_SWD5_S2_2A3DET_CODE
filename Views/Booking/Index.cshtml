@@ -1,0 +1,118 @@
+@{
+    ViewData["Title"] = "Talent Marketplace";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .marketplace-container {
+        padding: 4rem 2rem;
+        max-width: 1200px;
+        margin: 0 auto;
+        text-align: center;
+    }
+
+    .marketplace-header {
+        margin-bottom: 4rem;
+    }
+
+    .marketplace-header h1 {
+        font-size: 3rem;
+        color: var(--color-blue-600);
+        margin-bottom: 1rem;
+    }
+
+    .marketplace-header p {
+        font-size: 1.2rem;
+        color: var(--color-gray-600);
+    }
+
+    .marketplace-cards {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+    }
+
+    .marketplace-card {
+        background: white;
+        border-radius: 12px;
+        padding: 3rem 2rem;
+        text-decoration: none;
+        color: inherit;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        border: 1px solid var(--color-gray-200);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .marketplace-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        border-color: var(--color-blue-400);
+    }
+
+    .card-icon {
+        font-size: 4rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .card-title {
+        font-size: 1.5rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+        color: var(--color-blue-900);
+    }
+
+    .card-desc {
+        color: var(--color-gray-600);
+        margin-bottom: 2rem;
+        flex-grow: 1;
+    }
+
+    .card-btn {
+        background: var(--color-blue-600);
+        color: white;
+        padding: 0.75rem 1.5rem;
+        border-radius: 6px;
+        font-weight: 600;
+        width: 100%;
+        transition: background 0.3s;
+    }
+
+    .marketplace-card:hover .card-btn {
+        background: var(--color-blue-700);
+    }
+</style>
+
+<div class="marketplace-container">
+    <div class="marketplace-header">
+        <h1>Talent Marketplace</h1>
+        <p>Find the right people and teams to help you build your next big idea.</p>
+    </div>
+
+    <div class="marketplace-cards">
+        <!-- Students -->
+        <a asp-controller="Company" asp-action="BrowseStudents" class="marketplace-card">
+            <div class="card-icon"><i class="bi bi-mortarboard-fill"></i></div>
+            <h3 class="card-title">Hire Students</h3>
+            <p class="card-desc">Browse through our talented pool of students. Filter by track, skills, and graduation status to find the perfect fit for your roles.</p>
+            <div class="card-btn">Browse Students</div>
+        </a>
+
+        <!-- Mentors -->
+        <a asp-controller="Mentor" asp-action="Index" class="marketplace-card">
+            <div class="card-icon"><i class="bi bi-person-workspace"></i></div>
+            <h3 class="card-title">Book Mentors</h3>
+            <p class="card-desc">Get expert guidance from industry professionals. Book a consultation for code review, system design, or career advice.</p>
+            <div class="card-btn">Browse Mentors</div>
+        </a>
+
+        <!-- Teams -->
+        <a asp-controller="Company" asp-action="BrowseTeams" class="marketplace-card">
+            <div class="card-icon"><i class="bi bi-rocket-takeoff-fill"></i></div>
+            <h3 class="card-title">Hire Teams</h3>
+            <p class="card-desc">Looking for a full squad? Browse pre-formed teams that are ready to tackle your projects from start to finish.</p>
+            <div class="card-btn">Browse Teams</div>
+        </a>
+    </div>
+</div>

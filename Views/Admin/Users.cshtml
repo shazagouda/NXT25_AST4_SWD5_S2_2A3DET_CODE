@@ -1,0 +1,106 @@
+@model IEnumerable<A3DET_CODE.Models.ApplicationUser>
+@{
+    ViewData["Title"] = "Manage Users";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .admin-page { padding: 4rem 1rem; min-height: calc(100vh - 70px); background: #F8FAFC; }
+    .admin-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; }
+    .admin-header h1 { font-size: 2rem; color: #0A1628; margin: 0; }
+    .admin-card { background: white; border-radius: 12px; padding: 2rem; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); }
+    .table { width: 100%; border-collapse: collapse; }
+    .table th, .table td { padding: 0.875rem 1rem; text-align: left; border-bottom: 1px solid #E2E8F0; }
+    .table th { color: #5B6478; font-weight: 600; font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.05em; background: #F8FAFC; }
+    .table td { color: #0A1628; vertical-align: middle; font-size: 0.9rem; }
+    .table tr:last-child td { border-bottom: none; }
+    .table tr:hover td { background: #F8FAFC; }
+    .role-badge { padding: 3px 10px; border-radius: 20px; font-size: 0.75rem; font-weight: 700; }
+    .role-student { background: #EFF6FF; color: #2563EB; }
+    .role-mentor { background: #F0FDF4; color: #16A34A; }
+    .role-company { background: #FFF7ED; color: #C2410C; }
+    .role-admin { background: #F5F3FF; color: #7C3AED; }
+    .status-active { color: #16A34A; font-weight: 600; }
+    .status-inactive { color: #DC2626; font-weight: 600; }
+    .wallet-val { color: #2F6FED; font-weight: 700; }
+</style>
+
+<div class="admin-page">
+    <div class="container">
+        @if (TempData["Success"] != null)
+        {
+            <div style="background:#ECFDF5; color:#065F46; padding:1rem; border-radius:8px; margin-bottom:1rem;"><i class="bi bi-check-circle-fill"></i> @TempData["Success"]</div>
+        }
+        @if (TempData["Error"] != null)
+        {
+            <div style="background:#FEF2F2; color:#991B1B; padding:1rem; border-radius:8px; margin-bottom:1rem;"><i class="bi bi-exclamation-triangle-fill"></i> @TempData["Error"]</div>
+        }
+
+        <div class="admin-header">
+            <div>
+                <h1>All Users</h1>
+                <p style="color:#5B6478; margin:0.25rem 0 0;">Total: @Model.Count() users</p>
+            </div>
+            <a asp-action="Dashboard" class="btn btn-secondary">← Back to Dashboard</a>
+        </div>
+
+        <div class="admin-card">
+            <div style="overflow-x: auto;">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Role</th>
+                            <th>Wallet</th>
+                            <th>Status</th>
+                            <th>Joined</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var user in Model)
+                        {
+                            var roleClass = user.Role?.ToLower() switch
+                            {
+                                "mentor" => "role-mentor",
+                                "company" => "role-company",
+                                "admin" => "role-admin",
+                                _ => "role-student"
+                            };
+                            <tr>
+                                <td><strong>@user.FullName</strong></td>
+                                <td style="color:#5B6478;">@user.Email</td>
+                                <td><span class="role-badge @roleClass">@(user.Role ?? "Student")</span></td>
+                                <td><span class="wallet-val">$@user.WalletBalance.ToString("F2")</span></td>
+                                <td>
+                                    @if (user.IsActive)
+                                    {
+                                        <span class="status-active">Active</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="status-inactive">Banned</span>
+                                    }
+                                </td>
+                                <td style="color:#5B6478;">@user.CreatedAt.ToString("MMM dd, yyyy")</td>
+                                <td>
+                                    @if (user.Role != "Admin")
+                                    {
+                                        <form asp-action="ToggleUserStatus" method="post" style="display:inline;">
+                                            @Html.AntiForgeryToken()
+                                            <input type="hidden" name="userId" value="@user.Id" />
+                                            <button type="submit" class="btn btn-sm @(user.IsActive ? "btn-danger" : "btn-primary")" style="font-size:0.8rem;">
+                                                @(user.IsActive ? "Ban" : "Unban")
+                                            </button>
+                                        </form>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

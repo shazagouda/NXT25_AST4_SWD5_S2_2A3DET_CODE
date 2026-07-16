@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -433,7 +433,8 @@ namespace A3DET_CODE.Controllers
                 YearsOfExperience = mentor.YearsOfExperience,
                 Skills = user.Skills ?? string.Empty,
                 Email = user.Email,
-                IsVerified = mentor.IsVerified
+                IsVerified = mentor.IsVerified,
+                HourlyRate = mentor.HourlyRate
             };
 
             return View(viewModel);
@@ -462,9 +463,11 @@ namespace A3DET_CODE.Controllers
             mentor.LinkedInUrl = model.LinkedInUrl;
             mentor.GitHubUrl = model.GitHubUrl;
             mentor.YearsOfExperience = model.YearsOfExperience;
+            mentor.HourlyRate = model.HourlyRate;
 
             // Update user
             user.Skills = model.Skills;
+            user.HourlyRate = model.HourlyRate;
 
             await _userManager.UpdateAsync(user);
             await _context.SaveChangesAsync();

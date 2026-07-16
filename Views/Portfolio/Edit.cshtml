@@ -105,11 +105,11 @@
 
     @if (TempData["Success"] != null)
     {
-        <div class="alert alert-success show">✅ @TempData["Success"]</div>
+        <div class="alert alert-success show"><i class="bi bi-check-circle-fill"></i> @TempData["Success"]</div>
     }
     @if (TempData["Error"] != null)
     {
-        <div class="alert alert-danger show">❌ @TempData["Error"]</div>
+        <div class="alert alert-danger show"><i class="bi bi-exclamation-triangle-fill"></i> @TempData["Error"]</div>
     }
 
     <form asp-action="Edit" method="post" class="profile-form">
@@ -170,7 +170,7 @@
 
         <div class="form-actions">
             <button type="submit" class="btn btn-primary">
-                💾 Save Changes
+                <i class="bi bi-floppy-fill"></i> Save Changes
             </button>
             <a asp-controller="Profile" asp-action="Index" class="btn btn-secondary">
                 Cancel

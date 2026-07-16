@@ -126,24 +126,44 @@ const A3 = (() => {
     bars.forEach(bar => observer.observe(bar));
   }
 
-  function initNotifications() {
-    document.querySelectorAll('.nav-icon-btn[data-notif]').forEach(btn => {
-      btn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        btn.classList.toggle('is-open');
+    function initNotifications() {
+      document.querySelectorAll('.nav-icon-btn[data-notif]').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          btn.classList.toggle('is-open');
+        });
       });
-    });
-  }
+    }
+  
+    function initThemeToggle() {
+      const btn = document.getElementById('themeToggleBtn');
 
-  function init() {
-    initNavbarScroll();
-    initMobileMenu();
-    initActiveLink();
-    initRevealAnimations();
-    initCounters();
-    initFillBars();
-    initNotifications();
-  }
+      // Apply saved theme immediately on every page load
+      const saved = localStorage.getItem('a3det-theme') || 'light';
+      document.documentElement.setAttribute('data-theme', saved);
+
+      if (!btn) return;
+      btn.textContent = saved === 'dark' ? '☀️' : '🌙';
+
+      btn.addEventListener('click', () => {
+        const current = document.documentElement.getAttribute('data-theme');
+        const next = current === 'dark' ? 'light' : 'dark';
+        document.documentElement.setAttribute('data-theme', next);
+        localStorage.setItem('a3det-theme', next);
+        btn.textContent = next === 'dark' ? '☀️' : '🌙';
+      });
+    }
+  
+    function init() {
+      initNavbarScroll();
+      initMobileMenu();
+      initActiveLink();
+      initRevealAnimations();
+      initCounters();
+      initFillBars();
+      initNotifications();
+      initThemeToggle();
+    }
 
   return { init, animateCounter, initCounters, initFillBars, initRevealAnimations };
 })();

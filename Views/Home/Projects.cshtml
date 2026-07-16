@@ -12,7 +12,7 @@
 <section class="projects-hero">
     <div class="container">
         <div class="projects-hero-content">
-            <div class="hero-badge">🚀 Project Marketplace</div>
+            <div class="hero-badge"><i class="bi bi-rocket-takeoff-fill"></i> Project Marketplace</div>
             <h1>Find Your <span class="highlight">Next Project</span></h1>
             <p>Browse available projects, take one as a leader, or join a team and start building real-world solutions.</p>
         </div>
@@ -69,7 +69,7 @@
         @if (!hasAvailable && !hasRequestable)
         {
             <div class="empty-state">
-                <div class="empty-state-icon">📋</div>
+                <div class="empty-state-icon"><i class="bi bi-card-list"></i></div>
                 <h3>No Available Projects</h3>
                 <p>There are no open projects right now. Be the first to create one!</p>
             </div>
@@ -85,7 +85,7 @@
                         <div class="project-card" data-track="@project.TrackId" data-status="@project.Status">
                             <div class="project-card-top">
                                 <div class="project-track-badge" style="background: @(project.TrackColor ?? "#2F6FED")">
-                                    📌
+                                    <i class="bi bi-pin-angle-fill"></i>
                                 </div>
                                 <span class="project-status status-open">Open</span>
                             </div>
@@ -122,7 +122,7 @@
                         <div class="project-card" data-track="@project.TrackId" data-status="@project.Status">
                             <div class="project-card-top">
                                 <div class="project-track-badge" style="background: @(project.TrackColor ?? "#2F6FED")">
-                                    📌
+                                    <i class="bi bi-pin-angle-fill"></i>
                                 </div>
                                 <span class="project-status status-progress">In Progress</span>
                             </div>
@@ -138,8 +138,8 @@
                                 }
                             </div>
                             <div class="project-meta">
-                                <span>👥 @project.MemberCount/@project.MaxMembers members</span>
-                                <span class="project-leader">👤 Leader: @(project.LeaderName ?? "Unknown")</span>
+                                <span><i class="bi bi-people-fill"></i> @project.MemberCount/@project.MaxMembers members</span>
+                                <span class="project-leader"><i class="bi bi-person-fill"></i> Leader: @(project.LeaderName ?? "Unknown")</span>
                             </div>
                             <div class="project-footer">
                                 <span class="project-track-name">@project.TrackName</span>
@@ -194,13 +194,13 @@
                     <div class="project-card mini-card">
                         <div class="project-card-top">
                             <div class="project-track-badge small" style="background: @(project.TrackColor ?? "#2F6FED")">
-                                📌
+                                <i class="bi bi-pin-angle-fill"></i>
                             </div>
                             <span class="project-status status-progress">In Progress</span>
                         </div>
                         <h4 class="project-title">@project.Title</h4>
                         <div class="project-meta">
-                            <span>👥 @project.MemberCount/@project.MaxMembers members</span>
+                            <span><i class="bi bi-people-fill"></i> @project.MemberCount/@project.MaxMembers members</span>
                             @if (project.PendingRequestsCount > 0)
                             {
                                 <a asp-controller="Teams" asp-action="PendingRequests" asp-route-id="@project.TeamId" class="btn btn-secondary btn-xs">
@@ -230,13 +230,13 @@
                     <div class="project-card mini-card">
                         <div class="project-card-top">
                             <div class="project-track-badge small" style="background: @(project.TrackColor ?? "#2F6FED")">
-                                📌
+                                <i class="bi bi-pin-angle-fill"></i>
                             </div>
                             <span class="project-status status-progress">In Progress</span>
                         </div>
                         <h4 class="project-title">@project.Title</h4>
                         <div class="project-meta">
-                            <span>👥 @project.MemberCount/@project.MaxMembers members</span>
+                            <span><i class="bi bi-people-fill"></i> @project.MemberCount/@project.MaxMembers members</span>
                         </div>
                         <div class="project-progress">
                             <div class="progress-bar">
@@ -255,7 +255,7 @@
         (Model.MemberProjects == null || !Model.MemberProjects.Any()))
         {
             <div class="empty-state small">
-                <div class="empty-state-icon">🚀</div>
+                <div class="empty-state-icon"><i class="bi bi-rocket-takeoff-fill"></i></div>
                 <p>You haven't joined any projects yet. Take a project above to get started!</p>
             </div>
         }

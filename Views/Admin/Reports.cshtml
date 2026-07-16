@@ -1,0 +1,108 @@
+@model IEnumerable<A3DET_CODE.Models.Report>
+@{
+    ViewData["Title"] = "Platform Reports";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .admin-page { padding: 4rem 1rem; min-height: calc(100vh - 70px); background: #F8FAFC; }
+    .admin-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; }
+    .admin-header h1 { font-size: 2rem; color: #0A1628; margin: 0; }
+    .admin-card { background: white; border-radius: 12px; padding: 2rem; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); }
+    .table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
+    .table th, .table td { padding: 1rem; text-align: left; border-bottom: 1px solid #E2E8F0; }
+    .table th { color: #5B6478; font-weight: 600; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em; }
+    .table td { color: #0A1628; vertical-align: middle; }
+    .table tr:last-child td { border-bottom: none; }
+</style>
+
+<div class="admin-page">
+    <div class="container">
+        
+        @if (TempData["Success"] != null)
+        {
+            <div class="alert alert-success" style="margin-bottom: 1rem; background:#ECFDF5; color:#065F46; padding:1rem; border-radius:8px;">@TempData["Success"]</div>
+        }
+
+        <div class="admin-header">
+            <h1>Platform Reports</h1>
+            <a asp-action="Dashboard" class="btn btn-secondary">Back to Dashboard</a>
+        </div>
+
+        <div class="admin-card">
+            @if (Model.Any())
+            {
+                <div style="overflow-x: auto;">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Reporter</th>
+                                <th>Reported User</th>
+                                <th>Reason</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var report in Model)
+                            {
+                                <tr>
+                                    <td>@report.CreatedAt.ToString("MMM dd, yyyy")</td>
+                                    <td>
+                                        @if (report.IsAnonymous)
+                                        {
+                                            <span style="color:#94A3B8; font-style:italic;">Anonymous</span>
+                                        }
+                                        else
+                                        {
+                                            <span>@report.Reporter?.FullName</span>
+                                        }
+                                    </td>
+                                    <td>
+                                        <strong>@report.ReportedUser?.FullName</strong>
+                                        <br/><small style="color:#5B6478;">@report.ReportedUser?.Email</small>
+                                    </td>
+                                    <td>
+                                        <strong>@report.Reason</strong>
+                                        <br/><small>@report.AdditionalDetails</small>
+                                    </td>
+                                    <td>
+                                        <span class="badge" style="background:@(report.Status == "Pending" ? "#FEF3C7; color:#D97706;" : "#ECFDF5; color:#059669;") padding: 4px 8px; border-radius: 12px; font-size:0.8rem;">
+                                            @report.Status
+                                        </span>
+                                    </td>
+                                    <td>
+                                        @if (report.Status == "Pending")
+                                        {
+                                            <form asp-action="ResolveReport" method="post" style="display:flex; gap:0.5rem; align-items:center;">
+                                                <input type="hidden" name="reportId" value="@report.Id" />
+                                                <select name="actionToTake" class="form-control" style="padding:0.25rem; font-size:0.85rem;" required>
+                                                    <option value="Dismiss">Dismiss (No Action)</option>
+                                                    <option value="BanUser">Ban Reported User</option>
+                                                </select>
+                                                <input type="text" name="resolutionNote" placeholder="Admin note..." style="padding:0.25rem; font-size:0.85rem;" required />
+                                                <button type="submit" class="btn btn-primary btn-sm">Resolve</button>
+                                            </form>
+                                        }
+                                        else
+                                        {
+                                            <small style="color:#5B6478;">Resolved: @report.ResolutionNote</small>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+            else
+            {
+                <div style="text-align:center; padding: 2rem; color:#5B6478;">
+                    <h3>No Reports</h3>
+                    <p>There are no reports submitted on the platform.</p>
+                </div>
+            }
+        </div>
+    </div>
+</div>

@@ -1,0 +1,100 @@
+@model IEnumerable<A3DET_CODE.Models.Booking>
+@{
+    ViewData["Title"] = "Pending Transfers";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section Styles {
+    <style>
+        .admin-page { padding: 4rem 1rem; min-height: calc(100vh - 70px); background: #F8FAFC; }
+        .admin-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; }
+        .admin-header h1 { font-size: 2rem; color: #0A1628; margin: 0; }
+        .admin-card { background: white; border-radius: 12px; padding: 2rem; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); }
+        .table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
+        .table th, .table td { padding: 1rem; text-align: left; border-bottom: 1px solid #E2E8F0; }
+        .table th { color: #5B6478; font-weight: 600; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em; }
+        .table td { color: #0A1628; vertical-align: middle; }
+        .table tr:last-child td { border-bottom: none; }
+        .empty-state { text-align: center; padding: 3rem; color: #5B6478; }
+    </style>
+}
+
+<div class="admin-page">
+    <div class="container">
+        
+        @if (TempData["Success"] != null)
+        {
+            <div class="alert alert-success" style="margin-bottom: 1rem;">@TempData["Success"]</div>
+        }
+        @if (TempData["Error"] != null)
+        {
+            <div class="alert alert-error" style="margin-bottom: 1rem;">@TempData["Error"]</div>
+        }
+
+        <div class="admin-header">
+            <h1>Escrow Pending Transfers</h1>
+            <a asp-action="Index" class="btn btn-secondary">Go to Wallet</a>
+        </div>
+
+        <div class="admin-card">
+            @if (Model.Any())
+            {
+                <div style="overflow-x: auto;">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Booking ID</th>
+                                <th>Topic</th>
+                                <th>Paid By</th>
+                                <th>Target User</th>
+                                <th>Escrow Amount</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var booking in Model)
+                            {
+                                string targetName = booking.TargetType == "Mentor" ? booking.TargetMentor?.FullName ?? ""
+                                                  : booking.TargetType == "Student" ? booking.TargetStudent?.FullName ?? ""
+                                                  : "Unknown";
+
+                                <tr>
+                                    <td>#@booking.Id</td>
+                                    <td>@booking.Topic</td>
+                                    <td>
+                                        <div><strong>@booking.BookerUser?.FullName</strong></div>
+                                        <div style="font-size:0.85em; color:#5B6478;">@booking.BookerUser?.Email</div>
+                                    </td>
+                                    <td>
+                                        <div><strong>@targetName</strong></div>
+                                        <div style="font-size:0.85em; color:#5B6478;">@booking.TargetType</div>
+                                    </td>
+                                    <td>
+                                        <strong style="color:var(--color-primary);">
+                                            $@booking.NetAmount.ToString("F2")
+                                        </strong>
+                                    </td>
+                                    <td>
+                                        <form asp-action="ReleaseFunds" method="post" onsubmit="return confirm('Release $@booking.NetAmount.ToString("F2") to @targetName?');">
+                                            @Html.AntiForgeryToken()
+                                            <input type="hidden" name="bookingId" value="@booking.Id" />
+                                            <button type="submit" class="btn btn-primary btn-sm">Release Funds</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+            else
+            {
+                <div class="empty-state">
+                    <h3>No Pending Transfers</h3>
+                    <p>There are currently no fully signed contracts waiting for funds release.</p>
+                </div>
+            }
+        </div>
+
+    </div>
+</div>

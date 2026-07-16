@@ -1,4 +1,4 @@
-﻿@model A3DET_CODE.ViewModels.Dashboard.CompanyDashboardViewModel
+@model A3DET_CODE.ViewModels.Dashboard.CompanyDashboardViewModel
 @{
     ViewData["Title"] = "Company Dashboard";
     Layout = "_Layout";
@@ -16,46 +16,46 @@
             <img src="@profileImageUrl" alt="@Model.UserName logo" onerror="this.onerror=null;this.src='/images/default-avatar.png';" />
         </div>
         <div class="dashboard-welcome">
-            <h1>Welcome back, @Model.UserName 🏢</h1>
+            <h1>Welcome back, @Model.UserName</h1>
             <p class="dashboard-subtitle">Find and hire top talent</p>
         </div>
         <div class="dashboard-actions">
-            <a asp-controller="JobPosts" asp-action="Create" class="btn btn-primary">+ Post a Job</a>
-            <a asp-controller="Candidates" asp-action="Index" class="btn btn-secondary">Browse Candidates</a>
+            <a asp-controller="Booking" asp-action="MyBookings" class="btn btn-primary" style="background-color: var(--color-teal-600); border-color: var(--color-teal-600);">My Bookings</a>
+            <a asp-controller="Contract" asp-action="MyContracts" class="btn btn-secondary">My Contracts</a>
         </div>
     </div>
 
     <div class="stats-grid">
         <div class="stat-card">
-            <div class="stat-icon blue">📋</div>
+            <div class="stat-icon blue"><i class="bi bi-card-list"></i></div>
             <div class="stat-content">
                 <div class="stat-number">@Model.TotalJobPosts</div>
                 <div class="stat-label">Total Job Posts</div>
             </div>
         </div>
         <div class="stat-card">
-            <div class="stat-icon green">✅</div>
+            <div class="stat-icon green"><i class="bi bi-check-circle-fill"></i></div>
             <div class="stat-content">
                 <div class="stat-number">@Model.ActiveJobPosts</div>
                 <div class="stat-label">Active Jobs</div>
             </div>
         </div>
         <div class="stat-card">
-            <div class="stat-icon purple">📩</div>
+            <div class="stat-icon purple"><i class="bi bi-envelope-fill"></i></div>
             <div class="stat-content">
                 <div class="stat-number">@Model.TotalApplications</div>
                 <div class="stat-label">Total Applications</div>
             </div>
         </div>
         <div class="stat-card">
-            <div class="stat-icon amber">⭐</div>
+            <div class="stat-icon amber"><i class="bi bi-star-fill"></i></div>
             <div class="stat-content">
                 <div class="stat-number">@Model.ShortlistedCandidates</div>
                 <div class="stat-label">Shortlisted</div>
             </div>
         </div>
         <div class="stat-card">
-            <div class="stat-icon gold">🎯</div>
+            <div class="stat-icon gold"><i class="bi bi-bullseye"></i></div>
             <div class="stat-content">
                 <div class="stat-number">@Model.HiredCandidates</div>
                 <div class="stat-label">Hired</div>

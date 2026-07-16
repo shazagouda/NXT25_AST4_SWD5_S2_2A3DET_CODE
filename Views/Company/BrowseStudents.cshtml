@@ -17,6 +17,10 @@
                         <div class="d-flex gap-2">
                             <a asp-action="Details" asp-controller="Profile" asp-route-id="@student.Id" class="btn btn-outline-primary btn-sm">View Profile</a>
                             <a asp-action="Details" asp-controller="Portfolio" asp-route-id="@student.Id" class="btn btn-outline-secondary btn-sm">View Portfolio</a>
+                            @if (User.IsInRole("Company"))
+                            {
+                                <a asp-controller="Booking" asp-action="Create" asp-route-targetType="Student" asp-route-targetId="@student.Id" class="btn btn-primary btn-sm">Hire Student</a>
+                            }
                         </div>
                     </div>
                 </div>

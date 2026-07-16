@@ -11,6 +11,15 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="icon" type="image/png" href="~/images/favicon.png" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+
+    @* FOUC prevention — apply saved theme before CSS renders *@
+    <script>
+        (function () {
+            var t = localStorage.getItem('a3det-theme');
+            if (t) document.documentElement.setAttribute('data-theme', t);
+        })();
+    </script>
 
     <link rel="stylesheet" href="~/css/global.css" asp-append-version="true" />
     @RenderSection("Styles", required: false)
@@ -29,19 +38,42 @@
             {
                 <!-- ====== DESKTOP NAV (Authenticated) ====== -->
                 <nav class="nav-links">
-                    <a asp-controller="Home" asp-action="Projects" class="nav-link is-active">Home</a>   <!-- ✅ Home points to Projects -->
-                    <a asp-controller="Dashboard" asp-action="Index" class="nav-link">Dashboard</a>
-                    <a asp-controller="Profile" asp-action="Index" class="nav-link">Profile</a>
-                    <a asp-controller="Assessment" asp-action="Index" class="nav-link">Assessment</a>
-                    <a asp-controller="Tracks" asp-action="Index" class="nav-link">Tracks</a>
-                    <!--team removed-->
-                    <!-- ✅ Projects link REMOVED (Home now points to Projects) -->
-                    <a asp-controller="Portfolio" asp-action="Index" class="nav-link">Portfolio</a>
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <a asp-controller="Admin" asp-action="Dashboard" class="nav-link">Admin Dashboard</a>
+                        <a asp-controller="Admin" asp-action="Bookings" class="nav-link">Bookings</a>
+                        <a asp-controller="Admin" asp-action="Reports" class="nav-link">Reports</a>
+                        <a asp-controller="Admin" asp-action="Users" class="nav-link">Users</a>
+                        <a asp-controller="Wallet" asp-action="AdminTransfers" class="nav-link" style="color:var(--color-purple-600); font-weight:600;">Escrow</a>
+                    }
+                    else
+                    {
+                        <a asp-controller="Home" asp-action="Projects" class="nav-link">Home</a>
+                        <a asp-controller="Dashboard" asp-action="Index" class="nav-link">Dashboard</a>
+                        <a asp-controller="Profile" asp-action="Index" class="nav-link">Profile</a>
+                        @if (!User.IsInRole("Mentor") && !User.IsInRole("Company"))
+                        {
+                            <a asp-controller="Assessment" asp-action="Index" class="nav-link">Assessment</a>
+                            <a asp-controller="Roadmaps" asp-action="Index" class="nav-link">Tracks</a>
+                        }
+                        @if (User.IsInRole("Company"))
+                        {
+                            <a asp-controller="Booking" asp-action="Index" class="nav-link" style="color:var(--color-blue-600); font-weight:600;">Bookings</a>
+                        }
+                        else if (!User.IsInRole("Mentor"))
+                        {
+                            <a asp-controller="Mentor" asp-action="Index" class="nav-link" style="color:var(--color-blue-600); font-weight:600;">Book Mentors</a>
+                        }
+                    }
                 </nav>
                 <div class="nav-actions">
                     <button class="nav-icon-btn" aria-label="Notifications" onclick="location.href='@Url.Action("Index", "Notifications")'">
                         <span class="notif-badge"></span>
-                        🔔
+                        <i class="bi bi-bell"></i>
+                    </button>
+                    <!-- Dark mode toggle -->
+                    <button class="nav-icon-btn theme-toggle" id="themeToggleBtn" aria-label="Toggle theme">
+                        <i class="bi bi-moon-stars-fill"></i>
                     </button>
                     <div class="avatar" title="@User.Identity.Name" onclick="location.href='@Url.Action("Index", "Profile")'">
                         @(User.Identity.Name?.Substring(0, 1).ToUpper() ?? "U")
@@ -53,10 +85,9 @@
             {
                 <!-- ====== DESKTOP NAV (Guest) ====== -->
                 <nav class="nav-links">
-                    <a asp-controller="Home" asp-action="Index" class="nav-link is-active">Home</a>   <!-- ✅ Guest stays on Index -->
-                    <a href="/tracks/Tracks.html" class="nav-link">Tracks</a>
-                    <a asp-controller="Roadmaps" asp-action="Index" class="nav-link">Roadmaps</a>
-                    <a asp-controller="Mentors" asp-action="Index" class="nav-link">Mentors</a>
+                    <a asp-controller="Home" asp-action="Index" class="nav-link">Home</a>
+                    <a asp-controller="Roadmaps" asp-action="Index" class="nav-link">Tracks</a>
+                    <a asp-controller="Mentor" asp-action="Index" class="nav-link">Mentors</a>
                     <a asp-controller="Companies" asp-action="Index" class="nav-link">Companies</a>
                     <a asp-controller="About" asp-action="Index" class="nav-link">About</a>
                     <a asp-controller="ContactUs" asp-action="Index" class="nav-link">Contact Us</a>
@@ -77,23 +108,33 @@
             @if (User.Identity?.IsAuthenticated == true)
             {
                 <!-- ====== MOBILE NAV (Authenticated) ====== -->
-                <a asp-controller="Home" asp-action="Projects" class="nav-link">Home</a>   <!-- ✅ Home points to Projects -->
-                <a asp-controller="Dashboard" asp-action="Index" class="nav-link">Dashboard</a>
-                <a asp-controller="Profile" asp-action="Index" class="nav-link">Profile</a>
-                <a asp-controller="Assessment" asp-action="Index" class="nav-link">Assessment</a>
-                <a asp-controller="Tracks" asp-action="Index" class="nav-link">Tracks</a>
-                <!--team removed-->
-                <!-- ✅ Projects link REMOVED -->
-                <a asp-controller="Portfolio" asp-action="Index" class="nav-link">Portfolio</a>
+                @if (User.IsInRole("Admin"))
+                {
+                    <a asp-controller="Admin" asp-action="Dashboard" class="nav-link">Admin Dashboard</a>
+                    <a asp-controller="Admin" asp-action="Bookings" class="nav-link">Bookings</a>
+                    <a asp-controller="Admin" asp-action="Reports" class="nav-link">Reports</a>
+                    <a asp-controller="Admin" asp-action="Users" class="nav-link">Users</a>
+                    <a asp-controller="Wallet" asp-action="AdminTransfers" class="nav-link">Escrow Transfers</a>
+                }
+                else
+                {
+                    <a asp-controller="Home" asp-action="Projects" class="nav-link">Home</a>
+                    <a asp-controller="Dashboard" asp-action="Index" class="nav-link">Dashboard</a>
+                    <a asp-controller="Profile" asp-action="Index" class="nav-link">Profile</a>
+                    @if (!User.IsInRole("Mentor") && !User.IsInRole("Company"))
+                    {
+                        <a asp-controller="Assessment" asp-action="Index" class="nav-link">Assessment</a>
+                        <a asp-controller="Roadmaps" asp-action="Index" class="nav-link">Tracks</a>
+                    }
+                }
                 <a asp-controller="Account" asp-action="Logout" class="nav-link">Logout</a>
             }
             else
             {
                 <!-- ====== MOBILE NAV (Guest) ====== -->
                 <a asp-controller="Home" asp-action="Index" class="nav-link">Home</a>
-                <a href="/tracks/Tracks.html" class="nav-link">Tracks</a>
-                <a asp-controller="Roadmaps" asp-action="Index" class="nav-link">Roadmaps</a>
-                <a asp-controller="Mentors" asp-action="Index" class="nav-link">Mentors</a>
+                <a asp-controller="Roadmaps" asp-action="Index" class="nav-link">Tracks</a>
+                <a asp-controller="Mentor" asp-action="Index" class="nav-link">Mentors</a>
                 <a asp-controller="Companies" asp-action="Index" class="nav-link">Companies</a>
                 <a asp-controller="About" asp-action="Index" class="nav-link">About</a>
                 <a asp-controller="ContactUs" asp-action="Index" class="nav-link">Contact Us</a>
@@ -121,10 +162,9 @@
                 </div>
                 <div>
                     <h4>Platform</h4>
-                    <a asp-controller="Tracks" asp-action="Index">Tracks</a>
-                    <a asp-controller="Roadmaps" asp-action="Index">Roadmaps</a>
+                    <a href="/tracks/Tracks.html">Tracks</a>
                     <a asp-controller="Assessment" asp-action="Index">Assessment</a>
-                    <a asp-controller="Mentors" asp-action="Index">Mentors</a>
+                    <a asp-controller="Mentor" asp-action="Index">Mentors</a>
                 </div>
                 <div>
                     <h4>Company</h4>
@@ -147,6 +187,20 @@
     </footer>
 
     <script src="~/js/global.js" asp-append-version="true"></script>
+    <script>
+      // Set is-active on the correct nav link based on current path
+      (function () {
+        var path = window.location.pathname.toLowerCase();
+        document.querySelectorAll('.nav-links .nav-link').forEach(function (a) {
+          var href = (a.getAttribute('href') || '').toLowerCase();
+          if (!href || href === '#') return;
+          // exact match or starts-with (for sub-pages)
+          if (path === href || (href !== '/' && path.startsWith(href))) {
+            a.classList.add('is-active');
+          }
+        });
+      })();
+    </script>
     @RenderSection("Scripts", required: false)
 </body>
 </html>

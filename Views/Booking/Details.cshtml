@@ -1,0 +1,200 @@
+@model A3DET_CODE.ViewModels.Booking.BookingDetailsViewModel
+@{
+    ViewData["Title"] = "Booking Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/booking.css" asp-append-version="true" />
+}
+
+<div class="booking-details-page">
+    <div class="container">
+        <a href="@Url.Action("MyBookings")" class="back-link">← Back to My Bookings</a>
+
+        @if (TempData["Success"] != null)
+        {
+            <div class="alert alert-success"><i class="bi bi-check-circle-fill"></i> @TempData["Success"]</div>
+        }
+        @if (TempData["Error"] != null)
+        {
+            <div class="alert alert-error"><i class="bi bi-exclamation-triangle-fill"></i> @TempData["Error"]</div>
+        }
+
+        <div class="details-layout">
+            <!-- Main Info -->
+            <div class="details-main card">
+                <div class="details-header">
+                    <div class="details-title">
+                        <h1>Booking #@Model.Id</h1>
+                        <div class="details-badges">
+                            <span class="status-badge status-@Model.Status.ToLower()">@Model.Status</span>
+                            <span class="payment-badge payment-@Model.PaymentStatus.ToLower()">@Model.PaymentStatus</span>
+                        </div>
+                    </div>
+                    <p class="details-date">Created @Model.CreatedAt.ToString("MMM dd, yyyy 'at' hh:mm tt")</p>
+                </div>
+
+                <!-- Parties -->
+                <div class="details-parties">
+                    <div class="party-card">
+                        <span class="party-label">Client</span>
+                        <div class="party-info">
+                            <div class="party-avatar">@Model.BookerInitials</div>
+                            <div>
+                                <h4>@Model.BookerName</h4>
+                                <p>@Model.BookerRole</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="party-connector">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--color-blue-600)" stroke-width="2">
+                            <path d="M5 12h14M12 5l7 7-7 7"/>
+                        </svg>
+                    </div>
+                    <div class="party-card">
+                        <span class="party-label">@Model.TargetType</span>
+                        <div class="party-info">
+                            <div class="party-avatar target">
+                                @if (!string.IsNullOrEmpty(Model.TargetImageUrl))
+                                {
+                                    <img src="@Model.TargetImageUrl" alt="@Model.TargetName" />
+                                }
+                                else
+                                {
+                                    @Model.TargetInitials
+                                }
+                            </div>
+                            <div>
+                                <h4>@Model.TargetName</h4>
+                                <p>@Model.TargetExpertise</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Session Details -->
+                <div class="details-session">
+                    <h3>Session Details</h3>
+                    <div class="session-grid">
+                        <div class="session-item">
+                            <span class="session-icon"><i class="bi bi-calendar-event"></i></span>
+                            <span class="session-label">Start Date</span>
+                            <span class="session-value">@Model.ScheduledAt.ToString("MMMM dd, yyyy")</span>
+                        </div>
+                        <div class="session-item">
+                            <span class="session-icon"><i class="bi bi-calendar-event"></i></span>
+                            <span class="session-label">End Date</span>
+                            <span class="session-value">@(Model.EndDate?.ToString("MMMM dd, yyyy") ?? "-")</span>
+                        </div>
+                        <div class="session-item">
+                            <span class="session-icon"><i class="bi bi-file-earmark-text"></i></span>
+                            <span class="session-label">Topic</span>
+                            <span class="session-value">@(Model.Topic ?? "General")</span>
+                        </div>
+                    </div>
+                    @if (!string.IsNullOrEmpty(Model.Notes))
+                    {
+                        <div class="session-notes">
+                            <strong>Notes:</strong> @Model.Notes
+                        </div>
+                    }
+                </div>
+            </div>
+
+            <!-- Sidebar -->
+            <div class="details-sidebar">
+                <!-- Payment Card -->
+                <div class="sidebar-card card">
+                    <h3>Payment Summary</h3>
+                    <div class="price-row">
+                        <span>Hourly Rate</span>
+                        <span>$@Model.HourlyRate.ToString("F2")</span>
+                    </div>
+                    <div class="price-row">
+                        <span>Duration</span>
+                        <span>@(Model.EndDate.HasValue ? ((int)(Model.EndDate.Value.Date - Model.ScheduledAt.Date).TotalDays + 1) : 1) days (8 hrs/day)</span>
+                    </div>
+                    <div class="price-row">
+                        <span>Subtotal</span>
+                        <span>$@((Model.HourlyRate * 8m * (Model.EndDate.HasValue ? ((int)(Model.EndDate.Value.Date - Model.ScheduledAt.Date).TotalDays + 1) : 1)).ToString("F2"))</span>
+                    </div>
+                    <div class="price-row fee-row">
+                        <span>Platform Fee (10%)</span>
+                        <span style="color:var(--color-gray-500); font-size:0.85em;">(Paid by Service Provider)</span>
+                    </div>
+                    <div class="price-row total-row">
+                        <span>Total Paid</span>
+                        <span class="total-amount">$@Model.TotalPrice.ToString("F2")</span>
+                    </div>
+                </div>
+
+                <!-- Contract Card -->
+                @if (Model.CanPay)
+                {
+                    <div class="sidebar-card card" style="border: 2px solid #2F6FED;">
+                        <h3><i class="bi bi-credit-card-2-front"></i> Pay Now</h3>
+                        <p style="color:#5B6478; font-size:0.9rem; margin-bottom:1rem;">
+                            Your wallet balance: <strong style="color:#10B981;">$@Model.BookerWalletBalance.ToString("F2")</strong>
+                        </p>
+                        <form asp-action="PayFromWallet" asp-route-id="@Model.Id" method="post"
+                              onsubmit="return confirm('Pay $@Model.TotalPrice.ToString("F2") from your wallet?')">
+                            @Html.AntiForgeryToken()
+                            <button type="submit" class="btn btn-primary btn-block" @(!Model.CanPayFromWallet ? "disabled" : "")>
+                            <button type="submit" class="btn btn-primary btn-block" @(!Model.CanPayFromWallet ? "disabled" : "")>
+                                <i class="bi bi-wallet2"></i> Pay from Wallet ($@Model.TotalPrice.ToString("F2"))
+                            </button>
+                            </button>
+                        </form>
+                        @if (!Model.CanPayFromWallet)
+                        {
+                            <p style="color:#EF4444; font-size:0.8rem; margin-top:0.5rem; text-align:center;">
+                                Insufficient balance.
+                                <a asp-controller="Wallet" asp-action="Index" style="color:#2F6FED;">Deposit funds <i class="bi bi-arrow-right"></i></a>
+                            </p>
+                        }
+                    </div>
+                }
+
+                <!-- Contract Card -->
+                @if (Model.HasContract)
+                {
+                    <div class="sidebar-card card contract-card">
+                        <h3>Contract</h3>
+                        <div class="contract-status">
+                            <span class="status-badge status-@Model.ContractStatus?.ToLower()">@Model.ContractStatus</span>
+                        </div>
+                        <a asp-controller="Contract" asp-action="View" asp-route-id="@Model.ContractId"
+                           class="btn btn-primary btn-block">
+                            @(Model.ContractStatus == "PendingSignatures" || Model.ContractStatus == "PartyASigned" ? Html.Raw("<i class=\"bi bi-pencil-fill\"></i> Sign Contract") : Html.Raw("<i class=\"bi bi-file-earmark-text\"></i> View Contract"))
+                        </a>
+                    </div>
+                }
+
+                <!-- Actions -->
+                @if (Model.CanCancel)
+                {
+                    <form asp-action="Cancel" asp-route-id="@Model.Id" method="post"
+                          onsubmit="return confirm('Are you sure you want to cancel this booking?')">
+                        @Html.AntiForgeryToken()
+                        <button type="submit" class="btn btn-secondary btn-block" style="color:var(--color-danger); border-color:var(--color-danger);">
+                            Cancel Booking
+                        </button>
+                    </form>
+                }
+                
+                @if (Model.Status == "Cancelled" || Model.Status == "Rejected")
+                {
+                    <form asp-action="Delete" asp-route-id="@Model.Id" method="post"
+                          onsubmit="return confirm('Are you sure you want to permanently delete this booking record?')">
+                        @Html.AntiForgeryToken()
+                        <button type="submit" class="btn btn-secondary btn-block" style="color:white; background:var(--color-danger); border-color:var(--color-danger); margin-top: 1rem;">
+                            <i class="bi bi-trash3-fill"></i> Delete Booking
+                        </button>
+                    </form>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,422 @@
+@model A3DET_CODE.ViewModels.Wallet.WalletViewModel
+@{
+    ViewData["Title"] = "My Wallet";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .wallet-page {
+        padding: 2rem 2rem 4rem;
+        max-width: 1000px;
+        margin: 0 auto;
+    }
+
+    .wallet-header h1 {
+        font-size: 2rem;
+        font-weight: 800;
+        color: var(--color-blue-900, #0A1628);
+    }
+
+    .wallet-header p {
+        color: var(--color-gray-500, #5B6478);
+        margin-top: 0.25rem;
+    }
+
+    /* Balance Card */
+    .balance-card {
+        background: linear-gradient(135deg, #2F6FED 0%, #15C6AE 100%);
+        border-radius: 20px;
+        padding: 2.5rem;
+        color: white;
+        margin: 2rem 0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 1.5rem;
+        box-shadow: 0 8px 30px rgba(47, 111, 237, 0.35);
+    }
+
+    .balance-info .label {
+        font-size: 0.9rem;
+        opacity: 0.85;
+        margin-bottom: 0.5rem;
+    }
+
+    .balance-amount {
+        font-size: 3rem;
+        font-weight: 900;
+        letter-spacing: -1px;
+    }
+
+    .balance-actions {
+        display: flex;
+        gap: 1rem;
+        flex-wrap: wrap;
+    }
+
+    .btn-wallet {
+        padding: 0.75rem 1.75rem;
+        border-radius: 999px;
+        font-weight: 700;
+        font-size: 0.95rem;
+        cursor: pointer;
+        border: 2px solid white;
+        transition: all 0.2s;
+    }
+
+    .btn-deposit {
+        background: white;
+        color: #2F6FED;
+    }
+
+    .btn-deposit:hover {
+        background: rgba(255,255,255,0.9);
+        transform: translateY(-2px);
+    }
+
+    .btn-withdraw {
+        background: transparent;
+        color: white;
+    }
+
+    .btn-withdraw:hover {
+        background: rgba(255,255,255,0.15);
+        transform: translateY(-2px);
+    }
+
+    /* Transactions */
+    .transactions-section h2 {
+        font-size: 1.3rem;
+        font-weight: 700;
+        color: var(--color-blue-900, #0A1628);
+        margin-bottom: 1rem;
+    }
+
+    .transaction-list {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+
+    .transaction-item {
+        background: white;
+        border: 1px solid #E8EDF5;
+        border-radius: 12px;
+        padding: 1rem 1.5rem;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    .tx-icon {
+        width: 44px;
+        height: 44px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.2rem;
+        flex-shrink: 0;
+    }
+
+    .tx-icon.deposit { background: #ECFDF5; }
+    .tx-icon.withdraw { background: #FFF7ED; }
+    .tx-icon.earned { background: #EFF6FF; }
+    .tx-icon.payment { background: #FEF2F2; }
+
+    .tx-desc {
+        flex: 1;
+    }
+
+    .tx-desc strong {
+        display: block;
+        font-size: 0.95rem;
+        color: #0A1628;
+    }
+
+    .tx-desc span {
+        font-size: 0.8rem;
+        color: #94A0B8;
+    }
+
+    .tx-amount {
+        font-weight: 700;
+        font-size: 1rem;
+    }
+
+    .tx-amount.positive { color: #10B981; }
+    .tx-amount.negative { color: #EF4444; }
+
+    .empty-wallet {
+        text-align: center;
+        padding: 3rem;
+        color: #94A0B8;
+    }
+
+    .empty-wallet .icon { font-size: 3rem; margin-bottom: 1rem; }
+
+    /* Modal */
+    .modal-overlay {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(0,0,0,0.4);
+        z-index: 1000;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .modal-overlay.active { display: flex; }
+
+    .modal-box {
+        background: white;
+        border-radius: 20px;
+        padding: 2rem;
+        width: 100%;
+        max-width: 420px;
+        margin: 1rem;
+        box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+    }
+
+    .modal-box h3 {
+        font-size: 1.3rem;
+        font-weight: 800;
+        color: #0A1628;
+        margin-bottom: 1.5rem;
+    }
+
+    .modal-form-group {
+        margin-bottom: 1.25rem;
+    }
+
+    .modal-form-group label {
+        display: block;
+        font-weight: 600;
+        font-size: 0.85rem;
+        color: #5B6478;
+        margin-bottom: 0.4rem;
+    }
+
+    .modal-form-group input {
+        width: 100%;
+        padding: 0.75rem 1rem;
+        border: 1.5px solid #E8EDF5;
+        border-radius: 10px;
+        font-size: 0.95rem;
+        transition: border-color 0.2s;
+        outline: none;
+    }
+
+    .modal-form-group input:focus {
+        border-color: #2F6FED;
+    }
+
+    .modal-actions {
+        display: flex;
+        gap: 0.75rem;
+        margin-top: 1.5rem;
+    }
+
+    .modal-actions .btn-cancel {
+        flex: 1;
+        padding: 0.75rem;
+        border: 1.5px solid #E8EDF5;
+        border-radius: 10px;
+        background: white;
+        cursor: pointer;
+        font-weight: 600;
+        color: #5B6478;
+    }
+
+    .modal-actions .btn-confirm {
+        flex: 2;
+        padding: 0.75rem;
+        border-radius: 10px;
+        background: linear-gradient(135deg, #2F6FED, #15C6AE);
+        color: white;
+        font-weight: 700;
+        border: none;
+        cursor: pointer;
+        transition: opacity 0.2s;
+    }
+
+    .modal-actions .btn-confirm:hover { opacity: 0.9; }
+
+    .alert {
+        padding: 1rem 1.25rem;
+        border-radius: 10px;
+        margin-bottom: 1.5rem;
+        font-weight: 600;
+    }
+
+    .alert-success { background: #ECFDF5; color: #065F46; }
+    .alert-error { background: #FEF2F2; color: #991B1B; }
+
+    .role-badge {
+        display: inline-block;
+        padding: 0.25rem 0.75rem;
+        border-radius: 999px;
+        font-size: 0.75rem;
+        font-weight: 700;
+        background: rgba(255,255,255,0.25);
+        margin-left: 0.75rem;
+        vertical-align: middle;
+    }
+</style>
+
+<div class="wallet-page">
+    <div class="wallet-header">
+        <h1><i class="bi bi-wallet2"></i> My Wallet</h1>
+        <p>Manage your balance, deposits, and withdrawals</p>
+    </div>
+
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success"><i class="bi bi-check-circle-fill"></i> @TempData["Success"]</div>
+    }
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-error"><i class="bi bi-exclamation-triangle-fill"></i> @TempData["Error"]</div>
+    }
+
+    <!-- Balance Card -->
+    <div class="balance-card">
+        <div class="balance-info">
+            <div class="label">Available Balance <span class="role-badge">@Model.Role</span></div>
+            <div class="balance-amount">$@Model.Balance.ToString("F2")</div>
+        </div>
+        <div class="balance-actions">
+            @if (Model.CanDeposit)
+            {
+                <button class="btn-wallet btn-deposit" onclick="openModal('deposit')">
+                    + Deposit
+                </button>
+            }
+            @if (Model.CanWithdraw)
+            {
+                <button class="btn-wallet btn-withdraw" onclick="openModal('withdraw')">
+                    ↑ Withdraw
+                </button>
+            }
+            @if (Model.Role == "Admin")
+            {
+                <a asp-action="AdminTransfers" class="btn-wallet" style="background:var(--color-purple-600); border-color:var(--color-purple-600); text-decoration:none;">
+                    <i class="bi bi-list-task"></i> Admin Transfers
+                </a>
+            }
+        </div>
+    </div>
+
+    <!-- Transactions -->
+    <div class="transactions-section">
+        <h2>Transaction History</h2>
+
+        @if (!Model.Transactions.Any())
+        {
+            <div class="empty-wallet">
+                <div class="icon"><i class="bi bi-inbox"></i></div>
+                <p>No transactions yet.</p>
+            </div>
+        }
+        else
+        {
+            <div class="transaction-list">
+                @foreach (var tx in Model.Transactions)
+                {
+                    var isPositive = tx.Type == "Deposit" || tx.Type == "Earned";
+                    var iconClass = tx.Type.ToLower();
+                    var iconHtml = tx.Type switch
+                    {
+                        "Deposit" => "<i class=\"bi bi-credit-card-fill\"></i>",
+                        "Withdraw" => "<i class=\"bi bi-cash-coin\"></i>",
+                        "Earned" => "<i class=\"bi bi-award-fill\"></i>",
+                        "Payment" => "<i class=\"bi bi-wallet2\"></i>",
+                        _ => "<i class=\"bi bi-file-earmark-text\"></i>"
+                    };
+
+                    <div class="transaction-item">
+                        <div class="tx-icon @iconClass">@Html.Raw(iconHtml)</div>
+                        <div class="tx-desc">
+                            <strong>@tx.Type</strong>
+                            <span>@tx.Description — @tx.CreatedAt.ToString("MMM dd, yyyy")</span>
+                        </div>
+                        <div class="tx-amount @(isPositive ? "positive" : "negative")">
+                            @(isPositive ? "+" : "-")$@tx.Amount.ToString("F2")
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+    </div>
+</div>
+
+<!-- Deposit Modal -->
+<div class="modal-overlay" id="depositModal">
+    <div class="modal-box">
+        <h3><i class="bi bi-credit-card-fill"></i> Deposit Funds</h3>
+        <form asp-action="Deposit" method="post">
+            @Html.AntiForgeryToken()
+            <div class="modal-form-group">
+                <label>Card Number</label>
+                <input type="text" name="cardNumber" placeholder="1234 5678 9012 3456" maxlength="19"
+                       oninput="formatCard(this)" required />
+            </div>
+            <div class="modal-form-group">
+                <label>Amount (USD)</label>
+                <input type="number" name="amount" placeholder="0.00" min="1" step="0.01" required />
+            </div>
+            <div class="modal-actions">
+                <button type="button" class="btn-cancel" onclick="closeModal('deposit')">Cancel</button>
+                <button type="submit" class="btn-confirm">Deposit Now</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Withdraw Modal -->
+<div class="modal-overlay" id="withdrawModal">
+    <div class="modal-box">
+        <h3><i class="bi bi-cash-coin"></i> Withdraw Funds</h3>
+        <form asp-action="Withdraw" method="post">
+            @Html.AntiForgeryToken()
+            <div class="modal-form-group">
+                <label>Card Number</label>
+                <input type="text" name="cardNumber" placeholder="1234 5678 9012 3456" maxlength="19"
+                       oninput="formatCard(this)" required />
+            </div>
+            <div class="modal-form-group">
+                <label>Amount (USD) — Max: $@Model.Balance.ToString("F2")</label>
+                <input type="number" name="amount" placeholder="0.00" min="1" max="@Model.Balance" step="0.01" required />
+            </div>
+            <div class="modal-actions">
+                <button type="button" class="btn-cancel" onclick="closeModal('withdraw')">Cancel</button>
+                <button type="submit" class="btn-confirm">Withdraw Now</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function openModal(type) {
+            document.getElementById(type + 'Modal').classList.add('active');
+        }
+
+        function closeModal(type) {
+            document.getElementById(type + 'Modal').classList.remove('active');
+        }
+
+        // Close on overlay click
+        document.querySelectorAll('.modal-overlay').forEach(el => {
+            el.addEventListener('click', function (e) {
+                if (e.target === this) this.classList.remove('active');
+            });
+        });
+
+        function formatCard(input) {
+            let v = input.value.replace(/\D/g, '').slice(0, 16);
+            input.value = v.replace(/(.{4})/g, '$1 ').trim();
+        }
+    </script>
+}

@@ -1,4 +1,4 @@
-﻿@model List<A3DET_CODE.ViewModels.Mentor.ProjectSummaryViewModel>
+@model List<A3DET_CODE.ViewModels.Mentor.ProjectSummaryViewModel>
 @{
     ViewData["Title"] = "My Projects";
 }
@@ -33,8 +33,8 @@
                     <p style="font-size:var(--fs-small);color:var(--color-text-600);">@project.Description</p>
                     <div class="project-tech" style="font-size:var(--fs-xs);color:var(--color-text-400);"><i class="fa-solid fa-code"></i> @project.TechStack</div>
                     <div class="project-meta" style="display:flex;justify-content:space-between;font-size:var(--fs-xs);color:var(--color-text-400);margin-top:var(--space-3);padding-top:var(--space-3);border-top:1px solid var(--color-border);">
-                        <span>📁 @project.TrackName</span>
-                        <span>📅 @project.CreatedDisplay</span>
+                        <span><i class="bi bi-folder-fill"></i> @project.TrackName</span>
+                        <span><i class="bi bi-calendar-event"></i> @project.CreatedDisplay</span>
                     </div>
                 </div>
             }

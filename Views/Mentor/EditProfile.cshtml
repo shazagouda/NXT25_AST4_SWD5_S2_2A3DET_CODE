@@ -1,4 +1,4 @@
-﻿@model A3DET_CODE.ViewModels.Mentor.MentorEditViewModel
+@model A3DET_CODE.ViewModels.Mentor.MentorEditViewModel
 @{
     ViewData["Title"] = "Edit Mentor Profile";
 }
@@ -15,7 +15,7 @@
 
     @if (TempData["Success"] != null)
     {
-        <div class="alert alert-success">✅ @TempData["Success"]</div>
+        <div class="alert alert-success"><i class="bi bi-check-circle-fill"></i> @TempData["Success"]</div>
     }
 
     <form asp-action="EditProfile" method="post" class="profile-form">
@@ -51,6 +51,12 @@
                 <label asp-for="YearsOfExperience">Years of Experience</label>
                 <input asp-for="YearsOfExperience" type="number" class="form-control" min="0" max="50" />
                 <span asp-validation-for="YearsOfExperience" class="text-danger"></span>
+            </div>
+
+            <div class="form-field">
+                <label asp-for="HourlyRate">Hourly Rate ($)</label>
+                <input asp-for="HourlyRate" type="number" step="0.01" class="form-control" min="0" max="1000" />
+                <span asp-validation-for="HourlyRate" class="text-danger"></span>
             </div>
         </div>
 

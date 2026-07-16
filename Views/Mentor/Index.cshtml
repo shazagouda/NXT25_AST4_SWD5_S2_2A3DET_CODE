@@ -1,4 +1,4 @@
-﻿@model A3DET_CODE.ViewModels.Mentor.MentorPagedViewModel
+@model A3DET_CODE.ViewModels.Mentor.MentorPagedViewModel
 @{
     ViewData["Title"] = "Mentors";
 }
@@ -10,7 +10,7 @@
 <div class="mentors-hero">
     <div class="container">
         <div class="mentors-hero-content">
-            <span class="hero-badge">👨‍🏫 Expert Guidance</span>
+            <span class="hero-badge"><i class="bi bi-person-workspace"></i> Expert Guidance</span>
             <h1>Learn from the <span class="highlight">Best Mentors</span></h1>
             <p>Connect with industry professionals who have been where you are. Get personalized guidance, code reviews, and career advice.</p>
             <div class="mentors-stats">
@@ -110,7 +110,7 @@
                             }
                         </div>
                         <div class="mentor-footer">
-                            <span class="mentor-sessions">📅 @mentor.TotalSessions sessions</span>
+                            <span class="mentor-sessions"><i class="bi bi-calendar-event"></i> @mentor.TotalSessions sessions</span>
                             <a href="@Url.Action("Details", new { id = mentor.Id })" class="btn-book">View Profile</a>
                         </div>
                     </div>

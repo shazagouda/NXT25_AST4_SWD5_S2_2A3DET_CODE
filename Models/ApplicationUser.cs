@@ -1,4 +1,5 @@
 // Models/ApplicationUser.cs
+using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.AspNetCore.Identity;
 
 namespace A3DET_CODE.Models
@@ -28,6 +29,12 @@ namespace A3DET_CODE.Models
         public DateTime CreatedAt { get; set; }
         public DateTime? LastLoginAt { get; set; }
         public bool IsActive { get; set; } = true;
+
+        [Column(TypeName = "decimal(18,2)")]
+        public decimal? HourlyRate { get; set; }
+
+        [Column(TypeName = "decimal(18,2)")]
+        public decimal WalletBalance { get; set; } = 0m;
 
 
         public ICollection<TeamMember> TeamMemberships { get; set; } = new List<TeamMember>();

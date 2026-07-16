@@ -1,0 +1,125 @@
+@model IEnumerable<A3DET_CODE.Models.Booking>
+@{
+    ViewData["Title"] = "Manage Bookings";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .admin-page { padding: 4rem 1rem; min-height: calc(100vh - 70px); background: #F8FAFC; }
+    .admin-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; }
+    .admin-header h1 { font-size: 2rem; color: #0A1628; margin: 0; }
+    .admin-card { background: white; border-radius: 12px; padding: 2rem; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); }
+    .table { width: 100%; border-collapse: collapse; }
+    .table th, .table td { padding: 0.875rem 1rem; text-align: left; border-bottom: 1px solid #E2E8F0; }
+    .table th { color: #5B6478; font-weight: 600; font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.05em; background: #F8FAFC; }
+    .table td { color: #0A1628; vertical-align: middle; font-size: 0.9rem; }
+    .table tr:last-child td { border-bottom: none; }
+    .table tr:hover td { background: #F8FAFC; }
+    .status-badge { padding: 3px 10px; border-radius: 20px; font-size: 0.75rem; font-weight: 700; display: inline-block; }
+    .status-confirmed { background: #E0F2FE; color: #0369A1; }
+    .status-pending { background: #FEF3C7; color: #D97706; }
+    .status-cancelled { background: #FEE2E2; color: #B91C1C; }
+    .payment-paid { background: #D1FAE5; color: #047857; }
+    .payment-released { background: #F5F3FF; color: #6D28D9; }
+    .payment-refunded { background: #F3F4F6; color: #4B5563; }
+    .price-val { font-weight: 700; color: #2F6FED; }
+</style>
+
+<div class="admin-page">
+    <div class="container">
+        @if (TempData["Success"] != null)
+        {
+            <div style="background:#ECFDF5; color:#065F46; padding:1rem; border-radius:8px; margin-bottom:1rem;"><i class="bi bi-check-circle-fill"></i> @TempData["Success"]</div>
+        }
+        @if (TempData["Error"] != null)
+        {
+            <div style="background:#FEF2F2; color:#991B1B; padding:1rem; border-radius:8px; margin-bottom:1rem;"><i class="bi bi-exclamation-triangle-fill"></i> @TempData["Error"]</div>
+        }
+
+        <div class="admin-header">
+            <div>
+                <h1>Manage Bookings</h1>
+                <p style="color:#5B6478; margin:0.25rem 0 0;">Total: @Model.Count() bookings</p>
+            </div>
+            <a asp-action="Dashboard" class="btn btn-secondary">← Back to Dashboard</a>
+        </div>
+
+        <div class="admin-card">
+            <div style="overflow-x: auto;">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Booker</th>
+                            <th>Target</th>
+                            <th>Topic</th>
+                            <th>Total Price</th>
+                            <th>Status</th>
+                            <th>Payment</th>
+                            <th>Scheduled At</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var booking in Model)
+                        {
+                            var statusClass = booking.Status switch
+                            {
+                                "Confirmed" => "status-confirmed",
+                                "Cancelled" => "status-cancelled",
+                                _ => "status-pending"
+                            };
+
+                            var paymentClass = booking.PaymentStatus switch
+                            {
+                                "Paid" => "payment-paid",
+                                "Released" => "payment-released",
+                                "Refunded" => "payment-refunded",
+                                "Cancelled" => "status-cancelled",
+                                _ => "status-pending"
+                            };
+
+                            var targetName = booking.TargetType switch
+                            {
+                                "Mentor" => booking.TargetMentor?.FullName ?? "Mentor",
+                                "Student" => booking.TargetStudent?.FullName ?? "Student",
+                                "Team" => booking.TargetTeam?.Name ?? "Team",
+                                _ => "N/A"
+                            };
+
+                            <tr>
+                                <td>#@booking.Id</td>
+                                <td><strong>@booking.BookerUser?.FullName</strong><br/><small class="text-muted">@booking.BookerUser?.Email</small></td>
+                                <td>
+                                    <strong>@targetName</strong>
+                                    <span class="role-badge" style="font-size:0.7rem; background:#E2E8F0; padding:2px 6px; border-radius:4px; margin-left:4px;">@booking.TargetType</span>
+                                </td>
+                                <td>@booking.Topic</td>
+                                <td><span class="price-val">$@booking.TotalPrice.ToString("F2")</span></td>
+                                <td><span class="status-badge @statusClass">@booking.Status</span></td>
+                                <td><span class="status-badge @paymentClass">@booking.PaymentStatus</span></td>
+                                <td>@booking.ScheduledAt.ToString("MMM dd, yyyy HH:mm")</td>
+                                <td>
+                                    @if (booking.Status != "Cancelled")
+                                    {
+                                        <form asp-action="CancelBooking" method="post" onsubmit="return confirm('Are you sure you want to cancel booking #@booking.Id and refund the user?');" style="display:inline;">
+                                            @Html.AntiForgeryToken()
+                                            <input type="hidden" name="bookingId" value="@booking.Id" />
+                                            <button type="submit" class="btn btn-sm btn-danger" style="font-size:0.8rem; padding: 4px 8px;">
+                                                Cancel & Refund
+                                            </button>
+                                        </form>
+                                    }
+                                    else
+                                    {
+                                        <span style="color:#9CA3AF; font-size:0.85rem; font-style:italic;">Cancelled</span>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

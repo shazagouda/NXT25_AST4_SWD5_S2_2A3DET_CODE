@@ -1,4 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace A3DET_CODE.Models
@@ -40,6 +40,9 @@ namespace A3DET_CODE.Models
         public int YearsOfExperience { get; set; } = 0;
 
         public int TotalSessions { get; set; } = 0;
+
+        [Column(TypeName = "decimal(18,2)")]
+        public decimal HourlyRate { get; set; } = 0;
 
         // Navigation Properties
         public virtual ICollection<MentorSession> Sessions { get; set; } = new List<MentorSession>();

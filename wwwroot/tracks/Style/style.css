@@ -12,18 +12,18 @@
    CSS VARIABLES
    ================================================================ */
 :root {
-    --primary: #2F6FED;
-    --primary-dark: #265FD1;
-    --dark: #0A1628;
-    --dark-2: #142440;
-    --dark-3: #1B3050;
-    --dark-4: #243A5E;
-    --light: #F4F6FB;
-    --light-alt: #EAEFFB;
-    --muted: #94A0B8;
-    --border: rgba(255,255,255,0.07);
-    --border-dark: rgba(0,0,0,0.1);
-    --font-main: 'Cairo', sans-serif;
+    --primary: #0D9488;
+    --primary-dark: #0F766E;
+    --dark: #0B1E2D;
+    --dark-2: #0F2233;
+    --dark-3: #142B3E;
+    --dark-4: #1A3650;
+    --light: #F8FAFC;
+    --light-alt: #E0F2FE;
+    --muted: #94A3B8;
+    --border: rgba(20, 184, 166, 0.15);
+    --border-dark: rgba(0,0,0,0.15);
+    --font-main: 'Sora', 'Cairo', sans-serif;
     --font-code: 'JetBrains Mono', monospace;
     --radius: 16px;
     --radius-sm: 8px;
@@ -34,20 +34,21 @@
    LIGHT MODE
    ================================================================ */
 [data-theme="light"] {
-    --dark: #F6F7FB;
+    --dark: #F0F9FF;
     --dark-2: #ffffff;
-    --dark-3: #EAEFFB;
-    --dark-4: #E4E7EF;
-    --light: #0A1628;
-    --muted: #5B6478;
-    --border: rgba(10,22,40,0.1);
-    --primary: #2F6FED;
-    --primary-dark: #265FD1;
+    --dark-3: #E0F2FE;
+    --dark-4: rgba(13, 148, 136, 0.08);
+    --light: #0F172A;
+    --muted: #334155;
+    --border: rgba(13, 148, 136, 0.12);
+    --primary: #0D9488;
+    --primary-dark: #0F766E;
 }
 
     [data-theme="light"] body {
-        background: #F6F7FB;
-        color: #0A1628;
+        background: linear-gradient(135deg, #F0F9FF 0%, #E0F2FE 50%, #ECFDF5 100%);
+        background-attachment: fixed;
+        color: #0F172A;
     }
 
     [data-theme="light"] .noise-overlay {
@@ -68,14 +69,16 @@
     }
 
     [data-theme="light"] .main-nav {
-        background: rgba(246,247,251,0.85);
-        border-bottom: 1px solid rgba(10,22,40,0.07);
+        background: rgba(240,249,255,0.85);
+        border-bottom: 1px solid rgba(13,148,136,0.1);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
     }
 
         [data-theme="light"] .main-nav.scrolled {
-            background: rgba(255,255,255,0.97);
-            box-shadow: 0 2px 24px rgba(10,22,40,0.07);
-            border-bottom-color: rgba(10,22,40,0.09);
+            background: rgba(255,255,255,0.95);
+            box-shadow: 0 2px 24px rgba(13,148,136,0.08);
+            border-bottom-color: rgba(13,148,136,0.15);
         }
 
     [data-theme="light"] .logo-bracket {
@@ -211,7 +214,7 @@
     }
 
     [data-theme="light"] .section-block {
-        background: #F6F7FB;
+        background: transparent;
     }
 
         [data-theme="light"] .section-block.section-dark {
@@ -219,7 +222,7 @@
         }
 
     [data-theme="light"] .section-light-alt {
-        background: #EAEFFB;
+        background: #E0F2FE;
     }
 
     [data-theme="light"] .section-tag {
@@ -591,7 +594,7 @@
         }
 
     [data-theme="light"] .site-footer {
-        background: #1c1f2c;
+        background: #0B1E2D;
     }
 
 /* ================================================================
@@ -795,6 +798,49 @@ button {
         border-color: var(--primary);
         background: rgba(47,111,237,0.1);
         transform: scale(1.1);
+    }
+
+/* ── Back to Tracks button ── */
+.back-to-tracks {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.78rem;
+    font-weight: 700;
+    font-family: var(--font-code);
+    color: var(--primary);
+    background: rgba(13, 148, 136, 0.1);
+    border: 1px solid rgba(13, 148, 136, 0.25);
+    padding: 6px 14px;
+    border-radius: 99px;
+    text-decoration: none;
+    transition: var(--transition);
+    white-space: nowrap;
+    margin-left: 8px;
+}
+
+    .back-to-tracks:hover {
+        background: var(--primary);
+        color: #fff;
+        border-color: var(--primary);
+        transform: translateX(-3px);
+        box-shadow: 0 4px 14px rgba(13,148,136,0.3);
+    }
+
+    .back-to-tracks span {
+        display: none;
+    }
+
+    @media (min-width: 768px) {
+        .back-to-tracks span {
+            display: inline;
+        }
+    }
+
+    [data-theme="light"] .back-to-tracks {
+        background: rgba(13, 148, 136, 0.08);
+        color: #0D9488;
+        border-color: rgba(13, 148, 136, 0.2);
     }
 
 /* ================================================================

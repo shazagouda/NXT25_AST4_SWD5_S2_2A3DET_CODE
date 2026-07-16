@@ -1,4 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace A3DET_CODE.Models
@@ -33,6 +33,9 @@ namespace A3DET_CODE.Models
 		public DateTime CreatedAt { get; set; }
 		public DateTime? StartedAt { get; set; }
 		public DateTime? CompletedAt { get; set; }
+
+		[Column(TypeName = "decimal(18,2)")]
+		public decimal? HourlyRate { get; set; }
 
 		// Navigation Properties
 		[ForeignKey(nameof(LeaderId))]

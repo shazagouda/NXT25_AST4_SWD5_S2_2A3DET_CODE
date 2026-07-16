@@ -1,0 +1,159 @@
+@model A3DET_CODE.ViewModels.Booking.CreateBookingViewModel
+@{
+    ViewData["Title"] = "Book " + Model.TargetName;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/booking.css" asp-append-version="true" />
+}
+
+<div class="booking-page">
+    <div class="container">
+        <div class="booking-header">
+            <a href="javascript:history.back()" class="back-link">← Back</a>
+            <h1>Book Consultation</h1>
+            <p>Complete your booking and proceed to payment</p>
+        </div>
+
+        <form asp-action="Create" method="post" id="bookingForm" class="booking-layout">
+            @Html.AntiForgeryToken()
+
+            <input type="hidden" asp-for="TargetType" />
+            <input type="hidden" asp-for="TargetMentorId" />
+            <input type="hidden" asp-for="TargetStudentId" />
+            <input type="hidden" asp-for="TargetTeamId" />
+            <input type="hidden" asp-for="HourlyRate" />
+            <input type="hidden" asp-for="TargetName" />
+            <input type="hidden" asp-for="TargetExpertise" />
+            <input type="hidden" asp-for="TargetInitials" />
+
+            <!-- LEFT: Target Info Card -->
+            <div class="booking-target-card card">
+                <div class="target-header">
+                    <div class="target-avatar-lg">
+                        @if (!string.IsNullOrEmpty(Model.TargetImageUrl))
+                        {
+                            <img src="@Model.TargetImageUrl" alt="@Model.TargetName" />
+                        }
+                        else
+                        {
+                            <span>@Model.TargetInitials</span>
+                        }
+                    </div>
+                    <div class="target-info">
+                        <span class="target-type-badge badge-blue">@Model.TargetType</span>
+                        <h2>@Model.TargetName</h2>
+                        <p class="target-expertise">@Model.TargetExpertise</p>
+                        @if (Model.TargetRating > 0)
+                        {
+                            <div class="target-rating">
+                                <span class="rating-star">★</span>
+                                <span>@Model.TargetRating.ToString("F1")</span>
+                            </div>
+                        }
+                    </div>
+                </div>
+
+                @if (!string.IsNullOrEmpty(Model.TargetSkills))
+                {
+                    <div class="target-skills">
+                        <h4>Skills</h4>
+                        <div class="skills-tags">
+                            @foreach (var skill in Model.TargetSkills.Split(',', StringSplitOptions.TrimEntries))
+                            {
+                                <span class="skill-tag">@skill</span>
+                            }
+                        </div>
+                    </div>
+                }
+
+                <div class="target-rate">
+                    <div class="rate-display">
+                        <span class="rate-amount">$@Model.HourlyRate.ToString("F0")</span>
+                        <span class="rate-label">/ hour</span>
+                    </div>
+                    <p class="rate-note">Discount: 25%</p>
+                </div>
+            </div>
+
+            <!-- RIGHT: Booking Form -->
+            <div class="booking-form-card card">
+                <h3>Booking Details</h3>
+
+                <div class="form-group" style="display: flex; gap: 1rem;">
+                    <div style="flex: 1;">
+                        <label asp-for="ScheduledAt" class="form-label">Start Date *</label>
+                        <input asp-for="ScheduledAt" type="date" class="form-input date-input"
+                               value="@Model.ScheduledAt.ToString("yyyy-MM-dd")"
+                               min="@DateTime.Now.ToString("yyyy-MM-dd")" required />
+                        <span asp-validation-for="ScheduledAt" class="form-error"></span>
+                    </div>
+                    <div style="flex: 1;">
+                        <label asp-for="EndDate" class="form-label">End Date *</label>
+                        <input asp-for="EndDate" type="date" class="form-input date-input"
+                               value="@Model.EndDate.ToString("yyyy-MM-dd")"
+                               min="@DateTime.Now.ToString("yyyy-MM-dd")" required />
+                        <span asp-validation-for="EndDate" class="form-error"></span>
+                    </div>
+                </div>
+
+                <input type="hidden" asp-for="DurationMinutes" />
+
+                <div class="form-group">
+                    <label asp-for="Topic" class="form-label">Topic *</label>
+                    <input asp-for="Topic" type="text" class="form-input"
+                           placeholder="e.g., Code Review, System Design, Career Advice" required />
+                    <span asp-validation-for="Topic" class="form-error"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Notes" class="form-label">Additional Notes</label>
+                    <textarea asp-for="Notes" class="form-input form-textarea"
+                              placeholder="Any specific requirements or questions..." rows="3"></textarea>
+                </div>
+
+                <!-- Price Breakdown -->
+                <div class="price-breakdown">
+                    <h4>Booking Summary</h4>
+                    <div class="price-row">
+                        <span>Hourly Rate</span>
+                        <span>$<span id="displayRate">@Model.HourlyRate.ToString("F2")</span></span>
+                    </div>
+                    <div class="price-row">
+                        <span>Duration</span>
+                        <span id="displayDuration">@Model.TotalDays days (8 hrs/day)</span>
+                    </div>
+                    <div class="price-row">
+                        <span>Subtotal</span>
+                        <span>$<span id="displaySubtotal">@Model.SubtotalPrice.ToString("F2")</span></span>
+                    </div>
+                    <div class="price-row fee-row">
+                        <span>Platform Fee (10%)</span>
+                        <span class="fee-amount" style="color:var(--color-gray-500); font-size:0.85em;">(Paid by Service Provider)</span>
+                    </div>
+                    <div class="price-row total-row">
+                        <span>Total Paid</span>
+                        <span class="total-amount">$<span id="displayTotal">@Model.TotalPrice.ToString("F2")</span></span>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-pay" id="payButton">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M22 2L11 13"></path>
+                        <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                    </svg>
+                    Send Booking Request
+                </button>
+
+                <p class="payment-note">
+                    Payment will be required only after the provider accepts your request.
+                </p>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/js/booking.js" asp-append-version="true"></script>
+}
