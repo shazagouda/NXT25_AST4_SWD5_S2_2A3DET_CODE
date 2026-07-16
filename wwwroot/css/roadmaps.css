@@ -1,5 +1,5 @@
-/* ================================================================
-   ROADMAPS.CSS — Professional roadmaps page styles
+﻿/* ================================================================
+   ROADMAPS.CSS â€” Professional roadmaps page styles
    ================================================================ */
 
 /* ---- Hero ---- */
@@ -146,7 +146,7 @@
 .rm-card-title {
   font-size: var(--fs-h4);
   font-weight: 700;
-  color: var(--color-navy-900);
+  color: var(--color-text-900);
   margin-bottom: 4px;
 }
 
@@ -209,7 +209,7 @@
   grid-row: 1;
   font-size: var(--fs-small);
   font-weight: 600;
-  color: var(--color-navy-900);
+  color: var(--color-text-900);
   margin-left: auto;
   text-align: right;
 }
@@ -278,3 +278,4 @@
   .rm-cta { padding: var(--space-8) var(--space-6); }
   .rm-cta-right { flex-direction: column; }
 }
+

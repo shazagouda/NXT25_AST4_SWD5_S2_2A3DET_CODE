@@ -93,6 +93,10 @@
                     <a asp-controller="ContactUs" asp-action="Index" class="nav-link">Contact Us</a>
                 </nav>
                 <div class="nav-actions">
+                    <!-- Dark mode toggle -->
+                    <button class="nav-icon-btn theme-toggle" id="themeToggleBtn" aria-label="Toggle theme">
+                        <i class="bi bi-moon-stars-fill"></i>
+                    </button>
                     <a asp-controller="Account" asp-action="Login" class="btn btn-ghost btn-sm">Login</a>
                     <a asp-controller="Account" asp-action="SignUp" class="btn btn-primary btn-sm">Sign Up</a>
                 </div>
@@ -162,7 +166,7 @@
                 </div>
                 <div>
                     <h4>Platform</h4>
-                    <a href="/tracks/Tracks.html">Tracks</a>
+                    <a class="nav-link @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Roadmaps" ? "active" : "")" asp-controller="Roadmaps" asp-action="Index">Tracks</a>
                     <a asp-controller="Assessment" asp-action="Index">Assessment</a>
                     <a asp-controller="Mentor" asp-action="Index">Mentors</a>
                 </div>

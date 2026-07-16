@@ -1,0 +1,283 @@
+﻿@{
+    ViewData["Title"] = "Backend Track";
+    Layout = "_Layout";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/tracks/Style/style.css" asp-append-version="true" />
+}
+
+
+
+  <!-- HERO -->
+  <section class="hero-section" id="hero">
+    <div class="hero-grid-bg"></div>
+    <div class="container">
+      <div class="row min-vh-100 align-items-center">
+        <div class="col-12 col-lg-8">
+          <div class="hero-tag mb-3" data-aos="fade-up">
+            <i class="fa-solid fa-server"></i>
+            <span data-i18n="hero.tag">Ø¯Ù„ÙŠÙ„ Ø§Ù„Ù…Ø¨ØªØ¯Ø¦ ÙÙŠ Backend</span>
+          </div>
+          <h1 class="hero-title" data-aos="fade-up" data-aos-delay="100">
+            <span data-i18n="hero.title1">ÙƒÙ„ Ø§Ù„Ù„ÙŠ Ù…Ø­ØªØ§Ø¬</span><br/>
+            <span data-i18n="hero.title2">ØªØ¹Ø±ÙÙ‡ Ø¹Ù†</span>
+            <span class="highlight-text"> Backend</span>
+          </h1>
+          <p class="hero-subtitle" data-aos="fade-up" data-aos-delay="200" data-i18n="hero.sub">
+            Ù…Ù† ÙÙ‡Ù… Ø§Ù„Ù€ Server Ù„Ù„Ù€ Database Ù„ØºØ§ÙŠØ© Ù…Ø§ ØªØ®ØªØ§Ø± Ø§Ù„Ù„ØºØ© ÙˆØ§Ù„Ù€ Framework Ø§Ù„Ù…Ù†Ø§Ø³Ø¨ â€” Ø¯Ù„ÙŠÙ„ ÙˆØ§Ø¶Ø­ ÙˆÙ…Ø¨Ø³Ø· Ø¨Ø¯ÙˆÙ† ØªØ¹Ù‚ÙŠØ¯.
+          </p>
+          <div class="hero-actions d-flex flex-wrap gap-3 mt-5" data-aos="fade-up" data-aos-delay="300">
+            <a href="#what-is" class="btn-primary-custom">
+              <span data-i18n="hero.cta1">Ø§Ø¨Ø¯Ø£ Ø§Ù„Ø±Ø­Ù„Ø©</span>
+              <i class="fa-solid fa-arrow-left ms-2"></i>
+            </a>
+            <a href="#comparison" class="btn-secondary-custom" data-i18n="hero.cta2">Ù‚Ø§Ø±Ù† Ø§Ù„ØªÙ‚Ù†ÙŠØ§Øª</a>
+          </div>
+        </div>
+        <div class="col-12 col-lg-4 d-none d-lg-block">
+          <div class="hero-code-block" data-aos="fade-left" data-aos-delay="400">
+            <div class="code-header">
+              <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+              <span class="code-filename">server.js</span>
+            </div>
+            <div class="code-body" id="heroCodeBlock">
+              <div class="code-line"><span class="kw">const</span> <span class="var">express</span> = <span class="fn">require</span>(<span class="str">'express'</span>);</div>
+              <div class="code-line"><span class="kw">const</span> <span class="var">app</span> = <span class="fn">express</span>();</div>
+              <div class="code-line mt-2"><span class="var">app</span>.<span class="method">get</span>(<span class="str" data-i18n="code.route">'/api/hello'</span>, (<span class="var">req</span>, <span class="var">res</span>) => {</div>
+              <div class="code-line pl-2"><span class="var">res</span>.<span class="method">json</span>({ <span class="prop">msg</span>: <span class="str" data-i18n="code.msg">"Ù…Ø±Ø­Ø¨Ø§Ù‹ ÙŠØ§ Backend! ðŸš€"</span> });</div>
+              <div class="code-line">});</div>
+              <div class="code-line mt-2"><span class="var">app</span>.<span class="method">listen</span>(<span class="bool">3000</span>);</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="hero-scroll-hint">
+      <div class="scroll-mouse"><div class="scroll-wheel"></div></div>
+      <span data-i18n="hero.scroll">Ø§Ø³ÙƒØ±ÙˆÙ„ Ù„Ù„Ø£Ø³ÙÙ„</span>
+    </div>
+  </section>
+
+  <!-- WHAT IS BACKEND -->
+  <section class="section-block" id="what-is">
+    <div class="container">
+      <div class="section-header text-center mb-5" data-aos="fade-up">
+        <span class="section-tag" data-i18n="what.tag">Ø§Ù„Ø£Ø³Ø§Ø³ÙŠØ§Øª</span>
+        <h2 class="section-title" data-i18n="what.title">Ø¥ÙŠÙ‡ Ù‡Ùˆ Ø§Ù„Ù€ BackendØŸ</h2>
+        <p class="section-subtitle" data-i18n="what.sub">Ø§Ù„Ù€ Backend Ù‡Ùˆ Ø§Ù„Ø¬Ø²Ø¡ Ø§Ù„Ù„ÙŠ Ø§Ù„Ù…Ø³ØªØ®Ø¯Ù… Ù…Ø´ Ø¨ÙŠØ´ÙˆÙÙ‡ â€” Ù„ÙƒÙ†Ù‡ Ø§Ù„Ù„ÙŠ Ø¨ÙŠØ®Ù„ÙŠ ÙƒÙ„ Ø­Ø§Ø¬Ø© ØªØ´ØªØºÙ„. Ø§Ù„Ø¨ÙŠØ§Ù†Ø§ØªØŒ Ø§Ù„Ø£Ù…Ø§Ù†ØŒ Ø§Ù„Ù…Ù†Ø·Ù‚ØŒ Ø§Ù„Ù€ Database. Ø¨Ø¨Ø³Ø§Ø·Ø©: Ù‡Ùˆ Ø§Ù„Ù…Ø·Ø¨Ø® Ø§Ù„Ù„ÙŠ Ø¨ÙŠØ·Ø¨Ø® ÙƒÙ„ Ø­Ø§Ø¬Ø©.</p>
+      </div>
+
+      <!-- Analogy -->
+      <div class="analogy-card mb-5" data-aos="fade-up">
+        <div class="analogy-icon"><i class="fa-solid fa-kitchen-set"></i></div>
+        <div class="analogy-content">
+          <h4 data-i18n="what.analogy.title">ÙÙƒØ± ÙÙŠ Ø§Ù„Ø£Ù…Ø± ÙƒØ¯Ù‡</h4>
+          <p data-i18n="what.analogy.body">Ø§Ù„Ù…Ø·Ø¹Ù… ÙÙŠÙ‡ <strong>ØµØ§Ù„Ø© Ø§Ù„Ø§Ø³ØªÙ‚Ø¨Ø§Ù„ (Frontend)</strong> Ø§Ù„Ù„ÙŠ Ø§Ù„Ø²Ø¨ÙˆÙ† Ø¨ÙŠØ´ÙˆÙÙ‡Ø§. Ù„ÙƒÙ† ÙÙŠ Ø§Ù„Ø®Ù„Ù ÙÙŠÙ‡ <strong>Ù…Ø·Ø¨Ø® (Backend)</strong> â€” Ù‡Ù†Ø§ Ø¨ÙŠØªØ­Ø¶Ø± Ø§Ù„Ø£ÙƒÙ„ØŒ Ø¨ÙŠØªØ­ÙØ¸ Ø§Ù„ÙˆØµÙØ§Øª ÙÙŠ Ø§Ù„Ù€ DatabaseØŒ ÙˆØ¨ÙŠØªÙ… Ø§Ù„ØªØ­Ù‚Ù‚ Ù…Ù† Ù‡ÙˆÙŠØ© Ø§Ù„Ø²Ø¨ÙˆÙ†. Ø¨Ø¯ÙˆÙ† Ø§Ù„Ù…Ø·Ø¨Ø®ØŒ Ù…ÙÙŠØ´ Ø£ÙƒÙ„. Ø£Ù†Øª Ø§Ù„Ø´ÙŠÙ!</p>
+        </div>
+      </div>
+
+      <!-- 3 Pillars -->
+      <div class="row g-4">
+        <div class="col-12 col-md-4" data-aos="fade-up" data-aos-delay="0">
+          <div class="pillar-card" data-pillar="server">
+            <div class="pillar-icon"><i class="fa-solid fa-server"></i></div>
+            <div class="pillar-number">01</div>
+            <h3 class="pillar-title">Server</h3>
+            <p class="pillar-desc" data-i18n="what.server">Ø§Ù„ÙƒÙ…Ø¨ÙŠÙˆØªØ± Ø§Ù„Ù„ÙŠ Ø´ØºØ§Ù„ 24/7 ÙˆØ¨ÙŠØ³ØªÙ‚Ø¨Ù„ Ø§Ù„Ø·Ù„Ø¨Ø§Øª Ù…Ù† Ø§Ù„Ù…Ø³ØªØ®Ø¯Ù…ÙŠÙ† ÙˆÙŠØ±Ø¯ Ø¹Ù„ÙŠÙ‡Ù…. Ù‡Ùˆ Ø§Ù„Ù„ÙŠ Ø¨ÙŠØ´ØºÙ‘Ù„ ÙƒÙˆØ¯Ùƒ.</p>
+            <div class="pillar-tag">Compute</div>
+          </div>
+        </div>
+        <div class="col-12 col-md-4" data-aos="fade-up" data-aos-delay="100">
+          <div class="pillar-card" data-pillar="api">
+            <div class="pillar-icon"><i class="fa-solid fa-plug"></i></div>
+            <div class="pillar-number">02</div>
+            <h3 class="pillar-title">API</h3>
+            <p class="pillar-desc" data-i18n="what.api">Ø§Ù„ÙˆØ³ÙŠØ· Ø¨ÙŠÙ† Ø§Ù„Ù€ Frontend ÙˆØ§Ù„Ù€ Backend. Ø¨ÙŠØ­Ø¯Ø¯ ÙƒÙŠÙ ÙŠØªØ¨Ø§Ø¯Ù„ÙˆØ§ Ø§Ù„Ø¨ÙŠØ§Ù†Ø§Øª Ø¨Ø´ÙƒÙ„ Ù…Ù†Ø¸Ù… ÙˆÙ…ØªÙÙ‚ Ø¹Ù„ÙŠÙ‡.</p>
+            <div class="pillar-tag">Interface</div>
+          </div>
+        </div>
+        <div class="col-12 col-md-4" data-aos="fade-up" data-aos-delay="200">
+          <div class="pillar-card" data-pillar="db">
+            <div class="pillar-icon"><i class="fa-solid fa-database"></i></div>
+            <div class="pillar-number">03</div>
+            <h3 class="pillar-title">Database</h3>
+            <p class="pillar-desc" data-i18n="what.db">Ù…ÙƒØ§Ù† Ø­ÙØ¸ Ø§Ù„Ø¨ÙŠØ§Ù†Ø§Øª Ø¨Ø´ÙƒÙ„ Ù…Ù†Ø¸Ù… â€” Ø§Ù„Ù…Ø³ØªØ®Ø¯Ù…ÙŠÙ†ØŒ Ø§Ù„Ù…Ù†ØªØ¬Ø§ØªØŒ Ø§Ù„Ø·Ù„Ø¨Ø§Øª. Ø¨Ø¯ÙˆÙ† DatabaseØŒ Ù…ÙÙŠØ´ Ø°Ø§ÙƒØ±Ø©.</p>
+            <div class="pillar-tag">Storage</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FRAMEWORK INTRO (dark section) -->
+  <section class="section-block" id="frameworks-intro">
+    <div class="container">
+      <div class="row align-items-center g-5">
+        <div class="col-12 col-lg-6" data-aos="fade-right">
+          <span class="section-tag light" data-i18n="fwintro.tag">Ø§Ù„Ù…ÙÙ‡ÙˆÙ…</span>
+          <h2 class="section-title light" data-i18n="fwintro.title">Ù„ÙŠÙ‡ ØªØªØ¹Ù„Ù… BackendØŸ</h2>
+          <p class="section-subtitle light" data-i18n="fwintro.sub1">Ø§Ù„Ù€ Frontend Ø¨ÙŠØªØ¹Ø§Ù…Ù„ Ù…Ø¹ Ø§Ù„Ù…Ø³ØªØ®Ø¯Ù…ØŒ Ù„ÙƒÙ† <strong>Ø§Ù„Ù€ Backend Ù‡Ùˆ Ø§Ù„Ù„ÙŠ Ø¨ÙŠØªØ¹Ø§Ù…Ù„ Ù…Ø¹ Ø§Ù„Ø¨ÙŠØ§Ù†Ø§Øª Ø§Ù„Ø­Ù‚ÙŠÙ‚ÙŠØ©</strong> â€” Ø§Ù„ØªØ³Ø¬ÙŠÙ„ØŒ Ø§Ù„Ø¯ÙØ¹ØŒ Ø§Ù„Ø£Ù…Ø§Ù†ØŒ ÙˆØ§Ù„Ù€ Logic Ø§Ù„Ù…Ø¹Ù‚Ø¯.</p>
+          <p class="section-subtitle light" data-i18n="fwintro.sub2">Ù…Ø¹ <strong>Backend Ù‚ÙˆÙŠ</strong> ØªÙ‚Ø¯Ø± ØªØ¨Ù†ÙŠ Ø£ÙŠ Ø­Ø§Ø¬Ø© â€” Ù…Ù† API ØµØºÙŠØ± Ù„Ù€ Platform Ø¶Ø®Ù… Ø²ÙŠ Netflix Ø£Ùˆ Uber.</p>
+          <div class="benefits-list mt-4">
+            <div class="benefit-item"><i class="fa-solid fa-check"></i> <span data-i18n="fwintro.b1">ØªØ­ÙƒÙ… ÙƒØ§Ù…Ù„ ÙÙŠ Ø§Ù„Ø¨ÙŠØ§Ù†Ø§Øª ÙˆØ§Ù„Ù…Ù†Ø·Ù‚</span></div>
+            <div class="benefit-item"><i class="fa-solid fa-check"></i> <span data-i18n="fwintro.b2">Ø±Ø§ØªØ¨ Ø£Ø¹Ù„Ù‰ Ù…Ù† Frontend ÙÙŠ Ù…Ø¹Ø¸Ù… Ø§Ù„Ø£Ø³ÙˆØ§Ù‚</span></div>
+            <div class="benefit-item"><i class="fa-solid fa-check"></i> <span data-i18n="fwintro.b3">Ø·Ù„Ø¨ Ù…Ø³ØªÙ…Ø± ÙÙŠ ÙƒÙ„ Ø´Ø±ÙƒØ© Ø¨Ø¯ÙˆÙ† Ø§Ø³ØªØ«Ù†Ø§Ø¡</span></div>
+            <div class="benefit-item"><i class="fa-solid fa-check"></i> <span data-i18n="fwintro.b4">ÙŠÙØªØ­ Ø¨Ø§Ø¨ Ø§Ù„Ù€ Full-Stack ÙˆØ§Ù„Ù€ DevOps</span></div>
+          </div>
+        </div>
+        <div class="col-12 col-lg-6" data-aos="fade-left">
+          <!-- Backend orbit visual -->
+          <div class="framework-visual">
+            <div class="fv-center">
+              <i class="fa-solid fa-server"></i>
+              <span>Backend</span>
+            </div>
+            <div class="fv-orbit">
+              <div class="fv-satellite" style="--i:0"><span style="color:#68a063"><i class="fa-brands fa-node-js"></i></span></div>
+              <div class="fv-satellite" style="--i:1"><span style="color:#3776ab"><i class="fa-brands fa-python"></i></span></div>
+              <div class="fv-satellite" style="--i:2"><span style="color:#b07219"><i class="fa-brands fa-java"></i></span></div>
+              <div class="fv-satellite" style="--i:3"><span style="color:#512bd4"><i class="fa-solid fa-hashtag"></i></span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FRAMEWORKS / LANGUAGES -->
+  <section class="section-block" id="frameworks">
+    <div class="container">
+      <div class="section-header text-center mb-5" data-aos="fade-up">
+        <span class="section-tag" data-i18n="fw.tag">Ø§Ù„ØªÙ‚Ù†ÙŠØ§Øª</span>
+        <h2 class="section-title" data-i18n="fw.title">Ø£Ø´Ù‡Ø± Ù„ØºØ§Øª ÙˆFrameworks Ø§Ù„Ù€ Backend</h2>
+        <p class="section-subtitle" data-i18n="fw.sub">Ø§Ø¹Ø±Ù ÙƒÙ„ ØªÙ‚Ù†ÙŠØ© â€” Ù…ÙŠÙ† Ø¨ÙŠØ³ØªØ®Ø¯Ù…Ù‡Ø§ØŒ Ø¥ÙŠÙ‡ Ù…Ù…ÙŠØ²Ø§ØªÙ‡Ø§ØŒ ÙˆØ§Ù…ØªÙ‰ ØªØ®ØªØ§Ø±Ù‡Ø§.</p>
+      </div>
+      <div class="fw-tabs-wrapper" data-aos="fade-up">
+        <div class="fw-tabs d-flex gap-2 flex-wrap mb-4" id="fwTabs">
+          <button class="fw-tab active" data-fw="nodejs"><i class="fa-brands fa-node-js"></i> Node.js</button>
+          <button class="fw-tab" data-fw="python"><i class="fa-brands fa-python"></i> Python</button>
+          <button class="fw-tab" data-fw="java"><i class="fa-brands fa-java"></i> Java</button>
+          <button class="fw-tab" data-fw="dotnet"><i class="fa-solid fa-hashtag"></i> .NET</button>
+          <button class="fw-tab" data-fw="go"><i class="fa-solid fa-g"></i> Go</button>
+        </div>
+        <div class="fw-panel" id="fwPanel"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- COMPARISON TABLE -->
+  <section class="section-block section-light-alt" id="comparison">
+    <div class="container">
+      <div class="section-header text-center mb-5" data-aos="fade-up">
+        <span class="section-tag" data-i18n="cmp.tag">Ø§Ù„Ù…Ù‚Ø§Ø±Ù†Ø©</span>
+        <h2 class="section-title" data-i18n="cmp.title">Ù…Ù‚Ø§Ø±Ù†Ø© Ø´Ø§Ù…Ù„Ø© Ø¨ÙŠÙ† Ø§Ù„ØªÙ‚Ù†ÙŠØ§Øª</h2>
+        <p class="section-subtitle" data-i18n="cmp.sub">Ø¬Ø¯ÙˆÙ„ ÙˆØ§Ø¶Ø­ ÙŠØ³Ø§Ø¹Ø¯Ùƒ ØªØ´ÙˆÙ Ø§Ù„ÙØ±ÙˆÙ‚ Ø¯ÙØ¹Ø© ÙˆØ§Ø­Ø¯Ø©.</p>
+      </div>
+      <div class="table-wrapper" data-aos="fade-up">
+        <div class="table-responsive">
+          <table class="comparison-table w-100">
+            <thead>
+              <tr>
+                <th data-i18n="cmp.criterion">Ø§Ù„Ù…Ø¹ÙŠØ§Ø±</th>
+                <th><i class="fa-brands fa-node-js"></i> Node.js</th>
+                <th><i class="fa-brands fa-python"></i> Python</th>
+                <th><i class="fa-brands fa-java"></i> Java</th>
+                <th><i class="fa-solid fa-hashtag"></i> .NET</th>
+                <th><i class="fa-solid fa-g"></i> Go</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="criterion" data-i18n="cmp.diff">ØµØ¹ÙˆØ¨Ø© Ø§Ù„Ø¨Ø¯Ø§ÙŠØ©</td>
+                <td><span class="level easy"   data-i18n="l.easy">Ø³Ù‡Ù„</span></td>
+                <td><span class="level easy"   data-i18n="l.easy">Ø³Ù‡Ù„</span></td>
+                <td><span class="level hard"   data-i18n="l.hard">ØµØ¹Ø¨</span></td>
+                <td><span class="level medium" data-i18n="l.med">Ù…ØªÙˆØ³Ø·</span></td>
+                <td><span class="level medium" data-i18n="l.med">Ù…ØªÙˆØ³Ø·</span></td>
+              </tr>
+              <tr>
+                <td class="criterion" data-i18n="cmp.perf">Ø§Ù„Ø£Ø¯Ø§Ø¡ (Performance)</td>
+                <td><div class="perf-bar" data-perf="85"></div></td>
+                <td><div class="perf-bar" data-perf="75"></div></td>
+                <td><div class="perf-bar" data-perf="92"></div></td>
+                <td><div class="perf-bar" data-perf="90"></div></td>
+                <td><div class="perf-bar" data-perf="98"></div></td>
+              </tr>
+              <tr>
+                <td class="criterion" data-i18n="cmp.community">Ø§Ù„Ù€ Community</td>
+                <td><span class="stars">â˜…â˜…â˜…â˜…â˜…</span></td>
+                <td><span class="stars">â˜…â˜…â˜…â˜…â˜…</span></td>
+                <td><span class="stars">â˜…â˜…â˜…â˜…â˜†</span></td>
+                <td><span class="stars">â˜…â˜…â˜…â˜…â˜†</span></td>
+                <td><span class="stars">â˜…â˜…â˜…â˜†â˜†</span></td>
+              </tr>
+              <tr>
+                <td class="criterion" data-i18n="cmp.jobs">ÙØ±Øµ Ø§Ù„Ø¹Ù…Ù„</td>
+                <td><span class="level easy"   data-i18n="l.great">Ù…Ù…ØªØ§Ø²</span></td>
+                <td><span class="level easy"   data-i18n="l.great">Ù…Ù…ØªØ§Ø²</span></td>
+                <td><span class="level medium" data-i18n="l.good">ÙƒÙˆÙŠØ³</span></td>
+                <td><span class="level medium" data-i18n="l.good">ÙƒÙˆÙŠØ³</span></td>
+                <td><span class="level medium" data-i18n="l.good">ÙƒÙˆÙŠØ³</span></td>
+              </tr>
+              <tr>
+                <td class="criterion" data-i18n="cmp.companies">Ø§Ù„Ø´Ø±ÙƒØ§Øª</td>
+                <td>Netflix, LinkedIn</td>
+                <td>Instagram, Spotify</td>
+                <td>Amazon, LinkedIn</td>
+                <td>Microsoft, Stack Overflow</td>
+                <td>Google, Uber</td>
+              </tr>
+              <tr>
+                <td class="criterion" data-i18n="cmp.for">Ù…Ù†Ø§Ø³Ø¨ Ù„Ù€</td>
+                <td data-i18n="cmp.node">APIs, Real-time</td>
+                <td data-i18n="cmp.python">AI, Data, Web</td>
+                <td data-i18n="cmp.java">Enterprise, Android</td>
+                <td data-i18n="cmp.dotnet">Windows, Enterprise</td>
+                <td data-i18n="cmp.go">Microservices, Cloud</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- QUIZ -->
+  <section class="section-block" id="quiz">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-12 col-lg-8">
+          <div class="section-header text-center mb-5" data-aos="fade-up">
+            <span class="section-tag light" data-i18n="quiz.tag">Ø§ÙƒØªØ´Ù Ù†ÙØ³Ùƒ</span>
+            <h2 class="section-title light" data-i18n="quiz.title">Ø£Ù†Ù‡ÙŠ Ù„ØºØ© Backend ØªÙ†Ø§Ø³Ø¨ÙƒØŸ</h2>
+            <p class="section-subtitle light" data-i18n="quiz.sub">Ø¬Ø§ÙˆØ¨ Ø¹Ù„Ù‰ 3 Ø£Ø³Ø¦Ù„Ø© ÙˆÙ‡Ù†Ù‚ØªØ±Ø­ Ø¹Ù„ÙŠÙƒ Ø§Ù„Ø£Ù†Ø³Ø¨.</p>
+          </div>
+          <div class="quiz-card" id="quizCard" data-aos="fade-up">
+            <div class="quiz-progress-bar"><div class="quiz-progress-fill" id="quizProgressFill"></div></div>
+            <div class="quiz-step-indicator" id="quizStepIndicator"></div>
+            <div class="quiz-content" id="quizContent"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ROADMAP -->
+  <section class="section-block" id="roadmap">
+    <div class="container">
+      <div class="section-header text-center mb-5" data-aos="fade-up">
+        <span class="section-tag" data-i18n="road.tag">Ø®Ø§Ø±Ø·Ø© Ø§Ù„Ø·Ø±ÙŠÙ‚</span>
+        <h2 class="section-title" data-i18n="road.title">Ù…Ù† ÙÙŠÙ† ØªØ¨Ø¯Ø£ BackendØŸ</h2>
+        <p class="section-subtitle" data-i18n="road.sub">Ø§Ù„Ø®Ø·ÙˆØ§Øª Ø§Ù„ØµØ­ØŒ Ø¨Ø§Ù„ØªØ±ØªÙŠØ¨ Ø§Ù„ØµØ­ â€” Ù…Ù† Ø§Ù„ØµÙØ± Ù„Ù„Ø§Ø­ØªØ±Ø§Ù.</p>
+      </div>
+      <div class="roadmap-timeline" id="roadmapTimeline"></div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  
+
+@section Scripts {
+    <script src="~/tracks/Backend/app.js" asp-append-version="true"></script>
+}

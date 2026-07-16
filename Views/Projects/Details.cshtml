@@ -194,7 +194,22 @@
                             }
                             else
                             {
-                                if (Model.HasPendingJoinRequest)
+                                if (User.IsInRole("Company"))
+                                {
+                                    if (Model.IsAssigned && string.IsNullOrEmpty(Model.ClientId) && Model.Price.HasValue)
+                                    {
+                                        <a asp-controller="Booking" asp-action="Create" asp-route-targetType="Project" asp-route-targetId="@Model.Id" class="btn btn-primary btn-sm">
+                                            <i class="fa-solid fa-handshake me-2"></i>Book Project ($@Model.Price)
+                                        </a>
+                                    }
+                                    else if (Model.IsAssigned && string.IsNullOrEmpty(Model.ClientId) && !Model.Price.HasValue)
+                                    {
+                                        <a asp-controller="Booking" asp-action="Create" asp-route-targetType="Project" asp-route-targetId="@Model.Id" class="btn btn-primary btn-sm">
+                                            <i class="fa-solid fa-handshake me-2"></i>Book Team
+                                        </a>
+                                    }
+                                }
+                                else if (Model.HasPendingJoinRequest)
                                 {
                                     <button class="btn btn-secondary btn-sm" disabled>
                                         <i class="fa-solid fa-clock-rotate-left me-2"></i>Pending Request

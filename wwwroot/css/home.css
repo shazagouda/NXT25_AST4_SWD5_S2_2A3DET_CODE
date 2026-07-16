@@ -1,4 +1,4 @@
-/* 
+﻿/* 
    HOME.CSS - Premium Redesign for A3DET CODE Landing Page
    Integrates the ice-blue/teal theme and high-end glassmorphism into the original sections.
 */
@@ -49,7 +49,7 @@
   line-height: 1.1;
   letter-spacing: -0.02em;
   margin-bottom: var(--space-5);
-  color: var(--color-navy-900);
+  color: var(--color-text-900);
 }
 
 .hero-copy h1 .accent {
@@ -88,7 +88,7 @@
   font-family: var(--font-mono);
   font-size: 1.85rem;
   font-weight: 700;
-  color: var(--color-navy-900);
+  color: var(--color-text-900);
   line-height: 1.2;
 }
 
@@ -137,7 +137,7 @@
 .hero-panel-head span:first-child {
   font-weight: 700;
   font-size: 0.95rem;
-  color: var(--color-navy-900);
+  color: var(--color-text-900);
 }
 
 .hero-track-list {
@@ -156,7 +156,7 @@
 .hero-track-name {
   font-size: 0.88rem;
   font-weight: 600;
-  color: var(--color-navy-900);
+  color: var(--color-text-900);
 }
 
 .hero-track-score {
@@ -207,7 +207,7 @@
 .hero-floating-card-title {
   font-size: 0.82rem;
   font-weight: 700;
-  color: var(--color-navy-900);
+  color: var(--color-text-900);
 }
 
 .hero-floating-card-sub {
@@ -269,7 +269,7 @@
 .section-head h2 {
   font-size: var(--fs-h2);
   font-weight: 800;
-  color: var(--color-navy-900);
+  color: var(--color-text-900);
   margin-bottom: var(--space-2);
 }
 
@@ -321,7 +321,7 @@
 .track-card h4 {
   font-size: 1.1rem;
   font-weight: 700;
-  color: var(--color-navy-900);
+  color: var(--color-text-900);
   margin-bottom: var(--space-2);
 }
 
@@ -373,7 +373,7 @@
 .feature-row h4 {
   font-size: 0.98rem;
   font-weight: 700;
-  color: var(--color-navy-900);
+  color: var(--color-text-900);
   margin-bottom: 0.2rem;
 }
 
@@ -411,7 +411,7 @@
 .person-card h4 {
   font-size: 1rem;
   font-weight: 700;
-  color: var(--color-navy-900);
+  color: var(--color-text-900);
   margin-bottom: 0.2rem;
 }
 
@@ -519,7 +519,7 @@
   border-radius: var(--radius-md);
   font-size: 0.85rem;
   font-weight: 500;
-  color: var(--color-navy-900);
+  color: var(--color-text-900);
   margin-bottom: var(--space-2);
   transition: all 0.25s;
 }
@@ -588,7 +588,7 @@
 .stage-card h4 {
   font-size: 1.05rem;
   font-weight: 700;
-  color: var(--color-navy-900);
+  color: var(--color-text-900);
   margin-bottom: var(--space-2);
 }
 
@@ -614,7 +614,7 @@
 }
 
 .project-card-thumb::before {
-  content: '📁';
+  content: 'ðŸ“';
   position: absolute;
   inset: 0;
   display: flex;
@@ -645,7 +645,7 @@
 .project-card h4 {
   font-size: 1.05rem;
   font-weight: 700;
-  color: var(--color-navy-900);
+  color: var(--color-text-900);
   margin-bottom: 0.25rem;
 }
 
@@ -693,7 +693,7 @@
 .testimonial-author-meta .name {
   font-size: 0.88rem;
   font-weight: 700;
-  color: var(--color-navy-900);
+  color: var(--color-text-900);
 }
 
 .testimonial-author-meta .role {
@@ -731,7 +731,7 @@
   align-items: center;
   font-weight: 700;
   font-size: 0.95rem;
-  color: var(--color-navy-900);
+  color: var(--color-text-900);
 }
 
 .faq-icon {
@@ -782,7 +782,7 @@
 .form-field label {
   font-size: 0.75rem;
   font-weight: 600;
-  color: var(--color-navy-900);
+  color: var(--color-text-900);
   text-transform: uppercase;
   letter-spacing: 0.05em;
 }
@@ -910,3 +910,4 @@
     grid-column: span 1;
   }
 }
+

@@ -88,7 +88,7 @@
                             </div>
                         }
                     </div>
-                    <a href="/tracks/Tracks.html" class="rm-card-cta" style="color:@rm.Item4; border-color:@(rm.Item4)44">
+                    <a asp-action="Track" asp-route-id="@rm.Item5" class="rm-card-cta" style="color:@rm.Item4; border-color:@(rm.Item4)44">
                         View Full Track <i class="bi bi-arrow-right"></i>
                     </a>
                 </div>
@@ -110,7 +110,7 @@
                 <a asp-controller="Assessment" asp-action="Index" class="btn btn-primary" style="font-size:1rem; padding:1rem 2rem;">
                     Start the Assessment <i class="bi bi-arrow-right"></i>
                 </a>
-                <a href="/tracks/Tracks.html" class="btn btn-secondary" style="font-size:1rem; padding:1rem 2rem;">
+                <a asp-action="Index" class="btn btn-secondary" style="font-size:1rem; padding:1rem 2rem;">
                     Browse Tracks
                 </a>
             </div>

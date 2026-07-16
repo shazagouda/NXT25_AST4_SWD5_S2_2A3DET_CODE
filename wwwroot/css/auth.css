@@ -32,7 +32,7 @@
         font-family: var(--font-display);
         font-size: var(--fs-h2);
         font-weight: 700;
-        color: var(--color-navy-900);
+        color: var(--color-text-900);
         margin-bottom: var(--space-2);
     }
 
@@ -50,7 +50,7 @@
     .auth-form h3 {
         font-size: var(--fs-h4);
         font-weight: 600;
-        color: var(--color-navy-900);
+        color: var(--color-text-900);
         margin-bottom: var(--space-2);
     }
 
@@ -63,7 +63,7 @@
     .form-field label {
         font-weight: 500;
         font-size: var(--fs-small);
-        color: var(--color-navy-900);
+        color: var(--color-text-900);
     }
 
 .form-control {
@@ -109,7 +109,7 @@
 }
 
     .password-toggle:hover {
-        color: var(--color-navy-900);
+        color: var(--color-text-900);
     }
 
 .eye-icon {
@@ -199,7 +199,7 @@
 }
 
     .forgot-link:hover {
-        color: var(--color-navy-900);
+        color: var(--color-text-900);
         text-decoration: underline;
     }
 
@@ -363,7 +363,7 @@
 .role-card h4 {
     font-size: var(--fs-h4);
     font-weight: 600;
-    color: var(--color-navy-900);
+    color: var(--color-text-900);
     margin-bottom: var(--space-1);
 }
 
@@ -388,7 +388,7 @@
     }
 
         .auth-footer a:hover {
-            color: var(--color-navy-900);
+            color: var(--color-text-900);
             text-decoration: underline;
         }
 
@@ -435,3 +435,4 @@
         font-size: 2rem;
     }
 }
+

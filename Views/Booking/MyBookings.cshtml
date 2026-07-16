@@ -47,7 +47,7 @@
             @if (!Model.AllBookings.Any())
             {
                 <div class="empty-state">
-                    <div class="empty-icon">📋</div>
+                    <div class="empty-icon"><i class="bi bi-journal-text"></i></div>
                     <h3>No bookings yet</h3>
                     <p>Visit the Mentor page or Company marketplace to book a consultation.</p>
                 </div>
@@ -70,7 +70,7 @@
                 @if (!Model.SentBookings.Any())
                 {
                     <div class="empty-state">
-                        <div class="empty-icon">📤</div>
+                        <div class="empty-icon"><i class="bi bi-send"></i></div>
                         <h3>No sent bookings</h3>
                         <p>You haven't made any booking requests yet.</p>
                     </div>
@@ -92,7 +92,7 @@
             @if (!Model.ReceivedBookings.Any())
             {
                 <div class="empty-state">
-                    <div class="empty-icon">📥</div>
+                    <div class="empty-icon"><i class="bi bi-inbox"></i></div>
                     <h3>No received bookings</h3>
                     <p>No one has booked your services yet.</p>
                 </div>

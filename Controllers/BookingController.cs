@@ -105,6 +105,22 @@ namespace A3DET_CODE.Controllers
                     viewModel.HourlyRate = team.HourlyRate ?? 100m;
                     break;
 
+                case "Project":
+                    if (!int.TryParse(targetId, out int projectId)) return BadRequest();
+                    var project = await _context.Projects.Include(p => p.Team).ThenInclude(t => t!.Leader).FirstOrDefaultAsync(p => p.Id == projectId);
+                    if (project == null || project.Team == null) return NotFound();
+                    if (project.Team.LeaderId == user.Id) { TempData["Error"] = "You cannot book your own project."; return Redirect(Request.Headers["Referer"].ToString()); }
+
+                    viewModel.TargetTeamId = project.TeamId;
+                    viewModel.TargetName = project.Title;
+                    viewModel.TargetExpertise = "Project Implementation";
+                    viewModel.TargetImageUrl = null;
+                    viewModel.TargetInitials = project.Title.Length >= 2 ? project.Title.Substring(0, 2).ToUpper() : "P";
+                    viewModel.TargetRating = 0;
+                    viewModel.TargetSkills = project.TechStack;
+                    viewModel.HourlyRate = project.Price ?? 0m;
+                    break;
+
                 default:
                     return BadRequest("Invalid target type");
             }
@@ -130,6 +146,7 @@ namespace A3DET_CODE.Controllers
                     "Mentor" => model.TargetMentorId?.ToString(),
                     "Student" => model.TargetStudentId,
                     "Team" => model.TargetTeamId?.ToString(),
+                    "Project" => model.TargetTeamId?.ToString(),
                     _ => null
                 } ?? "";
                 
@@ -137,16 +154,15 @@ namespace A3DET_CODE.Controllers
             }
 
             // Calculate pricing
-            var totalDays = (model.EndDate.Date >= model.ScheduledAt.Date) ? (int)(model.EndDate.Date - model.ScheduledAt.Date).TotalDays + 1 : 1;
-            var subtotal = model.HourlyRate * 8m * totalDays; // Assuming 8 hours a day
-            var platformFee = Math.Round(subtotal * 0.10m, 2); // 10% Platform Fee
+            var subtotal = model.SubtotalPrice; // Use the property from the model which handles Project logic
+            var platformFee = model.PlatformFee;
             var totalPrice = subtotal; // Booker pays subtotal
-            var netAmount = subtotal - platformFee; // The target gets the net amount
+            var netAmount = model.NetAmount; // The target gets the net amount
 
             var booking = new Models.Booking
             {
                 BookerUserId = user.Id,
-                TargetType = model.TargetType,
+                TargetType = model.TargetType == "Project" ? "Team" : model.TargetType,
                 TargetMentorId = model.TargetMentorId,
                 TargetStudentId = model.TargetStudentId,
                 TargetTeamId = model.TargetTeamId,
@@ -184,7 +200,11 @@ namespace A3DET_CODE.Controllers
             var user = await _userManager.GetUserAsync(User);
             if (user == null) return RedirectToAction("Login", "Account");
 
-            var booking = await _context.Bookings.Include(b => b.BookerUser).FirstOrDefaultAsync(b => b.Id == id);
+            var booking = await _context.Bookings
+                .Include(b => b.BookerUser)
+                .Include(b => b.TargetMentor)
+                .Include(b => b.TargetTeam)
+                .FirstOrDefaultAsync(b => b.Id == id);
             if (booking == null) return NotFound();
             
             // Check if user is the target
@@ -215,7 +235,10 @@ namespace A3DET_CODE.Controllers
             var user = await _userManager.GetUserAsync(User);
             if (user == null) return RedirectToAction("Login", "Account");
 
-            var booking = await _context.Bookings.FirstOrDefaultAsync(b => b.Id == id);
+            var booking = await _context.Bookings
+                .Include(b => b.TargetMentor)
+                .Include(b => b.TargetTeam)
+                .FirstOrDefaultAsync(b => b.Id == id);
             if (booking == null) return NotFound();
             
             if (!IsUserTarget(booking, user.Id)) return Forbid();
@@ -589,6 +612,8 @@ namespace A3DET_CODE.Controllers
 
             var booking = await _context.Bookings
                 .Include(b => b.Contract)
+                .Include(b => b.TargetMentor)
+                .Include(b => b.TargetTeam)
                 .FirstOrDefaultAsync(b => b.Id == id);
                 
             if (booking == null) return NotFound();
@@ -814,21 +839,14 @@ This document is legally binding upon electronic signature by both parties.";
             var mainAdmin = adminUsers.FirstOrDefault();
             if (mainAdmin != null)
             {
-                mainAdmin.WalletBalance += booking.TotalPrice;
+                // Admin only receives the 10% platform fee immediately
+                mainAdmin.WalletBalance += booking.PlatformFee;
                 _context.WalletTransactions.Add(new WalletTransaction
                 {
                     UserId = mainAdmin.Id,
                     Type = "Earned",
                     Amount = booking.PlatformFee,
-                    Description = $"Platform Fee (10%) for booking #{booking.Id}",
-                    CreatedAt = DateTime.UtcNow
-                });
-                _context.WalletTransactions.Add(new WalletTransaction
-                {
-                    UserId = mainAdmin.Id,
-                    Type = "Deposit",
-                    Amount = booking.NetAmount,
-                    Description = $"Escrow hold for booking #{booking.Id}",
+                    Description = $"Platform Fee (10%) for booking #{booking.Id} — {booking.Topic}",
                     CreatedAt = DateTime.UtcNow
                 });
                 await _userManager.UpdateAsync(mainAdmin);

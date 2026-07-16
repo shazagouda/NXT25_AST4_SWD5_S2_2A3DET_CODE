@@ -1,4 +1,4 @@
-
+﻿
 .about-hero {
     padding: var(--space-12) 0 var(--space-10);
     position: relative;
@@ -794,4 +794,5 @@
 [data-theme="dark"] .role-card-modern:hover {
     border-color: rgba(76,132,244,0.3);
 }
+
 

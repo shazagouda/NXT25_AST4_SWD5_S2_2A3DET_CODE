@@ -32,7 +32,7 @@
         <div class="password-input-wrapper">
             <input asp-for="Password" type="password" class="form-control" placeholder="Enter your password" autocomplete="current-password" />
             <button type="button" class="password-toggle" aria-label="Toggle password visibility">
-                <span class="eye-icon">👁️</span>
+                <i class="bi bi-eye" id="togglePasswordIcon"></i>
             </button>
         </div>
         <span asp-validation-for="Password" class="text-danger"></span>

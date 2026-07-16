@@ -247,6 +247,52 @@ namespace A3DET_CODE.Controllers
             if (user == null)
                 return RedirectToAction("Login", "Account");
 
+            var userTeams = await _context.TeamMembers
+                .Where(m => m.UserId == user.Id)
+                .Select(m => m.TeamId)
+                .ToListAsync();
+
+            var projects = await _context.Projects
+                .Where(p => p.TeamId.HasValue && userTeams.Contains(p.TeamId.Value))
+                .ToListAsync();
+
+            var totalProjects = projects.Count;
+            var completedProjects = projects.Count(p => p.Status == "Completed");
+            var inProgressProjects = projects.Count(p => p.Status == "InProgress");
+            var completionRate = totalProjects > 0 ? (double)completedProjects / totalProjects * 100 : 0;
+
+            var tasks = await _context.Tasks
+                .Where(t => t.AssignedToId == user.Id)
+                .ToListAsync();
+            var upcomingTasks = tasks
+                .Where(t => t.Status != "Completed")
+                .OrderBy(t => t.DueDate)
+                .Take(5)
+                .Select(t => new UpcomingTask
+                {
+                    Title = t.Title,
+                    DueDate = t.DueDate ?? DateTime.Now.AddDays(7),
+                    Priority = t.Priority
+                }).ToList();
+
+            var badgesCount = await _context.UserBadges.CountAsync(ub => ub.UserId == user.Id);
+            
+            var trackName = user.Faculty ?? "Development Track";
+
+            // Top recommended projects (just some random or latest projects)
+            var recommendedProjects = await _context.Projects
+                .Where(p => !p.TeamId.HasValue && p.Status == "Open")
+                .OrderByDescending(p => p.CreatedAt)
+                .Take(2)
+                .Select(p => new RecommendedProject
+                {
+                    Id = p.Id,
+                    Title = p.Title,
+                    Description = p.Description,
+                    TechStack = p.TechStack,
+                    MatchScore = 90
+                }).ToListAsync();
+
             var viewModel = new StudentDashboardViewModel
             {
                 UserName = user.FullName,
@@ -255,34 +301,20 @@ namespace A3DET_CODE.Controllers
                 ProfileImageUrl = user.ProfileImageUrl,
                 LastLogin = user.LastLoginAt ?? DateTime.Now,
 
-                TotalProjects = 5,
-                CompletedProjects = 2,
-                InProgressProjects = 3,
-                TotalTeams = 2,
-                TotalBadges = 3,
-                TotalPoints = 1250,
-                CompletionRate = 40,
-                CurrentTrack = "Frontend Development",
-                TrackProgress = 72,
+                TotalProjects = totalProjects,
+                CompletedProjects = completedProjects,
+                InProgressProjects = inProgressProjects,
+                TotalTeams = userTeams.Count,
+                TotalBadges = badgesCount,
+                TotalPoints = 0, // Points property missing in DB, using 0
+                CompletionRate = completionRate,
+                CurrentTrack = trackName,
+                TrackProgress = 0, // Hard to calculate without user progress tracking
 
-                RecentActivities = new List<RecentActivity>
-                {
-                    new RecentActivity { Title = "Completed Project", Description = "Admin Dashboard Suite", Date = DateTime.Now.AddDays(-2), Icon = "✅", Color = "green" },
-                    new RecentActivity { Title = "Joined Team", Description = "Team Alpha", Date = DateTime.Now.AddDays(-5), Icon = "🤝", Color = "blue" },
-                    new RecentActivity { Title = "Earned Badge", Description = "Rising Developer", Date = DateTime.Now.AddDays(-7), Icon = "🏅", Color = "amber" }
-                },
+                RecentActivities = new List<RecentActivity>(), // Can be filled if you have an activity log table
 
-                UpcomingTasks = new List<UpcomingTask>
-                {
-                    new UpcomingTask { Title = "Submit Peer Lending Project", DueDate = DateTime.Now.AddDays(3), Priority = "High" },
-                    new UpcomingTask { Title = "Team Meeting", DueDate = DateTime.Now.AddDays(5), Priority = "Medium" }
-                },
-
-                RecommendedProjects = new List<RecommendedProject>
-                {
-                    new RecommendedProject { Id = 1, Title = "E-Commerce Platform", Description = "Full-stack e-commerce with payment integration", TechStack = "React, .NET, SQL", MatchScore = 92 },
-                    new RecommendedProject { Id = 2, Title = "AI Chatbot", Description = "Build a customer service chatbot", TechStack = "Python, TensorFlow", MatchScore = 78 }
-                }
+                UpcomingTasks = upcomingTasks,
+                RecommendedProjects = recommendedProjects
             };
 
             return View("StudentDashboard", viewModel);
@@ -295,6 +327,31 @@ namespace A3DET_CODE.Controllers
             if (user == null)
                 return RedirectToAction("Login", "Account");
 
+            var bookings = await _context.Bookings.Where(b => b.BookerUserId == user.Id).ToListAsync();
+            var contracts = await _context.Contracts.Where(c => c.PartyAUserId == user.Id).ToListAsync();
+
+            var recentBookings = bookings.OrderByDescending(b => b.CreatedAt).Take(5).Select(b => new BookingSummary
+            {
+                Id = b.Id,
+                TargetName = b.Topic ?? b.TargetType,
+                TargetType = b.TargetType,
+                TotalPrice = b.TotalPrice,
+                ScheduledAt = b.ScheduledAt,
+                Status = b.PaymentStatus
+            }).ToList();
+
+            var topMentors = await _context.Mentors
+                .Include(m => m.User)
+                .OrderByDescending(m => m.Rating)
+                .Take(2)
+                .Select(m => new CandidateSummary
+                {
+                    Name = m.FullName,
+                    Track = m.Expertise,
+                    MatchScore = (int)((m.Rating / 5.0) * 100),
+                    ProjectsCount = m.TotalSessions // Using sessions instead of projects as proxy
+                }).ToListAsync();
+
             var viewModel = new CompanyDashboardViewModel
             {
                 UserName = user.FullName,
@@ -303,23 +360,14 @@ namespace A3DET_CODE.Controllers
                 ProfileImageUrl = user.ProfileImageUrl,
                 LastLogin = user.LastLoginAt ?? DateTime.Now,
 
-                TotalJobPosts = 12,
-                ActiveJobPosts = 8,
-                TotalApplications = 156,
-                ShortlistedCandidates = 24,
-                HiredCandidates = 6,
+                TotalBookings = bookings.Count,
+                ActiveContracts = contracts.Count(c => c.Status == "Active"),
+                PendingBookings = bookings.Count(b => b.Status == "PendingPayment" || b.Status == "PendingApproval"),
+                CompletedContracts = contracts.Count(c => c.Status == "Completed"),
+                TotalSpent = bookings.Where(b => b.PaymentStatus == "Paid").Sum(b => b.TotalPrice),
 
-                RecentJobPosts = new List<JobPostSummary>
-                {
-                    new JobPostSummary { Id = 1, Title = "Senior Frontend Developer", Type = "Full-time", ApplicationsCount = 45, PostedAt = DateTime.Now.AddDays(-3), Status = "Active" },
-                    new JobPostSummary { Id = 2, Title = "DevOps Engineer", Type = "Contract", ApplicationsCount = 28, PostedAt = DateTime.Now.AddDays(-7), Status = "Active" }
-                },
-
-                TopCandidates = new List<CandidateSummary>
-                {
-                    new CandidateSummary { Name = "Ahmed Hany", Track = "Backend", MatchScore = 95, ProjectsCount = 8 },
-                    new CandidateSummary { Name = "Lina Mostafa", Track = "Frontend", MatchScore = 92, ProjectsCount = 6 }
-                }
+                RecentBookings = recentBookings,
+                TopCandidates = topMentors
             };
 
             return View("CompanyDashboard", viewModel);

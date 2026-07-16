@@ -116,14 +116,24 @@
                 <!-- Price Breakdown -->
                 <div class="price-breakdown">
                     <h4>Booking Summary</h4>
-                    <div class="price-row">
-                        <span>Hourly Rate</span>
-                        <span>$<span id="displayRate">@Model.HourlyRate.ToString("F2")</span></span>
-                    </div>
-                    <div class="price-row">
-                        <span>Duration</span>
-                        <span id="displayDuration">@Model.TotalDays days (8 hrs/day)</span>
-                    </div>
+                    @if (Model.TargetType == "Project")
+                    {
+                        <div class="price-row">
+                            <span>Project Fixed Price</span>
+                            <span>$<span id="displayRate">@Model.HourlyRate.ToString("F2")</span></span>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="price-row">
+                            <span>Hourly Rate</span>
+                            <span>$<span id="displayRate">@Model.HourlyRate.ToString("F2")</span></span>
+                        </div>
+                        <div class="price-row">
+                            <span>Duration</span>
+                            <span id="displayDuration">@Model.TotalDays days (8 hrs/day)</span>
+                        </div>
+                    }
                     <div class="price-row">
                         <span>Subtotal</span>
                         <span>$<span id="displaySubtotal">@Model.SubtotalPrice.ToString("F2")</span></span>

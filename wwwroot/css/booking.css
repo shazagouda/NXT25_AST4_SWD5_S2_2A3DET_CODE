@@ -1,4 +1,4 @@
-/* ============================================================
+﻿/* ============================================================
    BOOKING & CONTRACT SYSTEM STYLES
    ============================================================ */
 
@@ -44,7 +44,7 @@
 .booking-form-card{padding:var(--space-6)}
 .booking-form-card h3{margin-bottom:var(--space-5)}
 .form-group{margin-bottom:var(--space-5)}
-.form-label{display:block;font-weight:600;font-size:var(--fs-small);margin-bottom:var(--space-2);color:var(--color-navy-900)}
+.form-label{display:block;font-weight:600;font-size:var(--fs-small);margin-bottom:var(--space-2);color: var(--color-text-900)}
 .form-input{width:100%;padding:12px 16px;border:1.5px solid var(--color-border);border-radius:var(--radius-sm);font-size:var(--fs-body);font-family:var(--font-body);transition:var(--transition-fast);background:var(--color-surface)}
 .form-input:focus{outline:none;border-color:var(--color-blue-600);box-shadow:0 0 0 3px rgba(47,111,237,0.12)}
 .form-textarea{resize:vertical;min-height:80px}
@@ -62,7 +62,7 @@
 .price-row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;font-size:var(--fs-small);color:var(--color-text-600)}
 .fee-row{border-top:1px dashed var(--color-border);padding-top:12px;margin-top:4px}
 .fee-amount{color:var(--color-teal-600)}
-.total-row{border-top:2px solid var(--color-navy-900);padding-top:12px;margin-top:8px;font-weight:700;color:var(--color-navy-900);font-size:var(--fs-body)}
+.total-row{border-top:$12px solid var(--color-text-900);padding-top:12px;margin-top:8px;font-weight:700;color: var(--color-text-900);font-size:var(--fs-body)}
 .total-amount{font-size:1.25rem;color:var(--color-blue-600);font-weight:800}
 
 /* Pay Button */
@@ -114,7 +114,7 @@
 .booking-detail{display:flex;gap:8px;align-items:flex-start}
 .detail-icon{font-size:1.1rem}
 .detail-label{display:block;font-size:10px;color:var(--color-text-400);text-transform:uppercase;letter-spacing:.04em}
-.detail-value{font-size:var(--fs-small);font-weight:600;color:var(--color-navy-900)}
+.detail-value{font-size:var(--fs-small);font-weight:600;color: var(--color-text-900)}
 .detail-value.price{color:var(--color-blue-600)}
 .booking-topic{padding:8px 0;font-size:var(--fs-small);color:var(--color-text-600);margin-bottom:var(--space-3)}
 .booking-card-actions{display:flex;gap:8px;flex-wrap:wrap}
@@ -156,7 +156,7 @@
 
 /* === CONTRACT DOCUMENT === */
 .contract-document{max-width:800px;margin:0 auto;padding:var(--space-8)}
-.contract-header{display:flex;justify-content:space-between;align-items:flex-start;padding-bottom:var(--space-6);border-bottom:2px solid var(--color-navy-900);margin-bottom:var(--space-6)}
+.contract-header{display:flex;justify-content:space-between;align-items:flex-start;padding-bottom:var(--space-6);border-bottom:$12px solid var(--color-text-900);margin-bottom:var(--space-6)}
 .contract-logo{display:flex;align-items:center;gap:var(--space-2)}
 .contract-logo .brand-mark{width:40px;height:40px;border-radius:var(--radius-sm);background:linear-gradient(135deg,var(--color-blue-600),var(--color-teal-600));display:flex;align-items:center;justify-content:center;color:#fff;font-family:var(--font-mono);font-weight:700;font-size:1rem}
 .brand-text{font-family:var(--font-display);font-weight:800;font-size:1.1rem}
@@ -184,12 +184,12 @@
 .info-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:var(--space-3)}
 .info-item{padding:var(--space-3);background:var(--color-bg);border-radius:var(--radius-sm)}
 .info-label{display:block;font-size:10px;text-transform:uppercase;letter-spacing:.04em;color:var(--color-text-400);margin-bottom:4px}
-.info-value{font-weight:600;font-size:var(--fs-small);color:var(--color-navy-900)}
+.info-value{font-weight:600;font-size:var(--fs-small);color: var(--color-text-900)}
 .info-value.total{color:var(--color-blue-600);font-size:1.1rem}
 
 .terms-content{max-height:400px;overflow-y:auto;padding:var(--space-5);background:var(--color-bg);border-radius:var(--radius-md);border:1px solid var(--color-border)}
 .terms-content p{font-size:var(--fs-small);line-height:1.7;margin-bottom:4px}
-.terms-heading{font-size:var(--fs-small);margin:var(--space-4) 0 var(--space-2);color:var(--color-navy-900)}
+.terms-heading{font-size:var(--fs-small);margin:var(--space-4) 0 var(--space-2);color: var(--color-text-900)}
 
 .contract-sign-action{text-align:center;padding:var(--space-6) 0}
 .contract-completed{text-align:center;padding:var(--space-6);background:linear-gradient(135deg,#E2FAF5,#D1FAE5);border-radius:var(--radius-md)}
@@ -259,3 +259,4 @@
     .terms-content{max-height:none;overflow:visible}
     .signature-img{border:1px solid #ccc}
 }
+

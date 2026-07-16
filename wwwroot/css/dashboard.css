@@ -1,4 +1,4 @@
-
+﻿
 :root {
     --radius-xl: 28px;
     --shadow-xl: 0 32px 64px rgba(10, 22, 40, 0.18);
@@ -1008,3 +1008,4 @@
 [data-theme="dark"] .quick-stat-item:hover {
     background: rgba(76, 132, 244, 0.15);
 }
+

@@ -211,6 +211,7 @@ namespace A3DET_CODE.Controllers
                 StartedAt = p.StartedAt,
                 CompletedAt = p.CompletedAt,
                 Deadline = p.Deadline,
+                Price = p.Price,
                 TotalTasks = p.Tasks?.Count ?? 0,
                 CompletedTasks = p.Tasks?.Count(t => t.Status == "Completed") ?? 0,
                 PendingTasks = p.Tasks?.Count(t => t.Status != "Completed") ?? 0,
@@ -276,6 +277,7 @@ namespace A3DET_CODE.Controllers
                 StartedAt = project.StartedAt,
                 CompletedAt = project.CompletedAt,
                 Deadline = project.Deadline,
+                Price = project.Price,
                 TotalTasks = project.Tasks?.Count ?? 0,
                 CompletedTasks = project.Tasks?.Count(t => t.Status == "Completed") ?? 0,
                 PendingTasks = project.Tasks?.Count(t => t.Status != "Completed") ?? 0,
@@ -337,6 +339,7 @@ namespace A3DET_CODE.Controllers
                     Type = model.Type,
                     Status = "InProgress",
                     TrackId = model.TrackId,
+                    Price = model.Price,
                     Progress = 0,
                     CreatedAt = DateTime.UtcNow,
                     StartedAt = DateTime.UtcNow

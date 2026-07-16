@@ -43,7 +43,7 @@ namespace A3DET_CODE.ViewModels.Booking
 
         // Calculated pricing (for display)
         public int TotalDays => (EndDate.Date >= ScheduledAt.Date) ? (int)(EndDate.Date - ScheduledAt.Date).TotalDays + 1 : 1;
-        public decimal SubtotalPrice => HourlyRate * 8m * TotalDays; // Assuming 8 hours per day
+        public decimal SubtotalPrice => TargetType == "Project" ? HourlyRate : HourlyRate * 8m * TotalDays;
         public decimal PlatformFee => Math.Round(SubtotalPrice * 0.10m, 2); // 10% platform fee
         public decimal TotalPrice => SubtotalPrice; // Booker pays subtotal (or subtotal + fee? Usually booker pays subtotal, seller gets subtotal - fee. Let's do that)
         public decimal NetAmount => SubtotalPrice - PlatformFee;

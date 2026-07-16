@@ -143,14 +143,26 @@ const A3 = (() => {
       document.documentElement.setAttribute('data-theme', saved);
 
       if (!btn) return;
-      btn.textContent = saved === 'dark' ? '☀️' : '🌙';
+
+      // Use Bootstrap Icons instead of emojis
+      function updateIcon(theme) {
+        const icon = btn.querySelector('i');
+        if (!icon) return;
+        if (theme === 'dark') {
+          icon.className = 'bi bi-sun-fill';
+        } else {
+          icon.className = 'bi bi-moon-stars-fill';
+        }
+      }
+
+      updateIcon(saved);
 
       btn.addEventListener('click', () => {
         const current = document.documentElement.getAttribute('data-theme');
         const next = current === 'dark' ? 'light' : 'dark';
         document.documentElement.setAttribute('data-theme', next);
         localStorage.setItem('a3det-theme', next);
-        btn.textContent = next === 'dark' ? '☀️' : '🌙';
+        updateIcon(next);
       });
     }
   

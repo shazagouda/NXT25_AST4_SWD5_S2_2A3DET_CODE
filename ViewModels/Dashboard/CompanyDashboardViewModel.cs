@@ -1,25 +1,25 @@
-﻿namespace A3DET_CODE.ViewModels.Dashboard
+namespace A3DET_CODE.ViewModels.Dashboard
 {
     public class CompanyDashboardViewModel : BaseDashboardViewModel
     {
-        public int TotalJobPosts { get; set; }
-        public int ActiveJobPosts { get; set; }
-        public int TotalApplications { get; set; }
-        public int ShortlistedCandidates { get; set; }
-        public int HiredCandidates { get; set; }
+        public int TotalBookings { get; set; }
+        public int ActiveContracts { get; set; }
+        public int PendingBookings { get; set; }
+        public int CompletedContracts { get; set; }
+        public decimal TotalSpent { get; set; }
 
-        public List<JobPostSummary> RecentJobPosts { get; set; } = new();
+        public List<BookingSummary> RecentBookings { get; set; } = new();
         public List<CandidateSummary> TopCandidates { get; set; } = new();
     }
 
-    public class JobPostSummary
+    public class BookingSummary
     {
         public int Id { get; set; }
-        public string Title { get; set; } = string.Empty;
-        public string Type { get; set; } = string.Empty;
-        public int ApplicationsCount { get; set; }
-        public DateTime PostedAt { get; set; }
-        public string Status { get; set; } = "Active";
+        public string TargetName { get; set; } = string.Empty;
+        public string TargetType { get; set; } = string.Empty;
+        public decimal TotalPrice { get; set; }
+        public DateTime ScheduledAt { get; set; }
+        public string Status { get; set; } = "Pending";
     }
 
     public class CandidateSummary

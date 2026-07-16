@@ -36,6 +36,10 @@ namespace A3DET_CODE.ViewModels.Project
         public DateTime? CompletedAt { get; set; }
         public DateTime? Deadline { get; set; }
 
+        [Display(Name = "Project Price (Optional)")]
+        [Range(0, 100000, ErrorMessage = "Price must be between 0 and 100,000")]
+        public decimal? Price { get; set; }
+
         // Stats
         public int TotalTasks { get; set; }
         public int CompletedTasks { get; set; }

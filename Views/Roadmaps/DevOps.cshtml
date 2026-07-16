@@ -1,0 +1,305 @@
+﻿@{
+    ViewData["Title"] = "DevOps Track";
+    Layout = "_Layout";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/tracks/Style/style.css" asp-append-version="true" />
+}
+
+
+
+    <!-- HERO -->
+    <section class="hero-section" id="hero">
+        <div class="hero-grid-bg"></div>
+        <div class="container">
+            <div class="row min-vh-100 align-items-center">
+                <div class="col-12 col-lg-8">
+                    <div class="hero-tag mb-3" data-aos="fade-up">
+                        <i class="fa-solid fa-infinity"></i> Ø¯Ù„ÙŠÙ„ Ø§Ù„Ù…Ø¨ØªØ¯Ø¦ ÙÙŠ DevOps
+                    </div>
+                    <h1 class="hero-title" data-aos="fade-up" data-aos-delay="100">
+                        ÙƒÙ„ Ø§Ù„Ù„ÙŠ Ù…Ø­ØªØ§Ø¬<br />
+                        ØªØ¹Ø±ÙÙ‡ Ø¹Ù†
+                        <span class="highlight-text"> DevOps</span>
+                    </h1>
+                    <p class="hero-subtitle" data-aos="fade-up" data-aos-delay="200">
+                        Ù…Ù† Ø£ÙˆÙ„ Container Ù„ØºØ§ÙŠØ© Ù…Ø§ ØªØ¨Ù†ÙŠ Pipeline ÙƒØ§Ù…Ù„Ø© â€” Ø¯Ù„ÙŠÙ„ ÙˆØ§Ø¶Ø­ ÙˆÙ…Ø¨Ø³Ø· Ø¨Ø¯ÙˆÙ† ØªØ¹Ù‚ÙŠØ¯.
+                    </p>
+                    <div class="hero-actions d-flex flex-wrap gap-3 mt-5" data-aos="fade-up" data-aos-delay="300">
+                        <a href="#what-is" class="btn-primary-custom">
+                            Ø§Ø¨Ø¯Ø£ Ø§Ù„Ø±Ø­Ù„Ø© <i class="fa-solid fa-arrow-left ms-2"></i>
+                        </a>
+                        <a href="#comparison" class="btn-secondary-custom">
+                            Ù‚Ø§Ø±Ù† Ø§Ù„Ø£Ø¯ÙˆØ§Øª
+                        </a>
+                    </div>
+                </div>
+                <div class="col-12 col-lg-4 d-none d-lg-block">
+                    <div class="hero-code-block" data-aos="fade-left" data-aos-delay="400">
+                        <div class="code-header">
+                            <span class="dot red"></span>
+                            <span class="dot yellow"></span>
+                            <span class="dot green"></span>
+                            <span class="code-filename">pipeline.yml</span>
+                        </div>
+                        <div class="code-body" id="heroCodeBlock">
+                            <div class="code-line"><span class="prop">name</span>: <span class="str">Deploy to Production</span></div>
+                            <div class="code-line"><span class="prop">on</span>: [<span class="str">push</span>]</div>
+                            <div class="code-line mt-1"><span class="prop">jobs</span>:</div>
+                            <div class="code-line pl-2"><span class="prop">build</span>:</div>
+                            <div class="code-line pl-3"><span class="prop">runs-on</span>: <span class="str">ubuntu-latest</span></div>
+                            <div class="code-line pl-3"><span class="prop">steps</span>:</div>
+                            <div class="code-line pl-4"><span class="kw">- run</span>: <span class="fn">docker build</span> <span class="str">.</span></div>
+                            <div class="code-line pl-4"><span class="kw">- run</span>: <span class="fn">docker push</span></div>
+                            <div class="code-line pl-4"><span class="kw">- run</span>: <span class="fn">kubectl apply</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="hero-scroll-hint">
+            <div class="scroll-mouse"><div class="scroll-wheel"></div></div>
+            <span>Ø§Ø³ÙƒØ±ÙˆÙ„ Ù„Ù„Ø£Ø³ÙÙ„</span>
+        </div>
+    </section>
+
+    <!-- WHAT IS DEVOPS -->
+    <section class="section-block" id="what-is">
+        <div class="container">
+            <div class="section-header text-center mb-5" data-aos="fade-up">
+                <span class="section-tag">Ø§Ù„Ø£Ø³Ø§Ø³ÙŠØ§Øª</span>
+                <h2 class="section-title">Ø¥ÙŠÙ‡ Ù‡Ùˆ Ø§Ù„Ù€ DevOpsØŸ</h2>
+                <p class="section-subtitle">
+                    Ø§Ù„Ù€ DevOps Ù…Ø´ Ø£Ø¯Ø§Ø© ÙˆÙ„Ø§ Ù„ØºØ© â€” Ø¯Ù‡ Ø«Ù‚Ø§ÙØ© Ø¨ØªØ¬Ù…Ø¹ Ø¨ÙŠÙ† Ø§Ù„Ù€ Development ÙˆØ§Ù„Ù€ Operations. Ù‡Ø¯ÙÙ‡ Ø¥Ù†Ùƒ ØªÙˆØµÙ‘Ù„ Ø§Ù„ÙƒÙˆØ¯ Ù„Ù„Ù…Ø³ØªØ®Ø¯Ù… Ø¨Ø³Ø±Ø¹Ø©ØŒ Ø¨Ø£Ù…Ø§Ù†ØŒ ÙˆØ¨Ø´ÙƒÙ„ Ù…Ø³ØªÙ…Ø± Ù…Ù† ØºÙŠØ± Ù…Ø§ ØªØµØ­Ù‰ Ø§Ù„Ù„ÙŠÙ„.
+                </p>
+            </div>
+
+            <div class="analogy-card mb-5" data-aos="fade-up">
+                <div class="analogy-icon"><i class="fa-solid fa-conveyor-belt"></i></div>
+                <div class="analogy-content">
+                    <h4>ÙÙƒØ± ÙÙŠ Ø§Ù„Ø£Ù…Ø± ÙƒØ¯Ù‡ </h4>
+                    <p>
+                        ØªØ®ÙŠÙ„ Ù…ØµÙ†Ø¹ Ø³ÙŠØ§Ø±Ø§Øª. Ø§Ù„Ù…Ù‡Ù†Ø¯Ø³ÙŠÙ† Ø¨ÙŠØµÙ…Ù…ÙˆØ§ØŒ ÙˆØ§Ù„Ø¹Ù…Ø§Ù„ Ø¨ÙŠÙ†ØªØ¬ÙˆØ§ â€” Ù„ÙƒÙ† Ù„Ùˆ Ù…Ø§ ÙÙŠØ´ <strong>Ø®Ø· Ø¥Ù†ØªØ§Ø¬ Ù…Ù†Ø¸Ù… (Pipeline)</strong>ØŒ ÙƒÙ„ Ø­Ø§Ø¬Ø© Ø¨ØªØ¨Ù‚Ù‰ ÙÙˆØ¶Ù‰ ÙˆØ¨Ø·ÙŠØ¦Ø©.
+                        Ø§Ù„Ù€ DevOps Ù‡Ùˆ Ø§Ù„Ù„ÙŠ Ø¨ÙŠØ¨Ù†ÙŠ <strong>Ø®Ø· Ø§Ù„Ø¥Ù†ØªØ§Ø¬ Ø§Ù„Ø£ÙˆØªÙˆÙ…Ø§ØªÙŠÙƒÙŠ</strong> â€” Ù…Ù† Ø§Ù„ÙƒÙˆØ¯ Ù„Ù„Ù…Ø³ØªØ®Ø¯Ù… Ø¨Ø¶ØºØ·Ø© ÙˆØ§Ø­Ø¯Ø©. ðŸš€
+                    </p>
+                </div>
+            </div>
+
+            <div class="row g-4">
+                <div class="col-12 col-md-4" data-aos="fade-up" data-aos-delay="0">
+                    <div class="pillar-card" data-pillar="ci">
+                        <div class="pillar-icon"><i class="fa-solid fa-rotate"></i></div>
+                        <div class="pillar-number">01</div>
+                        <h3 class="pillar-title">CI/CD</h3>
+                        <p class="pillar-desc">Continuous Integration ÙˆDelivery â€” ÙƒÙ„ Push Ø¨ÙŠØ´ØºÙ‘Ù„ Tests ØªÙ„Ù‚Ø§Ø¦ÙŠØŒ ÙˆÙƒÙ„ Merge Ø¨ÙŠØ¹Ù…Ù„ Deploy. Ù…Ù† ØºÙŠØ± ØªØ¯Ø®Ù„ ÙŠØ¯ÙˆÙŠ. Ø¯Ù‡ Ù‚Ù„Ø¨ Ø§Ù„Ù€ DevOps.</p>
+                        <div class="pillar-tag">Automate Everything</div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-4" data-aos="fade-up" data-aos-delay="100">
+                    <div class="pillar-card" data-pillar="containers">
+                        <div class="pillar-icon"><i class="fa-brands fa-docker"></i></div>
+                        <div class="pillar-number">02</div>
+                        <h3 class="pillar-title">Containers</h3>
+                        <p class="pillar-desc">Docker Ø¨ÙŠØ­Ø· Ø§Ù„ØªØ·Ø¨ÙŠÙ‚ ÙˆÙƒÙ„ dependencies Ø¨ØªØ§Ø¹ØªÙ‡ ÙÙŠ ØµÙ†Ø¯ÙˆÙ‚ Ù…Ø­ÙƒÙ… â€” Ø¨ÙŠØ´ØªØºÙ„ Ù†ÙØ³ Ø§Ù„Ø´ÙŠØ¡ Ø¹Ù„Ù‰ Ø£ÙŠ Ø¬Ù‡Ø§Ø² Ø£Ùˆ Ø³ÙŠØ±ÙØ±. "ÙŠØ´ØªØºÙ„ Ø¹Ù†Ø¯ÙŠ" Ø¨Ù‚Øª Ø°ÙƒØ±Ù‰.</p>
+                        <div class="pillar-tag">Ship Anywhere</div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-4" data-aos="fade-up" data-aos-delay="200">
+                    <div class="pillar-card" data-pillar="infra">
+                        <div class="pillar-icon"><i class="fa-solid fa-cloud"></i></div>
+                        <div class="pillar-number">03</div>
+                        <h3 class="pillar-title">Infrastructure as Code</h3>
+                        <p class="pillar-desc">Ø¨Ø¯Ù„ Ù…Ø§ ØªØ¹Ù…Ù„ Ø§Ù„Ø³ÙŠØ±ÙØ±Ø§Øª Ø¨Ø¥ÙŠØ¯Ùƒ Ù…Ù† Ø§Ù„Ù€ ConsoleØŒ Ø¨ØªÙƒØªØ¨ ÙƒÙˆØ¯ Ø¨ÙŠØ¹Ù…Ù„Ù‡Ø§ Ø£ÙˆØªÙˆÙ…Ø§ØªÙŠÙƒ. Terraform ÙˆAnsible Ø¨ÙŠØ®Ù„ÙˆØ§ Ø§Ù„Ø¨Ù†ÙŠØ© Ø§Ù„ØªØ­ØªÙŠØ© Ù‚Ø§Ø¨Ù„Ø© Ù„Ù„ØªÙƒØ±Ø§Ø±.</p>
+                        <div class="pillar-tag">Code Your Cloud</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- DEVOPS LOOP INTRO -->
+    <section class="section-block section-dark" id="frameworks-intro">
+        <div class="container">
+            <div class="row align-items-center g-5">
+                <div class="col-12 col-lg-6" data-aos="fade-right">
+                    <span class="section-tag light">Ø§Ù„Ù…ÙÙ‡ÙˆÙ… Ø§Ù„Ø£Ø³Ø§Ø³ÙŠ</span>
+                    <h2 class="section-title light">Ø­Ù„Ù‚Ø© Ø§Ù„Ù€ DevOps Ø§Ù„Ù„Ø§Ù†Ù‡Ø§Ø¦ÙŠØ©</h2>
+                    <p class="section-subtitle light">
+                        Ø§Ù„Ù€ DevOps Ù…Ø´ Ø®Ø· Ù…Ø³ØªÙ‚ÙŠÙ… â€” Ù‡Ùˆ Ø­Ù„Ù‚Ø© Ù…Ø³ØªÙ…Ø±Ø©. PlanØŒ CodeØŒ BuildØŒ TestØŒ ReleaseØŒ DeployØŒ OperateØŒ Monitor â€” ÙˆØªØ±Ø¬Ø¹ ØªØ¨Ø¯Ø£ Ù…Ù† Ø£ÙˆÙ„.
+                    </p>
+                    <p class="section-subtitle light">
+                        ÙƒÙ„ Ø¯ÙˆØ±Ø© Ø¨ØªØ®Ù„ÙŠÙƒ Ø£Ø³Ø±Ø¹ ÙˆØ£Ù…Ø§Ù†. Ø§Ù„Ù‡Ø¯Ù Ù…Ø´ Ø§Ù„Ø³Ø±Ø¹Ø© Ø¨Ø³ â€” Ø§Ù„Ù‡Ø¯Ù <strong>Ø§Ù„Ù…ÙˆØ«ÙˆÙ‚ÙŠØ© Ù…Ø¹ Ø§Ù„Ø³Ø±Ø¹Ø© Ù…Ø¹Ø§Ù‹.</strong>
+                    </p>
+                    <div class="benefits-list mt-4">
+                        <div class="benefit-item"><i class="fa-solid fa-check"></i> Faster Delivery â€” Deploy ÙƒÙ„ ÙŠÙˆÙ… Ù…Ø´ ÙƒÙ„ Ø´Ù‡Ø±</div>
+                        <div class="benefit-item"><i class="fa-solid fa-check"></i> Less Risk â€” ØªØºÙŠÙŠØ±Ø§Øª ØµØºÙŠØ±Ø© ÙˆÙ…ØªÙƒØ±Ø±Ø© Ø£Ø£Ù…Ù†</div>
+                        <div class="benefit-item"><i class="fa-solid fa-check"></i> Better Quality â€” Tests Ø£ÙˆØªÙˆÙ…Ø§ØªÙŠÙƒ ÙÙŠ ÙƒÙ„ Deploy</div>
+                        <div class="benefit-item"><i class="fa-solid fa-check"></i> Full Visibility â€” Monitoring ÙÙŠ ÙƒÙ„ Ø­Ø§Ø¬Ø©</div>
+                    </div>
+                </div>
+                <div class="col-12 col-lg-6" data-aos="fade-left">
+                    <div class="framework-visual">
+                        <div class="fv-center">
+                            <i class="fa-solid fa-infinity"></i>
+                            <span>DevOps</span>
+                        </div>
+                        <div class="fv-orbit">
+                            <div class="fv-satellite" style="--i:0"><span class="fw-docker"><i class="fa-brands fa-docker"></i></span></div>
+                            <div class="fv-satellite" style="--i:1"><span class="fw-k8s"><i class="fa-solid fa-dharmachakra"></i></span></div>
+                            <div class="fv-satellite" style="--i:2"><span class="fw-terraform"><i class="fa-solid fa-cube"></i></span></div>
+                            <div class="fv-satellite" style="--i:3"><span class="fw-github"><i class="fa-brands fa-github"></i></span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TOOLS DEEP DIVE -->
+    <section class="section-block" id="frameworks">
+        <div class="container">
+            <div class="section-header text-center mb-5" data-aos="fade-up">
+                <span class="section-tag">Ø§Ù„Ø£Ø¯ÙˆØ§Øª Ø§Ù„Ø£Ø³Ø§Ø³ÙŠØ©</span>
+                <h2 class="section-title">Ø£Ø´Ù‡Ø± Ø£Ø¯ÙˆØ§Øª Ø§Ù„Ù€ DevOps Ø¨Ø§Ù„ØªÙØµÙŠÙ„</h2>
+                <p class="section-subtitle">Ø§Ø¹Ø±Ù ÙƒÙ„ Ø£Ø¯Ø§Ø© â€” Ø¥ÙŠÙ‡ ÙˆØ¸ÙŠÙØªÙ‡Ø§ØŒ Ù…ÙŠÙ† ÙˆØ±Ø§Ù‡Ø§ØŒ ÙˆØ§Ù…ØªÙ‰ ØªØ³ØªØ®Ø¯Ù…Ù‡Ø§.</p>
+            </div>
+
+            <div class="fw-tabs-wrapper" data-aos="fade-up">
+                <div class="fw-tabs d-flex gap-2 flex-wrap mb-4" id="fwTabs">
+                    <button class="fw-tab active" data-fw="docker">
+                        <i class="fa-brands fa-docker"></i> Docker
+                    </button>
+                    <button class="fw-tab" data-fw="k8s">
+                        <i class="fa-solid fa-dharmachakra"></i> Kubernetes
+                    </button>
+                    <button class="fw-tab" data-fw="cicd">
+                        <i class="fa-brands fa-github"></i> CI/CD
+                    </button>
+                    <button class="fw-tab" data-fw="terraform">
+                        <i class="fa-solid fa-cube"></i> Terraform
+                    </button>
+                    <button class="fw-tab" data-fw="monitoring">
+                        <i class="fa-solid fa-chart-line"></i> Monitoring
+                    </button>
+                </div>
+                <div class="fw-panel" id="fwPanel"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- COMPARISON TABLE -->
+    <section class="section-block section-light-alt" id="comparison">
+        <div class="container">
+            <div class="section-header text-center mb-5" data-aos="fade-up">
+                <span class="section-tag">Ø§Ù„Ù…Ù‚Ø§Ø±Ù†Ø©</span>
+                <h2 class="section-title">Ù…Ù‚Ø§Ø±Ù†Ø© Ø´Ø§Ù…Ù„Ø© Ø¨ÙŠÙ† Ø§Ù„Ø£Ø¯ÙˆØ§Øª</h2>
+                <p class="section-subtitle">Ø¬Ø¯ÙˆÙ„ ÙˆØ§Ø¶Ø­ ÙŠØ³Ø§Ø¹Ø¯Ùƒ ØªØ´ÙˆÙ Ø§Ù„ÙØ±ÙˆÙ‚ Ø¯ÙØ¹Ø© ÙˆØ§Ø­Ø¯Ø©.</p>
+            </div>
+            <div class="table-wrapper" data-aos="fade-up">
+                <div class="table-responsive">
+                    <table class="comparison-table w-100">
+                        <thead>
+                            <tr>
+                                <th>Ø§Ù„Ù…Ø¹ÙŠØ§Ø±</th>
+                                <th><i class="fa-brands fa-docker"></i> Docker</th>
+                                <th><i class="fa-solid fa-dharmachakra"></i> Kubernetes</th>
+                                <th><i class="fa-brands fa-github"></i> GitHub Actions</th>
+                                <th><i class="fa-solid fa-cube"></i> Terraform</th>
+                                <th><i class="fa-solid fa-chart-line"></i> Prometheus</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="criterion">ØµØ¹ÙˆØ¨Ø© Ø§Ù„Ø¨Ø¯Ø§ÙŠØ©</td>
+                                <td><span class="level easy">Ø³Ù‡Ù„</span></td>
+                                <td><span class="level hard">ØµØ¹Ø¨</span></td>
+                                <td><span class="level easy">Ø³Ù‡Ù„</span></td>
+                                <td><span class="level medium">Ù…ØªÙˆØ³Ø·</span></td>
+                                <td><span class="level medium">Ù…ØªÙˆØ³Ø·</span></td>
+                            </tr>
+                            <tr>
+                                <td class="criterion">Ø§Ù„Ø£ÙˆÙ„ÙˆÙŠØ© Ù„Ù„Ù…Ø¨ØªØ¯Ø¦</td>
+                                <td><div class="perf-bar" data-perf="98"></div></td>
+                                <td><div class="perf-bar" data-perf="55"></div></td>
+                                <td><div class="perf-bar" data-perf="90"></div></td>
+                                <td><div class="perf-bar" data-perf="65"></div></td>
+                                <td><div class="perf-bar" data-perf="60"></div></td>
+                            </tr>
+                            <tr>
+                                <td class="criterion">ÙØ±Øµ Ø§Ù„Ø¹Ù…Ù„</td>
+                                <td><span class="level easy">Ø¶Ø±ÙˆØ±ÙŠ</span></td>
+                                <td><span class="level easy">Ù…Ù…ØªØ§Ø²</span></td>
+                                <td><span class="level easy">Ù…Ù…ØªØ§Ø²</span></td>
+                                <td><span class="level medium">ÙƒÙˆÙŠØ³</span></td>
+                                <td><span class="level medium">ÙƒÙˆÙŠØ³</span></td>
+                            </tr>
+                            <tr>
+                                <td class="criterion">Ø§Ù„Ù€ Community</td>
+                                <td><span class="stars">â˜…â˜…â˜…â˜…â˜…</span></td>
+                                <td><span class="stars">â˜…â˜…â˜…â˜…â˜…</span></td>
+                                <td><span class="stars">â˜…â˜…â˜…â˜…â˜…</span></td>
+                                <td><span class="stars">â˜…â˜…â˜…â˜…â˜†</span></td>
+                                <td><span class="stars">â˜…â˜…â˜…â˜…â˜†</span></td>
+                            </tr>
+                            <tr>
+                                <td class="criterion">Ø§Ù„ÙˆØ¸ÙŠÙØ© Ø§Ù„Ø£Ø³Ø§Ø³ÙŠØ©</td>
+                                <td>Containerization</td>
+                                <td>Container Orchestration</td>
+                                <td>CI/CD Automation</td>
+                                <td>Infrastructure as Code</td>
+                                <td>Monitoring & Alerting</td>
+                            </tr>
+                            <tr>
+                                <td class="criterion">Ø§Ø¨Ø¯Ø£ Ø¨ÙŠÙ‡Ø§ Ù„Ù…Ø§ØŸ</td>
+                                <td>Ù…Ù† Ø£ÙˆÙ„ ÙŠÙˆÙ…</td>
+                                <td>Ø¨Ø¹Ø¯ Docker</td>
+                                <td>Ù…Ù† Ø£ÙˆÙ„ ÙŠÙˆÙ…</td>
+                                <td>Ø¨Ø¹Ø¯ Cloud basics</td>
+                                <td>Ù…Ø¹ Ø£ÙˆÙ„ Deploy Ø­Ù‚ÙŠÙ‚ÙŠ</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- QUIZ -->
+    <section class="section-block section-dark" id="quiz">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-12 col-lg-8">
+                    <div class="section-header text-center mb-5" data-aos="fade-up">
+                        <span class="section-tag light">Ø§ÙƒØªØ´Ù Ù†ÙØ³Ùƒ</span>
+                        <h2 class="section-title light">Ø£Ù†Ù‡ÙŠ Ø£Ø¯Ø§Ø© DevOps ØªØ¨Ø¯Ø£ Ø¨ÙŠÙ‡Ø§ØŸ</h2>
+                        <p class="section-subtitle light">Ø¬Ø§ÙˆØ¨ Ø¹Ù„Ù‰ 3 Ø£Ø³Ø¦Ù„Ø© ÙˆÙ‡Ù†Ù‚ØªØ±Ø­ Ø¹Ù„ÙŠÙƒ Ø§Ù„Ø£Ù†Ø³Ø¨.</p>
+                    </div>
+                    <div class="quiz-card" id="quizCard" data-aos="fade-up">
+                        <div class="quiz-progress-bar"><div class="quiz-progress-fill" id="quizProgressFill"></div></div>
+                        <div class="quiz-step-indicator" id="quizStepIndicator">Ø§Ù„Ø³Ø¤Ø§Ù„ 1 Ù…Ù† 3</div>
+                        <div class="quiz-content" id="quizContent"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ROADMAP -->
+    <section class="section-block" id="roadmap">
+        <div class="container">
+            <div class="section-header text-center mb-5" data-aos="fade-up">
+                <span class="section-tag">Ø®Ø§Ø±Ø·Ø© Ø§Ù„Ø·Ø±ÙŠÙ‚</span>
+                <h2 class="section-title">Ù…Ù† ÙÙŠÙ† ØªØ¨Ø¯Ø£ØŸ</h2>
+                <p class="section-subtitle">Ø§Ù„Ø®Ø·ÙˆØ§Øª Ø§Ù„ØµØ­ØŒ Ø¨Ø§Ù„ØªØ±ØªÙŠØ¨ Ø§Ù„ØµØ­.</p>
+            </div>
+            <div class="roadmap-timeline" id="roadmapTimeline"></div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    
+
+@section Scripts {
+    <script src="~/tracks/DevOps/app.js" asp-append-version="true"></script>
+}
