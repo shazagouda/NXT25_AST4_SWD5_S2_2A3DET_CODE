@@ -1,0 +1,183 @@
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>اكتشف تراكك في التك — Tech Personality Quiz</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.rtl.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="~/css/assessment.css" asp-append-version="true" />
+</head>
+<body>
+
+    <div class="noise-overlay"></div>
+
+    <!-- NAV -->
+    <nav class="main-nav" id="mainNav">
+        <div class="container-fluid px-4">
+            <div class="nav-inner d-flex align-items-center justify-content-between">
+                <div class="nav-logo">
+                    <span class="logo-bracket">&lt;</span>
+                    <span class="logo-text">TechType</span>
+                    <span class="logo-bracket">/&gt;</span>
+                </div>
+                <div class="nav-center d-none d-md-block">
+                    <span class="quiz-nav-label" id="navQuizLabel">اكتشف شخصيتك التقنية</span>
+                </div>
+                <div class="nav-badge" id="navProgress" style="opacity:0">
+                    <span class="badge-dot"></span>
+                    <span id="navProgressText">0 / 50</span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- LANDING -->
+    <section class="hero-section" id="landingSection">
+        <div class="hero-grid-bg"></div>
+        <div class="container">
+            <div class="row min-vh-100 align-items-center">
+                <div class="col-12 col-lg-7">
+                    <div class="hero-tag mb-3" data-aos="fade-up">
+                        <i class="bi bi-cpu-fill"></i> اختبار الشخصية التقنية
+                    </div>
+                    <h1 class="hero-title" data-aos="fade-up" data-aos-delay="100">
+                        إنت من أي
+                        <span class="highlight-text"> نوع</span>
+                        <br />في عالم التك؟
+                    </h1>
+                    <p class="hero-subtitle" data-aos="fade-up" data-aos-delay="200">
+                        مش اختبار تقني — ده اختبار شخصية. 50 سؤال نفسي وسلوكي هيكشف التراك اللي يناسب طريقة تفكيرك ومزاجك.
+                    </p>
+
+                    <div class="tracks-preview" data-aos="fade-up" data-aos-delay="300">
+                        <a href="#" class="track-chip"><i class="bi bi-palette-fill"></i> Frontend</a>
+                        <a href="#" class="track-chip"><i class="bi bi-server"></i> Backend</a>
+                        <a href="#" class="track-chip"><i class="bi bi-robot"></i> AI / ML</a>
+                        <a href="#" class="track-chip"><i class="bi bi-bar-chart-fill"></i> Data Science</a>
+                        <a href="#" class="track-chip"><i class="bi bi-phone-fill"></i> Mobile</a>
+                        <a href="#" class="track-chip"><i class="bi bi-gear-wide-connected"></i> DevOps</a>
+                        <a href="#" class="track-chip"><i class="bi bi-shield-lock-fill"></i> Cyber Security</a>
+                        <a href="#" class="track-chip"><i class="bi bi-controller"></i> Game Dev</a>
+                        <a href="#" class="track-chip"><i class="bi bi-cpu"></i> Embedded</a>
+                        <a href="#" class="track-chip"><i class="bi bi-bug-fill"></i> Testing</a>
+                    </div>
+
+                    <div class="hero-meta d-flex flex-wrap gap-4 mt-4" data-aos="fade-up" data-aos-delay="350">
+                        <div class="meta-item"><i class="bi bi-list-check"></i> 50 سؤال</div>
+                        <div class="meta-item"><i class="bi bi-clock"></i> 10–15 دقيقة</div>
+                        <div class="meta-item"><i class="bi bi-pie-chart-fill"></i> نتيجة مفصّلة بالنسب</div>
+                    </div>
+
+                    <div class="hero-actions d-flex flex-wrap gap-3 mt-4" data-aos="fade-up" data-aos-delay="400">
+                        <button class="btn-primary-custom" id="startBtn">
+                            ابدأ الاختبار <i class="bi bi-arrow-left ms-2"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="col-12 col-lg-5 d-none d-lg-flex justify-content-center" data-aos="fade-left" data-aos-delay="300">
+                    <div class="hero-personality-visual">
+                        <div class="pv-ring outer">
+                            <div class="pv-icon" style="--i:0; --c:#e8ff47"><i class="bi bi-palette-fill"></i></div>
+                            <div class="pv-icon" style="--i:1; --c:#00e5ff"><i class="bi bi-server"></i></div>
+                            <div class="pv-icon" style="--i:2; --c:#ff6b6b"><i class="bi bi-robot"></i></div>
+                            <div class="pv-icon" style="--i:3; --c:#ffd93d"><i class="bi bi-bar-chart-fill"></i></div>
+                            <div class="pv-icon" style="--i:4; --c:#6bcb77"><i class="bi bi-phone-fill"></i></div>
+                            <div class="pv-icon" style="--i:5; --c:#c77dff"><i class="bi bi-gear-wide-connected"></i></div>
+                            <div class="pv-icon" style="--i:6; --c:#ff9f43"><i class="bi bi-shield-lock-fill"></i></div>
+                            <div class="pv-icon" style="--i:7; --c:#ee5a24"><i class="bi bi-controller"></i></div>
+                            <div class="pv-icon" style="--i:8; --c:#0abde3"><i class="bi bi-arrow-repeat"></i></div>
+                            <div class="pv-icon" style="--i:9; --c:#badc58"><i class="bi bi-cpu"></i></div>
+                            <div class="pv-icon" style="--i:10; --c:#fd79a8"><i class="bi bi-bug-fill"></i></div>
+                        </div>
+                        <div class="pv-center">
+                            <i class="bi bi-cpu-fill"></i>
+                            <span>أنت؟</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- QUIZ SECTION -->
+    <section class="quiz-section d-none" id="quizSection">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-12 col-lg-8">
+                    <div class="overall-progress-wrap" data-aos="fade-up">
+                        <div class="op-header d-flex justify-content-between mb-2">
+                            <span class="op-label">تقدمك في الاختبار</span>
+                            <span class="op-count" id="progressCount">0 / 50</span>
+                        </div>
+                        <div class="overall-progress-bar">
+                            <div class="overall-progress-fill" id="overallProgressFill"></div>
+                        </div>
+                    </div>
+
+                    <div class="question-card" id="questionCard">
+                        <div class="qcard-inner" id="qcardInner"></div>
+                    </div>
+
+                    <div class="quiz-nav-btns d-flex justify-content-between mt-4">
+                        <button class="btn-nav-prev" id="prevBtn" disabled>
+                            <i class="bi bi-arrow-right me-2"></i> السابق
+                        </button>
+                        <button class="btn-nav-next d-none" id="nextBtn">
+                            التالي <i class="bi bi-arrow-left ms-2"></i>
+                        </button>
+                        <button class="btn-nav-finish d-none" id="finishBtn">
+                            اعرف نتيجتك <i class="bi bi-stars ms-2"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- RESULTS SECTION -->
+    <section class="results-section d-none" id="resultsSection">
+        <div class="hero-grid-bg"></div>
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-12 col-lg-9">
+                    <div class="result-hero" id="resultHero" data-aos="fade-up"></div>
+
+                    <div class="top3-section mt-5" data-aos="fade-up" data-aos-delay="100">
+                        <div class="section-header text-center mb-4">
+                            <span class="section-tag">التوافق الكامل</span>
+                            <h2 class="section-title">أعلى 3 تراكات مناسبة ليك</h2>
+                        </div>
+                        <div class="top3-grid" id="top3Grid"></div>
+                    </div>
+
+                    <div class="all-scores-section mt-5" data-aos="fade-up" data-aos-delay="200">
+                        <div class="section-header text-center mb-4">
+                            <span class="section-tag">التفاصيل الكاملة</span>
+                            <h2 class="section-title">نسبة توافقك مع كل تراك</h2>
+                            <p class="section-subtitle">المجموع الكلي 100% — موزّع على حسب إجاباتك</p>
+                        </div>
+                        <div class="scores-list" id="scoresList"></div>
+                    </div>
+
+                    <div class="text-center mt-5 mb-5" data-aos="fade-up" data-aos-delay="300">
+                        <button class="btn-primary-custom" id="retakeBtn">
+                            <i class="bi bi-arrow-counterclockwise ms-2"></i> خد الاختبار تاني
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/assessment.js" asp-append-version="true"></script>
+</body>
+</html>

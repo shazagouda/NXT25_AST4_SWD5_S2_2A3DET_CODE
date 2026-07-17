@@ -7,273 +7,268 @@
     <link rel="stylesheet" href="~/tracks/Style/style.css" asp-append-version="true" />
 }
 
-
-
-  <!-- HERO -->
-  <section class="hero-section" id="hero">
+<!-- HERO -->
+<section class="hero-section" id="hero">
     <div class="hero-grid-bg"></div>
     <div class="container">
-      <div class="row min-vh-100 align-items-center">
-        <div class="col-12 col-lg-8">
-          <div class="hero-tag mb-3" data-aos="fade-up">
-            <i class="fa-solid fa-chart-line"></i>
-            <span data-i18n="hero.tag">Ø¯Ù„ÙŠÙ„ Ø§Ù„Ù…Ø¨ØªØ¯Ø¦ ÙÙŠ Data Science</span>
-          </div>
-          <h1 class="hero-title" data-aos="fade-up" data-aos-delay="100">
-            <span data-i18n="hero.title1">ÙƒÙ„ Ø§Ù„Ù„ÙŠ Ù…Ø­ØªØ§Ø¬</span><br/>
-            <span data-i18n="hero.title2">ØªØ¹Ø±ÙÙ‡ Ø¹Ù†</span>
-            <span class="highlight-text"> Data Science</span>
-          </h1>
-          <p class="hero-subtitle" data-aos="fade-up" data-aos-delay="200" data-i18n="hero.sub">
-            Ù…Ù† ÙÙ‡Ù… Ø§Ù„Ø¨ÙŠØ§Ù†Ø§Øª Ù„Ù„Ù€ Machine Learning Ù„ØºØ§ÙŠØ© Ù…Ø§ ØªØ¨Ù†ÙŠ Model Ø­Ù‚ÙŠÙ‚ÙŠ â€” Ø¯Ù„ÙŠÙ„ ÙˆØ§Ø¶Ø­ ÙˆÙ…Ø¨Ø³Ø· Ø¨Ø¯ÙˆÙ† ØªØ¹Ù‚ÙŠØ¯.
-          </p>
-          <div class="hero-actions d-flex flex-wrap gap-3 mt-5" data-aos="fade-up" data-aos-delay="300">
-            <a href="#what-is" class="btn-primary-custom">
-              <span data-i18n="hero.cta1">Ø§Ø¨Ø¯Ø£ Ø§Ù„Ø±Ø­Ù„Ø©</span>
-              <i class="fa-solid fa-arrow-left ms-2"></i>
-            </a>
-            <a href="#comparison" class="btn-secondary-custom" data-i18n="hero.cta2">Ù‚Ø§Ø±Ù† Ø§Ù„Ø£Ø¯ÙˆØ§Øª</a>
-          </div>
-        </div>
-        <div class="col-12 col-lg-4 d-none d-lg-block">
-          <div class="hero-code-block" data-aos="fade-left" data-aos-delay="400">
-            <div class="code-header">
-              <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
-              <span class="code-filename">analysis.py</span>
+        <div class="row min-vh-100 align-items-center">
+            <div class="col-12 col-lg-8">
+                <div class="hero-tag mb-3" data-aos="fade-up">
+                    <i class="fa-solid fa-chart-line"></i>
+                    <span data-i18n="hero.tag">Beginner's Guide to Data Science</span>
+                </div>
+                <h1 class="hero-title" data-aos="fade-up" data-aos-delay="100">
+                    <span data-i18n="hero.title1">Everything You Need</span><br />
+                    <span data-i18n="hero.title2">to Know About</span>
+                    <span class="highlight-text"> Data Science</span>
+                </h1>
+                <p class="hero-subtitle" data-aos="fade-up" data-aos-delay="200" data-i18n="hero.sub">
+                    From understanding data to Machine Learning to building a real Model — a clear, simple guide without complexity.
+                </p>
+                <div class="hero-actions d-flex flex-wrap gap-3 mt-5" data-aos="fade-up" data-aos-delay="300">
+                    <a href="#what-is" class="btn-primary-custom">
+                        <span data-i18n="hero.cta1">Start the Journey</span>
+                        <i class="fa-solid fa-arrow-left ms-2"></i>
+                    </a>
+                    <a href="#comparison" class="btn-secondary-custom" data-i18n="hero.cta2">Compare Tools</a>
+                </div>
             </div>
-            <div class="code-body" id="heroCodeBlock">
-              <div class="code-line"><span class="kw">import</span> <span class="var">pandas</span> <span class="kw">as</span> <span class="fn">pd</span></div>
-              <div class="code-line"><span class="kw">import</span> <span class="var">numpy</span> <span class="kw">as</span> <span class="fn">np</span></div>
-              <div class="code-line mt-2"><span class="var">df</span> = <span class="fn">pd</span>.<span class="method">read_csv</span>(<span class="str" data-i18n="code.file">'data.csv'</span>)</div>
-              <div class="code-line"><span class="var">df</span>.<span class="method">describe</span>()</div>
-              <div class="code-line mt-2"><span class="prop">model</span>.<span class="method">fit</span>(<span class="var">X_train</span>, <span class="var">y_train</span>)</div>
-              <div class="code-line"><span class="fn">print</span>(<span class="str" data-i18n="code.acc">"accuracy: 97.3%"</span>)</div>
+            <div class="col-12 col-lg-4 d-none d-lg-block">
+                <div class="hero-code-block" data-aos="fade-left" data-aos-delay="400">
+                    <div class="code-header">
+                        <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+                        <span class="code-filename">analysis.py</span>
+                    </div>
+                    <div class="code-body" id="heroCodeBlock">
+                        <div class="code-line"><span class="kw">import</span> <span class="var">pandas</span> <span class="kw">as</span> <span class="fn">pd</span></div>
+                        <div class="code-line"><span class="kw">import</span> <span class="var">numpy</span> <span class="kw">as</span> <span class="fn">np</span></div>
+                        <div class="code-line mt-2"><span class="var">df</span> = <span class="fn">pd</span>.<span class="method">read_csv</span>(<span class="str" data-i18n="code.file">'data.csv'</span>)</div>
+                        <div class="code-line"><span class="var">df</span>.<span class="method">describe</span>()</div>
+                        <div class="code-line mt-2"><span class="prop">model</span>.<span class="method">fit</span>(<span class="var">X_train</span>, <span class="var">y_train</span>)</div>
+                        <div class="code-line"><span class="fn">print</span>(<span class="str" data-i18n="code.acc">"accuracy: 97.3%"</span>)</div>
+                    </div>
+                </div>
             </div>
-          </div>
         </div>
-      </div>
     </div>
     <div class="hero-scroll-hint">
-      <div class="scroll-mouse"><div class="scroll-wheel"></div></div>
-      <span data-i18n="hero.scroll">Ø§Ø³ÙƒØ±ÙˆÙ„ Ù„Ù„Ø£Ø³ÙÙ„</span>
+        <div class="scroll-mouse"><div class="scroll-wheel"></div></div>
+        <span data-i18n="hero.scroll">Scroll Down</span>
     </div>
-  </section>
+</section>
 
-  <!-- WHAT IS DS -->
-  <section class="section-block" id="what-is">
+<!-- WHAT IS DS -->
+<section class="section-block" id="what-is">
     <div class="container">
-      <div class="section-header text-center mb-5" data-aos="fade-up">
-        <span class="section-tag" data-i18n="what.tag">Ø§Ù„Ø£Ø³Ø§Ø³ÙŠØ§Øª</span>
-        <h2 class="section-title" data-i18n="what.title">Ø¥ÙŠÙ‡ Ù‡Ùˆ Ø§Ù„Ù€ Data ScienceØŸ</h2>
-        <p class="section-subtitle" data-i18n="what.sub">Ø§Ù„Ù€ Data Science Ù‡Ùˆ ÙÙ† Ø§Ø³ØªØ®Ø±Ø§Ø¬ Ø§Ù„Ù…Ø¹Ø±ÙØ© ÙˆØ§Ù„Ù‚Ø±Ø§Ø±Ø§Øª Ù…Ù† Ø§Ù„Ø¨ÙŠØ§Ù†Ø§Øª â€” Ø¨ÙŠØ¬Ù…Ø¹ Ø¨ÙŠÙ† Ø§Ù„Ø¥Ø­ØµØ§Ø¡ ÙˆØ§Ù„Ø¨Ø±Ù…Ø¬Ø© ÙˆØ§Ù„ÙÙ‡Ù… Ø§Ù„ØªØ¬Ø§Ø±ÙŠ. Ø§Ù„Ù…Ø¬Ø§Ù„ Ø§Ù„Ø£ÙƒØ«Ø± Ø·Ù„Ø¨Ø§Ù‹ ÙˆØ£Ø¹Ù„Ù‰ Ø£Ø¬Ø±Ø§Ù‹ ÙÙŠ Ø§Ù„Ù‚Ø±Ù† Ø§Ù„ÙˆØ§Ø­Ø¯ ÙˆØ§Ù„Ø¹Ø´Ø±ÙŠÙ†.</p>
-      </div>
+        <div class="section-header text-center mb-5" data-aos="fade-up">
+            <span class="section-tag" data-i18n="what.tag">The Basics</span>
+            <h2 class="section-title" data-i18n="what.title">What is Data Science?</h2>
+            <p class="section-subtitle" data-i18n="what.sub">Data Science is the art of extracting knowledge and decisions from data — combining statistics, programming, and business understanding. The most in-demand and highest-paying field of the 21st century.</p>
+        </div>
 
-      <div class="analogy-card mb-5" data-aos="fade-up">
-        <div class="analogy-icon"><i class="fa-solid fa-magnifying-glass-chart"></i></div>
-        <div class="analogy-content">
-          <h4 data-i18n="what.analogy.title">ÙÙƒØ± ÙÙŠ Ø§Ù„Ø£Ù…Ø± ÙƒØ¯Ù‡</h4>
-          <p data-i18n="what.analogy.body">ØªØ®ÙŠÙ„ Ø¥Ù† Ø¹Ù†Ø¯Ùƒ <strong>Ù…Ù„Ø§ÙŠÙŠÙ† Ø§Ù„Ø£Ø±Ù‚Ø§Ù… ÙˆØ§Ù„Ø¨ÙŠØ§Ù†Ø§Øª</strong> Ø¹Ù† Ù…Ø¨ÙŠØ¹Ø§Øª Ø´Ø±ÙƒØ©. Ø§Ù„Ù€ Data Scientist Ù‡Ùˆ Ø§Ù„Ù„ÙŠ Ø¨ÙŠØ­ÙˆÙ‘Ù„ Ø§Ù„Ø£Ø±Ù‚Ø§Ù… Ø¯ÙŠ Ù„Ù€ <strong>Ù‚Ø±Ø§Ø±Ø§Øª ØªØ¬Ø§Ø±ÙŠØ© Ø°ÙƒÙŠØ©</strong> â€” "Ø§Ù„Ù…Ù†ØªØ¬ Ø¯Ù‡ Ù‡ÙŠØ¨ÙŠØ¹ Ø£ÙƒØªØ± ÙÙŠ Ø§Ù„Ø´ØªØ§Ø¡"ØŒ "Ø§Ù„Ø¹Ù…ÙŠÙ„ Ø¯Ù‡ Ù‡ÙŠÙ…Ø´ÙŠ Ø¨Ø¹Ø¯ 3 Ø£ÙŠØ§Ù…". Ø¯Ù‡ Ù…Ø´ Ø³Ø­Ø± â€” Ø¯Ù‡ Ø¹Ù„Ù….</p>
-        </div>
-      </div>
-
-      <div class="row g-4">
-        <div class="col-12 col-md-4" data-aos="fade-up" data-aos-delay="0">
-          <div class="pillar-card" data-pillar="data">
-            <div class="pillar-icon"><i class="fa-solid fa-database"></i></div>
-            <div class="pillar-number">01</div>
-            <h3 class="pillar-title">Data</h3>
-            <p class="pillar-desc" data-i18n="what.data">Ø§Ù„Ø®Ø§Ù…Ø© Ø§Ù„Ø£Ø³Ø§Ø³ÙŠØ© â€” Ø£Ø±Ù‚Ø§Ù…ØŒ Ù†ØµÙˆØµØŒ ØµÙˆØ±ØŒ ÙÙŠØ¯ÙŠÙˆÙ‡Ø§Øª. Ø¨Ø¯ÙˆÙ† Ø¨ÙŠØ§Ù†Ø§Øª Ù†Ø¸ÙŠÙØ© ÙˆÙ…Ù†Ø¸Ù…Ø©ØŒ Ù…ÙÙŠØ´ Data Science.</p>
-            <div class="pillar-tag">Raw Material</div>
-          </div>
-        </div>
-        <div class="col-12 col-md-4" data-aos="fade-up" data-aos-delay="100">
-          <div class="pillar-card" data-pillar="analysis">
-            <div class="pillar-icon"><i class="fa-solid fa-chart-bar"></i></div>
-            <div class="pillar-number">02</div>
-            <h3 class="pillar-title">Analysis</h3>
-            <p class="pillar-desc" data-i18n="what.analysis">Ø§Ù„Ø¥Ø­ØµØ§Ø¡ ÙˆØ§Ù„Ù€ Visualization â€” ÙÙ‡Ù… Ø§Ù„Ø¨ÙŠØ§Ù†Ø§ØªØŒ Ø¥ÙŠØ¬Ø§Ø¯ Ø§Ù„Ø£Ù†Ù…Ø§Ø·ØŒ ÙˆØ¹Ø±Ø¶Ù‡Ø§ Ø¨Ø·Ø±ÙŠÙ‚Ø© ÙˆØ§Ø¶Ø­Ø© ÙˆÙ…Ù‚Ù†Ø¹Ø©.</p>
-            <div class="pillar-tag">Insights</div>
-          </div>
-        </div>
-        <div class="col-12 col-md-4" data-aos="fade-up" data-aos-delay="200">
-          <div class="pillar-card" data-pillar="model">
-            <div class="pillar-icon"><i class="fa-solid fa-brain"></i></div>
-            <div class="pillar-number">03</div>
-            <h3 class="pillar-title">Model</h3>
-            <p class="pillar-desc" data-i18n="what.model">Ø§Ù„Ù€ Machine Learning â€” ØªØ¹Ù„ÙŠÙ… Ø§Ù„ÙƒÙ…Ø¨ÙŠÙˆØªØ± ÙŠØªØ¹Ù„Ù… Ù…Ù† Ø§Ù„Ø¨ÙŠØ§Ù†Ø§Øª ÙˆÙŠØªÙ†Ø¨Ø£ Ø¨Ø§Ù„Ù…Ø³ØªÙ‚Ø¨Ù„. Ø¯Ù‡ Ø§Ù„Ù„ÙŠ Ø¨ÙŠÙ…ÙŠØ² Ø§Ù„Ù€ Data Scientist.</p>
-            <div class="pillar-tag">Prediction</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- WHY DS (dark section) -->
-  <section class="section-block" id="frameworks-intro">
-    <div class="container">
-      <div class="row align-items-center g-5">
-        <div class="col-12 col-lg-6" data-aos="fade-right">
-          <span class="section-tag light" data-i18n="fwintro.tag">Ø§Ù„Ù…ÙÙ‡ÙˆÙ…</span>
-          <h2 class="section-title light" data-i18n="fwintro.title">Ù„ÙŠÙ‡ ØªØªØ¹Ù„Ù… Data ScienceØŸ</h2>
-          <p class="section-subtitle light" data-i18n="fwintro.sub1">ÙƒÙ„ Ø´Ø±ÙƒØ© ÙÙŠ Ø§Ù„Ø¹Ø§Ù„Ù… Ø¯Ù„ÙˆÙ‚ØªÙŠ Ø¹Ù†Ø¯Ù‡Ø§ Ø¨ÙŠØ§Ù†Ø§Øª Ø¶Ø®Ù…Ø© ÙˆÙ…Ø­ØªØ§Ø¬Ø© Ø­Ø¯ <strong>ÙŠÙÙ‡Ù…Ù‡Ø§ ÙˆÙŠØ­ÙˆÙ„Ù‡Ø§ Ù„Ù‚Ø±Ø§Ø±Ø§Øª</strong>. Ø§Ù„Ù€ Data Scientist Ù‡Ùˆ Ø§Ù„Ù„ÙŠ Ø¨ÙŠØ¹Ù…Ù„ ÙƒØ¯Ù‡.</p>
-          <p class="section-subtitle light" data-i18n="fwintro.sub2"><strong>Ù…ØªÙˆØ³Ø· Ø§Ù„Ø±Ø§ØªØ¨ Ø¹Ø§Ù„Ù…ÙŠØ§Ù‹</strong> Ù„Ù„Ù€ Data Scientist Ù…Ù† Ø£Ø¹Ù„Ù‰ Ø§Ù„ØªØ®ØµØµØ§Øª ÙÙŠ Ø§Ù„Ù€ Tech â€” ÙˆØ·Ù„Ø¨ Ø§Ù„Ø³ÙˆÙ‚ Ø¨ÙŠØ²ÙŠØ¯ ÙƒÙ„ Ø³Ù†Ø©.</p>
-          <div class="benefits-list mt-4">
-            <div class="benefit-item"><i class="fa-solid fa-check"></i> <span data-i18n="fwintro.b1">Ù…Ù† Ø£Ø¹Ù„Ù‰ Ø§Ù„Ø±ÙˆØ§ØªØ¨ ÙÙŠ Ù…Ø¬Ø§Ù„ Ø§Ù„Ù€ Tech</span></div>
-            <div class="benefit-item"><i class="fa-solid fa-check"></i> <span data-i18n="fwintro.b2">Ø·Ù„Ø¨ Ù‡Ø§Ø¦Ù„ ÙÙŠ ÙƒÙ„ Ù‚Ø·Ø§Ø¹ â€” Ù…Ø§Ù„ÙŠØŒ Ø·Ø¨ÙŠØŒ ØªÙ‚Ù†ÙŠ</span></div>
-            <div class="benefit-item"><i class="fa-solid fa-check"></i> <span data-i18n="fwintro.b3">Python + Math = ÙŠÙØªØ­ÙˆØ§ ÙƒÙ„ Ø§Ù„Ø£Ø¨ÙˆØ§Ø¨</span></div>
-            <div class="benefit-item"><i class="fa-solid fa-check"></i> <span data-i18n="fwintro.b4">Ø¨ÙˆØ§Ø¨Ø© Ø§Ù„Ù€ AI ÙˆØ§Ù„Ù€ Machine Learning</span></div>
-          </div>
-        </div>
-        <div class="col-12 col-lg-6" data-aos="fade-left">
-          <div class="framework-visual">
-            <div class="fv-center">
-              <i class="fa-solid fa-brain"></i>
-              <span>Data Science</span>
+        <div class="analogy-card mb-5" data-aos="fade-up">
+            <div class="analogy-icon"><i class="fa-solid fa-magnifying-glass-chart"></i></div>
+            <div class="analogy-content">
+                <h4 data-i18n="what.analogy.title">Think of it Like This</h4>
+                <p data-i18n="what.analogy.body">Imagine you have <strong>millions of numbers and data points</strong> about a company's sales. The Data Scientist is the one who turns those numbers into <strong>smart business decisions</strong> — "This product will sell more in winter," "This customer will leave in 3 days." This isn't magic — it's science.</p>
             </div>
-            <div class="fv-orbit">
-              <div class="fv-satellite" style="--i:0"><span style="color:#a78bfa"><i class="fa-solid fa-chart-line"></i></span></div>
-              <div class="fv-satellite" style="--i:1"><span style="color:#f59e0b"><i class="fa-brands fa-python"></i></span></div>
-              <div class="fv-satellite" style="--i:2"><span style="color:#38bdf8"><i class="fa-solid fa-robot"></i></span></div>
-              <div class="fv-satellite" style="--i:3"><span style="color:#f87171"><i class="fa-solid fa-database"></i></span></div>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-12 col-md-4" data-aos="fade-up" data-aos-delay="0">
+                <div class="pillar-card" data-pillar="data">
+                    <div class="pillar-icon"><i class="fa-solid fa-database"></i></div>
+                    <div class="pillar-number">01</div>
+                    <h3 class="pillar-title">Data</h3>
+                    <p class="pillar-desc" data-i18n="what.data">The raw material — numbers, text, images, videos. Without clean, organized data, there's no Data Science.</p>
+                    <div class="pillar-tag">Raw Material</div>
+                </div>
             </div>
-          </div>
+            <div class="col-12 col-md-4" data-aos="fade-up" data-aos-delay="100">
+                <div class="pillar-card" data-pillar="analysis">
+                    <div class="pillar-icon"><i class="fa-solid fa-chart-bar"></i></div>
+                    <div class="pillar-number">02</div>
+                    <h3 class="pillar-title">Analysis</h3>
+                    <p class="pillar-desc" data-i18n="what.analysis">Statistics and Visualization — understanding the data, finding patterns, and presenting them in a clear and compelling way.</p>
+                    <div class="pillar-tag">Insights</div>
+                </div>
+            </div>
+            <div class="col-12 col-md-4" data-aos="fade-up" data-aos-delay="200">
+                <div class="pillar-card" data-pillar="model">
+                    <div class="pillar-icon"><i class="fa-solid fa-brain"></i></div>
+                    <div class="pillar-number">03</div>
+                    <h3 class="pillar-title">Model</h3>
+                    <p class="pillar-desc" data-i18n="what.model">Machine Learning — teaching the computer to learn from data and predict the future. This is what sets a Data Scientist apart.</p>
+                    <div class="pillar-tag">Prediction</div>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
-  </section>
+</section>
 
-  <!-- TOOLS / LIBRARIES -->
-  <section class="section-block" id="frameworks">
+<!-- WHY DS (dark section) -->
+<section class="section-block" id="frameworks-intro">
     <div class="container">
-      <div class="section-header text-center mb-5" data-aos="fade-up">
-        <span class="section-tag" data-i18n="fw.tag">Ø§Ù„Ø£Ø¯ÙˆØ§Øª</span>
-        <h2 class="section-title" data-i18n="fw.title">Ø£Ù‡Ù… Ø£Ø¯ÙˆØ§Øª ÙˆÙ…ÙƒØªØ¨Ø§Øª Ø§Ù„Ù€ Data Science</h2>
-        <p class="section-subtitle" data-i18n="fw.sub">Ø§Ø¹Ø±Ù ÙƒÙ„ Ø£Ø¯Ø§Ø© â€” Ø¥ÙŠÙ‡ Ù‡ÙŠØŒ ÙˆØ§Ù…ØªÙ‰ ÙˆÙ„ÙŠÙ‡ ØªØ³ØªØ®Ø¯Ù…Ù‡Ø§.</p>
-      </div>
-      <div class="fw-tabs-wrapper" data-aos="fade-up">
-        <div class="fw-tabs d-flex gap-2 flex-wrap mb-4" id="fwTabs">
-          <button class="fw-tab active" data-fw="pandas"><i class="fa-brands fa-python"></i> Pandas</button>
-          <button class="fw-tab" data-fw="numpy"><i class="fa-solid fa-calculator"></i> NumPy</button>
-          <button class="fw-tab" data-fw="sklearn"><i class="fa-solid fa-robot"></i> Scikit-learn</button>
-          <button class="fw-tab" data-fw="tensorflow"><i class="fa-solid fa-brain"></i> TensorFlow</button>
-          <button class="fw-tab" data-fw="viz"><i class="fa-solid fa-chart-pie"></i> Visualization</button>
+        <div class="row align-items-center g-5">
+            <div class="col-12 col-lg-6" data-aos="fade-right">
+                <span class="section-tag light" data-i18n="fwintro.tag">The Concept</span>
+                <h2 class="section-title light" data-i18n="fwintro.title">Why Learn Data Science?</h2>
+                <p class="section-subtitle light" data-i18n="fwintro.sub1">Every company in the world today has massive amounts of data and needs someone <strong>who can understand it and turn it into decisions</strong>. The Data Scientist is that person.</p>
+                <p class="section-subtitle light" data-i18n="fwintro.sub2"><strong>Average salary globally</strong> for Data Scientists is among the highest in Tech — and market demand grows every year.</p>
+                <div class="benefits-list mt-4">
+                    <div class="benefit-item"><i class="fa-solid fa-check"></i> <span data-i18n="fwintro.b1">Among the highest salaries in Tech</span></div>
+                    <div class="benefit-item"><i class="fa-solid fa-check"></i> <span data-i18n="fwintro.b2">Huge demand in every sector — Finance, Healthcare, Tech</span></div>
+                    <div class="benefit-item"><i class="fa-solid fa-check"></i> <span data-i18n="fwintro.b3">Python + Math = opens every door</span></div>
+                    <div class="benefit-item"><i class="fa-solid fa-check"></i> <span data-i18n="fwintro.b4">Gateway to AI and Machine Learning</span></div>
+                </div>
+            </div>
+            <div class="col-12 col-lg-6" data-aos="fade-left">
+                <div class="framework-visual">
+                    <div class="fv-center">
+                        <i class="fa-solid fa-brain"></i>
+                        <span>Data Science</span>
+                    </div>
+                    <div class="fv-orbit">
+                        <div class="fv-satellite" style="--i:0"><span style="color:#a78bfa"><i class="fa-solid fa-chart-line"></i></span></div>
+                        <div class="fv-satellite" style="--i:1"><span style="color:#f59e0b"><i class="fa-brands fa-python"></i></span></div>
+                        <div class="fv-satellite" style="--i:2"><span style="color:#38bdf8"><i class="fa-solid fa-robot"></i></span></div>
+                        <div class="fv-satellite" style="--i:3"><span style="color:#f87171"><i class="fa-solid fa-database"></i></span></div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="fw-panel" id="fwPanel"></div>
-      </div>
     </div>
-  </section>
+</section>
 
-  <!-- COMPARISON TABLE -->
-  <section class="section-block section-light-alt" id="comparison">
+<!-- TOOLS / LIBRARIES -->
+<section class="section-block" id="frameworks">
     <div class="container">
-      <div class="section-header text-center mb-5" data-aos="fade-up">
-        <span class="section-tag" data-i18n="cmp.tag">Ø§Ù„Ù…Ù‚Ø§Ø±Ù†Ø©</span>
-        <h2 class="section-title" data-i18n="cmp.title">Ù…Ù‚Ø§Ø±Ù†Ø© Ø£Ø¯ÙˆØ§Øª Ø§Ù„Ù€ Data Science</h2>
-        <p class="section-subtitle" data-i18n="cmp.sub">Ø¬Ø¯ÙˆÙ„ ÙˆØ§Ø¶Ø­ ÙŠØ³Ø§Ø¹Ø¯Ùƒ ØªØ¹Ø±Ù Ù…ØªÙ‰ ØªØ³ØªØ®Ø¯Ù… ÙƒÙ„ Ø£Ø¯Ø§Ø©.</p>
-      </div>
-      <div class="table-wrapper" data-aos="fade-up">
-        <div class="table-responsive">
-          <table class="comparison-table w-100">
-            <thead>
-              <tr>
-                <th data-i18n="cmp.criterion">Ø§Ù„Ù…Ø¹ÙŠØ§Ø±</th>
-                <th><i class="fa-brands fa-python"></i> Pandas</th>
-                <th><i class="fa-solid fa-calculator"></i> NumPy</th>
-                <th><i class="fa-solid fa-robot"></i> Scikit-learn</th>
-                <th><i class="fa-solid fa-brain"></i> TensorFlow</th>
-                <th><i class="fa-solid fa-fire-flame-curved"></i> PyTorch</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td class="criterion" data-i18n="cmp.diff">ØµØ¹ÙˆØ¨Ø© Ø§Ù„Ø¨Ø¯Ø§ÙŠØ©</td>
-                <td><span class="level easy"   data-i18n="l.easy">Ø³Ù‡Ù„</span></td>
-                <td><span class="level easy"   data-i18n="l.easy">Ø³Ù‡Ù„</span></td>
-                <td><span class="level easy"   data-i18n="l.easy">Ø³Ù‡Ù„</span></td>
-                <td><span class="level hard"   data-i18n="l.hard">ØµØ¹Ø¨</span></td>
-                <td><span class="level medium" data-i18n="l.med">Ù…ØªÙˆØ³Ø·</span></td>
-              </tr>
-              <tr>
-                <td class="criterion" data-i18n="cmp.perf">Ø§Ù„Ø£Ø¯Ø§Ø¡</td>
-                <td><div class="perf-bar" data-perf="72"></div></td>
-                <td><div class="perf-bar" data-perf="92"></div></td>
-                <td><div class="perf-bar" data-perf="82"></div></td>
-                <td><div class="perf-bar" data-perf="97"></div></td>
-                <td><div class="perf-bar" data-perf="96"></div></td>
-              </tr>
-              <tr>
-                <td class="criterion" data-i18n="cmp.community">Ø§Ù„Ù€ Community</td>
-                <td><span class="stars">â˜…â˜…â˜…â˜…â˜…</span></td>
-                <td><span class="stars">â˜…â˜…â˜…â˜…â˜…</span></td>
-                <td><span class="stars">â˜…â˜…â˜…â˜…â˜…</span></td>
-                <td><span class="stars">â˜…â˜…â˜…â˜…â˜†</span></td>
-                <td><span class="stars">â˜…â˜…â˜…â˜…â˜…</span></td>
-              </tr>
-              <tr>
-                <td class="criterion" data-i18n="cmp.usecase">Ø§Ù„Ø§Ø³ØªØ®Ø¯Ø§Ù… Ø§Ù„Ø£Ø³Ø§Ø³ÙŠ</td>
-                <td data-i18n="cmp.pan">Data Wrangling</td>
-                <td data-i18n="cmp.npy">Math & Arrays</td>
-                <td data-i18n="cmp.skl">Classic ML</td>
-                <td data-i18n="cmp.tf">Deep Learning</td>
-                <td data-i18n="cmp.pt">Research & DL</td>
-              </tr>
-              <tr>
-                <td class="criterion" data-i18n="cmp.companies">Ø§Ù„Ø´Ø±ÙƒØ§Øª</td>
-                <td>Netflix, Spotify</td>
-                <td>NASA, Google</td>
-                <td>Amazon, Uber</td>
-                <td>Google, Apple</td>
-                <td>Meta, Tesla</td>
-              </tr>
-              <tr>
-                <td class="criterion" data-i18n="cmp.for">Ù…Ù†Ø§Ø³Ø¨ Ù„Ù€</td>
-                <td data-i18n="cmp.pan2">ØªÙ†Ø¸ÙŠÙ Ø§Ù„Ø¨ÙŠØ§Ù†Ø§Øª</td>
-                <td data-i18n="cmp.npy2">Ø§Ù„Ø¹Ù…Ù„ÙŠØ§Øª Ø§Ù„Ø±ÙŠØ§Ø¶ÙŠØ©</td>
-                <td data-i18n="cmp.skl2">Classic ML Models</td>
-                <td data-i18n="cmp.tf2">Neural Networks</td>
-                <td data-i18n="cmp.pt2">Ø§Ù„Ø¨Ø­Ø« ÙˆØ§Ù„Ù€ DL</td>
-              </tr>
-            </tbody>
-          </table>
+        <div class="section-header text-center mb-5" data-aos="fade-up">
+            <span class="section-tag" data-i18n="fw.tag">Tools</span>
+            <h2 class="section-title" data-i18n="fw.title">Most Important Data Science Tools & Libraries</h2>
+            <p class="section-subtitle" data-i18n="fw.sub">Learn about each tool — what it is, and when and why to use it.</p>
         </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- QUIZ -->
-  <section class="section-block " id="quiz">
-    <div class="container">
-      <div class="row justify-content-center">
-        <div class="col-12 col-lg-8">
-          <div class="section-header text-center mb-5" data-aos="fade-up">
-            <span class="section-tag light" data-i18n="quiz.tag">Ø§ÙƒØªØ´Ù Ù†ÙØ³Ùƒ</span>
-            <h2 class="section-title light" data-i18n="quiz.title">Ø£Ù†Ù‡ÙŠ Ù…Ø³Ø§Ø± Data Science ÙŠÙ†Ø§Ø³Ø¨ÙƒØŸ</h2>
-            <p class="section-subtitle light" data-i18n="quiz.sub">Ø¬Ø§ÙˆØ¨ Ø¹Ù„Ù‰ 3 Ø£Ø³Ø¦Ù„Ø© ÙˆÙ‡Ù†Ù‚ØªØ±Ø­ Ø¹Ù„ÙŠÙƒ Ø§Ù„Ø£Ù†Ø³Ø¨.</p>
-          </div>
-          <div class="quiz-card" id="quizCard" data-aos="fade-up">
-            <div class="quiz-progress-bar"><div class="quiz-progress-fill" id="quizProgressFill"></div></div>
-            <div class="quiz-step-indicator" id="quizStepIndicator"></div>
-            <div class="quiz-content" id="quizContent"></div>
-          </div>
+        <div class="fw-tabs-wrapper" data-aos="fade-up">
+            <div class="fw-tabs d-flex gap-2 flex-wrap mb-4" id="fwTabs">
+                <button class="fw-tab active" data-fw="pandas"><i class="fa-brands fa-python"></i> Pandas</button>
+                <button class="fw-tab" data-fw="numpy"><i class="fa-solid fa-calculator"></i> NumPy</button>
+                <button class="fw-tab" data-fw="sklearn"><i class="fa-solid fa-robot"></i> Scikit-learn</button>
+                <button class="fw-tab" data-fw="tensorflow"><i class="fa-solid fa-brain"></i> TensorFlow</button>
+                <button class="fw-tab" data-fw="viz"><i class="fa-solid fa-chart-pie"></i> Visualization</button>
+            </div>
+            <div class="fw-panel" id="fwPanel"></div>
         </div>
-      </div>
     </div>
-  </section>
+</section>
 
-  <!-- ROADMAP -->
-  <section class="section-block" id="roadmap">
+<!-- COMPARISON TABLE -->
+<section class="section-block section-light-alt" id="comparison">
     <div class="container">
-      <div class="section-header text-center mb-5" data-aos="fade-up">
-        <span class="section-tag" data-i18n="road.tag">Ø®Ø§Ø±Ø·Ø© Ø§Ù„Ø·Ø±ÙŠÙ‚</span>
-        <h2 class="section-title" data-i18n="road.title">Ù…Ù† ÙÙŠÙ† ØªØ¨Ø¯Ø£ Data ScienceØŸ</h2>
-        <p class="section-subtitle" data-i18n="road.sub">Ø§Ù„Ø®Ø·ÙˆØ§Øª Ø§Ù„ØµØ­ØŒ Ø¨Ø§Ù„ØªØ±ØªÙŠØ¨ Ø§Ù„ØµØ­ â€” Ù…Ù† Ø§Ù„ØµÙØ± Ù„Ù„Ø§Ø­ØªØ±Ø§Ù.</p>
-      </div>
-      <div class="roadmap-timeline" id="roadmapTimeline"></div>
+        <div class="section-header text-center mb-5" data-aos="fade-up">
+            <span class="section-tag" data-i18n="cmp.tag">Comparison</span>
+            <h2 class="section-title" data-i18n="cmp.title">Data Science Tool Comparison</h2>
+            <p class="section-subtitle" data-i18n="cmp.sub">A clear table to help you know when to use each tool.</p>
+        </div>
+        <div class="table-wrapper" data-aos="fade-up">
+            <div class="table-responsive">
+                <table class="comparison-table w-100">
+                    <thead>
+                        <tr>
+                            <th data-i18n="cmp.criterion">Metric</th>
+                            <th><i class="fa-brands fa-python"></i> Pandas</th>
+                            <th><i class="fa-solid fa-calculator"></i> NumPy</th>
+                            <th><i class="fa-solid fa-robot"></i> Scikit-learn</th>
+                            <th><i class="fa-solid fa-brain"></i> TensorFlow</th>
+                            <th><i class="fa-solid fa-fire-flame-curved"></i> PyTorch</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="criterion" data-i18n="cmp.diff">Learning Curve</td>
+                            <td><span class="level easy" data-i18n="l.easy">Easy</span></td>
+                            <td><span class="level easy" data-i18n="l.easy">Easy</span></td>
+                            <td><span class="level easy" data-i18n="l.easy">Easy</span></td>
+                            <td><span class="level hard" data-i18n="l.hard">Hard</span></td>
+                            <td><span class="level medium" data-i18n="l.med">Medium</span></td>
+                        </tr>
+                        <tr>
+                            <td class="criterion" data-i18n="cmp.perf">Performance</td>
+                            <td><div class="perf-bar" data-perf="72"></div></td>
+                            <td><div class="perf-bar" data-perf="92"></div></td>
+                            <td><div class="perf-bar" data-perf="82"></div></td>
+                            <td><div class="perf-bar" data-perf="97"></div></td>
+                            <td><div class="perf-bar" data-perf="96"></div></td>
+                        </tr>
+                        <tr>
+                            <td class="criterion" data-i18n="cmp.community">Community</td>
+                            <td><span class="stars">★★★★★</span></td>
+                            <td><span class="stars">★★★★★</span></td>
+                            <td><span class="stars">★★★★★</span></td>
+                            <td><span class="stars">★★★★☆</span></td>
+                            <td><span class="stars">★★★★★</span></td>
+                        </tr>
+                        <tr>
+                            <td class="criterion" data-i18n="cmp.usecase">Primary Use</td>
+                            <td data-i18n="cmp.pan">Data Wrangling</td>
+                            <td data-i18n="cmp.npy">Math & Arrays</td>
+                            <td data-i18n="cmp.skl">Classic ML</td>
+                            <td data-i18n="cmp.tf">Deep Learning</td>
+                            <td data-i18n="cmp.pt">Research & DL</td>
+                        </tr>
+                        <tr>
+                            <td class="criterion" data-i18n="cmp.companies">Companies</td>
+                            <td>Netflix, Spotify</td>
+                            <td>NASA, Google</td>
+                            <td>Amazon, Uber</td>
+                            <td>Google, Apple</td>
+                            <td>Meta, Tesla</td>
+                        </tr>
+                        <tr>
+                            <td class="criterion" data-i18n="cmp.for">Best For</td>
+                            <td data-i18n="cmp.pan2">Data Cleaning</td>
+                            <td data-i18n="cmp.npy2">Mathematical Operations</td>
+                            <td data-i18n="cmp.skl2">Classic ML Models</td>
+                            <td data-i18n="cmp.tf2">Neural Networks</td>
+                            <td data-i18n="cmp.pt2">Research & DL</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
-  </section>
+</section>
 
-  <!-- FOOTER -->
-  
+<!-- QUIZ -->
+<section class="section-block" id="quiz">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-12 col-lg-8">
+                <div class="section-header text-center mb-5" data-aos="fade-up">
+                    <span class="section-tag light" data-i18n="quiz.tag">Discover Yourself</span>
+                    <h2 class="section-title light" data-i18n="quiz.title">Which Data Science Path Fits You?</h2>
+                    <p class="section-subtitle light" data-i18n="quiz.sub">Answer 3 questions and we'll suggest the best fit.</p>
+                </div>
+                <div class="quiz-card" id="quizCard" data-aos="fade-up">
+                    <div class="quiz-progress-bar"><div class="quiz-progress-fill" id="quizProgressFill"></div></div>
+                    <div class="quiz-step-indicator" id="quizStepIndicator"></div>
+                    <div class="quiz-content" id="quizContent"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ROADMAP -->
+<section class="section-block" id="roadmap">
+    <div class="container">
+        <div class="section-header text-center mb-5" data-aos="fade-up">
+            <span class="section-tag" data-i18n="road.tag">Roadmap</span>
+            <h2 class="section-title" data-i18n="road.title">Where Do You Start Data Science?</h2>
+            <p class="section-subtitle" data-i18n="road.sub">The right steps, in the right order — from zero to pro.</p>
+        </div>
+        <div class="roadmap-timeline" id="roadmapTimeline"></div>
+    </div>
+</section>
 
 @section Scripts {
     <script src="~/tracks/Data Science/app.js" asp-append-version="true"></script>

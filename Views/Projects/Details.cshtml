@@ -179,6 +179,13 @@
                                 <a asp-controller="Submissions" asp-action="ProjectSubmissions" asp-route-projectId="@Model.Id" class="btn btn-outline-info btn-sm">
                                     <i class="fa-solid fa-file-lines me-2"></i>View Submissions
                                 </a>
+                                <!-- ✅ زر Team Chat (يظهر للقائد إذا كانت المجموعة موجودة) -->
+                                if (Model.ChatGroupId.HasValue)
+                                {
+                                    <a asp-controller="Chat" asp-action="Details" asp-route-id="@Model.ChatGroupId.Value" class="btn btn-primary btn-sm" style="background: linear-gradient(135deg, #0d9488, #2563eb); border: none;">
+                                        <i class="fa-regular fa-comment-dots me-2"></i>Team Chat
+                                    </a>
+                                }
                             }
                             else if (Model.IsMember)
                             {
@@ -191,6 +198,13 @@
                                 <a asp-controller="Submissions" asp-action="ProjectSubmissions" asp-route-projectId="@Model.Id" class="btn btn-outline-info btn-sm">
                                     <i class="fa-solid fa-file-lines me-2"></i>View Submissions
                                 </a>
+                                <!-- ✅ زر Team Chat (يظهر للعضو إذا كانت المجموعة موجودة) -->
+                                if (Model.ChatGroupId.HasValue)
+                                {
+                                    <a asp-controller="Chat" asp-action="Details" asp-route-id="@Model.ChatGroupId.Value" class="btn btn-primary btn-sm" style="background: linear-gradient(135deg, #0d9488, #2563eb); border: none;">
+                                        <i class="fa-regular fa-comment-dots me-2"></i>Team Chat
+                                    </a>
+                                }
                             }
                             else
                             {
@@ -266,6 +280,18 @@
                                                 @member.Role
                                             </div>
                                         </div>
+                                        <!-- ✅ زر Message (يظهر للجميع، بما فيهم المالك) -->
+                                        @if (member.Id != Model.ClientId)
+                                        {
+                                            <a asp-controller="Chat" asp-action="CreatePrivate" asp-route-userId="@member.Id" class="btn btn-outline-primary btn-sm ms-2" title="Send message to @member.Name">
+                                                <i class="fa-regular fa-comment-dots"></i> Message
+                                            </a>
+                                        }
+                                        else
+                                        {
+                                            <!-- إذا كان العضو هو نفس المستخدم، يمكن عرض زر "Chat" لكن لا داعي لظهور رسالة لنفسه -->
+                                            <span class="text-muted ms-2" style="font-size: 11px;">(You)</span>
+                                        }
                                     </div>
                                 }
                             </div>
@@ -364,318 +390,319 @@
             </div>
         </div>
     </div>
+</div>
 
-    @section Styles {
-        <style>
-            .project-details-page {
-                background: var(--color-bg, #F6F7FB);
-                min-height: 100vh;
-                padding-bottom: 2rem;
-            }
+@section Styles {
+    <style>
+        .project-details-page {
+            background: var(--color-bg, #F6F7FB);
+            min-height: 100vh;
+            padding-bottom: 2rem;
+        }
 
-            .project-detail-card,
-            .progress-card,
-            .actions-card,
-            .sidebar-card {
-                background: var(--color-surface, #FFFFFF);
-                border-radius: 20px;
-                border: 1px solid var(--color-border, #E4E7EF);
-                overflow: hidden;
-                margin-bottom: 1.5rem;
-                box-shadow: 0 2px 8px rgba(10, 22, 40, 0.06);
-            }
+        .project-detail-card,
+        .progress-card,
+        .actions-card,
+        .sidebar-card {
+            background: var(--color-surface, #FFFFFF);
+            border-radius: 20px;
+            border: 1px solid var(--color-border, #E4E7EF);
+            overflow: hidden;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 2px 8px rgba(10, 22, 40, 0.06);
+        }
 
-            .project-detail-card {
-                padding: 2rem;
-            }
+        .project-detail-card {
+            padding: 2rem;
+        }
 
-            .project-detail-header {
-                display: flex;
-                justify-content: space-between;
-                align-items: flex-start;
-                flex-wrap: wrap;
-                gap: 1rem;
-                margin-bottom: 1.5rem;
-            }
+        .project-detail-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
 
-            .project-detail-badges {
-                display: flex;
-                gap: 0.5rem;
-                flex-wrap: wrap;
-                margin-bottom: 0.75rem;
-            }
+        .project-detail-badges {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin-bottom: 0.75rem;
+        }
 
-            .badge-type {
-                padding: 0.25rem 0.75rem;
-                border-radius: 999px;
-                background: var(--color-bg, #F6F7FB);
-                color: var(--color-text-600, #5B6478);
-                font-size: 0.75rem;
-                font-weight: 600;
-                text-transform: uppercase;
-            }
+        .badge-type {
+            padding: 0.25rem 0.75rem;
+            border-radius: 999px;
+            background: var(--color-bg, #F6F7FB);
+            color: var(--color-text-600, #5B6478);
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
 
-            .badge-track {
-                padding: 0.25rem 0.75rem;
-                border-radius: 999px;
-                color: #fff;
-                font-size: 0.75rem;
-                font-weight: 600;
-            }
+        .badge-track {
+            padding: 0.25rem 0.75rem;
+            border-radius: 999px;
+            color: #fff;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
 
-            .status-badge {
-                padding: 0.25rem 0.75rem;
-                border-radius: 999px;
-                font-size: 0.75rem;
-                font-weight: 700;
-                text-transform: uppercase;
-            }
+        .status-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 999px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
 
-            .project-detail-title {
-                font-family: var(--font-display, 'Sora', sans-serif);
-                font-size: 1.75rem;
-                font-weight: 800;
-                color: var(--color-text-900, #0A1628);
-                margin: 0 0 0.5rem;
-            }
+        .project-detail-title {
+            font-family: var(--font-display, 'Sora', sans-serif);
+            font-size: 1.75rem;
+            font-weight: 800;
+            color: var(--color-text-900, #0A1628);
+            margin: 0 0 0.5rem;
+        }
 
-            .project-detail-desc {
-                color: var(--color-text-600, #5B6478);
-                font-size: 1rem;
-                line-height: 1.7;
-                margin: 0;
-                max-width: 650px;
-            }
+        .project-detail-desc {
+            color: var(--color-text-600, #5B6478);
+            font-size: 1rem;
+            line-height: 1.7;
+            margin: 0;
+            max-width: 650px;
+        }
 
-            .project-detail-meta {
-                display: flex;
-                flex-wrap: wrap;
-                gap: 1.5rem 2.5rem;
-                padding-top: 1.5rem;
-                border-top: 1px solid var(--color-border, #E4E7EF);
-            }
+        .project-detail-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem 2.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--color-border, #E4E7EF);
+        }
 
-            .meta-item {
-                display: flex;
-                flex-direction: column;
-                gap: 0.25rem;
-            }
+        .meta-item {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
 
-            .meta-label {
-                font-size: 0.75rem;
-                color: var(--color-text-400, #94A0B8);
-                text-transform: uppercase;
-                letter-spacing: 0.05em;
-                font-weight: 600;
-            }
+        .meta-label {
+            font-size: 0.75rem;
+            color: var(--color-text-400, #94A0B8);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-weight: 600;
+        }
 
-            .meta-value {
-                font-weight: 500;
-                color: var(--color-text-900, #0A1628);
-            }
+        .meta-value {
+            font-weight: 500;
+            color: var(--color-text-900, #0A1628);
+        }
 
-            .tech-badge-sm {
-                padding: 0.15rem 0.5rem;
-                background: var(--color-bg, #F6F7FB);
-                border: 1px solid var(--color-border, #E4E7EF);
-                border-radius: 4px;
-                font-size: 0.7rem;
-                color: var(--color-text-600, #5B6478);
-                display: inline-block;
-                margin-right: 0.25rem;
-            }
+        .tech-badge-sm {
+            padding: 0.15rem 0.5rem;
+            background: var(--color-bg, #F6F7FB);
+            border: 1px solid var(--color-border, #E4E7EF);
+            border-radius: 4px;
+            font-size: 0.7rem;
+            color: var(--color-text-600, #5B6478);
+            display: inline-block;
+            margin-right: 0.25rem;
+        }
 
-            .project-detail-links {
-                display: flex;
-                gap: 0.75rem;
-                padding-top: 1.5rem;
-                border-top: 1px solid var(--color-border, #E4E7EF);
-                margin-top: 1.5rem;
-            }
+        .project-detail-links {
+            display: flex;
+            gap: 0.75rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--color-border, #E4E7EF);
+            margin-top: 1.5rem;
+        }
 
-            .progress-card-header {
-                padding: 1rem 1.5rem;
-                border-bottom: 1px solid var(--color-border, #E4E7EF);
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                background: var(--color-bg, #F6F7FB);
-            }
+        .progress-card-header {
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid var(--color-border, #E4E7EF);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--color-bg, #F6F7FB);
+        }
 
-            .progress-percentage {
-                font-family: var(--font-mono, 'JetBrains Mono', monospace);
-                font-size: 1.1rem;
-                font-weight: 700;
-                color: var(--color-blue-600, #2F6FED);
-            }
+        .progress-percentage {
+            font-family: var(--font-mono, 'JetBrains Mono', monospace);
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--color-blue-600, #2F6FED);
+        }
 
-            .progress-card-body {
-                padding: 1.5rem;
-            }
+        .progress-card-body {
+            padding: 1.5rem;
+        }
 
-            .progress-stats {
-                display: grid;
-                grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-                gap: 1rem;
-                margin-top: 1rem;
-                padding-top: 1rem;
-                border-top: 1px solid var(--color-border, #E4E7EF);
-            }
+        .progress-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--color-border, #E4E7EF);
+        }
 
-                .progress-stats .stat-item {
-                    text-align: center;
-                }
-
-                .progress-stats .stat-label {
-                    display: block;
-                    font-size: 0.7rem;
-                    color: var(--color-text-400, #94A0B8);
-                    text-transform: uppercase;
-                    letter-spacing: 0.04em;
-                }
-
-                .progress-stats .stat-value {
-                    display: block;
-                    font-size: 1.25rem;
-                    font-weight: 700;
-                    margin-top: 0.25rem;
-                }
-
-            .actions-card-header {
-                padding: 0.75rem 1.5rem;
-                border-bottom: 1px solid var(--color-border, #E4E7EF);
-                background: var(--color-bg, #F6F7FB);
-            }
-
-            .actions-card-body {
-                padding: 1.25rem 1.5rem;
-            }
-
-                .actions-card-body .btn {
-                    border-radius: 999px;
-                    padding: 0.4rem 1rem;
-                    font-weight: 600;
-                    font-size: 0.85rem;
-                }
-
-            .sidebar-card-header {
-                padding: 0.75rem 1.5rem;
-                border-bottom: 1px solid var(--color-border, #E4E7EF);
-                background: var(--color-bg, #F6F7FB);
-            }
-
-            .sidebar-card-body {
-                padding: 1.25rem 1.5rem;
-            }
-
-                .sidebar-card-body .stat-item {
-                    display: flex;
-                    justify-content: space-between;
-                    padding: 0.5rem 0;
-                    border-bottom: 1px solid var(--color-border, #E4E7EF);
-                }
-
-                    .sidebar-card-body .stat-item:last-child {
-                        border-bottom: none;
-                    }
-
-                .sidebar-card-body .stat-label {
-                    color: var(--color-text-400, #94A0B8);
-                    font-size: 0.85rem;
-                }
-
-                .sidebar-card-body .stat-value {
-                    font-weight: 600;
-                    color: var(--color-text-900, #0A1628);
-                    font-size: 0.9rem;
-                }
-
-            .status-badge-sm {
-                padding: 0.15rem 0.5rem;
-                border-radius: 999px;
-                font-size: 0.7rem;
-                font-weight: 700;
-                text-transform: uppercase;
-            }
-
-            .team-info {
+            .progress-stats .stat-item {
                 text-align: center;
             }
 
-            .team-name {
-                font-size: 1.1rem;
+            .progress-stats .stat-label {
+                display: block;
+                font-size: 0.7rem;
+                color: var(--color-text-400, #94A0B8);
+                text-transform: uppercase;
+                letter-spacing: 0.04em;
+            }
+
+            .progress-stats .stat-value {
+                display: block;
+                font-size: 1.25rem;
+                font-weight: 700;
+                margin-top: 0.25rem;
+            }
+
+        .actions-card-header {
+            padding: 0.75rem 1.5rem;
+            border-bottom: 1px solid var(--color-border, #E4E7EF);
+            background: var(--color-bg, #F6F7FB);
+        }
+
+        .actions-card-body {
+            padding: 1.25rem 1.5rem;
+        }
+
+            .actions-card-body .btn {
+                border-radius: 999px;
+                padding: 0.4rem 1rem;
+                font-weight: 600;
+                font-size: 0.85rem;
+            }
+
+        .sidebar-card-header {
+            padding: 0.75rem 1.5rem;
+            border-bottom: 1px solid var(--color-border, #E4E7EF);
+            background: var(--color-bg, #F6F7FB);
+        }
+
+        .sidebar-card-body {
+            padding: 1.25rem 1.5rem;
+        }
+
+            .sidebar-card-body .stat-item {
+                display: flex;
+                justify-content: space-between;
+                padding: 0.5rem 0;
+                border-bottom: 1px solid var(--color-border, #E4E7EF);
+            }
+
+                .sidebar-card-body .stat-item:last-child {
+                    border-bottom: none;
+                }
+
+            .sidebar-card-body .stat-label {
+                color: var(--color-text-400, #94A0B8);
+                font-size: 0.85rem;
+            }
+
+            .sidebar-card-body .stat-value {
                 font-weight: 600;
                 color: var(--color-text-900, #0A1628);
+                font-size: 0.9rem;
             }
 
-            .empty-team {
-                padding: 0.5rem 0;
+        .status-badge-sm {
+            padding: 0.15rem 0.5rem;
+            border-radius: 999px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .team-info {
+            text-align: center;
+        }
+
+        .team-name {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--color-text-900, #0A1628);
+        }
+
+        .empty-team {
+            padding: 0.5rem 0;
+        }
+
+            .empty-team .empty-icon-small {
+                font-size: 2.5rem;
+                color: var(--color-text-400, #94A0B8);
+                margin-bottom: 0.5rem;
+                display: block;
             }
 
-                .empty-team .empty-icon-small {
-                    font-size: 2.5rem;
-                    color: var(--color-text-400, #94A0B8);
-                    margin-bottom: 0.5rem;
-                    display: block;
-                }
+        .text-danger {
+            color: var(--color-danger, #E14F4F) !important;
+        }
 
-            .text-danger {
-                color: var(--color-danger, #E14F4F) !important;
+        .text-success {
+            color: var(--color-teal-600, #15C6AE) !important;
+        }
+
+        .text-warning {
+            color: var(--color-amber-500, #F2A33C) !important;
+        }
+
+        .text-info {
+            color: var(--color-blue-600, #2F6FED) !important;
+        }
+
+        @@media (max-width: 768px) {
+            .project-detail-card {
+                padding: 1.25rem;
             }
 
-            .text-success {
-                color: var(--color-teal-600, #15C6AE) !important;
+            .project-detail-title {
+                font-size: 1.4rem;
             }
 
-            .text-warning {
-                color: var(--color-amber-500, #F2A33C) !important;
+            .project-detail-meta {
+                gap: 1rem;
             }
 
-            .text-info {
-                color: var(--color-blue-600, #2F6FED) !important;
+            .progress-stats {
+                grid-template-columns: repeat(2, 1fr);
             }
 
-            @@media (max-width: 768px) {
-                .project-detail-card {
-                    padding: 1.25rem;
-                }
+            .actions-card-body .d-flex {
+                flex-direction: column;
+            }
 
-                .project-detail-title {
-                    font-size: 1.4rem;
-                }
+            .actions-card-body .btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
 
-                .project-detail-meta {
-                    gap: 1rem;
-                }
+        @@media (max-width: 480px) {
+            .project-detail-meta {
+                flex-direction: column;
+                gap: 0.75rem;
+            }
 
-                .progress-stats {
-                    grid-template-columns: repeat(2, 1fr);
-                }
+            .project-detail-links {
+                flex-direction: column;
+            }
 
-                .actions-card-body .d-flex {
-                    flex-direction: column;
-                }
-
-                .actions-card-body .btn {
+                .project-detail-links .btn {
                     width: 100%;
                     justify-content: center;
                 }
-            }
-
-            @@media (max-width: 480px) {
-                .project-detail-meta {
-                    flex-direction: column;
-                    gap: 0.75rem;
-                }
-
-                .project-detail-links {
-                    flex-direction: column;
-                }
-
-                    .project-detail-links .btn {
-                        width: 100%;
-                        justify-content: center;
-                    }
-            }
-        </style>
-    }
+        }
+    </style>
+}

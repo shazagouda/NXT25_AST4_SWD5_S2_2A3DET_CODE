@@ -2,12 +2,14 @@ using A3DET_CODE.Data;
 using A3DET_CODE.Models;
 using A3DET_CODE.Repositories.Implementations;
 using A3DET_CODE.Repositories.Interfaces;
+using A3DET_CODE.Services;
 using A3DET_CODE.Services.Implementations;
 using A3DET_CODE.Services.Interfaces;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
+using A3DET_CODE.Hubs; // ✅ أضفنا هذا الـ using
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -32,6 +34,8 @@ builder.Services.AddScoped<IProfileImageStorageService, LocalFileProfileImageSto
 builder.Services.AddScoped<IJoinRequestRepository, JoinRequestRepository>();
 builder.Services.AddScoped<ITrackRepository, TrackRepository>();
 builder.Services.AddScoped<IEmailService, EmailService>();
+builder.Services.AddSignalR();
+builder.Services.AddScoped<IChatService, ChatService>();
 
 // Add DbContext
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
@@ -129,6 +133,9 @@ app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+
+// ✅ هذا السطر هو الحل لمشكلة 404
+app.MapHub<ChatHub>("/chatHub");
 
 // ============================================================
 // ✅ HELPER FUNCTION
@@ -337,7 +344,7 @@ using (var scope = app.Services.CreateScope())
         }
 
         // ============================================================
-        // ✅ 6. SEED BADGES (جديد)
+        // ✅ 6. SEED BADGES
         // ============================================================
         if (!context.Badges.Any())
         {

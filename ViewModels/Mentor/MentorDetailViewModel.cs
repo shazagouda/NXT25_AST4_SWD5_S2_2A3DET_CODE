@@ -28,6 +28,8 @@ namespace A3DET_CODE.ViewModels.Mentor
         [Display(Name = "Teams")]
         public int TeamsCount { get; set; }
 
+        public string UserId { get; set; } = string.Empty;
+
         public List<string> SkillsList => Skills?.Split(',', StringSplitOptions.RemoveEmptyEntries)
             .Select(s => s.Trim())
             .ToList() ?? new List<string>();

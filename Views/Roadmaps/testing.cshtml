@@ -1,5 +1,5 @@
 ﻿@{
-    ViewData["Title"] = "testing Track";
+    ViewData["Title"] = "Testing Track";
     Layout = "_Layout";
 }
 
@@ -7,298 +7,293 @@
     <link rel="stylesheet" href="~/tracks/Style/style.css" asp-append-version="true" />
 }
 
-
-
-    <!-- HERO -->
-    <section class="hero-section" id="hero">
-        <div class="hero-grid-bg"></div>
-        <div class="container">
-            <div class="row min-vh-100 align-items-center">
-                <div class="col-12 col-lg-8">
-                    <div class="hero-tag mb-3" data-aos="fade-up">
-                        <i class="fa-solid fa-bug"></i> Ø¯Ù„ÙŠÙ„ Ø§Ù„Ù…Ø¨ØªØ¯Ø¦ ÙÙŠ Software Testing
-                    </div>
-                    <h1 class="hero-title" data-aos="fade-up" data-aos-delay="100">
-                        ÙƒÙ„ Ø§Ù„Ù„ÙŠ Ù…Ø­ØªØ§Ø¬<br />
-                        ØªØ¹Ø±ÙÙ‡ Ø¹Ù†
-                        <span class="highlight-text"> Testing</span>
-                    </h1>
-                    <p class="hero-subtitle" data-aos="fade-up" data-aos-delay="200">
-                        Ù…Ù† Ø£ÙˆÙ„ Ø³Ø·Ø± Test Ù„ØºØ§ÙŠØ© Ù…Ø§ ØªØ®ØªØ§Ø± Ø§Ù„Ù€ Framework Ø§Ù„Ù…Ù†Ø§Ø³Ø¨ Ù„ÙŠÙƒ â€” Ø¯Ù„ÙŠÙ„ ÙˆØ§Ø¶Ø­ ÙˆÙ…Ø¨Ø³Ø· Ø¨Ø¯ÙˆÙ† ØªØ¹Ù‚ÙŠØ¯.
-                    </p>
-                    <div class="hero-actions d-flex flex-wrap gap-3 mt-5" data-aos="fade-up" data-aos-delay="300">
-                        <a href="#what-is" class="btn-primary-custom">
-                            Ø§Ø¨Ø¯Ø£ Ø§Ù„Ø±Ø­Ù„Ø© <i class="fa-solid fa-arrow-left ms-2"></i>
-                        </a>
-                        <a href="#comparison" class="btn-secondary-custom">
-                            Ù‚Ø§Ø±Ù† Ø§Ù„Ù€ Frameworks
-                        </a>
-                    </div>
+<!-- HERO -->
+<section class="hero-section" id="hero">
+    <div class="hero-grid-bg"></div>
+    <div class="container">
+        <div class="row min-vh-100 align-items-center">
+            <div class="col-12 col-lg-8">
+                <div class="hero-tag mb-3" data-aos="fade-up">
+                    <i class="fa-solid fa-bug"></i> Beginner's Guide to Software Testing
                 </div>
-                <div class="col-12 col-lg-4 d-none d-lg-block">
-                    <div class="hero-code-block" data-aos="fade-left" data-aos-delay="400">
-                        <div class="code-header">
-                            <span class="dot red"></span>
-                            <span class="dot yellow"></span>
-                            <span class="dot green"></span>
-                            <span class="code-filename">login.test.js</span>
-                        </div>
-                        <div class="code-body" id="heroCodeBlock">
-                            <div class="code-line"><span class="fn">describe</span>(<span class="str">'Login Flow'</span>, () => {</div>
-                            <div class="code-line pl-2"><span class="fn">it</span>(<span class="str">'ÙŠØ³Ø¬Ù„ Ø¯Ø®ÙˆÙ„ Ø¨Ù†Ø¬Ø§Ø­'</span>, () => {</div>
-                            <div class="code-line pl-3"><span class="kw">const</span> <span class="var">res</span> = <span class="fn">login</span>({</div>
-                            <div class="code-line pl-4"><span class="prop">user</span>: <span class="str">'Ø£Ù†Øª'</span>,</div>
-                            <div class="code-line pl-4"><span class="prop">pass</span>: <span class="str">'â€¢â€¢â€¢â€¢â€¢â€¢'</span></div>
-                            <div class="code-line pl-3">});</div>
-                            <div class="code-line pl-3"><span class="fn">expect</span>(<span class="var">res</span>).<span class="method">toBe</span>(<span class="bool">true</span>);</div>
-                            <div class="code-line pl-2">});</div>
-                            <div class="code-line">});</div>
-                        </div>
+                <h1 class="hero-title" data-aos="fade-up" data-aos-delay="100">
+                    Everything You Need<br />
+                    to Know About
+                    <span class="highlight-text"> Testing</span>
+                </h1>
+                <p class="hero-subtitle" data-aos="fade-up" data-aos-delay="200">
+                    From your first Test line to choosing the right Framework — a clear, simple guide without complexity.
+                </p>
+                <div class="hero-actions d-flex flex-wrap gap-3 mt-5" data-aos="fade-up" data-aos-delay="300">
+                    <a href="#what-is" class="btn-primary-custom">
+                        Start the Journey <i class="fa-solid fa-arrow-left ms-2"></i>
+                    </a>
+                    <a href="#comparison" class="btn-secondary-custom">
+                        Compare Frameworks
+                    </a>
+                </div>
+            </div>
+            <div class="col-12 col-lg-4 d-none d-lg-block">
+                <div class="hero-code-block" data-aos="fade-left" data-aos-delay="400">
+                    <div class="code-header">
+                        <span class="dot red"></span>
+                        <span class="dot yellow"></span>
+                        <span class="dot green"></span>
+                        <span class="code-filename">login.test.js</span>
+                    </div>
+                    <div class="code-body" id="heroCodeBlock">
+                        <div class="code-line"><span class="fn">describe</span>(<span class="str">'Login Flow'</span>, () => {</div>
+                        <div class="code-line pl-2"><span class="fn">it</span>(<span class="str">'successfully logs in'</span>, () => {</div>
+                        <div class="code-line pl-3"><span class="kw">const</span> <span class="var">res</span> = <span class="fn">login</span>({</div>
+                        <div class="code-line pl-4"><span class="prop">user</span>: <span class="str">'you'</span>,</div>
+                        <div class="code-line pl-4"><span class="prop">pass</span>: <span class="str">'••••••'</span></div>
+                        <div class="code-line pl-3">});</div>
+                        <div class="code-line pl-3"><span class="fn">expect</span>(<span class="var">res</span>).<span class="method">toBe</span>(<span class="bool">true</span>);</div>
+                        <div class="code-line pl-2">});</div>
+                        <div class="code-line">});</div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="hero-scroll-hint">
-            <div class="scroll-mouse"><div class="scroll-wheel"></div></div>
-            <span>Ø§Ø³ÙƒØ±ÙˆÙ„ Ù„Ù„Ø£Ø³ÙÙ„</span>
-        </div>
-    </section>
+    </div>
+    <div class="hero-scroll-hint">
+        <div class="scroll-mouse"><div class="scroll-wheel"></div></div>
+        <span>Scroll Down</span>
+    </div>
+</section>
 
-    <!-- WHAT IS TESTING -->
-    <section class="section-block" id="what-is">
-        <div class="container">
-            <div class="section-header text-center mb-5" data-aos="fade-up">
-                <span class="section-tag">Ø§Ù„Ø£Ø³Ø§Ø³ÙŠØ§Øª</span>
-                <h2 class="section-title">Ø¥ÙŠÙ‡ Ù‡Ùˆ Ø§Ù„Ù€ Software TestingØŸ</h2>
-                <p class="section-subtitle">
-                    Ø§Ù„Ù€ Testing Ù‡Ùˆ Ø§Ù„ØªØ£ÙƒØ¯ Ø¥Ù† Ø§Ù„Ø¨Ø±Ù†Ø§Ù…Ø¬ Ø§Ù„Ù„ÙŠ Ø¨Ù†ÙŠØªÙ‡ Ø¨ÙŠØ´ØªØºÙ„ ØµØ­ â€” ÙÙŠ ÙƒÙ„ Ø§Ù„Ø­Ø§Ù„Ø§ØªØŒ Ù…Ø´ Ø¨Ø³ Ø§Ù„Ø­Ø§Ù„Ø© Ø§Ù„Ø¹Ø§Ø¯ÙŠØ©. Ù‡Ùˆ Ø§Ù„ÙØ±Ù‚ Ø¨ÙŠÙ† Ù…Ù†ØªØ¬ Ù…ÙˆØ«ÙˆÙ‚ ÙˆØ¢Ø®Ø± Ø¨ÙŠØªØ¹Ø·Ù„ Ø¹Ù„Ù‰ Ø§Ù„Ù…Ø³ØªØ®Ø¯Ù….
+<!-- WHAT IS TESTING -->
+<section class="section-block" id="what-is">
+    <div class="container">
+        <div class="section-header text-center mb-5" data-aos="fade-up">
+            <span class="section-tag">The Basics</span>
+            <h2 class="section-title">What is Software Testing?</h2>
+            <p class="section-subtitle">
+                Testing is ensuring that the software you built works correctly — in all cases, not just the happy path. It's the difference between a reliable product and one that breaks on the user.
+            </p>
+        </div>
+
+        <div class="analogy-card mb-5" data-aos="fade-up">
+            <div class="analogy-icon"><i class="fa-solid fa-car-burst"></i></div>
+            <div class="analogy-content">
+                <h4>Think of it Like This</h4>
+                <p>
+                    Any car before hitting the market goes through <strong>thousands of tests</strong> — braking, steering, safety. This isn't because engineers lack confidence, it's because <strong>confidence isn't an opinion — it's proof.</strong>
+                    Testing in software is the exact same idea.
                 </p>
             </div>
+        </div>
 
-            <div class="analogy-card mb-5" data-aos="fade-up">
-                <div class="analogy-icon"><i class="fa-solid fa-car-burst"></i></div>
-                <div class="analogy-content">
-                    <h4>ÙÙƒØ± ÙÙŠ Ø§Ù„Ø£Ù…Ø± ÙƒØ¯Ù‡ </h4>
-                    <p>
-                        Ø£ÙŠ Ø¹Ø±Ø¨ÙŠØ© Ù‚Ø¨Ù„ Ù…Ø§ ØªØ·Ù„Ø¹ Ø§Ù„Ø³ÙˆÙ‚ Ø¨ØªØ¹Ø¯ÙŠ Ø¹Ù„Ù‰ <strong>Ø¢Ù„Ø§Ù Ø§Ù„Ø§Ø®ØªØ¨Ø§Ø±Ø§Øª</strong> â€” Ù…ÙƒØ§Ø¨Ø­ØŒ Ù…Ø­Ø±ÙƒØŒ Ø£Ù…Ø§Ù†. Ø¯Ù‡ Ù…Ø´ Ø¨ÙŠØ­ØµÙ„ Ø¹Ø´Ø§Ù† Ø§Ù„Ù…Ù‡Ù†Ø¯Ø³ÙŠÙ† Ù…Ø´ ÙˆØ§Ø«Ù‚ÙŠÙ† ÙÙŠ Ù†ÙØ³Ù‡Ù…ØŒ Ø¯Ù‡ Ø¨ÙŠØ­ØµÙ„ Ø¹Ø´Ø§Ù† <strong>Ø§Ù„Ø«Ù‚Ø© Ù…Ø´ Ø±Ø£ÙŠ â€” Ù‡ÙŠ Ø¥Ø«Ø¨Ø§Øª.</strong>
-                        Ø§Ù„Ù€ Testing ÙÙŠ Ø§Ù„Ø¨Ø±Ù…Ø¬Ø© Ù‡Ùˆ Ù†ÙØ³ Ø§Ù„ÙÙƒØ±Ø© Ø¨Ø§Ù„Ø¸Ø¨Ø·.
-                    </p>
+        <div class="row g-4">
+            <div class="col-12 col-md-4" data-aos="fade-up" data-aos-delay="0">
+                <div class="pillar-card" data-pillar="manual">
+                    <div class="pillar-icon"><i class="fa-solid fa-hand-pointer"></i></div>
+                    <div class="pillar-number">01</div>
+                    <h3 class="pillar-title">Manual Testing</h3>
+                    <p class="pillar-desc">The tester runs the application step by step like a real user. Catches UX issues and Edge Cases that Automation can't find.</p>
+                    <div class="pillar-tag">Human Eye</div>
                 </div>
             </div>
+            <div class="col-12 col-md-4" data-aos="fade-up" data-aos-delay="100">
+                <div class="pillar-card" data-pillar="auto">
+                    <div class="pillar-icon"><i class="fa-solid fa-robot"></i></div>
+                    <div class="pillar-number">02</div>
+                    <h3 class="pillar-title">Automation Testing</h3>
+                    <p class="pillar-desc">Code that runs tests automatically — faster, more repeatable, and runs with every Deployment. This is what makes CI/CD work with confidence.</p>
+                    <div class="pillar-tag">Robot Speed</div>
+                </div>
+            </div>
+            <div class="col-12 col-md-4" data-aos="fade-up" data-aos-delay="200">
+                <div class="pillar-card" data-pillar="perf">
+                    <div class="pillar-icon"><i class="fa-solid fa-gauge-high"></i></div>
+                    <div class="pillar-number">03</div>
+                    <h3 class="pillar-title">Performance Testing</h3>
+                    <p class="pillar-desc">Ensures the app can handle the load — thousands of concurrent users without slowing down or crashing. Essential before any major Launch.</p>
+                    <div class="pillar-tag">Under Pressure</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 
-            <div class="row g-4">
-                <div class="col-12 col-md-4" data-aos="fade-up" data-aos-delay="0">
-                    <div class="pillar-card" data-pillar="manual">
-                        <div class="pillar-icon"><i class="fa-solid fa-hand-pointer"></i></div>
-                        <div class="pillar-number">01</div>
-                        <h3 class="pillar-title">Manual Testing</h3>
-                        <p class="pillar-desc">Ø§Ù„ØªØ³ØªØ± Ø¨ÙŠØ¬Ø±Ø¨ Ø§Ù„ØªØ·Ø¨ÙŠÙ‚ Ø¨Ø¥ÙŠØ¯Ù‡ Ø®Ø·ÙˆØ© Ø¨Ø®Ø·ÙˆØ© Ø²ÙŠ Ø§Ù„Ù…Ø³ØªØ®Ø¯Ù… Ø§Ù„Ø­Ù‚ÙŠÙ‚ÙŠ. Ø¨ÙŠÙƒØªØ´Ù Ù…Ø´Ø§ÙƒÙ„ ÙÙŠ Ø§Ù„Ù€ UX ÙˆØ§Ù„Ù€ Edge Cases Ø§Ù„Ù„ÙŠ Automation Ù…Ø´ Ø¨ÙŠÙ„Ø§Ù‚ÙŠÙ‡Ø§.</p>
-                        <div class="pillar-tag">Human Eye</div>
-                    </div>
+<!-- PYRAMID / FRAMEWORK INTRO -->
+<section class="section-block section-dark" id="frameworks-intro">
+    <div class="container">
+        <div class="row align-items-center g-5">
+            <div class="col-12 col-lg-6" data-aos="fade-right">
+                <span class="section-tag light">Core Concept</span>
+                <h2 class="section-title light">The Testing Pyramid</h2>
+                <p class="section-subtitle light">
+                    Not every test has the same cost and speed. There's a famous pyramid in the industry that tells you when to use each type and in what proportion.
+                </p>
+                <p class="section-subtitle light">
+                    The foundation is <strong>Unit Tests</strong> — many and fast. Above them are <strong>Integration Tests</strong> — slower and more comprehensive. And at the top are <strong>E2E Tests</strong> — the slowest but most complete.
+                </p>
+                <div class="benefits-list mt-4">
+                    <div class="benefit-item"><i class="fa-solid fa-check"></i> Unit Tests — 70% of your time</div>
+                    <div class="benefit-item"><i class="fa-solid fa-check"></i> Integration Tests — 20% of your time</div>
+                    <div class="benefit-item"><i class="fa-solid fa-check"></i> E2E Tests — 10% of your time</div>
+                    <div class="benefit-item"><i class="fa-solid fa-check"></i> Regression after every change</div>
                 </div>
-                <div class="col-12 col-md-4" data-aos="fade-up" data-aos-delay="100">
-                    <div class="pillar-card" data-pillar="auto">
-                        <div class="pillar-icon"><i class="fa-solid fa-robot"></i></div>
-                        <div class="pillar-number">02</div>
-                        <h3 class="pillar-title">Automation Testing</h3>
-                        <p class="pillar-desc">Ø¨ÙŠÙƒØªØ¨ ÙƒÙˆØ¯ Ø¨ÙŠØ´ØºÙ‘Ù„ Ø§Ù„Ø§Ø®ØªØ¨Ø§Ø±Ø§Øª Ø£ÙˆØªÙˆÙ…Ø§ØªÙŠÙƒ â€” Ø£Ø³Ø±Ø¹ØŒ Ø£ÙƒØ«Ø± ØªÙƒØ±Ø§Ø±Ø§Ù‹ØŒ ÙˆØ¨ÙŠØ´ØªØºÙ„ Ù…Ø¹ ÙƒÙ„ Deployment. Ø¯Ù‡ Ø§Ù„Ù„ÙŠ Ø¨ÙŠØ®Ù„ÙŠ Ø§Ù„Ù€ CI/CD ÙŠØ´ØªØºÙ„ Ø¨Ø«Ù‚Ø©.</p>
-                        <div class="pillar-tag">Robot Speed</div>
+            </div>
+            <div class="col-12 col-lg-6" data-aos="fade-left">
+                <div class="framework-visual">
+                    <div class="fv-center">
+                        <i class="fa-solid fa-bug"></i>
+                        <span>Testing</span>
                     </div>
-                </div>
-                <div class="col-12 col-md-4" data-aos="fade-up" data-aos-delay="200">
-                    <div class="pillar-card" data-pillar="perf">
-                        <div class="pillar-icon"><i class="fa-solid fa-gauge-high"></i></div>
-                        <div class="pillar-number">03</div>
-                        <h3 class="pillar-title">Performance Testing</h3>
-                        <p class="pillar-desc">Ø¨ÙŠØªØ£ÙƒØ¯ Ø¥Ù† Ø§Ù„ØªØ·Ø¨ÙŠÙ‚ Ø¨ÙŠØªØ­Ù…Ù„ Ø§Ù„Ø¶ØºØ· â€” Ø¢Ù„Ø§Ù Ø§Ù„Ù…Ø³ØªØ®Ø¯Ù…ÙŠÙ† ÙÙŠ Ù†ÙØ³ Ø§Ù„ÙˆÙ‚Øª Ù…Ù† ØºÙŠØ± Ù…Ø§ ÙŠØ¨Ø·Ø£ Ø£Ùˆ ÙŠÙ‚Ø¹. Ø¶Ø±ÙˆØ±ÙŠ Ù‚Ø¨Ù„ Ø£ÙŠ Launch ÙƒØ¨ÙŠØ±.</p>
-                        <div class="pillar-tag">Under Pressure</div>
+                    <div class="fv-orbit">
+                        <div class="fv-satellite" style="--i:0"><span class="fw-jest"><i class="fa-solid fa-j"></i></span></div>
+                        <div class="fv-satellite" style="--i:1"><span class="fw-cypress"><i class="fa-solid fa-c"></i></span></div>
+                        <div class="fv-satellite" style="--i:2"><span class="fw-selenium"><i class="fa-solid fa-s"></i></span></div>
+                        <div class="fv-satellite" style="--i:3"><span class="fw-pytest"><i class="fa-brands fa-python"></i></span></div>
                     </div>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 
-    <!-- PYRAMID / FRAMEWORK INTRO -->
-    <section class="section-block section-dark" id="frameworks-intro">
-        <div class="container">
-            <div class="row align-items-center g-5">
-                <div class="col-12 col-lg-6" data-aos="fade-right">
-                    <span class="section-tag light">Ø§Ù„Ù…ÙÙ‡ÙˆÙ… Ø§Ù„Ø£Ø³Ø§Ø³ÙŠ</span>
-                    <h2 class="section-title light">Ù‡Ø±Ù… Ø§Ù„Ù€ Testing</h2>
-                    <p class="section-subtitle light">
-                        Ù…Ø´ ÙƒÙ„ Test Ø¨Ù†ÙØ³ Ø§Ù„ØªÙƒÙ„ÙØ© ÙˆØ§Ù„Ø³Ø±Ø¹Ø©. ÙÙŠÙ‡ Ù‡Ø±Ù… Ø´Ù‡ÙŠØ± ÙÙŠ Ø§Ù„ØµÙ†Ø§Ø¹Ø© Ø¨ÙŠÙ‚ÙˆÙ„Ùƒ Ø§Ù…ØªÙ‰ ØªØ¹Ù…Ù„ ÙƒÙ„ Ù†ÙˆØ¹ ÙˆØ¨Ø£ÙŠ Ù†Ø³Ø¨Ø©.
-                    </p>
-                    <p class="section-subtitle light">
-                        Ø§Ù„Ø£Ø³Ø§Ø³ Ù‡Ùˆ <strong>Unit Tests</strong> â€” ÙƒØªÙŠØ± ÙˆØ³Ø±ÙŠØ¹Ø©. ÙÙˆÙ‚ÙŠÙ‡Ø§ <strong>Integration Tests</strong> â€” Ø£Ø¨Ø·Ø£ ÙˆØ£Ø´Ù…Ù„. ÙˆÙÙˆÙ‚ Ø§Ù„ÙƒÙ„ <strong>E2E Tests</strong> â€” Ø§Ù„Ø£Ø¨Ø·Ø£ Ù„ÙƒÙ† Ø§Ù„Ø£ÙƒÙ…Ù„.
-                    </p>
-                    <div class="benefits-list mt-4">
-                        <div class="benefit-item"><i class="fa-solid fa-check"></i> Unit Tests â€” 70% Ù…Ù† ÙˆÙ‚ØªÙƒ</div>
-                        <div class="benefit-item"><i class="fa-solid fa-check"></i> Integration Tests â€” 20% Ù…Ù† ÙˆÙ‚ØªÙƒ</div>
-                        <div class="benefit-item"><i class="fa-solid fa-check"></i> E2E Tests â€” 10% Ù…Ù† ÙˆÙ‚ØªÙƒ</div>
-                        <div class="benefit-item"><i class="fa-solid fa-check"></i> Regression Ø¨Ø¹Ø¯ ÙƒÙ„ ØªØ¹Ø¯ÙŠÙ„</div>
-                    </div>
-                </div>
-                <div class="col-12 col-lg-6" data-aos="fade-left">
-                    <div class="framework-visual">
-                        <div class="fv-center">
-                            <i class="fa-solid fa-bug"></i>
-                            <span>Testing</span>
-                        </div>
-                        <div class="fv-orbit">
-                            <div class="fv-satellite" style="--i:0"><span class="fw-jest"><i class="fa-solid fa-j"></i></span></div>
-                            <div class="fv-satellite" style="--i:1"><span class="fw-cypress"><i class="fa-solid fa-c"></i></span></div>
-                            <div class="fv-satellite" style="--i:2"><span class="fw-selenium"><i class="fa-solid fa-s"></i></span></div>
-                            <div class="fv-satellite" style="--i:3"><span class="fw-pytest"><i class="fa-brands fa-python"></i></span></div>
-                        </div>
-                    </div>
-                </div>
+<!-- FRAMEWORKS DEEP DIVE -->
+<section class="section-block" id="frameworks">
+    <div class="container">
+        <div class="section-header text-center mb-5" data-aos="fade-up">
+            <span class="section-tag">Types & Frameworks</span>
+            <h2 class="section-title">Most Popular Testing Types & Frameworks</h2>
+            <p class="section-subtitle">Learn about each type — its goal, most popular tools, and when to use it.</p>
+        </div>
+
+        <div class="fw-tabs-wrapper" data-aos="fade-up">
+            <div class="fw-tabs d-flex gap-2 flex-wrap mb-4" id="fwTabs">
+                <button class="fw-tab active" data-fw="unit">
+                    <i class="fa-solid fa-cube"></i> Unit Testing
+                </button>
+                <button class="fw-tab" data-fw="integration">
+                    <i class="fa-solid fa-link"></i> Integration
+                </button>
+                <button class="fw-tab" data-fw="e2e">
+                    <i class="fa-solid fa-display"></i> E2E Testing
+                </button>
+                <button class="fw-tab" data-fw="performance">
+                    <i class="fa-solid fa-gauge-high"></i> Performance
+                </button>
+                <button class="fw-tab" data-fw="security">
+                    <i class="fa-solid fa-shield-halved"></i> Security
+                </button>
+            </div>
+            <div class="fw-panel" id="fwPanel"></div>
+        </div>
+    </div>
+</section>
+
+<!-- COMPARISON TABLE -->
+<section class="section-block section-light-alt" id="comparison">
+    <div class="container">
+        <div class="section-header text-center mb-5" data-aos="fade-up">
+            <span class="section-tag">Comparison</span>
+            <h2 class="section-title">Comprehensive Testing Comparison</h2>
+            <p class="section-subtitle">A clear table to help you see the differences at a glance.</p>
+        </div>
+        <div class="table-wrapper" data-aos="fade-up">
+            <div class="table-responsive">
+                <table class="comparison-table w-100">
+                    <thead>
+                        <tr>
+                            <th>Metric</th>
+                            <th><i class="fa-solid fa-cube"></i> Unit</th>
+                            <th><i class="fa-solid fa-link"></i> Integration</th>
+                            <th><i class="fa-solid fa-display"></i> E2E</th>
+                            <th><i class="fa-solid fa-gauge-high"></i> Performance</th>
+                            <th><i class="fa-solid fa-shield-halved"></i> Security</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="criterion">Speed</td>
+                            <td><span class="level easy">Very Fast</span></td>
+                            <td><span class="level medium">Medium</span></td>
+                            <td><span class="level hard">Slow</span></td>
+                            <td><span class="level hard">Slow</span></td>
+                            <td><span class="level medium">Medium</span></td>
+                        </tr>
+                        <tr>
+                            <td class="criterion">Cost</td>
+                            <td><div class="perf-bar" data-perf="18"></div></td>
+                            <td><div class="perf-bar" data-perf="45"></div></td>
+                            <td><div class="perf-bar" data-perf="80"></div></td>
+                            <td><div class="perf-bar" data-perf="70"></div></td>
+                            <td><div class="perf-bar" data-perf="92"></div></td>
+                        </tr>
+                        <tr>
+                            <td class="criterion">Coverage</td>
+                            <td><span class="stars">★★☆☆☆</span></td>
+                            <td><span class="stars">★★★☆☆</span></td>
+                            <td><span class="stars">★★★★★</span></td>
+                            <td><span class="stars">★★★☆☆</span></td>
+                            <td><span class="stars">★★★★☆</span></td>
+                        </tr>
+                        <tr>
+                            <td class="criterion">Writing Difficulty</td>
+                            <td><span class="level easy">Easy</span></td>
+                            <td><span class="level medium">Medium</span></td>
+                            <td><span class="level medium">Medium</span></td>
+                            <td><span class="level hard">Hard</span></td>
+                            <td><span class="level hard">Hard</span></td>
+                        </tr>
+                        <tr>
+                            <td class="criterion">Popular Tools</td>
+                            <td>Jest, PyTest, JUnit</td>
+                            <td>Postman, REST Assured</td>
+                            <td>Cypress, Playwright</td>
+                            <td>JMeter, k6, Gatling</td>
+                            <td>OWASP ZAP, Burp Suite</td>
+                        </tr>
+                        <tr>
+                            <td class="criterion">When to Use</td>
+                            <td>Always — every function</td>
+                            <td>With every new feature</td>
+                            <td>Before every Release</td>
+                            <td>Before Launch</td>
+                            <td>Regularly and after changes</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 
-    <!-- FRAMEWORKS DEEP DIVE -->
-    <section class="section-block" id="frameworks">
-        <div class="container">
-            <div class="section-header text-center mb-5" data-aos="fade-up">
-                <span class="section-tag">Ø§Ù„Ø£Ù†ÙˆØ§Ø¹ ÙˆØ§Ù„Ù€ Frameworks</span>
-                <h2 class="section-title">Ø£Ø´Ù‡Ø± Ø£Ù†ÙˆØ§Ø¹ Ø§Ù„Ù€ Testing ÙˆØ§Ù„Ù€ Frameworks</h2>
-                <p class="section-subtitle">Ø§Ø¹Ø±Ù ÙƒÙ„ Ù†ÙˆØ¹ â€” Ø¥ÙŠÙ‡ Ù‡Ø¯ÙÙ‡ØŒ Ø¥ÙŠÙ‡ Ø£Ø´Ù‡Ø± Ø£Ø¯ÙˆØ§ØªÙ‡ØŒ ÙˆØ§Ù…ØªÙ‰ ØªØ³ØªØ®Ø¯Ù…Ù‡.</p>
-            </div>
-
-            <div class="fw-tabs-wrapper" data-aos="fade-up">
-                <div class="fw-tabs d-flex gap-2 flex-wrap mb-4" id="fwTabs">
-                    <button class="fw-tab active" data-fw="unit">
-                        <i class="fa-solid fa-cube"></i> Unit Testing
-                    </button>
-                    <button class="fw-tab" data-fw="integration">
-                        <i class="fa-solid fa-link"></i> Integration
-                    </button>
-                    <button class="fw-tab" data-fw="e2e">
-                        <i class="fa-solid fa-display"></i> E2E Testing
-                    </button>
-                    <button class="fw-tab" data-fw="performance">
-                        <i class="fa-solid fa-gauge-high"></i> Performance
-                    </button>
-                    <button class="fw-tab" data-fw="security">
-                        <i class="fa-solid fa-shield-halved"></i> Security
-                    </button>
+<!-- QUIZ -->
+<section class="section-block section-dark" id="quiz">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-12 col-lg-8">
+                <div class="section-header text-center mb-5" data-aos="fade-up">
+                    <span class="section-tag light">Discover Yourself</span>
+                    <h2 class="section-title light">Which Testing Type Fits You?</h2>
+                    <p class="section-subtitle light">Answer 3 questions and we'll suggest the best fit.</p>
                 </div>
-                <div class="fw-panel" id="fwPanel"></div>
-            </div>
-        </div>
-    </section>
-
-    <!-- COMPARISON TABLE -->
-    <section class="section-block section-light-alt" id="comparison">
-        <div class="container">
-            <div class="section-header text-center mb-5" data-aos="fade-up">
-                <span class="section-tag">Ø§Ù„Ù…Ù‚Ø§Ø±Ù†Ø©</span>
-                <h2 class="section-title">Ù…Ù‚Ø§Ø±Ù†Ø© Ø´Ø§Ù…Ù„Ø© Ø¨ÙŠÙ† Ø£Ù†ÙˆØ§Ø¹ Ø§Ù„Ù€ Testing</h2>
-                <p class="section-subtitle">Ø¬Ø¯ÙˆÙ„ ÙˆØ§Ø¶Ø­ ÙŠØ³Ø§Ø¹Ø¯Ùƒ ØªØ´ÙˆÙ Ø§Ù„ÙØ±ÙˆÙ‚ Ø¯ÙØ¹Ø© ÙˆØ§Ø­Ø¯Ø©.</p>
-            </div>
-            <div class="table-wrapper" data-aos="fade-up">
-                <div class="table-responsive">
-                    <table class="comparison-table w-100">
-                        <thead>
-                            <tr>
-                                <th>Ø§Ù„Ù…Ø¹ÙŠØ§Ø±</th>
-                                <th><i class="fa-solid fa-cube"></i> Unit</th>
-                                <th><i class="fa-solid fa-link"></i> Integration</th>
-                                <th><i class="fa-solid fa-display"></i> E2E</th>
-                                <th><i class="fa-solid fa-gauge-high"></i> Performance</th>
-                                <th><i class="fa-solid fa-shield-halved"></i> Security</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td class="criterion">Ø§Ù„Ø³Ø±Ø¹Ø©</td>
-                                <td><span class="level easy">Ø³Ø±ÙŠØ¹ Ø¬Ø¯Ø§Ù‹</span></td>
-                                <td><span class="level medium">Ù…ØªÙˆØ³Ø·</span></td>
-                                <td><span class="level hard">Ø¨Ø·ÙŠØ¡</span></td>
-                                <td><span class="level hard">Ø¨Ø·ÙŠØ¡</span></td>
-                                <td><span class="level medium">Ù…ØªÙˆØ³Ø·</span></td>
-                            </tr>
-                            <tr>
-                                <td class="criterion">Ø§Ù„ØªÙƒÙ„ÙØ©</td>
-                                <td><div class="perf-bar" data-perf="18"></div></td>
-                                <td><div class="perf-bar" data-perf="45"></div></td>
-                                <td><div class="perf-bar" data-perf="80"></div></td>
-                                <td><div class="perf-bar" data-perf="70"></div></td>
-                                <td><div class="perf-bar" data-perf="92"></div></td>
-                            </tr>
-                            <tr>
-                                <td class="criterion">Ø§Ù„ØªØºØ·ÙŠØ©</td>
-                                <td><span class="stars">â˜…â˜…â˜†â˜†â˜†</span></td>
-                                <td><span class="stars">â˜…â˜…â˜…â˜†â˜†</span></td>
-                                <td><span class="stars">â˜…â˜…â˜…â˜…â˜…</span></td>
-                                <td><span class="stars">â˜…â˜…â˜…â˜†â˜†</span></td>
-                                <td><span class="stars">â˜…â˜…â˜…â˜…â˜†</span></td>
-                            </tr>
-                            <tr>
-                                <td class="criterion">ØµØ¹ÙˆØ¨Ø© Ø§Ù„ÙƒØªØ§Ø¨Ø©</td>
-                                <td><span class="level easy">Ø³Ù‡Ù„</span></td>
-                                <td><span class="level medium">Ù…ØªÙˆØ³Ø·</span></td>
-                                <td><span class="level medium">Ù…ØªÙˆØ³Ø·</span></td>
-                                <td><span class="level hard">ØµØ¹Ø¨</span></td>
-                                <td><span class="level hard">ØµØ¹Ø¨</span></td>
-                            </tr>
-                            <tr>
-                                <td class="criterion">Ø£Ø´Ù‡Ø± Ø§Ù„Ø£Ø¯ÙˆØ§Øª</td>
-                                <td>Jest, PyTest, JUnit</td>
-                                <td>Postman, REST Assured</td>
-                                <td>Cypress, Playwright</td>
-                                <td>JMeter, k6, Gatling</td>
-                                <td>OWASP ZAP, Burp Suite</td>
-                            </tr>
-                            <tr>
-                                <td class="criterion">Ù…ØªÙ‰ ØªØ³ØªØ®Ø¯Ù…Ù‡ØŸ</td>
-                                <td>Ø¯Ø§ÙŠÙ…Ø§Ù‹ â€” ÙƒÙ„ function</td>
-                                <td>Ù…Ø¹ ÙƒÙ„ feature Ø¬Ø¯ÙŠØ¯Ø©</td>
-                                <td>Ù‚Ø¨Ù„ ÙƒÙ„ Release</td>
-                                <td>Ù‚Ø¨Ù„ Ø§Ù„Ù€ Launch</td>
-                                <td>Ø¯ÙˆØ±ÙŠØ§Ù‹ ÙˆØ¨Ø¹Ø¯ Ø§Ù„ØªØºÙŠÙŠØ±Ø§Øª</td>
-                            </tr>
-                        </tbody>
-                    </table>
+                <div class="quiz-card" id="quizCard" data-aos="fade-up">
+                    <div class="quiz-progress-bar"><div class="quiz-progress-fill" id="quizProgressFill"></div></div>
+                    <div class="quiz-step-indicator" id="quizStepIndicator">Question 1 of 3</div>
+                    <div class="quiz-content" id="quizContent"></div>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 
-    <!-- QUIZ -->
-    <section class="section-block section-dark" id="quiz">
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-12 col-lg-8">
-                    <div class="section-header text-center mb-5" data-aos="fade-up">
-                        <span class="section-tag light">Ø§ÙƒØªØ´Ù Ù†ÙØ³Ùƒ</span>
-                        <h2 class="section-title light">Ø£Ù†Ù‡ÙŠ Ù†ÙˆØ¹ Testing ÙŠÙ†Ø§Ø³Ø¨ÙƒØŸ</h2>
-                        <p class="section-subtitle light">Ø¬Ø§ÙˆØ¨ Ø¹Ù„Ù‰ 3 Ø£Ø³Ø¦Ù„Ø© ÙˆÙ‡Ù†Ù‚ØªØ±Ø­ Ø¹Ù„ÙŠÙƒ Ø§Ù„Ø£Ù†Ø³Ø¨.</p>
-                    </div>
-                    <div class="quiz-card" id="quizCard" data-aos="fade-up">
-                        <div class="quiz-progress-bar"><div class="quiz-progress-fill" id="quizProgressFill"></div></div>
-                        <div class="quiz-step-indicator" id="quizStepIndicator">Ø§Ù„Ø³Ø¤Ø§Ù„ 1 Ù…Ù† 3</div>
-                        <div class="quiz-content" id="quizContent"></div>
-                    </div>
-                </div>
-            </div>
+<!-- ROADMAP -->
+<section class="section-block" id="roadmap">
+    <div class="container">
+        <div class="section-header text-center mb-5" data-aos="fade-up">
+            <span class="section-tag">Roadmap</span>
+            <h2 class="section-title">Where Do You Start?</h2>
+            <p class="section-subtitle">The right steps, in the right order.</p>
         </div>
-    </section>
-
-    <!-- ROADMAP -->
-    <section class="section-block" id="roadmap">
-        <div class="container">
-            <div class="section-header text-center mb-5" data-aos="fade-up">
-                <span class="section-tag">Ø®Ø§Ø±Ø·Ø© Ø§Ù„Ø·Ø±ÙŠÙ‚</span>
-                <h2 class="section-title">Ù…Ù† ÙÙŠÙ† ØªØ¨Ø¯Ø£ØŸ</h2>
-                <p class="section-subtitle">Ø§Ù„Ø®Ø·ÙˆØ§Øª Ø§Ù„ØµØ­ØŒ Ø¨Ø§Ù„ØªØ±ØªÙŠØ¨ Ø§Ù„ØµØ­.</p>
-            </div>
-            <div class="roadmap-timeline" id="roadmapTimeline"></div>
-        </div>
-    </section>
-
-    <!-- FOOTER -->
-    
+        <div class="roadmap-timeline" id="roadmapTimeline"></div>
+    </div>
+</section>
 
 @section Scripts {
     <script src="~/tracks/testing/app.js" asp-append-version="true"></script>

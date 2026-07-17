@@ -33,7 +33,6 @@ namespace A3DET_CODE.Controllers
                 .Include(m => m.User)
                 .AsQueryable();
 
-            // Search filter
             if (!string.IsNullOrEmpty(search))
             {
                 var searchLower = search.ToLower();
@@ -44,22 +43,19 @@ namespace A3DET_CODE.Controllers
                 );
             }
 
-            // Expertise filter
             if (!string.IsNullOrEmpty(expertise) && expertise != "all")
             {
                 var expertiseLower = expertise.ToLower();
                 query = query.Where(m => m.Expertise.ToLower().Contains(expertiseLower));
             }
 
-            // Sort
             query = sort switch
             {
                 "sessions" => query.OrderByDescending(m => m.TotalSessions),
                 "experience" => query.OrderByDescending(m => m.YearsOfExperience),
-                _ => query.OrderByDescending(m => m.Rating) // default: highest rated
+                _ => query.OrderByDescending(m => m.Rating)
             };
 
-            // Pagination
             int pageSize = 12;
             int totalCount = await query.CountAsync();
             int totalPages = (int)Math.Ceiling((double)totalCount / pageSize);
@@ -150,6 +146,7 @@ namespace A3DET_CODE.Controllers
                 ActiveMenteesCount = mentor.Mentees.Count(mm => mm.IsActive),
                 ProjectsCount = mentor.Projects.Count,
                 TeamsCount = mentor.Teams.Count,
+                UserId = mentor.UserId, // ✅ تمت الإضافة
                 RecentSessions = mentor.Sessions
                     .OrderByDescending(s => s.ScheduledAt)
                     .Take(5)
@@ -173,7 +170,6 @@ namespace A3DET_CODE.Controllers
         // 2. MENTOR DASHBOARD (Authenticated)
         // ============================================================
 
-        // GET: Mentor Dashboard
         [HttpGet]
         public async Task<IActionResult> Dashboard()
         {
@@ -185,7 +181,6 @@ namespace A3DET_CODE.Controllers
             if (mentor == null)
                 return RedirectToAction("Index", "Home");
 
-            // Load related data
             await _context.Entry(mentor)
                 .Collection(m => m.Sessions)
                 .Query()
@@ -336,7 +331,6 @@ namespace A3DET_CODE.Controllers
             if (session == null)
                 return NotFound();
 
-            // Verify current user is the mentor
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
                 return RedirectToAction("Login", "Account");
@@ -456,7 +450,6 @@ namespace A3DET_CODE.Controllers
             if (mentor == null)
                 return RedirectToAction("Index", "Home");
 
-            // Update mentor
             mentor.FullName = model.FullName;
             mentor.Expertise = model.Expertise;
             mentor.Bio = model.Bio;
@@ -465,7 +458,6 @@ namespace A3DET_CODE.Controllers
             mentor.YearsOfExperience = model.YearsOfExperience;
             mentor.HourlyRate = model.HourlyRate;
 
-            // Update user
             user.Skills = model.Skills;
             user.HourlyRate = model.HourlyRate;
 

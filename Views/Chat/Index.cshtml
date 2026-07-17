@@ -1,0 +1,621 @@
+@model A3DET_CODE.ViewModels.Chat.ChatIndexViewModel
+@{
+    ViewData["Title"] = "الرسائل";
+    var currentUserId = Model.UserId;
+}
+
+<!DOCTYPE html>
+<html lang="ar" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A3DET CODE | الرسائل</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+            :root {
+                --teal-600: #0d9488;
+                --teal-500: #14b8a6;
+                --teal-400: #2dd4bf;
+                --blue-600: #2563eb;
+                --navy-900: #0f2942;
+                --navy-800: #16324a;
+                --ink: #0f172a;
+                --muted: #64748b;
+                --line: #e5edf3;
+                --bg-page: #f3f8fb;
+                --bg-hero-a: #eaf3fb;
+                --bg-hero-b: #dce9f7;
+                --card: #ffffff;
+                --bubble-out: #0d9488;
+                --bubble-in: #f1f5f9;
+                --success: #22c55e;
+                --radius-lg: 18px;
+                --radius-md: 12px;
+                --radius-full: 999px;
+                --shadow-sm: 0 1px 2px rgba(15, 41, 66, .06);
+                --shadow-md: 0 8px 24px rgba(15, 41, 66, .08);
+            }
+
+            * {
+                box-sizing: border-box;
+            }
+
+            html, body {
+                height: 100%;
+            }
+
+            body {
+                margin: 0;
+                font-family: 'Inter', system-ui, sans-serif;
+                background: var(--bg-page);
+                color: var(--ink);
+                -webkit-font-smoothing: antialiased;
+            }
+
+            .navbar {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                padding: 14px 40px;
+                background: linear-gradient(180deg, var(--bg-hero-a), var(--bg-hero-b) 260%);
+                border-bottom: 1px solid var(--line);
+            }
+
+            .navbar-left {
+                display: flex;
+                align-items: center;
+                gap: 36px;
+            }
+
+            .brand {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                text-decoration: none;
+                color: inherit;
+            }
+
+            .brand-mark {
+                width: 36px;
+                height: 36px;
+                border-radius: 10px;
+                background: linear-gradient(135deg, var(--teal-500), var(--blue-600));
+                color: #fff;
+                font-weight: 800;
+                font-size: 13px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .brand-name {
+                font-weight: 800;
+                font-size: 17px;
+            }
+
+                .brand-name span {
+                    color: var(--teal-600);
+                }
+
+            .nav-links {
+                display: flex;
+                align-items: center;
+                gap: 26px;
+            }
+
+                .nav-links a {
+                    text-decoration: none;
+                    color: var(--muted);
+                    font-weight: 600;
+                    font-size: 14.5px;
+                    padding-bottom: 6px;
+                    border-bottom: 2px solid transparent;
+                    transition: color .15s ease, border-color .15s ease;
+                }
+
+                    .nav-links a:hover {
+                        color: var(--navy-900);
+                    }
+
+                    .nav-links a.active {
+                        color: var(--navy-900);
+                        border-color: var(--teal-500);
+                    }
+
+                    .nav-links a.highlight {
+                        color: var(--teal-600);
+                    }
+
+            .navbar-right {
+                display: flex;
+                align-items: center;
+                gap: 14px;
+            }
+
+            .icon-btn {
+                width: 38px;
+                height: 38px;
+                border-radius: var(--radius-full);
+                background: #fff;
+                border: 1px solid var(--line);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                cursor: pointer;
+                position: relative;
+                color: var(--navy-900);
+                transition: box-shadow .15s ease;
+            }
+
+                .icon-btn:hover {
+                    box-shadow: var(--shadow-sm);
+                }
+
+            .icon-dot {
+                position: absolute;
+                top: 6px;
+                right: 7px;
+                width: 7px;
+                height: 7px;
+                border-radius: 50%;
+                background: #ef4444;
+                border: 1.5px solid #fff;
+            }
+
+            .avatar-btn {
+                width: 38px;
+                height: 38px;
+                border-radius: 50%;
+                background: linear-gradient(135deg, var(--teal-500), var(--blue-600));
+                color: #fff;
+                font-weight: 700;
+                font-size: 14px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                cursor: pointer;
+                border: none;
+            }
+
+            .logout-link {
+                color: var(--navy-900);
+                font-weight: 600;
+                font-size: 14.5px;
+                text-decoration: none;
+            }
+
+            .page-header {
+                padding: 34px 40px 22px;
+                background: linear-gradient(180deg, var(--bg-hero-a), var(--bg-page));
+                border-bottom: 1px solid var(--line);
+            }
+
+            .eyebrow {
+                display: inline-flex;
+                align-items: center;
+                gap: 8px;
+                background: rgba(13, 148, 136, .09);
+                color: var(--teal-600);
+                font-size: 12px;
+                font-weight: 700;
+                letter-spacing: 1.2px;
+                padding: 6px 14px;
+                border-radius: var(--radius-full);
+                margin-bottom: 14px;
+            }
+
+            .page-title {
+                font-size: 32px;
+                font-weight: 800;
+                color: var(--ink);
+                margin: 0 0 6px;
+                letter-spacing: -.5px;
+            }
+
+                .page-title .accent {
+                    color: var(--teal-600);
+                }
+
+            .page-sub {
+                color: var(--muted);
+                font-size: 15px;
+                margin: 0;
+                max-width: 560px;
+            }
+
+            .chat-shell {
+                display: grid;
+                grid-template-columns: 340px 1fr;
+                gap: 22px;
+                padding: 26px 40px 40px;
+                max-width: 1500px;
+                margin: 0 auto;
+                height: calc(100vh - 230px);
+                min-height: 560px;
+            }
+
+            .sidebar {
+                background: var(--card);
+                border: 1px solid var(--line);
+                border-radius: var(--radius-lg);
+                box-shadow: var(--shadow-sm);
+                display: flex;
+                flex-direction: column;
+                overflow: hidden;
+            }
+
+            .sidebar-head {
+                padding: 18px 18px 12px;
+                border-bottom: 1px solid var(--line);
+            }
+
+            .search-box {
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                background: #f4f8fa;
+                border: 1px solid var(--line);
+                border-radius: var(--radius-full);
+                padding: 9px 14px;
+            }
+
+                .search-box input {
+                    border: none;
+                    background: transparent;
+                    outline: none;
+                    font-size: 13.5px;
+                    width: 100%;
+                    color: var(--ink);
+                    font-family: inherit;
+                }
+
+                .search-box svg {
+                    flex: none;
+                    color: var(--muted);
+                }
+
+            .tabs {
+                display: flex;
+                gap: 6px;
+                padding: 12px 18px 0;
+            }
+
+            .tab-btn {
+                flex: 1;
+                text-align: center;
+                padding: 8px 10px;
+                border-radius: var(--radius-full);
+                font-size: 13px;
+                font-weight: 700;
+                color: var(--muted);
+                background: transparent;
+                border: 1px solid transparent;
+                cursor: pointer;
+                font-family: inherit;
+                transition: all .15s ease;
+            }
+
+                .tab-btn.active {
+                    background: linear-gradient(135deg, var(--teal-500), var(--blue-600));
+                    color: #fff;
+                    box-shadow: var(--shadow-sm);
+                }
+
+            .new-chat-row {
+                padding: 12px 18px 14px;
+            }
+
+            .new-chat-btn {
+                width: 100%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 8px;
+                padding: 10px;
+                border-radius: var(--radius-full);
+                border: 1.5px dashed var(--line);
+                background: #fafcfd;
+                color: var(--teal-600);
+                font-weight: 700;
+                font-size: 13px;
+                cursor: pointer;
+                font-family: inherit;
+                transition: .15s ease;
+            }
+
+                .new-chat-btn:hover {
+                    border-color: var(--teal-400);
+                    background: #f0fbf9;
+                }
+
+            .conv-list {
+                flex: 1;
+                overflow-y: auto;
+                padding: 6px 10px 14px;
+            }
+
+            .conv-item {
+                display: flex;
+                align-items: center;
+                gap: 12px;
+                padding: 11px 10px;
+                border-radius: var(--radius-md);
+                cursor: pointer;
+                position: relative;
+                border: 1px solid transparent;
+                transition: background .15s ease;
+                text-decoration: none;
+                color: inherit;
+            }
+
+                .conv-item:hover {
+                    background: #f6fafb;
+                }
+
+                .conv-item.active {
+                    background: #effaf8;
+                    border-color: #cfeee9;
+                }
+
+            .conv-avatar {
+                width: 44px;
+                height: 44px;
+                border-radius: 50%;
+                flex: none;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: #fff;
+                font-weight: 700;
+                font-size: 14px;
+                position: relative;
+            }
+
+                .conv-avatar.group {
+                    border-radius: 14px;
+                }
+
+                .conv-avatar .status-dot {
+                    position: absolute;
+                    bottom: -1px;
+                    right: -1px;
+                    width: 11px;
+                    height: 11px;
+                    border-radius: 50%;
+                    background: var(--success);
+                    border: 2px solid #fff;
+                }
+
+            .conv-meta {
+                flex: 1;
+                min-width: 0;
+            }
+
+            .conv-top-row {
+                display: flex;
+                justify-content: space-between;
+                align-items: baseline;
+                gap: 8px;
+            }
+
+            .conv-name {
+                font-weight: 700;
+                font-size: 13.8px;
+                color: var(--ink);
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+
+            .conv-time {
+                font-size: 11px;
+                color: var(--muted);
+                flex: none;
+            }
+
+            .conv-preview {
+                font-size: 12.5px;
+                color: var(--muted);
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                margin-top: 2px;
+            }
+
+            .unread-badge {
+                min-width: 19px;
+                height: 19px;
+                padding: 0 5px;
+                border-radius: var(--radius-full);
+                background: var(--teal-500);
+                color: #fff;
+                font-size: 10.5px;
+                font-weight: 800;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                flex: none;
+            }
+
+            .conv-tag {
+                font-size: 10px;
+                font-weight: 700;
+                color: var(--teal-600);
+                background: rgba(13, 148, 136, .08);
+                padding: 2px 7px;
+                border-radius: var(--radius-full);
+                display: inline-block;
+                margin-top: 3px;
+            }
+
+            .chat-window {
+                background: var(--card);
+                border: 1px solid var(--line);
+                border-radius: var(--radius-lg);
+                box-shadow: var(--shadow-sm);
+                display: flex;
+                flex-direction: column;
+                overflow: hidden;
+            }
+
+            .empty-chat {
+                flex: 1;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                color: var(--muted);
+                gap: 10px;
+                padding: 40px;
+            }
+
+            .empty-chat-icon {
+                width: 64px;
+                height: 64px;
+                border-radius: 20px;
+                background: #f4f8fa;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: var(--teal-500);
+            }
+
+            .conv-list::-webkit-scrollbar, .messages::-webkit-scrollbar {
+                width: 6px;
+            }
+
+            .conv-list::-webkit-scrollbar-thumb, .messages::-webkit-scrollbar-thumb {
+                background: #dbe6ec;
+                border-radius: 10px;
+            }
+     
+
+                .nav-links {
+                    display: none;
+                }
+
+                .page-header {
+                    padding: 22px 18px;
+                }
+
+                .chat-shell {
+                    grid-template-columns: 1fr;
+                    padding: 16px;
+                    height: auto;
+                }
+
+                .sidebar {
+                    height: 320px;
+                }
+
+                .chat-window {
+                    height: 70vh;
+                }
+            }
+    </style>
+</head>
+<body>
+
+    <div class="page-header">
+        <div class="eyebrow">💬 TEAM &amp; MENTOR CHAT</div>
+        <h1 class="page-title">Your <span class="accent">Messages</span></h1>
+        <p class="page-sub">Talk to your team, chat with mentors, or reach out to any student on the platform.</p>
+    </div>
+
+    <div class="chat-shell">
+        <aside class="sidebar">
+            <div class="sidebar-head">
+                <div class="search-box">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8" /><path d="M21 21l-4.3-4.3" /></svg>
+                    <input type="text" id="convSearch" placeholder="Search conversations...">
+                </div>
+            </div>
+
+            <div class="tabs">
+                <button class="tab-btn active" data-filter="all">All</button>
+                <button class="tab-btn" data-filter="group">Teams</button>
+                <button class="tab-btn" data-filter="direct">Direct</button>
+            </div>
+
+            <div class="new-chat-row">
+                <button class="new-chat-btn" id="newChatBtn">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M12 5v14M5 12h14" /></svg>
+                    New direct message
+                </button>
+            </div>
+
+            <div class="conv-list" id="convList">
+                @foreach (var group in Model.Groups)
+                {
+                    <a href="@Url.Action("Details", new { id = group.Id })" class="conv-item">
+                        <div class="conv-avatar @(group.IsGroup ? "group" : "")" style="background: @group.AvatarColor">
+                            @group.AvatarLetter
+                            @if (group.IsOnline)
+                            {
+                                <span class="status-dot"></span>
+                            }
+                        </div>
+                        <div class="conv-meta">
+                            <div class="conv-top-row">
+                                <span class="conv-name">@group.Name</span>
+                                <span class="conv-time">@(group.LastMessageTime?.ToString("hh:mm tt") ?? "")</span>
+                            </div>
+                            <div class="conv-preview">@(group.LastMessage ?? "لا توجد رسائل بعد")</div>
+                            @if (!string.IsNullOrEmpty(group.Tag))
+                            {
+                                <span class="conv-tag">@group.Tag</span>
+                            }
+                        </div>
+                        @if (group.UnreadCount > 0)
+                        {
+                            <div class="unread-badge">@group.UnreadCount</div>
+                        }
+                    </a>
+                }
+            </div>
+        </aside>
+
+        <section class="chat-window" id="chatWindow">
+            <div class="empty-chat">
+                <div class="empty-chat-icon">
+                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z" /></svg>
+                </div>
+                <div>اختر محادثة لبدء الدردشة</div>
+            </div>
+        </section>
+    </div>
+
+    @section Scripts {
+        <script>
+                document.getElementById('convSearch').addEventListener('input', function() {
+                    const searchTerm = this.value.trim().toLowerCase();
+                    document.querySelectorAll('.conv-item').forEach(item => {
+                        const name = item.querySelector('.conv-name')?.textContent?.toLowerCase() || '';
+                        const preview = item.querySelector('.conv-preview')?.textContent?.toLowerCase() || '';
+                        item.style.display = (name.includes(searchTerm) || preview.includes(searchTerm)) ? 'flex' : 'none';
+                    });
+                });
+
+                document.querySelectorAll('.tab-btn').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                        this.classList.add('active');
+                        const filter = this.dataset.filter;
+                        document.querySelectorAll('.conv-item').forEach(item => {
+                            const isGroup = item.querySelector('.conv-avatar')?.classList.contains('group') || false;
+                            if (filter === 'all') item.style.display = 'flex';
+                            else if (filter === 'group' && isGroup) item.style.display = 'flex';
+                            else if (filter === 'direct' && !isGroup) item.style.display = 'flex';
+                            else item.style.display = 'none';
+                        });
+                    });
+                });
+
+                document.getElementById('newChatBtn').addEventListener('click', function() {
+                    window.location.href = '/Students?returnUrl=/Chat/CreatePrivate';
+                });
+        </script>
+    }
+</body>
+</html>

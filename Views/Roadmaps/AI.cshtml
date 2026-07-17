@@ -7,299 +7,294 @@
     <link rel="stylesheet" href="~/tracks/Style/style.css" asp-append-version="true" />
 }
 
-
-
-    <!-- HERO -->
-    <section class="hero-section" id="hero">
-        <div class="hero-grid-bg"></div>
-        <div class="container">
-            <div class="row min-vh-100 align-items-center">
-                <div class="col-12 col-lg-8">
-                    <div class="hero-tag mb-3" data-aos="fade-up">
-                        <i class="bi bi-robot"></i> Ø¯Ù„ÙŠÙ„ Ø§Ù„Ù…Ø¨ØªØ¯Ø¦ ÙÙŠ AI / Machine Learning
-                    </div>
-                    <h1 class="hero-title" data-aos="fade-up" data-aos-delay="100">
-                        ÙƒÙ„ Ø§Ù„Ù„ÙŠ Ù…Ø­ØªØ§Ø¬<br />
-                        ØªØ¹Ø±ÙÙ‡ Ø¹Ù†
-                        <span class="highlight-text"> AI / ML</span>
-                    </h1>
-                    <p class="hero-subtitle" data-aos="fade-up" data-aos-delay="200">
-                        Ù…Ù† Ø£ÙˆÙ„ Model Ù„ØºØ§ÙŠØ© Ù…Ø§ ØªÙÙ‡Ù… Ø¥Ø²Ø§ÙŠ Ø§Ù„Ø¢Ù„Ø§Øª Ø¨ØªØªØ¹Ù„Ù… â€” Ø¯Ù„ÙŠÙ„ ÙˆØ§Ø¶Ø­ ÙˆÙ…Ø¨Ø³Ø· Ø¨Ø¯ÙˆÙ† ØªØ¹Ù‚ÙŠØ¯.
-                    </p>
-                    <div class="hero-actions d-flex flex-wrap gap-3 mt-5" data-aos="fade-up" data-aos-delay="300">
-                        <a href="#what-is" class="btn-primary-custom">
-                            Ø§Ø¨Ø¯Ø£ Ø§Ù„Ø±Ø­Ù„Ø© <i class="bi bi-arrow-left ms-2"></i>
-                        </a>
-                        <a href="#comparison" class="btn-secondary-custom">
-                            Ù‚Ø§Ø±Ù† Ø§Ù„Ø£Ø¯ÙˆØ§Øª ÙˆØ§Ù„Ù…ÙƒØªØ¨Ø§Øª
-                        </a>
-                    </div>
+<!-- HERO -->
+<section class="hero-section" id="hero">
+    <div class="hero-grid-bg"></div>
+    <div class="container">
+        <div class="row min-vh-100 align-items-center">
+            <div class="col-12 col-lg-8">
+                <div class="hero-tag mb-3" data-aos="fade-up">
+                    <i class="bi bi-robot"></i> Beginner's Guide to AI / Machine Learning
                 </div>
-                <div class="col-12 col-lg-4 d-none d-lg-block">
-                    <div class="hero-code-block" data-aos="fade-left" data-aos-delay="400">
-                        <div class="code-header">
-                            <span class="dot red"></span>
-                            <span class="dot yellow"></span>
-                            <span class="dot green"></span>
-                            <span class="code-filename">train_model.py</span>
-                        </div>
-                        <div class="code-body" id="heroCodeBlock">
-                            <div class="code-line"><span class="kw">import</span> <span class="var">torch</span></div>
-                            <div class="code-line"><span class="kw">from</span> <span class="var">transformers</span> <span class="kw">import</span> <span class="fn">AutoModel</span></div>
-                            <div class="code-line mt-1"><span class="var">model</span> = <span class="fn">AutoModel</span>.<span class="method">from_pretrained</span>(</div>
-                            <div class="code-line pl-3"><span class="str">'bert-base-arabic'</span></div>
-                            <div class="code-line">)</div>
-                            <div class="code-line mt-1"><span class="var">loss</span> = <span class="var">model</span>.<span class="method">train</span>(<span class="var">data</span>)</div>
-                            <div class="code-line"><span class="fn">print</span>(<span class="str">f'Loss: </span>{<span class="var">loss</span>}<span class="str">'</span>)</div>
-                            <div class="code-line mt-1"><span class="comment"># Ø§Ù„Ø¢Ù„Ø© Ø¨ØªØªØ¹Ù„Ù… Ù…Ù†Ùƒ </span></div>
-                        </div>
+                <h1 class="hero-title" data-aos="fade-up" data-aos-delay="100">
+                    Everything You Need<br />
+                    to Know About
+                    <span class="highlight-text"> AI / ML</span>
+                </h1>
+                <p class="hero-subtitle" data-aos="fade-up" data-aos-delay="200">
+                    From your first Model to understanding how machines learn — a clear, simple guide without complexity.
+                </p>
+                <div class="hero-actions d-flex flex-wrap gap-3 mt-5" data-aos="fade-up" data-aos-delay="300">
+                    <a href="#what-is" class="btn-primary-custom">
+                        Start the Journey <i class="bi bi-arrow-left ms-2"></i>
+                    </a>
+                    <a href="#comparison" class="btn-secondary-custom">
+                        Compare Tools & Libraries
+                    </a>
+                </div>
+            </div>
+            <div class="col-12 col-lg-4 d-none d-lg-block">
+                <div class="hero-code-block" data-aos="fade-left" data-aos-delay="400">
+                    <div class="code-header">
+                        <span class="dot red"></span>
+                        <span class="dot yellow"></span>
+                        <span class="dot green"></span>
+                        <span class="code-filename">train_model.py</span>
+                    </div>
+                    <div class="code-body" id="heroCodeBlock">
+                        <div class="code-line"><span class="kw">import</span> <span class="var">torch</span></div>
+                        <div class="code-line"><span class="kw">from</span> <span class="var">transformers</span> <span class="kw">import</span> <span class="fn">AutoModel</span></div>
+                        <div class="code-line mt-1"><span class="var">model</span> = <span class="fn">AutoModel</span>.<span class="method">from_pretrained</span>(</div>
+                        <div class="code-line pl-3"><span class="str">'bert-base-uncased'</span></div>
+                        <div class="code-line">)</div>
+                        <div class="code-line mt-1"><span class="var">loss</span> = <span class="var">model</span>.<span class="method">train</span>(<span class="var">data</span>)</div>
+                        <div class="code-line"><span class="fn">print</span>(<span class="str">f'Loss: </span>{<span class="var">loss</span>}<span class="str">'</span>)</div>
+                        <div class="code-line mt-1"><span class="comment"># The machine is learning from you</span></div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="hero-scroll-hint">
-            <div class="scroll-mouse"><div class="scroll-wheel"></div></div>
-            <span>Ø§Ø³ÙƒØ±ÙˆÙ„ Ù„Ù„Ø£Ø³ÙÙ„</span>
-        </div>
-    </section>
+    </div>
+    <div class="hero-scroll-hint">
+        <div class="scroll-mouse"><div class="scroll-wheel"></div></div>
+        <span>Scroll Down</span>
+    </div>
+</section>
 
-    <!-- WHAT IS AI/ML -->
-    <section class="section-block" id="what-is">
-        <div class="container">
-            <div class="section-header text-center mb-5" data-aos="fade-up">
-                <span class="section-tag">Ø§Ù„Ø£Ø³Ø§Ø³ÙŠØ§Øª</span>
-                <h2 class="section-title">Ø¥ÙŠÙ‡ Ø§Ù„ÙØ±Ù‚ Ø¨ÙŠÙ† AI ÙˆML ÙˆDeep LearningØŸ</h2>
-                <p class="section-subtitle">
-                    Ø§Ù„Ù†Ø§Ø³ ÙƒØªÙŠØ± Ø¨ØªØ®Ù„Ø·Ù‡Ù… â€” Ù„ÙƒÙ† Ù‡Ù… ÙÙŠ Ø§Ù„Ø­Ù‚ÙŠÙ‚Ø© Ø²ÙŠ Ø¯ÙˆØ§ÙŠØ±Ù…ØªØ¯Ø§Ø®Ù„Ø©. AI Ù‡ÙŠ Ø§Ù„ÙÙƒØ±Ø© Ø§Ù„ÙƒØ¨ÙŠØ±Ø©ØŒ ML Ù‡ÙŠ Ø·Ø±ÙŠÙ‚Ø© Ù„ØªØ­Ù‚ÙŠÙ‚Ù‡Ø§ØŒ ÙˆØ§Ù„Ù€ Deep Learning Ù‡Ùˆ Ø§Ù„Ø£Ù‚ÙˆÙ‰ ÙÙŠ Ø§Ù„Ù…Ù†ØªØµÙ.
+<!-- WHAT IS AI/ML -->
+<section class="section-block" id="what-is">
+    <div class="container">
+        <div class="section-header text-center mb-5" data-aos="fade-up">
+            <span class="section-tag">The Basics</span>
+            <h2 class="section-title">What's the Difference Between AI, ML, and Deep Learning?</h2>
+            <p class="section-subtitle">
+                Many people confuse them — but they're actually like nested circles. AI is the big idea, ML is a way to achieve it, and Deep Learning is the most powerful one in the middle.
+            </p>
+        </div>
+
+        <div class="analogy-card mb-5" data-aos="fade-up">
+            <div class="analogy-icon"><i class="bi bi-lightbulb-fill"></i></div>
+            <div class="analogy-content">
+                <h4>Think of it Like This</h4>
+                <p>
+                    <strong>AI</strong> is the dream of machines thinking like humans.
+                    <strong>ML</strong> is when you give it data instead of writing rules, and it learns the rules on its own.
+                    <strong>Deep Learning</strong> is ML but with massive neural networks — that's what's behind ChatGPT and everything you hear about.
                 </p>
             </div>
+        </div>
 
-            <div class="analogy-card mb-5" data-aos="fade-up">
-                <div class="analogy-icon"><i class="bi bi-lightbulb-fill"></i></div>
-                <div class="analogy-content">
-                    <h4>ÙÙƒØ± ÙÙŠ Ø§Ù„Ø£Ù…Ø± ÙƒØ¯Ù‡ </h4>
-                    <p>
-                        <strong>AI</strong> Ù‡Ùˆ Ø­Ù„Ù… Ø¥Ù† Ø§Ù„Ø¢Ù„Ø© ØªÙÙƒØ± Ø²ÙŠ Ø§Ù„Ø¥Ù†Ø³Ø§Ù†.
-                        <strong>ML</strong> Ù‡Ùˆ Ø¥Ù†Ùƒ Ø¨Ø¯Ù„ Ù…Ø§ ØªÙƒØªØ¨ Ù‚ÙˆØ§Ø¹Ø¯ØŒ Ø¨ØªØ¯ÙŠÙ„Ù‡ Ø¨ÙŠØ§Ù†Ø§Øª ÙˆÙŠØªØ¹Ù„Ù… Ø§Ù„Ù‚ÙˆØ§Ø¹Ø¯ Ù„ÙˆØ­Ø¯Ù‡.
-                        <strong>Deep Learning</strong> Ù‡Ùˆ ML Ø¨Ø³ Ø¨Ø´Ø¨ÙƒØ§Øª Ø¹ØµØ¨ÙŠØ© Ø¶Ø®Ù…Ø© â€” Ø¯Ù‡ Ø§Ù„Ù„ÙŠ ÙˆØ±Ø§Ø¡ ChatGPT ÙˆÙƒÙ„ Ø­Ø§Ø¬Ø© Ø¨ØªØ³Ù…Ø¹ Ø¹Ù†Ù‡Ø§.
-                    </p>
+        <div class="row g-4">
+            <div class="col-12 col-md-4" data-aos="fade-up" data-aos-delay="0">
+                <div class="pillar-card" data-pillar="ml">
+                    <div class="pillar-icon"><i class="bi bi-gear-wide-connected"></i></div>
+                    <div class="pillar-number">01</div>
+                    <h3 class="pillar-title">Machine Learning</h3>
+                    <p class="pillar-desc">Instead of writing rules manually, you give it examples and it learns from them. Regression, Classification, Clustering — all classic ML that works without neural networks.</p>
+                    <div class="pillar-tag">Learn from Data</div>
                 </div>
             </div>
+            <div class="col-12 col-md-4" data-aos="fade-up" data-aos-delay="100">
+                <div class="pillar-card" data-pillar="dl">
+                    <div class="pillar-icon"><i class="bi bi-diagram-3-fill"></i></div>
+                    <div class="pillar-number">02</div>
+                    <h3 class="pillar-title">Deep Learning</h3>
+                    <p class="pillar-desc">Artificial neural networks that mimic the human brain. They learn features on their own from raw data. Behind every recognized image and understood text.</p>
+                    <div class="pillar-tag">Neural Networks</div>
+                </div>
+            </div>
+            <div class="col-12 col-md-4" data-aos="fade-up" data-aos-delay="200">
+                <div class="pillar-card" data-pillar="genai">
+                    <div class="pillar-icon"><i class="bi bi-stars"></i></div>
+                    <div class="pillar-number">03</div>
+                    <h3 class="pillar-title">Generative AI</h3>
+                    <p class="pillar-desc">The new generation — not just understanding, but creating. Text, images, code, music. LLMs like GPT and Claude, and Diffusion Models like Stable Diffusion are all here.</p>
+                    <div class="pillar-tag">Create, Don't Just Predict</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 
-            <div class="row g-4">
-                <div class="col-12 col-md-4" data-aos="fade-up" data-aos-delay="0">
-                    <div class="pillar-card" data-pillar="ml">
-                        <div class="pillar-icon"><i class="bi bi-gear-wide-connected"></i></div>
-                        <div class="pillar-number">01</div>
-                        <h3 class="pillar-title">Machine Learning</h3>
-                        <p class="pillar-desc">Ø¨Ø¯Ù„ Ù…Ø§ ØªÙƒØªØ¨ Ù‚ÙˆØ§Ø¹Ø¯ ÙŠØ¯ÙˆÙŠØ§Ù‹ØŒ Ø¨ØªØ¯ÙŠÙ„Ù‡ Ø£Ù…Ø«Ù„Ø© ÙˆÙŠØªØ¹Ù„Ù… Ù…Ù†Ù‡Ø§. RegressionØŒ ClassificationØŒ Clustering â€” ÙƒÙ„Ù‡Ù… ML ÙƒÙ„Ø§Ø³ÙŠÙƒÙŠ Ø¨ÙŠØ´ØªØºÙ„ Ø¨Ø¯ÙˆÙ† Ø´Ø¨ÙƒØ§Øª Ø¹ØµØ¨ÙŠØ©.</p>
-                        <div class="pillar-tag">Learn from Data</div>
-                    </div>
+<!-- ML WORKFLOW INTRO -->
+<section class="section-block section-dark" id="frameworks-intro">
+    <div class="container">
+        <div class="row align-items-center g-5">
+            <div class="col-12 col-lg-6" data-aos="fade-right">
+                <span class="section-tag light">Core Concept</span>
+                <h2 class="section-title light">The ML Pipeline</h2>
+                <p class="section-subtitle light">
+                    Every ML project goes through the same stages. You don't skip steps — each step builds on the previous one. Understanding the Pipeline is more important than memorizing any framework.
+                </p>
+                <p class="section-subtitle light">
+                    From <strong>collecting data</strong> to <strong>cleaning it</strong> to <strong>building the model</strong> to <strong>evaluating it</strong> to <strong>deploying it in Production</strong>.
+                </p>
+                <div class="benefits-list mt-4">
+                    <div class="benefit-item"><i class="bi bi-check-lg"></i> Data Collection &amp; Cleaning — 80% of the time</div>
+                    <div class="benefit-item"><i class="bi bi-check-lg"></i> Feature Engineering — the real art</div>
+                    <div class="benefit-item"><i class="bi bi-check-lg"></i> Model Training &amp; Tuning</div>
+                    <div class="benefit-item"><i class="bi bi-check-lg"></i> Evaluation — not just Accuracy</div>
+                    <div class="benefit-item"><i class="bi bi-check-lg"></i> Deployment — MLOps &amp; Production</div>
                 </div>
-                <div class="col-12 col-md-4" data-aos="fade-up" data-aos-delay="100">
-                    <div class="pillar-card" data-pillar="dl">
-                        <div class="pillar-icon"><i class="bi bi-diagram-3-fill"></i></div>
-                        <div class="pillar-number">02</div>
-                        <h3 class="pillar-title">Deep Learning</h3>
-                        <p class="pillar-desc">Ø´Ø¨ÙƒØ§Øª Ø¹ØµØ¨ÙŠØ© Ø§ØµØ·Ù†Ø§Ø¹ÙŠØ© Ø¨ØªØ­Ø§ÙƒÙŠ Ø§Ù„Ø¯Ù…Ø§Øº Ø§Ù„Ø¨Ø´Ø±ÙŠ. Ø¨ØªØªØ¹Ù„Ù… features Ù„ÙˆØ­Ø¯Ù‡Ø§ Ù…Ù† Ø§Ù„Ø¨ÙŠØ§Ù†Ø§Øª Ø§Ù„Ø®Ø§Ù…. ÙˆØ±Ø§Ø¡ ÙƒÙ„ ØµÙˆØ±Ø© Ø§ØªØ¹Ø±ÙØª ÙˆÙƒÙ„ Ù†Øµ Ø§ØªÙÙ‡Ù….</p>
-                        <div class="pillar-tag">Neural Networks</div>
+            </div>
+            <div class="col-12 col-lg-6" data-aos="fade-left">
+                <div class="framework-visual">
+                    <div class="fv-center">
+                        <i class="bi bi-robot"></i>
+                        <span>AI / ML</span>
                     </div>
-                </div>
-                <div class="col-12 col-md-4" data-aos="fade-up" data-aos-delay="200">
-                    <div class="pillar-card" data-pillar="genai">
-                        <div class="pillar-icon"><i class="bi bi-stars"></i></div>
-                        <div class="pillar-number">03</div>
-                        <h3 class="pillar-title">Generative AI</h3>
-                        <p class="pillar-desc">Ø§Ù„Ø¬ÙŠÙ„ Ø§Ù„Ø¬Ø¯ÙŠØ¯ â€” Ù…Ø´ Ø¨Ø³ Ø¨ÙŠÙÙ‡Ù…ØŒ Ø¨ÙŠÙˆÙ„Ù‘Ø¯. Ù†ØµØŒ ØµÙˆØ±ØŒ ÙƒÙˆØ¯ØŒ Ù…ÙˆØ³ÙŠÙ‚Ù‰. LLMs Ø²ÙŠ GPT ÙˆClaude ÙˆØ§Ù„Ù€ Diffusion Models Ø²ÙŠ Stable Diffusion ÙƒÙ„Ù‡Ù… Ù‡Ù†Ø§.</p>
-                        <div class="pillar-tag">Create, Don't Just Predict</div>
+                    <div class="fv-orbit">
+                        <div class="fv-satellite" style="--i:0"><span class="fw-torch"><i class="bi bi-fire"></i></span></div>
+                        <div class="fv-satellite" style="--i:1"><span class="fw-tf"><i class="bi bi-lightning-fill"></i></span></div>
+                        <div class="fv-satellite" style="--i:2"><span class="fw-sklearn"><i class="bi bi-gear-fill"></i></span></div>
+                        <div class="fv-satellite" style="--i:3"><span class="fw-hf"><i class="bi bi-emoji-smile-fill"></i></span></div>
                     </div>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 
-    <!-- ML WORKFLOW INTRO -->
-    <section class="section-block section-dark" id="frameworks-intro">
-        <div class="container">
-            <div class="row align-items-center g-5">
-                <div class="col-12 col-lg-6" data-aos="fade-right">
-                    <span class="section-tag light">Ø§Ù„Ù…ÙÙ‡ÙˆÙ… Ø§Ù„Ø£Ø³Ø§Ø³ÙŠ</span>
-                    <h2 class="section-title light">Ø§Ù„Ù€ ML Pipeline</h2>
-                    <p class="section-subtitle light">
-                        ÙƒÙ„ Ù…Ø´Ø±ÙˆØ¹ ML Ø¨ÙŠÙ…Ø± Ø¨Ù†ÙØ³ Ø§Ù„Ù…Ø±Ø§Ø­Ù„. Ù…Ø´ Ø¨ØªÙ‚ÙØ² Ø¹Ù„Ù‰ Ø®Ø·ÙˆØ© â€” ÙƒÙ„ Ø­Ø§Ø¬Ø© Ø¨ØªØ¨Ù†ÙŠ Ø¹Ù„Ù‰ Ø§Ù„Ù„ÙŠ Ù‚Ø¨Ù„Ù‡Ø§. ÙÙ‡Ù… Ø§Ù„Ù€ Pipeline Ø¯Ù‡ Ø£Ù‡Ù… Ù…Ù† Ø­ÙØ¸ Ø£ÙŠ framework.
-                    </p>
-                    <p class="section-subtitle light">
-                        Ù…Ù† <strong>Ø¬Ù…Ø¹ Ø§Ù„Ø¨ÙŠØ§Ù†Ø§Øª</strong> Ù„Ù€ <strong>ØªÙ†Ø¸ÙŠÙÙ‡Ø§</strong> Ù„Ù€ <strong>Ø¨Ù†Ø§Ø¡ Ø§Ù„Ù†Ù…ÙˆØ°Ø¬</strong> Ù„Ù€ <strong>ØªÙ‚ÙŠÙŠÙ…Ù‡</strong> Ù„Ù€ <strong>Ù†Ø´Ø±Ù‡ ÙÙŠ Production</strong>.
-                    </p>
-                    <div class="benefits-list mt-4">
-                        <div class="benefit-item"><i class="bi bi-check-lg"></i> Data Collection &amp; Cleaning â€” 80% Ù…Ù† Ø§Ù„ÙˆÙ‚Øª</div>
-                        <div class="benefit-item"><i class="bi bi-check-lg"></i> Feature Engineering â€” Ø§Ù„ÙÙ† Ø§Ù„Ø­Ù‚ÙŠÙ‚ÙŠ</div>
-                        <div class="benefit-item"><i class="bi bi-check-lg"></i> Model Training &amp; Tuning</div>
-                        <div class="benefit-item"><i class="bi bi-check-lg"></i> Evaluation â€” Metrics Ù…Ø´ Accuracy Ø¨Ø³</div>
-                        <div class="benefit-item"><i class="bi bi-check-lg"></i> Deployment â€” MLOps ÙˆProdution</div>
-                    </div>
-                </div>
-                <div class="col-12 col-lg-6" data-aos="fade-left">
-                    <div class="framework-visual">
-                        <div class="fv-center">
-                            <i class="bi bi-robot"></i>
-                            <span>AI / ML</span>
-                        </div>
-                        <div class="fv-orbit">
-                            <div class="fv-satellite" style="--i:0"><span class="fw-torch"><i class="bi bi-fire"></i></span></div>
-                            <div class="fv-satellite" style="--i:1"><span class="fw-tf"><i class="bi bi-lightning-fill"></i></span></div>
-                            <div class="fv-satellite" style="--i:2"><span class="fw-sklearn"><i class="bi bi-gear-fill"></i></span></div>
-                            <div class="fv-satellite" style="--i:3"><span class="fw-hf"><i class="bi bi-emoji-smile-fill"></i></span></div>
-                        </div>
-                    </div>
-                </div>
+<!-- FRAMEWORKS DEEP DIVE -->
+<section class="section-block" id="frameworks">
+    <div class="container">
+        <div class="section-header text-center mb-5" data-aos="fade-up">
+            <span class="section-tag">Tools & Libraries</span>
+            <h2 class="section-title">Most Popular AI/ML Tools in Detail</h2>
+            <p class="section-subtitle">Learn about each tool — its function, strengths, and when to use it.</p>
+        </div>
+
+        <div class="fw-tabs-wrapper" data-aos="fade-up">
+            <div class="fw-tabs d-flex gap-2 flex-wrap mb-4" id="fwTabs">
+                <button class="fw-tab active" data-fw="pytorch">
+                    <i class="bi bi-fire"></i> PyTorch
+                </button>
+                <button class="fw-tab" data-fw="tensorflow">
+                    <i class="bi bi-lightning-fill"></i> TensorFlow
+                </button>
+                <button class="fw-tab" data-fw="sklearn">
+                    <i class="bi bi-gear-fill"></i> Scikit-learn
+                </button>
+                <button class="fw-tab" data-fw="huggingface">
+                    <i class="bi bi-emoji-smile-fill"></i> Hugging Face
+                </button>
+                <button class="fw-tab" data-fw="langchain">
+                    <i class="bi bi-link-45deg"></i> LangChain
+                </button>
+            </div>
+            <div class="fw-panel" id="fwPanel"></div>
+        </div>
+    </div>
+</section>
+
+<!-- COMPARISON TABLE -->
+<section class="section-block section-light-alt" id="comparison">
+    <div class="container">
+        <div class="section-header text-center mb-5" data-aos="fade-up">
+            <span class="section-tag">Comparison</span>
+            <h2 class="section-title">Comprehensive Tool Comparison</h2>
+            <p class="section-subtitle">A clear table to help you see the differences at a glance.</p>
+        </div>
+        <div class="table-wrapper" data-aos="fade-up">
+            <div class="table-responsive">
+                <table class="comparison-table w-100">
+                    <thead>
+                        <tr>
+                            <th>Metric</th>
+                            <th><i class="bi bi-fire"></i> PyTorch</th>
+                            <th><i class="bi bi-lightning-fill"></i> TensorFlow</th>
+                            <th><i class="bi bi-gear-fill"></i> Scikit-learn</th>
+                            <th><i class="bi bi-emoji-smile-fill"></i> Hugging Face</th>
+                            <th><i class="bi bi-link-45deg"></i> LangChain</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="criterion">Learning Curve</td>
+                            <td><span class="level medium">Medium</span></td>
+                            <td><span class="level medium">Medium</span></td>
+                            <td><span class="level easy">Easy</span></td>
+                            <td><span class="level easy">Easy</span></td>
+                            <td><span class="level medium">Medium</span></td>
+                        </tr>
+                        <tr>
+                            <td class="criterion">Research Popularity</td>
+                            <td><div class="perf-bar" data-perf="95"></div></td>
+                            <td><div class="perf-bar" data-perf="60"></div></td>
+                            <td><div class="perf-bar" data-perf="70"></div></td>
+                            <td><div class="perf-bar" data-perf="88"></div></td>
+                            <td><div class="perf-bar" data-perf="55"></div></td>
+                        </tr>
+                        <tr>
+                            <td class="criterion">Job Opportunities</td>
+                            <td><span class="level easy">Excellent</span></td>
+                            <td><span class="level easy">Excellent</span></td>
+                            <td><span class="level easy">Essential</span></td>
+                            <td><span class="level easy">Excellent</span></td>
+                            <td><span class="level medium">Growing</span></td>
+                        </tr>
+                        <tr>
+                            <td class="criterion">Community</td>
+                            <td><span class="stars">★★★★★</span></td>
+                            <td><span class="stars">★★★★☆</span></td>
+                            <td><span class="stars">★★★★★</span></td>
+                            <td><span class="stars">★★★★★</span></td>
+                            <td><span class="stars">★★★☆☆</span></td>
+                        </tr>
+                        <tr>
+                            <td class="criterion">Primary Use</td>
+                            <td>Deep Learning & Research</td>
+                            <td>Production & Mobile</td>
+                            <td>Classical ML</td>
+                            <td>LLMs & Transformers</td>
+                            <td>LLM Applications</td>
+                        </tr>
+                        <tr>
+                            <td class="criterion">Start With It When?</td>
+                            <td>After Scikit-learn</td>
+                            <td>Alternative to PyTorch for Prod</td>
+                            <td>Day One</td>
+                            <td>With your first LLM project</td>
+                            <td>After Hugging Face</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 
-    <!-- FRAMEWORKS DEEP DIVE -->
-    <section class="section-block" id="frameworks">
-        <div class="container">
-            <div class="section-header text-center mb-5" data-aos="fade-up">
-                <span class="section-tag">Ø§Ù„Ø£Ø¯ÙˆØ§Øª ÙˆØ§Ù„Ù…ÙƒØªØ¨Ø§Øª</span>
-                <h2 class="section-title">Ø£Ø´Ù‡Ø± Ø£Ø¯ÙˆØ§Øª AI/ML Ø¨Ø§Ù„ØªÙØµÙŠÙ„</h2>
-                <p class="section-subtitle">Ø§Ø¹Ø±Ù ÙƒÙ„ Ø£Ø¯Ø§Ø© â€” Ø¥ÙŠÙ‡ ÙˆØ¸ÙŠÙØªÙ‡Ø§ØŒ Ø¥ÙŠÙ‡ Ù…Ù…ÙŠØ²Ø§ØªÙ‡Ø§ØŒ ÙˆØ§Ù…ØªÙ‰ ØªØ³ØªØ®Ø¯Ù…Ù‡Ø§.</p>
-            </div>
-
-            <div class="fw-tabs-wrapper" data-aos="fade-up">
-                <div class="fw-tabs d-flex gap-2 flex-wrap mb-4" id="fwTabs">
-                    <button class="fw-tab active" data-fw="pytorch">
-                        <i class="bi bi-fire"></i> PyTorch
-                    </button>
-                    <button class="fw-tab" data-fw="tensorflow">
-                        <i class="bi bi-lightning-fill"></i> TensorFlow
-                    </button>
-                    <button class="fw-tab" data-fw="sklearn">
-                        <i class="bi bi-gear-fill"></i> Scikit-learn
-                    </button>
-                    <button class="fw-tab" data-fw="huggingface">
-                        <i class="bi bi-emoji-smile-fill"></i> Hugging Face
-                    </button>
-                    <button class="fw-tab" data-fw="langchain">
-                        <i class="bi bi-link-45deg"></i> LangChain
-                    </button>
+<!-- QUIZ -->
+<section class="section-block section-dark" id="quiz">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-12 col-lg-8">
+                <div class="section-header text-center mb-5" data-aos="fade-up">
+                    <span class="section-tag light">Discover Yourself</span>
+                    <h2 class="section-title light">Which AI Field Fits You?</h2>
+                    <p class="section-subtitle light">Answer 3 questions and we'll suggest the best fit.</p>
                 </div>
-                <div class="fw-panel" id="fwPanel"></div>
-            </div>
-        </div>
-    </section>
-
-    <!-- COMPARISON TABLE -->
-    <section class="section-block section-light-alt" id="comparison">
-        <div class="container">
-            <div class="section-header text-center mb-5" data-aos="fade-up">
-                <span class="section-tag">Ø§Ù„Ù…Ù‚Ø§Ø±Ù†Ø©</span>
-                <h2 class="section-title">Ù…Ù‚Ø§Ø±Ù†Ø© Ø´Ø§Ù…Ù„Ø© Ø¨ÙŠÙ† Ø§Ù„Ø£Ø¯ÙˆØ§Øª</h2>
-                <p class="section-subtitle">Ø¬Ø¯ÙˆÙ„ ÙˆØ§Ø¶Ø­ ÙŠØ³Ø§Ø¹Ø¯Ùƒ ØªØ´ÙˆÙ Ø§Ù„ÙØ±ÙˆÙ‚ Ø¯ÙØ¹Ø© ÙˆØ§Ø­Ø¯Ø©.</p>
-            </div>
-            <div class="table-wrapper" data-aos="fade-up">
-                <div class="table-responsive">
-                    <table class="comparison-table w-100">
-                        <thead>
-                            <tr>
-                                <th>Ø§Ù„Ù…Ø¹ÙŠØ§Ø±</th>
-                                <th><i class="bi bi-fire"></i> PyTorch</th>
-                                <th><i class="bi bi-lightning-fill"></i> TensorFlow</th>
-                                <th><i class="bi bi-gear-fill"></i> Scikit-learn</th>
-                                <th><i class="bi bi-emoji-smile-fill"></i> Hugging Face</th>
-                                <th><i class="bi bi-link-45deg"></i> LangChain</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td class="criterion">ØµØ¹ÙˆØ¨Ø© Ø§Ù„Ø¨Ø¯Ø§ÙŠØ©</td>
-                                <td><span class="level medium">Ù…ØªÙˆØ³Ø·</span></td>
-                                <td><span class="level medium">Ù…ØªÙˆØ³Ø·</span></td>
-                                <td><span class="level easy">Ø³Ù‡Ù„</span></td>
-                                <td><span class="level easy">Ø³Ù‡Ù„</span></td>
-                                <td><span class="level medium">Ù…ØªÙˆØ³Ø·</span></td>
-                            </tr>
-                            <tr>
-                                <td class="criterion">Ø§Ù„Ø§Ù†ØªØ´Ø§Ø± ÙÙŠ Ø§Ù„Ø¨Ø­Ø«</td>
-                                <td><div class="perf-bar" data-perf="95"></div></td>
-                                <td><div class="perf-bar" data-perf="60"></div></td>
-                                <td><div class="perf-bar" data-perf="70"></div></td>
-                                <td><div class="perf-bar" data-perf="88"></div></td>
-                                <td><div class="perf-bar" data-perf="55"></div></td>
-                            </tr>
-                            <tr>
-                                <td class="criterion">ÙØ±Øµ Ø§Ù„Ø¹Ù…Ù„</td>
-                                <td><span class="level easy">Ù…Ù…ØªØ§Ø²</span></td>
-                                <td><span class="level easy">Ù…Ù…ØªØ§Ø²</span></td>
-                                <td><span class="level easy">Ø¶Ø±ÙˆØ±ÙŠ</span></td>
-                                <td><span class="level easy">Ù…Ù…ØªØ§Ø²</span></td>
-                                <td><span class="level medium">Ù†Ø§Ù…ÙŠ</span></td>
-                            </tr>
-                            <tr>
-                                <td class="criterion">Ø§Ù„Ù€ Community</td>
-                                <td><span class="stars">â˜…â˜…â˜…â˜…â˜…</span></td>
-                                <td><span class="stars">â˜…â˜…â˜…â˜…â˜†</span></td>
-                                <td><span class="stars">â˜…â˜…â˜…â˜…â˜…</span></td>
-                                <td><span class="stars">â˜…â˜…â˜…â˜…â˜…</span></td>
-                                <td><span class="stars">â˜…â˜…â˜…â˜†â˜†</span></td>
-                            </tr>
-                            <tr>
-                                <td class="criterion">Ø§Ù„Ø§Ø³ØªØ®Ø¯Ø§Ù… Ø§Ù„Ø£Ø³Ø§Ø³ÙŠ</td>
-                                <td>Deep Learning & Research</td>
-                                <td>Production & Mobile</td>
-                                <td>Classical ML</td>
-                                <td>LLMs & Transformers</td>
-                                <td>LLM Applications</td>
-                            </tr>
-                            <tr>
-                                <td class="criterion">Ø§Ø¨Ø¯Ø£ Ø¨ÙŠÙ‡Ø§ Ù„Ù…Ø§ØŸ</td>
-                                <td>Ø¨Ø¹Ø¯ Scikit-learn</td>
-                                <td>Ø¨Ø¯ÙŠÙ„ PyTorch Ù„Ù„Ù€ Prod</td>
-                                <td>Ù…Ù† Ø£ÙˆÙ„ ÙŠÙˆÙ…</td>
-                                <td>Ù…Ø¹ Ø£ÙˆÙ„ LLM project</td>
-                                <td>Ø¨Ø¹Ø¯ Hugging Face</td>
-                            </tr>
-                        </tbody>
-                    </table>
+                <div class="quiz-card" id="quizCard" data-aos="fade-up">
+                    <div class="quiz-progress-bar"><div class="quiz-progress-fill" id="quizProgressFill"></div></div>
+                    <div class="quiz-step-indicator" id="quizStepIndicator">Question 1 of 3</div>
+                    <div class="quiz-content" id="quizContent"></div>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 
-    <!-- QUIZ -->
-    <section class="section-block section-dark" id="quiz">
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-12 col-lg-8">
-                    <div class="section-header text-center mb-5" data-aos="fade-up">
-                        <span class="section-tag light">Ø§ÙƒØªØ´Ù Ù†ÙØ³Ùƒ</span>
-                        <h2 class="section-title light">Ø£Ù†Ù‡ÙŠ Ù…Ø¬Ø§Ù„ AI ÙŠÙ†Ø§Ø³Ø¨ÙƒØŸ</h2>
-                        <p class="section-subtitle light">Ø¬Ø§ÙˆØ¨ Ø¹Ù„Ù‰ 3 Ø£Ø³Ø¦Ù„Ø© ÙˆÙ‡Ù†Ù‚ØªØ±Ø­ Ø¹Ù„ÙŠÙƒ Ø§Ù„Ø£Ù†Ø³Ø¨.</p>
-                    </div>
-                    <div class="quiz-card" id="quizCard" data-aos="fade-up">
-                        <div class="quiz-progress-bar"><div class="quiz-progress-fill" id="quizProgressFill"></div></div>
-                        <div class="quiz-step-indicator" id="quizStepIndicator">Ø§Ù„Ø³Ø¤Ø§Ù„ 1 Ù…Ù† 3</div>
-                        <div class="quiz-content" id="quizContent"></div>
-                    </div>
-                </div>
-            </div>
+<!-- ROADMAP -->
+<section class="section-block" id="roadmap">
+    <div class="container">
+        <div class="section-header text-center mb-5" data-aos="fade-up">
+            <span class="section-tag">Roadmap</span>
+            <h2 class="section-title">Where Do You Start?</h2>
+            <p class="section-subtitle">The right steps, in the right order.</p>
         </div>
-    </section>
-
-    <!-- ROADMAP -->
-    <section class="section-block" id="roadmap">
-        <div class="container">
-            <div class="section-header text-center mb-5" data-aos="fade-up">
-                <span class="section-tag">Ø®Ø§Ø±Ø·Ø© Ø§Ù„Ø·Ø±ÙŠÙ‚</span>
-                <h2 class="section-title">Ù…Ù† ÙÙŠÙ† ØªØ¨Ø¯Ø£ØŸ</h2>
-                <p class="section-subtitle">Ø§Ù„Ø®Ø·ÙˆØ§Øª Ø§Ù„ØµØ­ØŒ Ø¨Ø§Ù„ØªØ±ØªÙŠØ¨ Ø§Ù„ØµØ­.</p>
-            </div>
-            <div class="roadmap-timeline" id="roadmapTimeline"></div>
-        </div>
-    </section>
-
-    <!-- FOOTER -->
-    
+        <div class="roadmap-timeline" id="roadmapTimeline"></div>
+    </div>
+</section>
 
 @section Scripts {
     <script src="~/tracks/AI/app.js" asp-append-version="true"></script>

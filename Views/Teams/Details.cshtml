@@ -93,6 +93,16 @@
                                     <i class="fa-solid fa-handshake me-2"></i>Hire Team
                                 </a>
                             }
+                            <!-- ✅ زر Team Chat -->
+                            @if (Model.IsLeader || Model.IsMember)
+                            {
+                                if (Model.ChatGroupId.HasValue)
+                                {
+                                    <a asp-controller="Chat" asp-action="Details" asp-route-id="@Model.ChatGroupId.Value" class="btn btn-primary" style="background: linear-gradient(135deg, #0d9488, #2563eb); border: none;">
+                                        <i class="fa-regular fa-comment-dots me-2"></i>Team Chat
+                                    </a>
+                                }
+                            }
                         </div>
                     </div>
 
@@ -183,6 +193,13 @@
                         }
                         else if (Model.IsMember)
                         {
+                            <!-- زر Team Chat في الـ Sidebar أيضاً -->
+                            if (Model.ChatGroupId.HasValue)
+                            {
+                                <a asp-controller="Chat" asp-action="Details" asp-route-id="@Model.ChatGroupId.Value" class="btn btn-primary w-100 mb-2" style="background: linear-gradient(135deg, #0d9488, #2563eb); border: none;">
+                                    <i class="fa-regular fa-comment-dots me-2"></i>Team Chat
+                                </a>
+                            }
                             <div class="text-muted text-center small mt-2">
                                 <i class="fa-solid fa-users me-1"></i>
                                 You are a member of this team

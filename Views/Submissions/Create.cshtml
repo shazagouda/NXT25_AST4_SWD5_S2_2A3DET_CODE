@@ -1,6 +1,289 @@
+@using System.Security.Claims
 @model A3DET_CODE.ViewModels.Submission.SubmissionViewModel
 @{
     ViewData["Title"] = "Submit Work";
+}
+
+@section Styles {
+    <style>
+        .submissions-create-page {
+            background: var(--color-bg, #F6F7FB);
+            min-height: 100vh;
+            padding-bottom: 2rem;
+        }
+
+        /* Breadcrumb */
+        .breadcrumb {
+            display: flex;
+            flex-wrap: wrap;
+            list-style: none;
+            padding: 0;
+            margin: 0 0 1.5rem 0;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .breadcrumb-item {
+            display: flex;
+            align-items: center;
+            color: var(--color-text-400, #94A0B8);
+        }
+
+            .breadcrumb-item a {
+                color: var(--color-blue-600, #2F6FED);
+                text-decoration: none;
+                font-weight: 500;
+                transition: color 0.2s ease;
+            }
+
+                .breadcrumb-item a:hover {
+                    color: var(--color-blue-700, #265FD1);
+                    text-decoration: underline;
+                }
+
+            .breadcrumb-item.active {
+                color: var(--color-text-900, #0A1628);
+                font-weight: 600;
+            }
+
+            .breadcrumb-item + .breadcrumb-item::before {
+                content: "/";
+                margin-right: 0.5rem;
+                color: var(--color-text-400, #94A0B8);
+            }
+
+        /* Main Card */
+        .submit-card {
+            background: var(--color-surface, #FFFFFF);
+            border-radius: var(--radius-lg, 20px);
+            border: 1px solid var(--color-border, #E4E7EF);
+            padding: 2.5rem;
+            box-shadow: var(--shadow-sm, 0 2px 8px rgba(10, 22, 40, 0.06));
+            transition: box-shadow 0.3s ease;
+        }
+
+            .submit-card:hover {
+                box-shadow: var(--shadow-md, 0 8px 24px rgba(10, 22, 40, 0.08));
+            }
+
+        .submit-header {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 2px solid var(--color-border, #E4E7EF);
+        }
+
+        .submit-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: var(--radius-md, 14px);
+            background: var(--color-amber-100, #FEF3C7);
+            color: var(--color-amber-500, #F59E0B);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            flex-shrink: 0;
+        }
+
+        .submit-title {
+            font-family: var(--font-display, 'Sora', sans-serif);
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--color-text-900, #0A1628);
+            margin: 0;
+        }
+
+        .submit-subtitle {
+            color: var(--color-text-600, #5B6478);
+            margin: 0.25rem 0 0;
+            font-size: 1rem;
+        }
+
+            .submit-subtitle strong {
+                color: var(--color-text-900, #0A1628);
+            }
+
+        /* Form */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+            .form-group label {
+                font-weight: 600;
+                font-size: 0.9rem;
+                color: var(--color-text-900, #0A1628);
+                margin-bottom: 0.5rem;
+                display: block;
+            }
+
+            .form-group .required {
+                color: var(--color-danger, #E14F4F);
+            }
+
+        .form-control, .form-select {
+            border: 1.5px solid var(--color-border, #E4E7EF);
+            border-radius: var(--radius-sm, 8px);
+            padding: 0.75rem 1rem;
+            font-size: 0.95rem;
+            transition: all 0.2s ease;
+            background: var(--color-surface, #FFFFFF);
+            color: var(--color-text-900, #0A1628);
+            width: 100%;
+        }
+
+            .form-control:focus, .form-select:focus {
+                border-color: var(--color-blue-600, #2F6FED);
+                box-shadow: 0 0 0 3px rgba(47, 111, 237, 0.12);
+                outline: none;
+            }
+
+            .form-control::placeholder {
+                color: var(--color-text-400, #94A0B8);
+            }
+
+        textarea.form-control {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .form-hint {
+            font-size: 0.8rem;
+            color: var(--color-text-400, #94A0B8);
+            margin-top: 0.25rem;
+        }
+
+        .form-text {
+            font-size: 0.8rem;
+            color: var(--color-text-400, #94A0B8);
+            margin-top: 0.25rem;
+        }
+
+        /* Alerts */
+        .alert {
+            padding: 1rem 1.25rem;
+            border-radius: var(--radius-sm, 8px);
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 0.9rem;
+            border: 1px solid transparent;
+        }
+
+        .alert-success {
+            background: var(--color-teal-100, #E2FAF5);
+            border-color: var(--color-teal-600, #15C6AE);
+            color: #0E8C79;
+        }
+
+        .alert-danger {
+            background: #FEE8E8;
+            border-color: var(--color-danger, #E14F4F);
+            color: var(--color-danger, #E14F4F);
+        }
+
+        .alert .btn-close {
+            margin-left: auto;
+            background: none;
+            border: none;
+            font-size: 1.2rem;
+            cursor: pointer;
+            opacity: 0.6;
+        }
+
+            .alert .btn-close:hover {
+                opacity: 1;
+            }
+
+        .validation-summary-errors {
+            color: var(--color-danger, #E14F4F);
+            font-size: 0.9rem;
+            padding: 0.75rem 1rem;
+            background: #FEE8E8;
+            border-radius: var(--radius-sm, 8px);
+            margin-bottom: 1.5rem;
+            border: 1px solid var(--color-danger, #E14F4F);
+        }
+
+            .validation-summary-errors ul {
+                margin: 0;
+                padding-left: 1.5rem;
+            }
+
+        .text-danger {
+            color: var(--color-danger, #E14F4F);
+        }
+
+        /* Form Actions */
+        .form-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+            padding-top: 1.5rem;
+            border-top: 2px solid var(--color-border, #E4E7EF);
+            margin-top: 1.5rem;
+        }
+
+            .form-actions .btn {
+                padding: 0.75rem 2rem;
+                border-radius: var(--radius-pill, 999px);
+                font-weight: 600;
+                font-size: 0.95rem;
+                transition: all 0.2s ease;
+                display: inline-flex;
+                align-items: center;
+                gap: 0.5rem;
+            }
+
+        .btn-warning {
+            background: linear-gradient(135deg, #F59E0B, #D97706);
+            color: #fff;
+            border: none;
+            box-shadow: 0 4px 12px rgba(245, 158, 11, 0.25);
+        }
+
+            .btn-warning:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 6px 20px rgba(245, 158, 11, 0.35);
+                color: #fff;
+            }
+
+        .btn-secondary {
+            background: var(--color-bg, #F6F7FB);
+            color: var(--color-text-600, #5B6478);
+            border: 1.5px solid var(--color-border, #E4E7EF);
+        }
+
+            .btn-secondary:hover {
+                border-color: var(--color-blue-600, #2F6FED);
+                color: var(--color-blue-600, #2F6FED);
+                background: var(--color-blue-50, #F0F7FF);
+            }
+
+        /* Responsive */
+        @@media (max-width: 640px) {
+            .submit-card {
+                padding: 1.5rem;
+            }
+
+            .submit-header {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .form-actions {
+                flex-direction: column;
+            }
+
+                .form-actions .btn {
+                    width: 100%;
+                    justify-content: center;
+                }
+        }
+    </style>
 }
 
 <div class="submissions-create-page">
@@ -8,77 +291,100 @@
         <div class="row justify-content-center">
             <div class="col-lg-8">
                 <!-- Breadcrumb -->
-                <nav aria-label="breadcrumb" class="mb-4">
+                <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a asp-controller="Projects" asp-action="Index">Projects</a></li>
+                        <li class="breadcrumb-item"><a asp-controller="Projects" asp-action="Index"><i class="fa-solid fa-folder-open me-1"></i>Projects</a></li>
                         <li class="breadcrumb-item"><a asp-controller="Projects" asp-action="Details" asp-route-id="@Model.ProjectId">@Model.ProjectTitle</a></li>
                         <li class="breadcrumb-item"><a asp-controller="Submissions" asp-action="ProjectSubmissions" asp-route-projectId="@Model.ProjectId">Submissions</a></li>
                         <li class="breadcrumb-item active">Submit Work</li>
                     </ol>
                 </nav>
 
-                <div class="card shadow-sm" style="background-color: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: 12px;">
-                    <div class="card-header border-bottom-0 pt-4 pb-0 bg-transparent">
-                        <h3 class="mb-0"><i class="fa-solid fa-cloud-arrow-up text-warning me-2"></i>Submit Work</h3>
-                        <p class="text-muted mt-2">Submit your completed task or project milestone for @Model.ProjectTitle</p>
+                <!-- Alerts -->
+                @if (TempData["Error"] != null)
+                {
+                    <div class="alert alert-danger alert-dismissible fade show">
+                        <i class="fa-solid fa-exclamation-circle"></i>
+                        @TempData["Error"]
+                        <button type="button" class="btn-close" data-bs-dismiss="alert">×</button>
                     </div>
-                    <div class="card-body">
-                        <form asp-action="Create" method="post" class="needs-validation" novalidate>
-                            @Html.AntiForgeryToken()
-                            <input type="hidden" asp-for="ProjectId" />
-                            <input type="hidden" asp-for="ProjectTitle" />
+                }
 
-                            <div class="row g-4">
-                                <div class="col-12">
-                                    <div class="form-floating">
-                                        <input asp-for="Title" class="form-control" style="background-color: var(--bg-tertiary); border-color: var(--border-color); color: var(--text-primary);" placeholder="Submission Title" required />
-                                        <label asp-for="Title" class="text-muted"><i class="fa-solid fa-heading me-2"></i>Submission Title *</label>
-                                    </div>
-                                    <span asp-validation-for="Title" class="text-danger small mt-1 d-block"></span>
-                                </div>
+                <!-- Main Card -->
+                <div class="submit-card">
+                    <div class="submit-header">
+                        <div class="submit-icon">
+                            <i class="fa-solid fa-cloud-arrow-up"></i>
+                        </div>
+                        <div>
+                            <h1 class="submit-title">Submit Work</h1>
+                            <p class="submit-subtitle">Submit your completed task or project milestone for <strong>@Model.ProjectTitle</strong></p>
+                        </div>
+                    </div>
 
-                                <div class="col-12">
-                                    <div class="form-floating">
-                                        <textarea asp-for="Description" class="form-control" style="background-color: var(--bg-tertiary); border-color: var(--border-color); color: var(--text-primary); height: 120px;" placeholder="Description"></textarea>
-                                        <label asp-for="Description" class="text-muted"><i class="fa-solid fa-align-left me-2"></i>Detailed Description</label>
-                                    </div>
-                                    <span asp-validation-for="Description" class="text-danger small mt-1 d-block"></span>
-                                </div>
+                    <form asp-action="Create" method="post" novalidate>
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" asp-for="ProjectId" />
+                        <input type="hidden" asp-for="ProjectTitle" />
+                        <!-- ✅ إضافة UserId المخفي مع الـ using الصحيح -->
+                        <input type="hidden" asp-for="UserId" value="@User.FindFirstValue(ClaimTypes.NameIdentifier)" />
 
-                                <div class="col-md-6">
-                                    <div class="form-floating">
-                                        <input asp-for="GitHubUrl" class="form-control" style="background-color: var(--bg-tertiary); border-color: var(--border-color); color: var(--text-primary);" placeholder="GitHub URL" />
-                                        <label asp-for="GitHubUrl" class="text-muted"><i class="fa-brands fa-github me-2"></i>Repository URL</label>
-                                    </div>
-                                    <span asp-validation-for="GitHubUrl" class="text-danger small mt-1 d-block"></span>
-                                </div>
+                        @if (!ViewData.ModelState.IsValid && ViewData.ModelState.ErrorCount > 0)
+                        {
+                            <div class="validation-summary-errors">
+                                <i class="fa-solid fa-triangle-exclamation me-2"></i>
+                                <strong>Please fix the following errors:</strong>
+                                @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+                            </div>
+                        }
 
-                                <div class="col-md-6">
-                                    <div class="form-floating">
-                                        <input asp-for="DemoUrl" class="form-control" style="background-color: var(--bg-tertiary); border-color: var(--border-color); color: var(--text-primary);" placeholder="Demo URL" />
-                                        <label asp-for="DemoUrl" class="text-muted"><i class="fa-solid fa-link me-2"></i>Live Demo URL (Optional)</label>
-                                    </div>
-                                    <span asp-validation-for="DemoUrl" class="text-danger small mt-1 d-block"></span>
-                                </div>
+                        <div class="form-group">
+                            <label asp-for="Title">
+                                Submission Title <span class="required">*</span>
+                            </label>
+                            <input asp-for="Title" class="form-control" placeholder="Enter submission title..." required />
+                            <span asp-validation-for="Title" class="text-danger small"></span>
+                        </div>
 
-                                <div class="col-12">
-                                    <div class="form-floating">
-                                        <input asp-for="FileUrl" class="form-control" style="background-color: var(--bg-tertiary); border-color: var(--border-color); color: var(--text-primary);" placeholder="File URL" />
-                                        <label asp-for="FileUrl" class="text-muted"><i class="fa-solid fa-file-arrow-up me-2"></i>File/Attachment URL (Optional)</label>
-                                    </div>
-                                    <span asp-validation-for="FileUrl" class="text-danger small mt-1 d-block"></span>
-                                    <div class="form-text mt-1 text-muted small"><i class="fa-solid fa-circle-info me-1"></i>Link to Google Drive, Figma, or Dropbox if applicable.</div>
+                        <div class="form-group">
+                            <label asp-for="Description">Detailed Description</label>
+                            <textarea asp-for="Description" class="form-control" placeholder="Describe what you've completed..."></textarea>
+                            <span asp-validation-for="Description" class="text-danger small"></span>
+                        </div>
+
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="GitHubUrl">Repository URL</label>
+                                    <input asp-for="GitHubUrl" class="form-control" placeholder="https://github.com/your-repo" />
+                                    <span asp-validation-for="GitHubUrl" class="text-danger small"></span>
                                 </div>
                             </div>
-
-                            <div class="d-flex justify-content-end gap-3 mt-5 pt-4 border-top" style="border-color: var(--border-color) !important;">
-                                <a asp-controller="Submissions" asp-action="ProjectSubmissions" asp-route-projectId="@Model.ProjectId" class="btn btn-outline-secondary px-4 py-2" style="border-radius: 8px;">Cancel</a>
-                                <button type="submit" class="btn btn-warning text-dark fw-bold px-4 py-2" style="border-radius: 8px; background: linear-gradient(135deg, #f59e0b, #d97706); border: none; box-shadow: 0 4px 6px rgba(245, 158, 11, 0.2);">
-                                    <i class="fa-solid fa-paper-plane me-2"></i>Submit Work
-                                </button>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="DemoUrl">Live Demo URL <span class="text-muted">(Optional)</span></label>
+                                    <input asp-for="DemoUrl" class="form-control" placeholder="https://your-demo-link.com" />
+                                    <span asp-validation-for="DemoUrl" class="text-danger small"></span>
+                                </div>
                             </div>
-                        </form>
-                    </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label asp-for="FileUrl">File/Attachment URL <span class="text-muted">(Optional)</span></label>
+                            <input asp-for="FileUrl" class="form-control" placeholder="Link to Google Drive, Figma, Dropbox..." />
+                            <span class="form-text"><i class="fa-solid fa-circle-info me-1"></i>Link to Google Drive, Figma, or Dropbox if applicable.</span>
+                            <span asp-validation-for="FileUrl" class="text-danger small"></span>
+                        </div>
+
+                        <div class="form-actions">
+                            <a asp-controller="Submissions" asp-action="ProjectSubmissions" asp-route-projectId="@Model.ProjectId" class="btn btn-secondary">
+                                <i class="fa-solid fa-xmark"></i> Cancel
+                            </a>
+                            <button type="submit" class="btn btn-warning">
+                                <i class="fa-solid fa-paper-plane"></i> Submit Work
+                            </button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>

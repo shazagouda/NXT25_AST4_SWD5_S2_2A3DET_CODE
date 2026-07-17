@@ -4,12 +4,491 @@
     bool canReview = ViewBag.CanReview ?? false;
 }
 
+@section Styles {
+    <style>
+        .submissions-page {
+            background: var(--color-bg, #F6F7FB);
+            min-height: 100vh;
+            padding-bottom: 2rem;
+        }
+
+        /* Breadcrumb */
+        .breadcrumb {
+            display: flex;
+            flex-wrap: wrap;
+            list-style: none;
+            padding: 0;
+            margin: 0 0 1.5rem 0;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .breadcrumb-item {
+            display: flex;
+            align-items: center;
+            color: var(--color-text-400, #94A0B8);
+        }
+
+            .breadcrumb-item a {
+                color: var(--color-blue-600, #2F6FED);
+                text-decoration: none;
+                font-weight: 500;
+                transition: color 0.2s ease;
+            }
+
+                .breadcrumb-item a:hover {
+                    color: var(--color-blue-700, #265FD1);
+                    text-decoration: underline;
+                }
+
+            .breadcrumb-item.active {
+                color: var(--color-text-900, #0A1628);
+                font-weight: 600;
+            }
+
+            .breadcrumb-item + .breadcrumb-item::before {
+                content: "/";
+                margin-right: 0.5rem;
+                color: var(--color-text-400, #94A0B8);
+            }
+
+        /* Page Header */
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .page-header-left h2 {
+            font-family: var(--font-display, 'Sora', sans-serif);
+            font-size: 1.75rem;
+            font-weight: 800;
+            color: var(--color-text-900, #0A1628);
+            margin: 0 0 0.25rem;
+        }
+
+        .page-header-left p {
+            color: var(--color-text-600, #5B6478);
+            margin: 0;
+            font-size: 0.95rem;
+        }
+
+        .btn-primary, .btn-warning {
+            padding: 0.6rem 1.5rem;
+            border-radius: var(--radius-pill, 999px);
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+            border: none;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--color-blue-600, #2F6FED), var(--color-teal-600, #15C6AE));
+            color: #fff;
+            box-shadow: 0 4px 12px rgba(47, 111, 237, 0.2);
+        }
+
+            .btn-primary:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 6px 20px rgba(47, 111, 237, 0.3);
+                color: #fff;
+            }
+
+        .btn-warning {
+            background: linear-gradient(135deg, #F59E0B, #D97706);
+            color: #fff;
+            box-shadow: 0 4px 12px rgba(245, 158, 11, 0.25);
+        }
+
+            .btn-warning:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 6px 20px rgba(245, 158, 11, 0.35);
+                color: #fff;
+            }
+
+        /* Alerts */
+        .alert {
+            padding: 1rem 1.25rem;
+            border-radius: var(--radius-sm, 8px);
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 0.9rem;
+            border: 1px solid transparent;
+        }
+
+        .alert-success {
+            background: var(--color-teal-100, #E2FAF5);
+            border-color: var(--color-teal-600, #15C6AE);
+            color: #0E8C79;
+        }
+
+        .alert-danger {
+            background: #FEE8E8;
+            border-color: var(--color-danger, #E14F4F);
+            color: var(--color-danger, #E14F4F);
+        }
+
+        .alert .btn-close {
+            margin-left: auto;
+            background: none;
+            border: none;
+            font-size: 1.2rem;
+            cursor: pointer;
+            opacity: 0.6;
+        }
+
+            .alert .btn-close:hover {
+                opacity: 1;
+            }
+
+        /* Submissions Grid */
+        .submissions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .submission-card {
+            background: var(--color-surface, #FFFFFF);
+            border-radius: var(--radius-lg, 16px);
+            border: 1px solid var(--color-border, #E4E7EF);
+            overflow: hidden;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: var(--shadow-sm, 0 2px 8px rgba(10, 22, 40, 0.06));
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+            .submission-card:hover {
+                transform: translateY(-4px);
+                box-shadow: var(--shadow-md, 0 8px 24px rgba(10, 22, 40, 0.08));
+                border-color: var(--color-blue-300, #93C5FD);
+            }
+
+        .submission-card-body {
+            padding: 1.5rem;
+            flex: 1;
+        }
+
+        .submission-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+        }
+
+        .submission-user {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .submission-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: #fff;
+            flex-shrink: 0;
+            background: linear-gradient(135deg, var(--color-blue-600), var(--color-teal-600));
+        }
+
+        .submission-user-info .submission-user-name {
+            font-weight: 600;
+            font-size: 0.95rem;
+            color: var(--color-text-900, #0A1628);
+        }
+
+        .submission-user-info .submission-date {
+            font-size: 0.75rem;
+            color: var(--color-text-400, #94A0B8);
+        }
+
+        /* Status Badges */
+        .badge-status {
+            padding: 0.25rem 0.75rem;
+            border-radius: var(--radius-pill, 999px);
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+
+            .badge-status.approved {
+                background: #D1FAE5;
+                color: #059669;
+            }
+
+            .badge-status.rejected {
+                background: #FEE2E2;
+                color: var(--color-danger, #E14F4F);
+            }
+
+            .badge-status.revision {
+                background: #FEF3C7;
+                color: #D97706;
+            }
+
+            .badge-status.pending {
+                background: #F3F4F6;
+                color: var(--color-text-400, #94A0B8);
+            }
+
+        .submission-title {
+            font-family: var(--font-display, 'Sora', sans-serif);
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--color-text-900, #0A1628);
+            margin: 0 0 0.5rem;
+        }
+
+        .submission-description {
+            color: var(--color-text-600, #5B6478);
+            font-size: 0.9rem;
+            line-height: 1.6;
+            margin: 0 0 1rem;
+        }
+
+        .submission-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+            .submission-links .btn-link {
+                padding: 0.3rem 0.8rem;
+                border-radius: var(--radius-sm, 6px);
+                font-size: 0.8rem;
+                font-weight: 600;
+                transition: all 0.2s ease;
+                text-decoration: none;
+                display: inline-flex;
+                align-items: center;
+                gap: 0.3rem;
+            }
+
+        .btn-github {
+            background: #24292e;
+            color: #fff;
+        }
+
+            .btn-github:hover {
+                background: #1b1f23;
+                color: #fff;
+            }
+
+        .btn-demo {
+            background: var(--color-blue-100, #E8EFFE);
+            color: var(--color-blue-600, #2F6FED);
+        }
+
+            .btn-demo:hover {
+                background: var(--color-blue-200, #D1DDFE);
+                color: var(--color-blue-700, #265FD1);
+            }
+
+        .btn-file {
+            background: var(--color-bg, #F6F7FB);
+            color: var(--color-text-600, #5B6478);
+            border: 1px solid var(--color-border, #E4E7EF);
+        }
+
+            .btn-file:hover {
+                background: var(--color-border, #E4E7EF);
+                color: var(--color-text-900, #0A1628);
+            }
+
+        /* Score & Feedback */
+        .submission-review {
+            background: var(--color-bg, #F6F7FB);
+            border-radius: var(--radius-sm, 8px);
+            padding: 1rem;
+            margin-top: 0.75rem;
+        }
+
+            .submission-review .review-score {
+                font-size: 0.85rem;
+                font-weight: 700;
+                color: var(--color-text-900, #0A1628);
+            }
+
+                .submission-review .review-score .badge-score {
+                    background: var(--color-blue-600, #2F6FED);
+                    color: #fff;
+                    padding: 0.15rem 0.6rem;
+                    border-radius: var(--radius-pill, 999px);
+                    font-size: 0.75rem;
+                }
+
+            .submission-review .review-feedback {
+                font-size: 0.85rem;
+                color: var(--color-text-600, #5B6478);
+                margin-top: 0.25rem;
+            }
+
+        .submission-divider {
+            border: none;
+            border-top: 1px solid var(--color-border, #E4E7EF);
+            margin: 1rem 0;
+        }
+
+        /* Review Form (Leader Only) */
+        .submission-card-footer {
+            padding: 0.75rem 1.5rem 1.5rem;
+            background: var(--color-bg, #F6F7FB);
+            border-top: 1px solid var(--color-border, #E4E7EF);
+        }
+
+        .review-form .form-group {
+            margin-bottom: 0.75rem;
+        }
+
+        .review-form label {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--color-text-700, #4B5563);
+            display: block;
+            margin-bottom: 0.25rem;
+        }
+
+        .review-form .form-control-sm,
+        .review-form .form-select-sm {
+            padding: 0.4rem 0.75rem;
+            border: 1.5px solid var(--color-border, #E4E7EF);
+            border-radius: var(--radius-sm, 6px);
+            font-size: 0.85rem;
+            transition: all 0.2s ease;
+            background: var(--color-surface, #FFFFFF);
+            color: var(--color-text-900, #0A1628);
+            width: 100%;
+        }
+
+            .review-form .form-control-sm:focus,
+            .review-form .form-select-sm:focus {
+                border-color: var(--color-blue-600, #2F6FED);
+                box-shadow: 0 0 0 3px rgba(47, 111, 237, 0.1);
+                outline: none;
+            }
+
+        .review-form .form-control-sm {
+            resize: vertical;
+        }
+
+        .review-form .btn-review {
+            width: 100%;
+            padding: 0.5rem;
+            border-radius: var(--radius-pill, 999px);
+            font-weight: 600;
+            font-size: 0.85rem;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            background: linear-gradient(135deg, var(--color-blue-600, #2F6FED), var(--color-teal-600, #15C6AE));
+            color: #fff;
+            box-shadow: 0 4px 12px rgba(47, 111, 237, 0.2);
+        }
+
+            .review-form .btn-review:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 6px 20px rgba(47, 111, 237, 0.3);
+                color: #fff;
+            }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+            background: var(--color-surface, #FFFFFF);
+            border-radius: var(--radius-lg, 16px);
+            border: 1px dashed var(--color-border, #E4E7EF);
+        }
+
+        .empty-state-icon {
+            font-size: 3.5rem;
+            color: var(--color-text-400, #94A0B8);
+            margin-bottom: 1rem;
+        }
+
+        .empty-state h4 {
+            font-family: var(--font-display, 'Sora', sans-serif);
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--color-text-900, #0A1628);
+            margin: 0 0 0.5rem;
+        }
+
+        .empty-state p {
+            color: var(--color-text-600, #5B6478);
+            margin: 0 0 1.5rem;
+        }
+
+        .btn-outline-warning {
+            background: transparent;
+            color: #D97706;
+            border: 1.5px solid #D97706;
+            padding: 0.5rem 1.5rem;
+            border-radius: var(--radius-pill, 999px);
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.2s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+            .btn-outline-warning:hover {
+                background: #D97706;
+                color: #fff;
+                transform: translateY(-2px);
+                box-shadow: 0 4px 12px rgba(217, 119, 6, 0.2);
+            }
+
+        /* Responsive */
+        @@media (max-width: 640px) {
+            .page-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .submissions-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .submission-card-footer {
+                padding: 0.75rem 1rem 1rem;
+            }
+
+            .submission-header {
+                flex-direction: column;
+                align-items: stretch;
+            }
+        }
+    </style>
+}
+
 <div class="submissions-page">
     <div class="container py-4">
         <!-- Breadcrumb -->
-        <nav aria-label="breadcrumb" class="mb-4">
+        <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a asp-controller="Projects" asp-action="Index">Projects</a></li>
+                <li class="breadcrumb-item"><a asp-controller="Projects" asp-action="Index"><i class="fa-solid fa-folder-open me-1"></i>Projects</a></li>
                 <li class="breadcrumb-item"><a asp-controller="Projects" asp-action="Details" asp-route-id="@ViewBag.ProjectId">@ViewBag.ProjectTitle</a></li>
                 <li class="breadcrumb-item active">Submissions</li>
             </ol>
@@ -19,152 +498,194 @@
         @if (TempData["Success"] != null)
         {
             <div class="alert alert-success alert-dismissible fade show">
-                <i class="fa-solid fa-check-circle me-2"></i>@TempData["Success"]
-                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                <i class="fa-solid fa-check-circle"></i>
+                @TempData["Success"]
+                <button type="button" class="btn-close" data-bs-dismiss="alert">×</button>
             </div>
         }
 
         @if (TempData["Error"] != null)
         {
             <div class="alert alert-danger alert-dismissible fade show">
-                <i class="fa-solid fa-exclamation-circle me-2"></i>@TempData["Error"]
-                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                <i class="fa-solid fa-exclamation-circle"></i>
+                @TempData["Error"]
+                <button type="button" class="btn-close" data-bs-dismiss="alert">×</button>
             </div>
         }
 
-        <!-- Header -->
-        <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
-            <div>
-                <h2 class="mb-1"><i class="fa-solid fa-file-lines text-info me-2"></i>Submissions</h2>
-                <p class="text-muted mb-0">Review submitted work for @ViewBag.ProjectTitle</p>
+        <!-- Page Header -->
+        <div class="page-header">
+            <div class="page-header-left">
+                <h2><i class="fa-solid fa-file-lines text-primary me-2"></i>Submissions</h2>
+                <p>Review submitted work for <strong>@ViewBag.ProjectTitle</strong></p>
             </div>
             @if (!canReview)
             {
-                <a asp-action="Create" asp-route-projectId="@ViewBag.ProjectId" class="btn btn-warning">
-                    <i class="fa-solid fa-upload me-2"></i>Submit Work
+                <a asp-action="Create" asp-route-projectId="@ViewBag.ProjectId" class="btn-warning">
+                    <i class="fa-solid fa-upload"></i> Submit Work
                 </a>
             }
         </div>
 
         @if (!Model.Any())
         {
-            <div class="text-center py-5 rounded" style="background-color: var(--bg-secondary); border: 1px dashed var(--border-color);">
-                <div class="empty-state-icon" style="font-size: 3rem; color: var(--text-muted); mb-3">📂</div>
-                <h4 class="mt-3">No Submissions Yet</h4>
-                <p class="text-muted">There are no project submissions to review.</p>
+            <!-- Empty State -->
+            <div class="empty-state">
+                <div class="empty-state-icon"><i class="fa-regular fa-file-lines"></i></div>
+                <h4>No Submissions Yet</h4>
+                <p>There are no project submissions to review yet.</p>
                 @if (!canReview)
                 {
-                    <a asp-action="Create" asp-route-projectId="@ViewBag.ProjectId" class="btn btn-outline-warning mt-2">
-                        Be the first to submit
+                    <a asp-action="Create" asp-route-projectId="@ViewBag.ProjectId" class="btn-outline-warning">
+                        <i class="fa-solid fa-upload"></i> Be the first to submit
                     </a>
                 }
             </div>
         }
         else
         {
-            <div class="row g-4">
+            <!-- Submissions Grid -->
+            <div class="submissions-grid">
                 @foreach (var sub in Model)
                 {
-                    <div class="col-md-6">
-                        <div class="card h-100" style="background-color: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: 12px;">
-                            <div class="card-body">
-                                <div class="d-flex justify-content-between align-items-start mb-3">
-                                    <div class="d-flex align-items-center">
-                                        <div class="avatar-circle d-flex align-items-center justify-content-center me-2"
-                                             style="width: 32px; height: 32px; border-radius: 50%; background: var(--bg-tertiary); font-size: 13px; font-weight: bold;">
-                                            @sub.UserInitials
-                                        </div>
-                                        <div>
-                                            <div style="font-size: 14px; font-weight: bold;">@sub.UserName</div>
-                                            <div style="font-size: 11px; color: var(--text-secondary);">@sub.SubmittedAt.ToString("MMM dd, yyyy HH:mm")</div>
+                    var statusClass = sub.Status?.ToLower() switch
+                    {
+                        "approved" => "approved",
+                        "rejected" => "rejected",
+                        "revision" => "revision",
+                        _ => "pending"
+                    };
+
+                    <div class="submission-card">
+                        <div class="submission-card-body">
+                            <!-- User & Status -->
+                            <div class="submission-header">
+                                <div class="submission-user">
+                                    <div class="submission-avatar">@sub.UserInitials</div>
+                                    <div class="submission-user-info">
+                                        <div class="submission-user-name">@sub.UserName</div>
+                                        <div class="submission-date">
+                                            <i class="fa-regular fa-clock me-1"></i>
+                                            @sub.SubmittedAt.ToString("MMM dd, yyyy • h:mm tt")
                                         </div>
                                     </div>
-                                    <span class="badge @(sub.IsApproved ? "bg-success" : sub.IsRejected ? "bg-danger" : sub.IsRevision ? "bg-warning text-dark" : "bg-secondary")">
-                                        @sub.Status
-                                    </span>
                                 </div>
-
-                                <h5 class="card-title fw-bold mb-2">@sub.Title</h5>
-                                <p class="card-text text-muted small mb-3">@sub.Description</p>
-
-                                <div class="d-flex gap-2 flex-wrap mb-3">
-                                    @if (!string.IsNullOrEmpty(sub.GitHubUrl))
+                                <span class="badge-status @statusClass">
+                                    @if (sub.Status == "Approved")
                                     {
-                                        <a href="@sub.GitHubUrl" target="_blank" class="btn btn-sm" style="background-color: #24292e; color: white;">
-                                            <i class="fa-brands fa-github me-1"></i> Repository
-                                        </a>
+                                        <i class="fa-solid fa-check me-1"></i>
                                     }
-                                    @if (!string.IsNullOrEmpty(sub.DemoUrl))
+                                    else if (sub.Status == "Rejected")
                                     {
-                                        <a href="@sub.DemoUrl" target="_blank" class="btn btn-sm btn-outline-primary">
-                                            <i class="fa-solid fa-link me-1"></i> Live Demo
-                                        </a>
+                                        <i class="fa-solid fa-xmark me-1"></i>
                                     }
-                                    @if (!string.IsNullOrEmpty(sub.FileUrl))
+                                    else if (sub.Status == "Revision")
                                     {
-                                        <a href="@sub.FileUrl" target="_blank" class="btn btn-sm btn-outline-secondary">
-                                            <i class="fa-solid fa-file-download me-1"></i> Download
-                                        </a>
+                                        <i class="fa-solid fa-rotate me-1"></i>
                                     }
-                                </div>
+                                    else
+                                    {
+                                        <i class="fa-regular fa-clock me-1"></i>
+                                    }
+                                    @sub.Status
+                                </span>
+                            </div>
 
-                                @if (sub.HasScore || !string.IsNullOrEmpty(sub.Feedback))
+                            <!-- Title & Description -->
+                            <h5 class="submission-title">@sub.Title</h5>
+                            <p class="submission-description">@(string.IsNullOrEmpty(sub.Description) ? "No description provided." : sub.Description)</p>
+
+                            <!-- Links -->
+                            <div class="submission-links">
+                                @if (!string.IsNullOrEmpty(sub.GitHubUrl))
                                 {
-                                    <div class="p-3 rounded mt-3" style="background-color: var(--bg-tertiary);">
-                                        @if (sub.HasScore)
-                                        {
-                                            <div class="mb-2">
-                                                <span class="fw-bold">Score:</span>
-                                                <span class="badge bg-primary">@sub.Score / 100</span>
-                                            </div>
-                                        }
-                                        @if (!string.IsNullOrEmpty(sub.Feedback))
-                                        {
-                                            <div class="small">
-                                                <span class="fw-bold d-block mb-1">Feedback:</span>
-                                                <span class="text-muted">@sub.Feedback</span>
-                                            </div>
-                                        }
-                                    </div>
+                                    <a href="@sub.GitHubUrl" target="_blank" class="btn-link btn-github">
+                                        <i class="fa-brands fa-github"></i> Repository
+                                    </a>
+                                }
+                                @if (!string.IsNullOrEmpty(sub.DemoUrl))
+                                {
+                                    <a href="@sub.DemoUrl" target="_blank" class="btn-link btn-demo">
+                                        <i class="fa-solid fa-link"></i> Live Demo
+                                    </a>
+                                }
+                                @if (!string.IsNullOrEmpty(sub.FileUrl))
+                                {
+                                    <a href="@sub.FileUrl" target="_blank" class="btn-link btn-file">
+                                        <i class="fa-solid fa-download"></i> Download
+                                    </a>
                                 }
                             </div>
 
-                            @if (canReview)
+                            <!-- Score & Feedback -->
+                            @if (sub.HasScore || !string.IsNullOrEmpty(sub.Feedback))
                             {
-                                <div class="card-footer bg-transparent pt-0 pb-3" style="border-top: 1px solid var(--border-color);">
-                                    <form asp-action="Review" method="post" class="mt-3">
-                                        @Html.AntiForgeryToken()
-                                        <input type="hidden" name="id" value="@sub.Id" />
+                                <hr class="submission-divider" />
+                                <div class="submission-review">
+                                    @if (sub.HasScore)
+                                    {
+                                        <div class="review-score">
+                                            <i class="fa-solid fa-star text-warning me-1"></i>
+                                            Score: <span class="badge-score">@sub.Score / 100</span>
+                                        </div>
+                                    }
+                                    @if (!string.IsNullOrEmpty(sub.Feedback))
+                                    {
+                                        <div class="review-feedback">
+                                            <i class="fa-solid fa-comment me-1"></i>
+                                            @sub.Feedback
+                                        </div>
+                                    }
+                                </div>
+                            }
+                        </div>
 
-                                        <div class="row g-2 mb-2">
-                                            <div class="col-md-4">
-                                                <label class="form-label small fw-bold mb-1">Status</label>
-                                                <select name="status" class="form-select form-select-sm" style="background-color: var(--bg-tertiary); border-color: var(--border-color); color: var(--text-primary);">
+                        <!-- Review Form (Leader Only) -->
+                        @if (canReview)
+                        {
+                            <div class="submission-card-footer">
+                                <form asp-action="Review" method="post" class="review-form">
+                                    @Html.AntiForgeryToken()
+                                    <input type="hidden" name="id" value="@sub.Id" />
+
+                                    <div class="row g-2">
+                                        <div class="col-md-5">
+                                            <div class="form-group">
+                                                <label>Status</label>
+                                                <select name="status" class="form-select-sm">
                                                     <option value="Pending" selected="@(sub.Status == "Pending")">Pending</option>
                                                     <option value="Approved" selected="@(sub.Status == "Approved")">Approve</option>
                                                     <option value="Revision" selected="@(sub.Status == "Revision")">Request Revision</option>
                                                     <option value="Rejected" selected="@(sub.Status == "Rejected")">Reject</option>
                                                 </select>
                                             </div>
-                                            <div class="col-md-8">
-                                                <label class="form-label small fw-bold mb-1">Score (0-100)</label>
-                                                <input type="number" name="score" class="form-control form-control-sm" value="@sub.Score" min="0" max="100" style="background-color: var(--bg-tertiary); border-color: var(--border-color); color: var(--text-primary);" />
+                                        </div>
+                                        <div class="col-md-7">
+                                            <div class="form-group">
+                                                <label>Score (0-100)</label>
+                                                <input type="number" name="score" class="form-control-sm" value="@sub.Score" min="0" max="100" />
                                             </div>
                                         </div>
+                                    </div>
 
-                                        <div class="mb-2">
-                                            <label class="form-label small fw-bold mb-1">Feedback</label>
-                                            <textarea name="feedback" class="form-control form-control-sm" rows="2" style="background-color: var(--bg-tertiary); border-color: var(--border-color); color: var(--text-primary);">@sub.Feedback</textarea>
-                                        </div>
+                                    <div class="form-group">
+                                        <label>Feedback</label>
+                                        <textarea name="feedback" class="form-control-sm" rows="2" placeholder="Provide feedback...">@sub.Feedback</textarea>
+                                    </div>
 
-                                        <button type="submit" class="btn btn-primary btn-sm w-100">Submit Review</button>
-                                    </form>
-                                </div>
-                            }
-                        </div>
+                                    <button type="submit" class="btn-review">
+                                        <i class="fa-solid fa-paper-plane me-1"></i> Submit Review
+                                    </button>
+                                </form>
+                            </div>
+                        }
                     </div>
                 }
             </div>
         }
     </div>
 </div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

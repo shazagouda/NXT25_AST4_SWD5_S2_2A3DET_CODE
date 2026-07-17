@@ -3,12 +3,430 @@
     ViewData["Title"] = "Project Tasks";
 }
 
+@section Styles {
+    <style>
+        .tasks-page {
+            background: var(--color-bg, #F6F7FB);
+            min-height: 100vh;
+            padding-bottom: 2rem;
+        }
+
+        /* Breadcrumb */
+        .breadcrumb {
+            display: flex;
+            flex-wrap: wrap;
+            list-style: none;
+            padding: 0;
+            margin: 0 0 1.5rem 0;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .breadcrumb-item {
+            display: flex;
+            align-items: center;
+            color: var(--color-text-400, #94A0B8);
+        }
+
+            .breadcrumb-item a {
+                color: var(--color-blue-600, #2F6FED);
+                text-decoration: none;
+                font-weight: 500;
+                transition: color 0.2s ease;
+            }
+
+                .breadcrumb-item a:hover {
+                    color: var(--color-blue-700, #265FD1);
+                    text-decoration: underline;
+                }
+
+            .breadcrumb-item.active {
+                color: var(--color-text-900, #0A1628);
+                font-weight: 600;
+            }
+
+            .breadcrumb-item + .breadcrumb-item::before {
+                content: "/";
+                margin-right: 0.5rem;
+                color: var(--color-text-400, #94A0B8);
+            }
+
+        /* Header */
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .page-header-left h2 {
+            font-family: var(--font-display, 'Sora', sans-serif);
+            font-size: 1.75rem;
+            font-weight: 800;
+            color: var(--color-text-900, #0A1628);
+            margin: 0 0 0.25rem;
+        }
+
+        .page-header-left p {
+            color: var(--color-text-600, #5B6478);
+            margin: 0;
+            font-size: 0.95rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--color-blue-600, #2F6FED), var(--color-teal-600, #15C6AE));
+            color: #fff;
+            border: none;
+            padding: 0.6rem 1.5rem;
+            border-radius: var(--radius-pill, 999px);
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            box-shadow: 0 4px 12px rgba(47, 111, 237, 0.2);
+            text-decoration: none;
+        }
+
+            .btn-primary:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 6px 20px rgba(47, 111, 237, 0.3);
+                color: #fff;
+                text-decoration: none;
+            }
+
+        /* Alerts */
+        .alert {
+            padding: 1rem 1.25rem;
+            border-radius: var(--radius-sm, 8px);
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 0.9rem;
+            border: 1px solid transparent;
+        }
+
+        .alert-success {
+            background: var(--color-teal-100, #E2FAF5);
+            border-color: var(--color-teal-600, #15C6AE);
+            color: #0E8C79;
+        }
+
+        .alert-danger {
+            background: #FEE8E8;
+            border-color: var(--color-danger, #E14F4F);
+            color: var(--color-danger, #E14F4F);
+        }
+
+        .alert .btn-close {
+            margin-left: auto;
+            background: none;
+            border: none;
+            font-size: 1.2rem;
+            cursor: pointer;
+            opacity: 0.6;
+        }
+
+            .alert .btn-close:hover {
+                opacity: 1;
+            }
+
+        /* Task Grid */
+        .tasks-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .task-card {
+            background: var(--color-surface, #FFFFFF);
+            border-radius: var(--radius-lg, 16px);
+            border: 1px solid var(--color-border, #E4E7EF);
+            overflow: hidden;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: var(--shadow-sm, 0 2px 8px rgba(10, 22, 40, 0.06));
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+            .task-card:hover {
+                transform: translateY(-4px);
+                box-shadow: var(--shadow-md, 0 8px 24px rgba(10, 22, 40, 0.08));
+                border-color: var(--color-blue-300, #93C5FD);
+            }
+
+        .task-card-body {
+            padding: 1.5rem;
+            flex: 1;
+        }
+
+        .task-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+        }
+
+        .task-badge-priority {
+            padding: 0.2rem 0.6rem;
+            border-radius: var(--radius-pill, 999px);
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+
+            .task-badge-priority.critical {
+                background: #FEE2E2;
+                color: var(--color-danger, #E14F4F);
+            }
+
+            .task-badge-priority.high {
+                background: #FEF3C7;
+                color: #D97706;
+            }
+
+            .task-badge-priority.medium {
+                background: #DBEAFE;
+                color: var(--color-blue-600, #2F6FED);
+            }
+
+            .task-badge-priority.low {
+                background: #D1FAE5;
+                color: #059669;
+            }
+
+        .task-badge-status {
+            padding: 0.2rem 0.6rem;
+            border-radius: var(--radius-pill, 999px);
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+
+            .task-badge-status.completed {
+                background: #D1FAE5;
+                color: #059669;
+            }
+
+            .task-badge-status.inprogress {
+                background: #DBEAFE;
+                color: var(--color-blue-600, #2F6FED);
+            }
+
+            .task-badge-status.pending {
+                background: #F3F4F6;
+                color: var(--color-text-400, #94A0B8);
+            }
+
+        .task-title {
+            font-family: var(--font-display, 'Sora', sans-serif);
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--color-text-900, #0A1628);
+            margin: 0 0 0.5rem;
+        }
+
+        .task-description {
+            color: var(--color-text-600, #5B6478);
+            font-size: 0.9rem;
+            line-height: 1.6;
+            margin: 0 0 1rem;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            flex: 1;
+        }
+
+        .task-divider {
+            border: none;
+            border-top: 1px solid var(--color-border, #E4E7EF);
+            margin: 1rem 0;
+        }
+
+        .task-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+        }
+
+        .task-assignee {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .task-assignee-avatar {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.65rem;
+            font-weight: 700;
+            color: #fff;
+            flex-shrink: 0;
+        }
+
+        .task-assignee-name {
+            font-size: 0.85rem;
+            color: var(--color-text-600, #5B6478);
+            font-weight: 500;
+        }
+
+        .task-due-date {
+            font-size: 0.8rem;
+            color: var(--color-text-400, #94A0B8);
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+            .task-due-date.overdue {
+                color: var(--color-danger, #E14F4F);
+            }
+
+        /* Task Card Footer (Status Update) */
+        .task-card-footer {
+            padding: 0.75rem 1.5rem 1.5rem;
+            background: var(--color-bg, #F6F7FB);
+            border-top: 1px solid var(--color-border, #E4E7EF);
+        }
+
+        .task-status-form {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
+            .task-status-form select {
+                flex: 1;
+                padding: 0.4rem 0.75rem;
+                border: 1.5px solid var(--color-border, #E4E7EF);
+                border-radius: var(--radius-sm, 6px);
+                background: var(--color-surface, #FFFFFF);
+                color: var(--color-text-900, #0A1628);
+                font-size: 0.85rem;
+                transition: all 0.2s ease;
+                cursor: pointer;
+            }
+
+                .task-status-form select:focus {
+                    border-color: var(--color-blue-600, #2F6FED);
+                    box-shadow: 0 0 0 3px rgba(47, 111, 237, 0.1);
+                    outline: none;
+                }
+
+            .task-status-form .btn-sm {
+                padding: 0.4rem 1rem;
+                border-radius: var(--radius-pill, 999px);
+                font-size: 0.8rem;
+                font-weight: 600;
+                border: none;
+                cursor: pointer;
+                transition: all 0.2s ease;
+                white-space: nowrap;
+            }
+
+        .btn-update {
+            background: var(--color-blue-600, #2F6FED);
+            color: #fff;
+        }
+
+            .btn-update:hover {
+                background: var(--color-blue-700, #265FD1);
+                transform: translateY(-1px);
+            }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+            background: var(--color-surface, #FFFFFF);
+            border-radius: var(--radius-lg, 16px);
+            border: 1px dashed var(--color-border, #E4E7EF);
+        }
+
+        .empty-state-icon {
+            font-size: 3.5rem;
+            color: var(--color-text-400, #94A0B8);
+            margin-bottom: 1rem;
+        }
+
+        .empty-state h4 {
+            font-family: var(--font-display, 'Sora', sans-serif);
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--color-text-900, #0A1628);
+            margin: 0 0 0.5rem;
+        }
+
+        .empty-state p {
+            color: var(--color-text-600, #5B6478);
+            margin: 0 0 1.5rem;
+        }
+
+        .btn-outline-primary {
+            background: transparent;
+            color: var(--color-blue-600, #2F6FED);
+            border: 1.5px solid var(--color-blue-600, #2F6FED);
+            padding: 0.5rem 1.5rem;
+            border-radius: var(--radius-pill, 999px);
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.2s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+            .btn-outline-primary:hover {
+                background: var(--color-blue-600, #2F6FED);
+                color: #fff;
+                transform: translateY(-2px);
+                box-shadow: 0 4px 12px rgba(47, 111, 237, 0.2);
+            }
+
+        @@media (max-width: 640px) {
+            .page-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .tasks-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .task-card-footer {
+                padding: 0.75rem 1rem 1rem;
+            }
+
+            .task-status-form {
+                flex-direction: column;
+                align-items: stretch;
+            }
+        }
+    </style>
+}
+
 <div class="tasks-page">
     <div class="container py-4">
         <!-- Breadcrumb -->
-        <nav aria-label="breadcrumb" class="mb-4">
+        <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a asp-controller="Projects" asp-action="Index">Projects</a></li>
+                <li class="breadcrumb-item"><a asp-controller="Projects" asp-action="Index"><i class="fa-solid fa-folder-open me-1"></i>Projects</a></li>
                 <li class="breadcrumb-item"><a asp-controller="Projects" asp-action="Details" asp-route-id="@ViewBag.ProjectId">@ViewBag.ProjectTitle</a></li>
                 <li class="breadcrumb-item active">Tasks</li>
             </ol>
@@ -18,90 +436,127 @@
         @if (TempData["Success"] != null)
         {
             <div class="alert alert-success alert-dismissible fade show">
-                <i class="fa-solid fa-check-circle me-2"></i>@TempData["Success"]
-                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                <i class="fa-solid fa-check-circle"></i>
+                @TempData["Success"]
+                <button type="button" class="btn-close" data-bs-dismiss="alert">×</button>
             </div>
         }
 
         @if (TempData["Error"] != null)
         {
             <div class="alert alert-danger alert-dismissible fade show">
-                <i class="fa-solid fa-exclamation-circle me-2"></i>@TempData["Error"]
-                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                <i class="fa-solid fa-exclamation-circle"></i>
+                @TempData["Error"]
+                <button type="button" class="btn-close" data-bs-dismiss="alert">×</button>
             </div>
         }
 
-        <!-- Header -->
-        <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
-            <div>
-                <h2 class="mb-1"><i class="fa-solid fa-list-check text-primary me-2"></i>Tasks</h2>
-                <p class="text-muted mb-0">Manage and track tasks for @ViewBag.ProjectTitle</p>
+        <!-- Page Header -->
+        <div class="page-header">
+            <div class="page-header-left">
+                <h2><i class="fa-solid fa-list-check text-primary me-2"></i>Tasks</h2>
+                <p>Manage and track tasks for <strong>@ViewBag.ProjectTitle</strong></p>
             </div>
-            <a asp-action="Create" asp-route-projectId="@ViewBag.ProjectId" class="btn btn-primary">
-                <i class="fa-solid fa-plus me-2"></i>Add Task
+            <a asp-action="Create" asp-route-projectId="@ViewBag.ProjectId" class="btn-primary">
+                <i class="fa-solid fa-plus"></i> Add Task
             </a>
         </div>
 
         @if (!Model.Any())
         {
-            <div class="text-center py-5 rounded" style="background-color: var(--bg-secondary); border: 1px dashed var(--border-color);">
-                <div class="empty-state-icon" style="font-size: 3rem; color: var(--text-muted); mb-3"><i class="bi bi-clipboard-x"></i></div>
-                <h4 class="mt-3">No Tasks Yet</h4>
-                <p class="text-muted">There are no tasks assigned for this project.</p>
-                <a asp-action="Create" asp-route-projectId="@ViewBag.ProjectId" class="btn btn-outline-primary mt-2">
-                    Create the first task
+            <!-- Empty State -->
+            <div class="empty-state">
+                <div class="empty-state-icon"><i class="fa-solid fa-clipboard-list"></i></div>
+                <h4>No Tasks Yet</h4>
+                <p>There are no tasks assigned for this project yet.</p>
+                <a asp-action="Create" asp-route-projectId="@ViewBag.ProjectId" class="btn-outline-primary">
+                    <i class="fa-solid fa-plus"></i> Create the first task
                 </a>
             </div>
         }
         else
         {
-            <div class="row g-4">
+            <!-- Tasks Grid -->
+            <div class="tasks-grid">
                 @foreach (var task in Model)
                 {
-                    <div class="col-md-6 col-lg-4">
-                        <div class="card h-100" style="background-color: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: 12px; transition: transform 0.2s;">
-                            <div class="card-body d-flex flex-column">
-                                <div class="d-flex justify-content-between align-items-start mb-3">
-                                    <span class="badge @(task.Priority == "High" ? "bg-danger" : task.Priority == "Medium" ? "bg-warning text-dark" : "bg-info")">
-                                        @task.Priority
-                                    </span>
-                                    <span class="badge @(task.Status == "Completed" ? "bg-success" : task.Status == "InProgress" ? "bg-primary" : "bg-secondary")">
-                                        @task.Status
-                                    </span>
-                                </div>
-                                <h5 class="card-title fw-bold mb-2">@task.Title</h5>
-                                <p class="card-text text-muted small flex-grow-1">@task.Description</p>
+                    var priorityClass = task.Priority?.ToLower() switch
+                    {
+                        "critical" => "critical",
+                        "high" => "high",
+                        "medium" => "medium",
+                        _ => "low"
+                    };
 
-                                <hr style="border-color: var(--border-color);" />
+                    var statusClass = task.Status?.ToLower() switch
+                    {
+                        "completed" => "completed",
+                        "inprogress" => "inprogress",
+                        _ => "pending"
+                    };
 
-                                <div class="d-flex justify-content-between align-items-center mt-2">
-                                    <div class="d-flex align-items-center">
-                                        <div class="avatar-circle d-flex align-items-center justify-content-center me-2"
-                                             style="width: 28px; height: 28px; border-radius: 50%; background: var(--bg-tertiary); font-size: 11px; font-weight: bold;">
-                                            @task.AssignedToInitials
-                                        </div>
-                                        <span style="font-size: 13px; color: var(--text-secondary);">@task.AssignedToName</span>
-                                    </div>
-                                    <div class="text-muted" style="font-size: 12px;">
+                    var dueDateClass = task.DueDate.HasValue && task.DueDate.Value < DateTime.Now && task.Status != "Completed" ? "overdue" : "";
+
+                    <div class="task-card">
+                        <div class="task-card-body">
+                            <div class="task-card-header">
+                                <span class="task-badge-priority @priorityClass">
+                                    <i class="fa-solid fa-flag me-1"></i> @task.Priority
+                                </span>
+                                <span class="task-badge-status @statusClass">
+                                    @if (task.Status == "InProgress")
+                                    {
+                                        <i class="fa-solid fa-spinner fa-spin me-1"></i>
+                                    }
+                                    else if (task.Status == "Completed")
+                                    {
+                                        <i class="fa-solid fa-check me-1"></i>
+                                    }
+                                    else
+                                    {
                                         <i class="fa-regular fa-clock me-1"></i>
-                                        @(task.DueDate.HasValue ? task.DueDate.Value.ToString("MMM dd") : "No due date")
-                                    </div>
-                                </div>
+                                    }
+                                    @task.Status
+                                </span>
                             </div>
 
-                            <!-- Status Update Form -->
-                            <div class="card-footer bg-transparent border-top-0 pt-0 pb-3">
-                                <form asp-action="UpdateStatus" method="post" class="d-flex gap-2">
-                                    @Html.AntiForgeryToken()
-                                    <input type="hidden" name="id" value="@task.Id" />
-                                    <select name="status" class="form-select form-select-sm" style="background-color: var(--bg-tertiary); border-color: var(--border-color); color: var(--text-primary);">
-                                        <option value="Pending" selected="@(task.Status == "Pending")">Pending</option>
-                                        <option value="InProgress" selected="@(task.Status == "InProgress")">In Progress</option>
-                                        <option value="Completed" selected="@(task.Status == "Completed")">Completed</option>
-                                    </select>
-                                    <button type="submit" class="btn btn-primary btn-sm">Update</button>
-                                </form>
+                            <h5 class="task-title">@task.Title</h5>
+                            <p class="task-description">@(string.IsNullOrEmpty(task.Description) ? "No description provided." : task.Description)</p>
+
+                            <hr class="task-divider" />
+
+                            <div class="task-footer">
+                                <div class="task-assignee">
+                                    <div class="task-assignee-avatar" style="background: linear-gradient(135deg, var(--color-blue-600), var(--color-teal-600));">
+                                        @task.AssignedToInitials
+                                    </div>
+                                    <span class="task-assignee-name">@task.AssignedToName</span>
+                                </div>
+                                <div class="task-due-date @dueDateClass">
+                                    <i class="fa-regular fa-calendar-days"></i>
+                                    @(task.DueDate.HasValue ? task.DueDate.Value.ToString("MMM dd, yyyy") : "No due date")
+                                    @if (task.DueDate.HasValue && task.DueDate.Value < DateTime.Now && task.Status != "Completed")
+                                    {
+                                        <span class="badge bg-danger ms-1" style="font-size:0.6rem;">Overdue</span>
+                                    }
+                                </div>
                             </div>
+                        </div>
+
+                        <!-- Status Update -->
+                        <div class="task-card-footer">
+                            <form asp-action="UpdateStatus" method="post" class="task-status-form">
+                                @Html.AntiForgeryToken()
+                                <input type="hidden" name="id" value="@task.Id" />
+                                <select name="status" class="form-select-sm">
+                                    <option value="Pending" selected="@(task.Status == "Pending")">Pending</option>
+                                    <option value="InProgress" selected="@(task.Status == "InProgress")">In Progress</option>
+                                    <option value="Completed" selected="@(task.Status == "Completed")">Completed</option>
+                                </select>
+                                <button type="submit" class="btn-sm btn-update">
+                                    <i class="fa-solid fa-rotate me-1"></i> Update
+                                </button>
+                            </form>
                         </div>
                     </div>
                 }
@@ -109,3 +564,7 @@
         }
     </div>
 </div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -6,6 +6,7 @@ using A3DET_CODE.Repositories.Interfaces;
 using A3DET_CODE.ViewModels.Team;
 using A3DET_CODE.ViewModels.Track;
 using Microsoft.EntityFrameworkCore;
+using A3DET_CODE.Services; // ✅ إضافة
 
 namespace A3DET_CODE.Controllers
 {
@@ -19,6 +20,7 @@ namespace A3DET_CODE.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly ILogger<TeamsController> _logger;
         private readonly ITrackRepository _trackRepository;
+        private readonly IChatService _chatService; // ✅ إضافة
 
         public TeamsController(
             ITeamRepository teamRepository,
@@ -27,7 +29,8 @@ namespace A3DET_CODE.Controllers
             IProjectRepository projectRepository,
             UserManager<ApplicationUser> userManager,
             ILogger<TeamsController> logger,
-            ITrackRepository trackRepository)
+            ITrackRepository trackRepository,
+            IChatService chatService) // ✅ إضافة
         {
             _teamRepository = teamRepository;
             _teamMemberRepository = teamMemberRepository;
@@ -36,6 +39,7 @@ namespace A3DET_CODE.Controllers
             _userManager = userManager;
             _logger = logger;
             _trackRepository = trackRepository;
+            _chatService = chatService; // ✅ إضافة
         }
 
         // ============================================================
@@ -145,6 +149,12 @@ namespace A3DET_CODE.Controllers
             }
             await _teamRepository.UpdateAsync(team);
             await _teamRepository.SaveChangesAsync();
+
+            // ✅ إضافة العضو إلى مجموعة الدردشة
+            if (team.ChatGroupId.HasValue)
+            {
+                await _chatService.AddUserToGroupAsync(team.ChatGroupId.Value, userId);
+            }
 
             TempData["Success"] = $"User has been added to the team!";
             if (!string.IsNullOrEmpty(returnUrl)) return LocalRedirect(returnUrl);
@@ -386,7 +396,8 @@ namespace A3DET_CODE.Controllers
                 }).ToList() ?? new(),
                 IsLeader = isLeader,
                 IsMember = isMember,
-                PendingRequestsCount = pendingCount
+                PendingRequestsCount = pendingCount,
+                ChatGroupId = team.ChatGroupId // ✅ إضافة
             };
 
             return View(viewModel);
@@ -441,6 +452,12 @@ namespace A3DET_CODE.Controllers
                 team.Status = "Full";
 
             await _teamMemberRepository.SaveChangesAsync();
+
+            // ✅ إضافة العضو إلى مجموعة الدردشة
+            if (team.ChatGroupId.HasValue)
+            {
+                await _chatService.AddUserToGroupAsync(team.ChatGroupId.Value, user.Id);
+            }
 
             TempData["Success"] = "You joined the team successfully!";
             return RedirectToAction(nameof(Details), new { id });

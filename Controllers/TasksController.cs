@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 using A3DET_CODE.Models;
 using A3DET_CODE.Repositories.Interfaces;
 using A3DET_CODE.ViewModels.Task;
-using A3DET_CODE.Repositories.Implementations;
 using Task = A3DET_CODE.Models.Task;
 
 namespace A3DET_CODE.Controllers
@@ -43,7 +42,6 @@ namespace A3DET_CODE.Controllers
             if (project == null)
                 return NotFound();
 
-            // Check if user is in the team
             var teamMembers = await _teamRepository.GetTeamMembersAsync(project.TeamId ?? 0);
             if (!teamMembers.Any(m => m.UserId == user.Id) && project.Team?.LeaderId != user.Id)
             {
@@ -87,7 +85,6 @@ namespace A3DET_CODE.Controllers
             if (project == null)
                 return NotFound();
 
-            // Check if user is team leader
             if (project.Team?.LeaderId != user.Id)
             {
                 TempData["Error"] = "Only the team leader can create tasks.";
@@ -100,7 +97,6 @@ namespace A3DET_CODE.Controllers
                 ProjectTitle = project.Title
             };
 
-            // Get team members for assignment dropdown
             var teamMembers = await _teamRepository.GetTeamMembersAsync(project.TeamId ?? 0);
             ViewBag.TeamMembers = teamMembers.Select(m => new
             {
@@ -167,10 +163,15 @@ namespace A3DET_CODE.Controllers
             if (task == null)
                 return NotFound();
 
-            // Check if user is assigned to task or is team leader
             var project = await _projectRepository.GetProjectWithTeamAsync(task.ProjectId);
+            if (project?.Team == null)
+            {
+                TempData["Error"] = "Project or team not found.";
+                return RedirectToAction("ProjectTasks", new { projectId = task.ProjectId });
+            }
+
             var isAssigned = task.AssignedToId == user.Id;
-            var isLeader = project?.Team?.LeaderId == user.Id;
+            var isLeader = project.Team.LeaderId == user.Id;
 
             if (!isAssigned && !isLeader)
             {
@@ -186,18 +187,21 @@ namespace A3DET_CODE.Controllers
             if (status == "Completed")
                 task.CompletedAt = DateTime.UtcNow;
 
+            // ✅ حفظ تغييرات المهمة
             await _taskRepository.UpdateAsync(task);
+            await _taskRepository.SaveChangesAsync();
 
-            // Update project progress
+            // تحديث تقدم المشروع
             var progress = await _projectRepository.GetProjectProgressAsync(task.ProjectId);
             var projectToUpdate = await _projectRepository.GetByIdAsync(task.ProjectId);
             if (projectToUpdate != null)
             {
                 projectToUpdate.Progress = progress;
                 await _projectRepository.UpdateAsync(projectToUpdate);
+                await _projectRepository.SaveChangesAsync();
             }
 
-            TempData["Success"] = "Task status updated successfully!";
+            TempData["Success"] = $"Task status updated to '{status}' successfully!";
             return RedirectToAction("ProjectTasks", new { projectId = task.ProjectId });
         }
 

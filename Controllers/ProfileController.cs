@@ -10,7 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Task = System.Threading.Tasks.Task; // ✅ حل مشكلة الـ ambiguous
+using Task = System.Threading.Tasks.Task;
 
 namespace A3DET_CODE.Controllers
 {
@@ -49,11 +49,9 @@ namespace A3DET_CODE.Controllers
             var role = roles.FirstOrDefault() ?? "Student";
             bool isOwnProfile = (currentUser.Id == targetUserId);
 
-            // Admin: redirect to admin dashboard when viewing own profile
             if (isOwnProfile && role == "Admin")
                 return RedirectToAction("Dashboard", "Admin");
 
-            // 🔹 Fetch portfolio
             var portfolio = await _context.Portfolios
                 .Include(p => p.Projects)
                     .ThenInclude(pp => pp.Project)
@@ -75,13 +73,11 @@ namespace A3DET_CODE.Controllers
                 await _context.SaveChangesAsync();
             }
 
-            // ✅ Fetch projects from PortfolioProject
             var portfolioProjects = portfolio?.Projects
                 .Where(pp => pp.Project != null)
                 .Select(pp => pp.Project!)
                 .ToList() ?? new List<Project>();
 
-            // ✅ Fetch projects from teams
             var teamProjects = await _context.TeamMembers
                 .Where(tm => tm.UserId == targetUserId)
                 .Select(tm => tm.Team.Project)
@@ -90,10 +86,8 @@ namespace A3DET_CODE.Controllers
                 .Distinct()
                 .ToListAsync();
 
-            // ✅ Merge projects
             var allProjects = portfolioProjects.Union(teamProjects).DistinctBy(p => p.Id).ToList();
 
-            // 🔹 Fetch user badges
             var userBadges = await _context.UserBadges
                 .Include(ub => ub.Badge)
                 .Where(ub => ub.UserId == targetUserId)
@@ -101,7 +95,6 @@ namespace A3DET_CODE.Controllers
 
             var badges = userBadges.Select(ub => ub.Badge).ToList();
 
-            // 🔹 Fetch reviews
             var reviews = await _context.Reviews
                 .Include(r => r.Reviewer)
                 .Where(r => r.ReviewedUserId == targetUserId)
@@ -109,12 +102,10 @@ namespace A3DET_CODE.Controllers
                 .Take(10)
                 .ToListAsync();
 
-            // 🔹 Fetch pending reports
             var pendingReportsCount = await _context.Reports
                 .Where(r => r.ReportedUserId == targetUserId && r.Status == "Pending")
                 .CountAsync();
 
-            // 🔹 Fetch enrolled track
             var enrolledTrackName = await _context.TeamMembers
                 .Where(tm => tm.UserId == targetUserId)
                 .Select(tm => tm.Team.Track.Name)
@@ -129,7 +120,6 @@ namespace A3DET_CODE.Controllers
                     .FirstOrDefaultAsync();
             }
 
-            // 🔹 Fetch custom sections
             var customSections = await _context.CustomProfileSections
                 .Where(cps => cps.UserId == targetUserId)
                 .OrderBy(cps => cps.DisplayOrder)
@@ -283,7 +273,6 @@ namespace A3DET_CODE.Controllers
 
             if (result.Succeeded)
             {
-                // Sync portfolio
                 var portfolio = await _context.Portfolios.FirstOrDefaultAsync(p => p.UserId == user.Id);
                 if (portfolio != null)
                 {
@@ -295,7 +284,6 @@ namespace A3DET_CODE.Controllers
                     await _context.SaveChangesAsync();
                 }
 
-                // Sync Mentor hourly rate if applicable
                 var mentor = await _context.Mentors.FirstOrDefaultAsync(m => m.UserId == user.Id);
                 if (mentor != null && model.HourlyRate.HasValue)
                 {
@@ -388,14 +376,12 @@ namespace A3DET_CODE.Controllers
             if (currentUser == null)
                 return RedirectToAction("Login", "Account");
 
-            // ❌ منع الإبلاغ عن النفس
             if (model.ReportedUserId == currentUser.Id)
             {
                 TempData["Error"] = "You cannot report yourself.";
                 return RedirectToAction("Index", new { id = model.ReportedUserId });
             }
 
-            // ✅ التحقق من عدم وجود بلاغ مكرر
             var existingReport = await _context.Reports
                 .FirstOrDefaultAsync(r => r.ReporterId == currentUser.Id
                     && r.ReportedUserId == model.ReportedUserId
@@ -445,14 +431,12 @@ namespace A3DET_CODE.Controllers
             if (currentUser == null)
                 return RedirectToAction("Login", "Account");
 
-            // ❌ منع التقييم عن النفس
             if (model.ReviewedUserId == currentUser.Id)
             {
                 TempData["Error"] = "You cannot review yourself.";
                 return RedirectToAction("Index", new { id = model.ReviewedUserId });
             }
 
-            // ✅ التحقق من عدم وجود تقييم مكرر
             var existingReview = await _context.Reviews
                 .FirstOrDefaultAsync(r => r.ReviewerId == currentUser.Id
                     && r.ReviewedUserId == model.ReviewedUserId
@@ -484,7 +468,6 @@ namespace A3DET_CODE.Controllers
             _context.Reviews.Add(review);
             await _context.SaveChangesAsync();
 
-            // ✅ تحديث الشارات (Badges) للمستخدم المُقيم
             await UpdateBadgesForUser(model.ReviewedUserId);
 
             TempData["Success"] = "Your review has been submitted successfully! Thank you for your feedback.";
@@ -585,25 +568,24 @@ namespace A3DET_CODE.Controllers
         }
 
         // ============================================================
-        // ✅ HELPER: UPDATE BADGES
+        // ✅ HELPER: UPDATE BADGES (تم إصلاح الخطأ)
         // ============================================================
-        private async System.Threading.Tasks.Task UpdateBadgesForUser(string userId)
+        private async Task UpdateBadgesForUser(string userId)
         {
-            // جلب عدد التقييمات
             var reviewsCount = await _context.Reviews
                 .Where(r => r.ReviewedUserId == userId)
                 .CountAsync();
 
-            var avgRating = await _context.Reviews
-                .Where(r => r.ReviewedUserId == userId)
-                .Select(r => r.AverageRating)
-                .DefaultIfEmpty()
-                .AverageAsync();
+            double avgRating = 0;
+            if (reviewsCount > 0)
+            {
+                avgRating = await _context.Reviews
+                    .Where(r => r.ReviewedUserId == userId)
+                    .AverageAsync(r => (double)r.AverageRating);
+            }
 
-            // جلب المشاريع المكتملة
             var projectsCount = await _context.Projects.CountAsync();
 
-            // جلب الشارات المتاحة
             var badges = await _context.Badges.ToListAsync();
 
             foreach (var badge in badges)

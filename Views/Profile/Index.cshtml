@@ -3,7 +3,6 @@
     ViewData["Title"] = Model.FullName + " - Profile";
     var profileImageUrl = string.IsNullOrWhiteSpace(Model.ProfileImageUrl) ? "/images/default-avatar.png" : Model.ProfileImageUrl;
 
-    // Calculate presence text
     string presenceText = "Offline";
     bool isOnline = false;
     if (Model.LastLoginAt.HasValue)
@@ -33,7 +32,7 @@
     <link rel="stylesheet" href="~/css/profile.css" asp-append-version="true" />
     <style>
         /* ============================================================
-                   PROFILE STYLES
+                   PROFILE STYLES (المحسنة)
                    ============================================================ */
         .profile-container {
             max-width: 850px;
@@ -76,7 +75,6 @@
             gap: var(--space-2);
         }
 
-        /* Presence indicator */
         .presence-indicator {
             display: inline-flex;
             align-items: center;
@@ -532,8 +530,30 @@
             font-size: var(--fs-xs);
         }
 
+        .btn-chat {
+            background: linear-gradient(135deg, #0d9488, #2563eb);
+            color: #fff;
+            border: none;
+            padding: var(--space-2) var(--space-4);
+            border-radius: var(--radius-pill);
+            font-weight: 600;
+            font-size: var(--fs-small);
+            transition: var(--transition-fast);
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-2);
+        }
+
+            .btn-chat:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 4px 12px rgba(13, 148, 136, 0.3);
+                color: #fff;
+            }
+
         /* ============================================================
-                   MODAL (للـ Report و Review)
+                   MODAL (المحسن)
                    ============================================================ */
         .modal-overlay {
             position: fixed;
@@ -563,6 +583,7 @@
             padding: var(--space-6);
             box-shadow: var(--shadow-lg);
             animation: modalSlide 0.3s ease;
+            border: none;
         }
 
         @@keyframes modalSlide {
@@ -583,7 +604,7 @@
             align-items: center;
             margin-bottom: var(--space-4);
             padding-bottom: var(--space-3);
-            border-bottom: 1px solid var(--color-border);
+            border-bottom: 2px solid var(--color-bg);
         }
 
         .modal-title {
@@ -595,6 +616,10 @@
             align-items: center;
             gap: var(--space-2);
         }
+
+            .modal-title i {
+                color: var(--color-blue-600);
+            }
 
         .modal-close {
             background: none;
@@ -622,13 +647,20 @@
             border-top: 1px solid var(--color-border);
         }
 
+            .modal-footer .btn {
+                border-radius: 2rem;
+                padding: 0.5rem 1.8rem;
+                font-weight: 600;
+            }
+
         /* ============================================================
-                   RATING STARS
+                   RATING STARS (المحسنة)
                    ============================================================ */
         .star-rating {
             display: flex;
             gap: var(--space-1);
             direction: rtl;
+            margin: 0.5rem 0 1.2rem 0;
         }
 
             .star-rating input {
@@ -636,10 +668,11 @@
             }
 
             .star-rating label {
-                font-size: 1.8rem;
+                font-size: 2rem;
                 color: var(--color-border);
                 cursor: pointer;
                 transition: var(--transition-fast);
+                padding: 0 0.15rem;
             }
 
                 .star-rating label:hover,
@@ -647,6 +680,41 @@
                 .star-rating input:checked ~ label {
                     color: var(--color-amber-500);
                 }
+
+        /* تحسين حقول النماذج داخل المودال */
+        .form-field {
+            margin-bottom: 1.2rem;
+        }
+
+            .form-field label {
+                font-weight: 600;
+                font-size: 0.9rem;
+                color: var(--color-navy-900);
+                display: block;
+                margin-bottom: 0.3rem;
+            }
+
+        .form-control {
+            border-radius: 0.6rem;
+            border: 1px solid var(--color-border);
+            padding: 0.6rem 1rem;
+            transition: 0.2s;
+            width: 100%;
+        }
+
+            .form-control:focus {
+                border-color: var(--color-blue-500);
+                box-shadow: 0 0 0 3px rgba(47, 111, 237, 0.15);
+            }
+
+        .form-check {
+            margin: 1rem 0;
+        }
+
+        .form-hint {
+            font-size: 0.8rem;
+            color: var(--color-text-500);
+        }
     </style>
 }
 
@@ -699,9 +767,15 @@
                 <a asp-controller="Dashboard" asp-action="Index" class="btn btn-primary"><i class="bi bi-speedometer2"></i> Dashboard</a>
                 <a asp-action="MyReports" class="btn btn-ghost"><i class="bi bi-flag"></i> My Reports</a>
                 <a asp-action="MyReviews" class="btn btn-ghost"><i class="bi bi-star"></i> My Reviews</a>
+                <a asp-controller="Chat" asp-action="Index" class="btn-chat">
+                    <i class="fa-regular fa-comment-dots"></i> My Messages
+                </a>
             }
             else
             {
+                <a asp-controller="Chat" asp-action="CreatePrivate" asp-route-userId="@Model.UserId" class="btn-chat">
+                    <i class="fa-regular fa-comment-dots"></i> Send Message
+                </a>
                 <button class="btn btn-primary" onclick="openReviewModal('@Model.UserId', '@Model.FullName')">
                     <i class="bi bi-star-fill"></i> Review
                 </button>
@@ -812,7 +886,7 @@
     </div>
 
     <!-- ============================================================
-    SECTION E: Reviews (يظهر للجميع)
+    SECTION E: Reviews
     ============================================================ -->
     <div class="profile-section-card">
         <div class="section-header-row">
@@ -1031,12 +1105,12 @@
 </div>
 
 <!-- ============================================================
-REPORT MODAL
+REPORT MODAL (محسّن)
 ============================================================ -->
 <div class="modal-overlay" id="reportModal">
     <div class="modal-content">
         <div class="modal-header">
-            <h4 class="modal-title">🚨 Report User</h4>
+            <h4 class="modal-title"><i class="bi bi-exclamation-triangle-fill"></i> Report User</h4>
             <button class="modal-close" onclick="closeReportModal()">&times;</button>
         </div>
         <form asp-action="Report" method="post" id="reportForm">
@@ -1050,7 +1124,7 @@ REPORT MODAL
                 <div class="form-field">
                     <label for="reportReason">Reason for reporting</label>
                     <select name="Reason" id="reportReason" class="form-control" required>
-                        <option value="">Select a reason</option>
+                        <option value="">-- Select a reason --</option>
                         <option value="Spam">Spam or misleading content</option>
                         <option value="Harassment">Harassment or bullying</option>
                         <option value="Inappropriate">Inappropriate behavior</option>
@@ -1081,7 +1155,7 @@ REPORT MODAL
 </div>
 
 <!-- ============================================================
-REVIEW MODAL
+REVIEW MODAL (محسّن)
 ============================================================ -->
 <div class="modal-overlay" id="reviewModal">
     <div class="modal-content">
@@ -1098,7 +1172,7 @@ REVIEW MODAL
                 <p>You are reviewing: <strong id="reviewUserName"></strong></p>
 
                 <div class="form-field">
-                    <label>Overall Performance</label>
+                    <label>⭐ Overall Performance</label>
                     <div class="star-rating" id="overallStars">
                         <input type="radio" name="OverallRating" value="5" id="overall5" /><label for="overall5">★</label>
                         <input type="radio" name="OverallRating" value="4" id="overall4" /><label for="overall4">★</label>
@@ -1109,7 +1183,7 @@ REVIEW MODAL
                 </div>
 
                 <div class="form-field">
-                    <label>Team Collaboration</label>
+                    <label>🤝 Team Collaboration</label>
                     <div class="star-rating" id="teamworkStars">
                         <input type="radio" name="TeamworkRating" value="5" id="teamwork5" /><label for="teamwork5">★</label>
                         <input type="radio" name="TeamworkRating" value="4" id="teamwork4" /><label for="teamwork4">★</label>
@@ -1120,7 +1194,7 @@ REVIEW MODAL
                 </div>
 
                 <div class="form-field">
-                    <label>Technical Skills</label>
+                    <label>💻 Technical Skills</label>
                     <div class="star-rating" id="technicalStars">
                         <input type="radio" name="TechnicalSkillsRating" value="5" id="technical5" /><label for="technical5">★</label>
                         <input type="radio" name="TechnicalSkillsRating" value="4" id="technical4" /><label for="technical4">★</label>
@@ -1131,7 +1205,7 @@ REVIEW MODAL
                 </div>
 
                 <div class="form-field">
-                    <label>Progress & Delivery</label>
+                    <label>📦 Progress & Delivery</label>
                     <div class="star-rating" id="deliveryStars">
                         <input type="radio" name="DeliveryRating" value="5" id="delivery5" /><label for="delivery5">★</label>
                         <input type="radio" name="DeliveryRating" value="4" id="delivery4" /><label for="delivery4">★</label>
@@ -1142,7 +1216,7 @@ REVIEW MODAL
                 </div>
 
                 <div class="form-field">
-                    <label>Communication</label>
+                    <label>🗣️ Communication</label>
                     <div class="star-rating" id="communicationStars">
                         <input type="radio" name="CommunicationRating" value="5" id="communication5" /><label for="communication5">★</label>
                         <input type="radio" name="CommunicationRating" value="4" id="communication4" /><label for="communication4">★</label>

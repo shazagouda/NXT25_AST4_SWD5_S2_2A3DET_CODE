@@ -167,7 +167,8 @@ namespace A3DET_CODE.Controllers
                     PendingRequestsCount = 0,
                     IsLeader = false,
                     CanRequestToJoin = false,
-                    LeaderName = null
+                    LeaderName = null,
+                    ChatGroupId = null // ليس له فريق
                 }).ToList(),
 
                 // InProgress projects that user can request to join
@@ -185,13 +186,14 @@ namespace A3DET_CODE.Controllers
                     TeamId = p.TeamId,
                     Progress = p.Progress,
                     CreatedAt = p.CreatedAt,
-                    MemberCount = p.Team?.Members?.Count ?? 0,  // ✅ Now loaded
+                    MemberCount = p.Team?.Members?.Count ?? 0,
                     MaxMembers = p.Team?.MaxMembers ?? 5,
                     PendingRequestsCount = 0,
                     IsLeader = false,
                     CanRequestToJoin = true,
                     HasPendingJoinRequest = p.TeamId.HasValue && pendingRequests.Any(pr => pr.TeamId == p.TeamId.Value),
-                    LeaderName = p.Team?.Leader?.FullName ?? "Unknown"  // ✅ Now loaded
+                    LeaderName = p.Team?.Leader?.FullName ?? "Unknown",
+                    ChatGroupId = p.Team?.ChatGroupId // ✅ تمت الإضافة
                 }).ToList(),
 
                 // User's own projects (where user is leader)
@@ -209,12 +211,13 @@ namespace A3DET_CODE.Controllers
                     TeamId = p.TeamId,
                     Progress = p.Progress,
                     CreatedAt = p.CreatedAt,
-                    MemberCount = p.Team?.Members?.Count ?? 0,  // ✅ Now loaded
+                    MemberCount = p.Team?.Members?.Count ?? 0,
                     MaxMembers = p.Team?.MaxMembers ?? 5,
                     PendingRequestsCount = 0,
                     IsLeader = true,
                     CanRequestToJoin = false,
-                    LeaderName = user.FullName  // ✅ User is the leader
+                    LeaderName = user.FullName,
+                    ChatGroupId = p.Team?.ChatGroupId // ✅ تمت الإضافة
                 }).ToList(),
 
                 // User's own projects (where user is member)
@@ -232,12 +235,13 @@ namespace A3DET_CODE.Controllers
                     TeamId = p.TeamId,
                     Progress = p.Progress,
                     CreatedAt = p.CreatedAt,
-                    MemberCount = p.Team?.Members?.Count ?? 0,  // ✅ Now loaded
+                    MemberCount = p.Team?.Members?.Count ?? 0,
                     MaxMembers = p.Team?.MaxMembers ?? 5,
                     PendingRequestsCount = 0,
                     IsLeader = false,
                     CanRequestToJoin = false,
-                    LeaderName = p.Team?.Leader?.FullName ?? "Unknown"  // ✅ Now loaded
+                    LeaderName = p.Team?.Leader?.FullName ?? "Unknown",
+                    ChatGroupId = p.Team?.ChatGroupId // ✅ تمت الإضافة
                 }).ToList(),
 
                 PendingRequestsCount = pendingRequests.Count()

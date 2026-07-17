@@ -7,302 +7,297 @@
     <link rel="stylesheet" href="~/tracks/Style/style.css" asp-append-version="true" />
 }
 
-
-
-    <!-- HERO -->
-    <section class="hero-section" id="hero">
-        <div class="hero-grid-bg"></div>
-        <div class="container">
-            <div class="row min-vh-100 align-items-center">
-                <div class="col-12 col-lg-8">
-                    <div class="hero-tag mb-3" data-aos="fade-up">
-                        <i class="bi bi-cpu-fill"></i> Ø¯Ù„ÙŠÙ„ Ø§Ù„Ù…Ø¨ØªØ¯Ø¦ ÙÙŠ Embedded Systems
-                    </div>
-                    <h1 class="hero-title" data-aos="fade-up" data-aos-delay="100">
-                        ÙƒÙ„ Ø§Ù„Ù„ÙŠ Ù…Ø­ØªØ§Ø¬<br />
-                        ØªØ¹Ø±ÙÙ‡ Ø¹Ù†
-                        <span class="highlight-text"> Embedded</span>
-                    </h1>
-                    <p class="hero-subtitle" data-aos="fade-up" data-aos-delay="200">
-                        Ù…Ù† Ø£ÙˆÙ„ LED ÙˆÙ…ÙŠØ¶ Ù„ØºØ§ÙŠØ© Ù…Ø§ ØªØ¨Ø±Ù…Ø¬ Microcontroller Ø­Ù‚ÙŠÙ‚ÙŠ â€” Ø¯Ù„ÙŠÙ„ ÙˆØ§Ø¶Ø­ ÙˆÙ…Ø¨Ø³Ø· Ø¨Ø¯ÙˆÙ† ØªØ¹Ù‚ÙŠØ¯.
-                    </p>
-                    <div class="hero-actions d-flex flex-wrap gap-3 mt-5" data-aos="fade-up" data-aos-delay="300">
-                        <a href="#what-is" class="btn-primary-custom">
-                            Ø§Ø¨Ø¯Ø£ Ø§Ù„Ø±Ø­Ù„Ø© <i class="bi bi-arrow-left ms-2"></i>
-                        </a>
-                        <a href="#comparison" class="btn-secondary-custom">
-                            Ù‚Ø§Ø±Ù† Ø§Ù„Ù…Ù†ØµØ§Øª ÙˆØ§Ù„Ø£Ø¯ÙˆØ§Øª
-                        </a>
-                    </div>
+<!-- HERO -->
+<section class="hero-section" id="hero">
+    <div class="hero-grid-bg"></div>
+    <div class="container">
+        <div class="row min-vh-100 align-items-center">
+            <div class="col-12 col-lg-8">
+                <div class="hero-tag mb-3" data-aos="fade-up">
+                    <i class="bi bi-cpu-fill"></i> Beginner's Guide to Embedded Systems
                 </div>
+                <h1 class="hero-title" data-aos="fade-up" data-aos-delay="100">
+                    Everything You Need<br />
+                    to Know About
+                    <span class="highlight-text"> Embedded</span>
+                </h1>
+                <p class="hero-subtitle" data-aos="fade-up" data-aos-delay="200">
+                    From your first blinking LED to programming a real Microcontroller — a clear, simple guide without complexity.
+                </p>
+                <div class="hero-actions d-flex flex-wrap gap-3 mt-5" data-aos="fade-up" data-aos-delay="300">
+                    <a href="#what-is" class="btn-primary-custom">
+                        Start the Journey <i class="bi bi-arrow-left ms-2"></i>
+                    </a>
+                    <a href="#comparison" class="btn-secondary-custom">
+                        Compare Platforms & Tools
+                    </a>
+                </div>
+            </div>
 
-                <!-- Hero code block -->
-                <div class="col-12 col-lg-4 d-none d-lg-block">
-                    <div class="hero-code-block" data-aos="fade-left" data-aos-delay="400">
-                        <div class="code-header">
-                            <span class="dot red"></span>
-                            <span class="dot yellow"></span>
-                            <span class="dot green"></span>
-                            <span class="code-filename">main.c</span>
-                        </div>
-                        <div class="code-body" id="heroCodeBlock">
-                            <div class="code-line"><span class="kw">#include</span> <span class="str">&lt;avr/io.h&gt;</span></div>
-                            <div class="code-line"><span class="kw">#include</span> <span class="str">&lt;util/delay.h&gt;</span></div>
-                            <div class="code-line mt-1"><span class="kw">int</span> <span class="fn">main</span>(<span class="kw">void</span>) {</div>
-                            <div class="code-line pl-2"><span class="var">DDRB</span> |= (<span class="fn">1</span> &lt;&lt; <span class="var">PB5</span>);</div>
-                            <div class="code-line pl-2"><span class="kw">while</span>(<span class="fn">1</span>) {</div>
-                            <div class="code-line pl-3"><span class="var">PORTB</span> ^= (<span class="fn">1</span> &lt;&lt; <span class="var">PB5</span>);</div>
-                            <div class="code-line pl-3"><span class="fn">_delay_ms</span>(<span class="fn">500</span>);</div>
-                            <div class="code-line pl-2">}</div>
-                            <div class="code-line">}</div>
-                        </div>
+            <!-- Hero code block -->
+            <div class="col-12 col-lg-4 d-none d-lg-block">
+                <div class="hero-code-block" data-aos="fade-left" data-aos-delay="400">
+                    <div class="code-header">
+                        <span class="dot red"></span>
+                        <span class="dot yellow"></span>
+                        <span class="dot green"></span>
+                        <span class="code-filename">main.c</span>
+                    </div>
+                    <div class="code-body" id="heroCodeBlock">
+                        <div class="code-line"><span class="kw">#include</span> <span class="str">&lt;avr/io.h&gt;</span></div>
+                        <div class="code-line"><span class="kw">#include</span> <span class="str">&lt;util/delay.h&gt;</span></div>
+                        <div class="code-line mt-1"><span class="kw">int</span> <span class="fn">main</span>(<span class="kw">void</span>) {</div>
+                        <div class="code-line pl-2"><span class="var">DDRB</span> |= (<span class="fn">1</span> &lt;&lt; <span class="var">PB5</span>);</div>
+                        <div class="code-line pl-2"><span class="kw">while</span>(<span class="fn">1</span>) {</div>
+                        <div class="code-line pl-3"><span class="var">PORTB</span> ^= (<span class="fn">1</span> &lt;&lt; <span class="var">PB5</span>);</div>
+                        <div class="code-line pl-3"><span class="fn">_delay_ms</span>(<span class="fn">500</span>);</div>
+                        <div class="code-line pl-2">}</div>
+                        <div class="code-line">}</div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="hero-scroll-hint">
-            <div class="scroll-mouse"><div class="scroll-wheel"></div></div>
-            <span>Ø§Ø³ÙƒØ±ÙˆÙ„ Ù„Ù„Ø£Ø³ÙÙ„</span>
-        </div>
-    </section>
+    </div>
+    <div class="hero-scroll-hint">
+        <div class="scroll-mouse"><div class="scroll-wheel"></div></div>
+        <span>Scroll Down</span>
+    </div>
+</section>
 
-    <!-- WHAT IS EMBEDDED -->
-    <section class="section-block" id="what-is">
-        <div class="container">
-            <div class="section-header text-center mb-5" data-aos="fade-up">
-                <span class="section-tag">Ø§Ù„Ø£Ø³Ø§Ø³ÙŠØ§Øª</span>
-                <h2 class="section-title">Ø¥ÙŠÙ‡ Ù‡Ùˆ Ø§Ù„Ù€ Embedded SystemsØŸ</h2>
-                <p class="section-subtitle">
-                    Ø§Ù„Ù€ Embedded Systems Ù‡ÙŠ Ø§Ù„ÙƒÙˆØ¯ Ø§Ù„Ù„ÙŠ Ø¨ÙŠØ´ØªØºÙ„ Ø¬ÙˆÙ‡ Ø§Ù„Ø£Ø¬Ù‡Ø²Ø© â€” Ù…Ø´ Ø¹Ù„Ù‰ Ø§Ù„ÙƒÙ…Ø¨ÙŠÙˆØªØ±. Ø§Ù„ØªÙ„Ø§Ø¬Ø©ØŒ Ø§Ù„Ù…ÙŠÙƒØ±ÙˆÙˆÙŠÙØŒ Ø§Ù„Ø³ÙŠØ§Ø±Ø©ØŒ Ø§Ù„Ø³Ø§Ø¹Ø© Ø§Ù„Ø°ÙƒÙŠØ© â€” ÙƒÙ„Ù‡Ù… ÙÙŠÙ‡Ù… ÙƒÙˆØ¯ Ù…ÙƒØªÙˆØ¨ Ø¨ÙˆØ§Ø³Ø·Ø© Embedded Engineer.
+<!-- WHAT IS EMBEDDED -->
+<section class="section-block" id="what-is">
+    <div class="container">
+        <div class="section-header text-center mb-5" data-aos="fade-up">
+            <span class="section-tag">The Basics</span>
+            <h2 class="section-title">What is Embedded Systems?</h2>
+            <p class="section-subtitle">
+                Embedded Systems are the code that runs inside devices — not on a computer. The refrigerator, microwave, car, smartwatch — they all have code written by an Embedded Engineer.
+            </p>
+        </div>
+
+        <div class="analogy-card mb-5" data-aos="fade-up">
+            <div class="analogy-icon"><i class="bi bi-motherboard-fill"></i></div>
+            <div class="analogy-content">
+                <h4>Think of it Like This</h4>
+                <p>
+                    If regular programming is like writing a message on paper — Embedded is like carving the words into stone.
+                    <strong>Every byte matters, every millisecond counts, and the electricity itself is in your calculations.</strong>
+                    This is the track where your code directly controls the physical world.
                 </p>
             </div>
+        </div>
 
-            <div class="analogy-card mb-5" data-aos="fade-up">
-                <div class="analogy-icon"><i class="bi bi-motherboard-fill"></i></div>
-                <div class="analogy-content">
-                    <h4>ÙÙƒØ± ÙÙŠ Ø§Ù„Ø£Ù…Ø± ÙƒØ¯Ù‡ </h4>
-                    <p>
-                        Ù„Ùˆ Ø§Ù„Ø¨Ø±Ù…Ø¬Ø© Ø§Ù„Ø¹Ø§Ø¯ÙŠØ© Ø²ÙŠ Ø¥Ù†Ùƒ Ø¨ØªÙƒØªØ¨ Ø±Ø³Ø§Ù„Ø© Ø¹Ù„Ù‰ ÙˆØ±Ù‚Ø© â€” ÙØ§Ù„Ù€ Embedded Ø²ÙŠ Ø¥Ù†Ùƒ Ø¨ØªÙ†Ø­Øª Ø§Ù„ÙƒÙ„Ø§Ù… Ø¹Ù„Ù‰ Ø§Ù„Ø­Ø¬Ø±.
-                        <strong>ÙƒÙ„ Ø¨Ø§ÙŠØª Ø¨ÙŠÙ‡Ù…ÙƒØŒ ÙƒÙ„ Ù…ÙŠÙ„ÙŠ Ø«Ø§Ù†ÙŠØ© Ø¨ØªØ­Ø³Ø¨Ù‡Ø§ØŒ ÙˆØ§Ù„ÙƒÙ‡Ø±Ø¨Ø§Ø¡ Ù†ÙØ³Ù‡Ø§ Ø¨ØªÙƒÙˆÙ† ÙÙŠ Ø­Ø³Ø§Ø¨Ùƒ.</strong>
-                        Ø¯Ù‡ Ø§Ù„ØªØ±Ø§Ùƒ Ø§Ù„Ù„ÙŠ Ø§Ù„ÙƒÙˆØ¯ Ø¨ØªØ§Ø¹Ùƒ Ø¨ÙŠØªØ­ÙƒÙ… ÙÙŠ Ø§Ù„ÙˆØ§Ù‚Ø¹ Ø§Ù„ÙÙŠØ²ÙŠØ§Ø¦ÙŠ Ù…Ø¨Ø§Ø´Ø±Ø©.
-                    </p>
+        <div class="row g-4">
+            <div class="col-12 col-md-4" data-aos="fade-up" data-aos-delay="0">
+                <div class="pillar-card" data-pillar="hw">
+                    <div class="pillar-icon"><i class="bi bi-motherboard-fill"></i></div>
+                    <div class="pillar-number">01</div>
+                    <h3 class="pillar-title">Hardware Basics</h3>
+                    <p class="pillar-desc">You need to understand basic electricity — Voltage, Current, Resistance. GPIO, ADC, UART, SPI, and I2C are your gateway to communicating with the real world.</p>
+                    <div class="pillar-tag">Know Your Hardware</div>
                 </div>
             </div>
+            <div class="col-12 col-md-4" data-aos="fade-up" data-aos-delay="100">
+                <div class="pillar-card" data-pillar="c">
+                    <div class="pillar-icon"><i class="bi bi-code-square"></i></div>
+                    <div class="pillar-number">02</div>
+                    <h3 class="pillar-title">C Programming</h3>
+                    <p class="pillar-desc">C is the language of Embedded. It gives you direct control over Memory and Hardware. Pointers, Bit Manipulation, and the Memory Map aren't optional — they're the foundation.</p>
+                    <div class="pillar-tag">C is King</div>
+                </div>
+            </div>
+            <div class="col-12 col-md-4" data-aos="fade-up" data-aos-delay="200">
+                <div class="pillar-card" data-pillar="rtos">
+                    <div class="pillar-icon"><i class="bi bi-clock-history"></i></div>
+                    <div class="pillar-number">03</div>
+                    <h3 class="pillar-title">Real-Time Systems</h3>
+                    <p class="pillar-desc">Real-Time doesn't mean fast — it means <strong>at the exact right time</strong>. Timing Constraints, Interrupts, and RTOS are what make a car's braking system work.</p>
+                    <div class="pillar-tag">Timing is Everything</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 
-            <div class="row g-4">
-                <div class="col-12 col-md-4" data-aos="fade-up" data-aos-delay="0">
-                    <div class="pillar-card" data-pillar="hw">
-                        <div class="pillar-icon"><i class="bi bi-motherboard-fill"></i></div>
-                        <div class="pillar-number">01</div>
-                        <h3 class="pillar-title">Hardware Basics</h3>
-                        <p class="pillar-desc">Ù„Ø§Ø²Ù… ØªÙÙ‡Ù… Ø§Ù„ÙƒÙ‡Ø±Ø¨Ø§Ø¡ Ø§Ù„Ø£Ø³Ø§Ø³ÙŠØ© â€” VoltageØŒ CurrentØŒ Resistance. Ø§Ù„Ù€ GPIOØŒ Ø§Ù„Ù€ ADCØŒ Ø§Ù„Ù€ UARTØŒ Ø§Ù„Ù€ SPIØŒ ÙˆØ§Ù„Ù€ I2C Ù‡Ù… Ø¨ÙˆØ§Ø¨ØªÙƒ Ù„Ù„ØªÙˆØ§ØµÙ„ Ù…Ø¹ Ø§Ù„Ø¹Ø§Ù„Ù… Ø§Ù„Ø­Ù‚ÙŠÙ‚ÙŠ.</p>
-                        <div class="pillar-tag">Know Your Hardware</div>
-                    </div>
+<!-- EMBEDDED ECOSYSTEM INTRO -->
+<section class="section-block section-dark" id="frameworks-intro">
+    <div class="container">
+        <div class="row align-items-center g-5">
+            <div class="col-12 col-lg-6" data-aos="fade-right">
+                <span class="section-tag light">Core Concept</span>
+                <h2 class="section-title light">Microcontroller vs Microprocessor?</h2>
+                <p class="section-subtitle light">
+                    The first question in Embedded. A Microcontroller like Arduino and STM32 — has CPU, Memory, and Peripherals all in one chip. A Microprocessor like the one in Raspberry Pi — much more powerful but requires external components.
+                </p>
+                <p class="section-subtitle light">
+                    <strong>For beginners: Start with Arduino.</strong> Once you understand the concepts — move to STM32 or ESP32 and you'll feel the real difference.
+                </p>
+                <div class="benefits-list mt-4">
+                    <div class="benefit-item"><i class="bi bi-check-lg"></i> Arduino — The ideal starting point, easiest environment</div>
+                    <div class="benefit-item"><i class="bi bi-check-lg"></i> STM32 — The real pro in industry</div>
+                    <div class="benefit-item"><i class="bi bi-check-lg"></i> ESP32 — IoT and WiFi at the lowest cost</div>
+                    <div class="benefit-item"><i class="bi bi-check-lg"></i> Raspberry Pi — When you need Linux on Hardware</div>
+                    <div class="benefit-item"><i class="bi bi-check-lg"></i> RISC-V — The open-source future</div>
                 </div>
-                <div class="col-12 col-md-4" data-aos="fade-up" data-aos-delay="100">
-                    <div class="pillar-card" data-pillar="c">
-                        <div class="pillar-icon"><i class="bi bi-code-square"></i></div>
-                        <div class="pillar-number">02</div>
-                        <h3 class="pillar-title">C Programming</h3>
-                        <p class="pillar-desc">C Ù‡ÙŠ Ù„ØºØ© Ø§Ù„Ù€ Embedded Ø¨Ø§Ù…ØªÙŠØ§Ø². Ø¨ÙŠØ¯ÙŠÙƒ ØªØ­ÙƒÙ… Ù…Ø¨Ø§Ø´Ø± ÙÙŠ Ø§Ù„Ù€ Memory ÙˆØ§Ù„Ù€ Hardware. PointersØŒ Bit ManipulationØŒ ÙˆØ§Ù„Ù€ Memory Map Ù…Ø´ optional â€” Ù‡Ù…Ø§ Ø§Ù„Ø£Ø³Ø§Ø³.</p>
-                        <div class="pillar-tag">C is King</div>
+            </div>
+            <div class="col-12 col-lg-6" data-aos="fade-left">
+                <div class="framework-visual">
+                    <div class="fv-center">
+                        <i class="bi bi-cpu-fill"></i>
+                        <span>MCU</span>
                     </div>
-                </div>
-                <div class="col-12 col-md-4" data-aos="fade-up" data-aos-delay="200">
-                    <div class="pillar-card" data-pillar="rtos">
-                        <div class="pillar-icon"><i class="bi bi-clock-history"></i></div>
-                        <div class="pillar-number">03</div>
-                        <h3 class="pillar-title">Real-Time Systems</h3>
-                        <p class="pillar-desc">Ø§Ù„Ù€ Real-Time Ù…Ø´ ÙŠØ¹Ù†ÙŠ Ø³Ø±ÙŠØ¹ â€” ÙŠØ¹Ù†ÙŠ <strong>ÙÙŠ Ø§Ù„ÙˆÙ‚Øª Ø§Ù„Ù…Ø­Ø¯Ø¯ Ø¨Ø§Ù„Ø¸Ø¨Ø·</strong>. Timing ConstraintsØŒ InterruptsØŒ ÙˆØ§Ù„Ù€ RTOS Ù‡Ù…Ø§ Ø§Ù„Ù„ÙŠ Ø¨ÙŠØ®Ù„ÙˆØ§ Ù†Ø¸Ø§Ù… Ø§Ù„ÙØ±Ø§Ù…Ù„ ÙÙŠ Ø§Ù„Ø³ÙŠØ§Ø±Ø© ÙŠØ´ØªØºÙ„.</p>
-                        <div class="pillar-tag">Timing is Everything</div>
+                    <div class="fv-orbit">
+                        <div class="fv-satellite" style="--i:0"><span class="fw-arduino"><i class="bi bi-lightning-fill"></i></span></div>
+                        <div class="fv-satellite" style="--i:1"><span class="fw-stm32"><i class="bi bi-cpu"></i></span></div>
+                        <div class="fv-satellite" style="--i:2"><span class="fw-esp32"><i class="bi bi-wifi"></i></span></div>
+                        <div class="fv-satellite" style="--i:3"><span class="fw-rpi"><i class="bi bi-pie-chart-fill"></i></span></div>
                     </div>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 
-    <!-- EMBEDDED ECOSYSTEM INTRO -->
-    <section class="section-block section-dark" id="frameworks-intro">
-        <div class="container">
-            <div class="row align-items-center g-5">
-                <div class="col-12 col-lg-6" data-aos="fade-right">
-                    <span class="section-tag light">Ø§Ù„Ù…ÙÙ‡ÙˆÙ… Ø§Ù„Ø£Ø³Ø§Ø³ÙŠ</span>
-                    <h2 class="section-title light">Microcontroller ÙˆÙ„Ø§ MicroprocessorØŸ</h2>
-                    <p class="section-subtitle light">
-                        Ø§Ù„Ø³Ø¤Ø§Ù„ Ø§Ù„Ø£ÙˆÙ„ ÙÙŠ Embedded. Ø§Ù„Ù€ Microcontroller Ø²ÙŠ Ø§Ù„Ù€ Arduino ÙˆSTM32 â€” ÙÙŠÙ‡ CPU ÙˆMemory ÙˆPeripherals ÙƒÙ„Ù‡Ù… ÙÙŠ chip ÙˆØ§Ø­Ø¯Ø©. Ø§Ù„Ù€ Microprocessor Ø²ÙŠ Ø§Ù„Ù„ÙŠ ÙÙŠ Raspberry Pi â€” Ø£Ù‚ÙˆÙ‰ Ø¨ÙƒØªÙŠØ± Ù„ÙƒÙ† Ù…Ø­ØªØ§Ø¬ Ù…ÙƒÙˆÙ†Ø§Øª Ø®Ø§Ø±Ø¬ÙŠØ©.
-                    </p>
-                    <p class="section-subtitle light">
-                        <strong>Ù„Ù„Ù…Ø¨ØªØ¯Ø¦: Ø§Ø¨Ø¯Ø£ Ø¨Ù€ Arduino.</strong> Ù„Ù…Ø§ ØªÙÙ‡Ù… Ø§Ù„Ù…ÙØ§Ù‡ÙŠÙ… â€” Ø§Ù†ØªÙ‚Ù„ Ù„Ù€ STM32 Ø£Ùˆ ESP32 ÙˆÙ‡ØªØ­Ø³ Ø¨Ø§Ù„ÙØ±Ù‚ Ø§Ù„Ø­Ù‚ÙŠÙ‚ÙŠ.
-                    </p>
-                    <div class="benefits-list mt-4">
-                        <div class="benefit-item"><i class="bi bi-check-lg"></i> Arduino â€” Ø§Ù„Ø¨Ø¯Ø§ÙŠØ© Ø§Ù„Ù…Ø«Ø§Ù„ÙŠØ© ÙˆØ£Ø³Ù‡Ù„ Ø¨ÙŠØ¦Ø©</div>
-                        <div class="benefit-item"><i class="bi bi-check-lg"></i> STM32 â€” Ø§Ù„Ù…Ø­ØªØ±Ù Ø§Ù„Ø­Ù‚ÙŠÙ‚ÙŠ ÙÙŠ Ø§Ù„ØµÙ†Ø§Ø¹Ø©</div>
-                        <div class="benefit-item"><i class="bi bi-check-lg"></i> ESP32 â€” IoT ÙˆWiFi Ø¨Ø£Ù‚Ù„ ØªÙƒÙ„ÙØ©</div>
-                        <div class="benefit-item"><i class="bi bi-check-lg"></i> Raspberry Pi â€” Ù„Ù…Ø§ ØªØ­ØªØ§Ø¬ Linux Ø¹Ù„Ù‰ Hardware</div>
-                        <div class="benefit-item"><i class="bi bi-check-lg"></i> RISC-V â€” Ø§Ù„Ù…Ø³ØªÙ‚Ø¨Ù„ Ø§Ù„Ù…ÙØªÙˆØ­ Ø§Ù„Ù…ØµØ¯Ø±</div>
-                    </div>
-                </div>
-                <div class="col-12 col-lg-6" data-aos="fade-left">
-                    <div class="framework-visual">
-                        <div class="fv-center">
-                            <i class="bi bi-cpu-fill"></i>
-                            <span>MCU</span>
-                        </div>
-                        <div class="fv-orbit">
-                            <div class="fv-satellite" style="--i:0"><span class="fw-arduino"><i class="bi bi-lightning-fill"></i></span></div>
-                            <div class="fv-satellite" style="--i:1"><span class="fw-stm32"><i class="bi bi-cpu"></i></span></div>
-                            <div class="fv-satellite" style="--i:2"><span class="fw-esp32"><i class="bi bi-wifi"></i></span></div>
-                            <div class="fv-satellite" style="--i:3"><span class="fw-rpi"><i class="bi bi-pie-chart-fill"></i></span></div>
-                        </div>
-                    </div>
-                </div>
+<!-- PLATFORMS DEEP DIVE -->
+<section class="section-block" id="frameworks">
+    <div class="container">
+        <div class="section-header text-center mb-5" data-aos="fade-up">
+            <span class="section-tag">Platforms & Tools</span>
+            <h2 class="section-title">Most Popular Embedded Platforms in Detail</h2>
+            <p class="section-subtitle">Learn about each platform — its strengths, who's behind it, and when to use it.</p>
+        </div>
+
+        <div class="fw-tabs-wrapper" data-aos="fade-up">
+            <div class="fw-tabs d-flex gap-2 flex-wrap mb-4" id="fwTabs">
+                <button class="fw-tab active" data-fw="arduino">
+                    <i class="bi bi-lightning-fill"></i> Arduino
+                </button>
+                <button class="fw-tab" data-fw="stm32">
+                    <i class="bi bi-cpu"></i> STM32
+                </button>
+                <button class="fw-tab" data-fw="esp32">
+                    <i class="bi bi-wifi"></i> ESP32
+                </button>
+                <button class="fw-tab" data-fw="rpi">
+                    <i class="bi bi-pie-chart-fill"></i> Raspberry Pi
+                </button>
+                <button class="fw-tab" data-fw="rtos">
+                    <i class="bi bi-clock-history"></i> FreeRTOS
+                </button>
+            </div>
+            <div class="fw-panel" id="fwPanel"></div>
+        </div>
+    </div>
+</section>
+
+<!-- COMPARISON TABLE -->
+<section class="section-block section-light-alt" id="comparison">
+    <div class="container">
+        <div class="section-header text-center mb-5" data-aos="fade-up">
+            <span class="section-tag">Comparison</span>
+            <h2 class="section-title">Comprehensive Platform Comparison</h2>
+            <p class="section-subtitle">A clear table to help you see the differences at a glance.</p>
+        </div>
+        <div class="table-wrapper" data-aos="fade-up">
+            <div class="table-responsive">
+                <table class="comparison-table w-100">
+                    <thead>
+                        <tr>
+                            <th>Metric</th>
+                            <th><i class="bi bi-lightning-fill"></i> Arduino</th>
+                            <th><i class="bi bi-cpu"></i> STM32</th>
+                            <th><i class="bi bi-wifi"></i> ESP32</th>
+                            <th><i class="bi bi-pie-chart-fill"></i> Raspberry Pi</th>
+                            <th><i class="bi bi-clock-history"></i> FreeRTOS</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="criterion">Ease of Start</td>
+                            <td><span class="level easy">Very Easy</span></td>
+                            <td><span class="level hard">Hard</span></td>
+                            <td><span class="level medium">Medium</span></td>
+                            <td><span class="level easy">Easy</span></td>
+                            <td><span class="level hard">Hard</span></td>
+                        </tr>
+                        <tr>
+                            <td class="criterion">Performance</td>
+                            <td><div class="perf-bar" data-perf="30"></div></td>
+                            <td><div class="perf-bar" data-perf="90"></div></td>
+                            <td><div class="perf-bar" data-perf="75"></div></td>
+                            <td><div class="perf-bar" data-perf="95"></div></td>
+                            <td><div class="perf-bar" data-perf="85"></div></td>
+                        </tr>
+                        <tr>
+                            <td class="criterion">Industry Use</td>
+                            <td><span class="level medium">Prototyping</span></td>
+                            <td><span class="level easy">Essential</span></td>
+                            <td><span class="level easy">IoT Excellent</span></td>
+                            <td><span class="level medium">Linux Embedded</span></td>
+                            <td><span class="level easy">Essential</span></td>
+                        </tr>
+                        <tr>
+                            <td class="criterion">Cost</td>
+                            <td><span class="stars">★★★★★</span></td>
+                            <td><span class="stars">★★★★☆</span></td>
+                            <td><span class="stars">★★★★★</span></td>
+                            <td><span class="stars">★★★★☆</span></td>
+                            <td><span class="stars">★★★★★</span></td>
+                        </tr>
+                        <tr>
+                            <td class="criterion">Primary Function</td>
+                            <td>Rapid Prototyping</td>
+                            <td>Industrial & Automotive</td>
+                            <td>IoT & Wireless</td>
+                            <td>Embedded Linux</td>
+                            <td>Real-Time Scheduling</td>
+                        </tr>
+                        <tr>
+                            <td class="criterion">Start With It When?</td>
+                            <td>Day One</td>
+                            <td>After Arduino</td>
+                            <td>Need WiFi/BT</td>
+                            <td>Need Linux</td>
+                            <td>After STM32</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 
-    <!-- PLATFORMS DEEP DIVE -->
-    <section class="section-block" id="frameworks">
-        <div class="container">
-            <div class="section-header text-center mb-5" data-aos="fade-up">
-                <span class="section-tag">Ø§Ù„Ù…Ù†ØµØ§Øª ÙˆØ§Ù„Ø£Ø¯ÙˆØ§Øª</span>
-                <h2 class="section-title">Ø£Ø´Ù‡Ø± Ù…Ù†ØµØ§Øª Embedded Ø¨Ø§Ù„ØªÙØµÙŠÙ„</h2>
-                <p class="section-subtitle">Ø§Ø¹Ø±Ù ÙƒÙ„ Ù…Ù†ØµØ© â€” Ø¥ÙŠÙ‡ Ù‚ÙˆØªÙ‡Ø§ØŒ Ù…ÙŠÙ† ÙˆØ±Ø§Ù‡Ø§ØŒ ÙˆØ§Ù…ØªÙ‰ ØªØ³ØªØ®Ø¯Ù…Ù‡Ø§.</p>
-            </div>
-
-            <div class="fw-tabs-wrapper" data-aos="fade-up">
-                <div class="fw-tabs d-flex gap-2 flex-wrap mb-4" id="fwTabs">
-                    <button class="fw-tab active" data-fw="arduino">
-                        <i class="bi bi-lightning-fill"></i> Arduino
-                    </button>
-                    <button class="fw-tab" data-fw="stm32">
-                        <i class="bi bi-cpu"></i> STM32
-                    </button>
-                    <button class="fw-tab" data-fw="esp32">
-                        <i class="bi bi-wifi"></i> ESP32
-                    </button>
-                    <button class="fw-tab" data-fw="rpi">
-                        <i class="bi bi-pie-chart-fill"></i> Raspberry Pi
-                    </button>
-                    <button class="fw-tab" data-fw="rtos">
-                        <i class="bi bi-clock-history"></i> FreeRTOS
-                    </button>
+<!-- QUIZ -->
+<section class="section-block section-dark" id="quiz">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-12 col-lg-8">
+                <div class="section-header text-center mb-5" data-aos="fade-up">
+                    <span class="section-tag light">Discover Yourself</span>
+                    <h2 class="section-title light">Which Platform Should You Start With?</h2>
+                    <p class="section-subtitle light">Answer 3 questions and we'll suggest the best fit.</p>
                 </div>
-                <div class="fw-panel" id="fwPanel"></div>
-            </div>
-        </div>
-    </section>
-
-    <!-- COMPARISON TABLE -->
-    <section class="section-block section-light-alt" id="comparison">
-        <div class="container">
-            <div class="section-header text-center mb-5" data-aos="fade-up">
-                <span class="section-tag">Ø§Ù„Ù…Ù‚Ø§Ø±Ù†Ø©</span>
-                <h2 class="section-title">Ù…Ù‚Ø§Ø±Ù†Ø© Ø´Ø§Ù…Ù„Ø© Ø¨ÙŠÙ† Ø§Ù„Ù…Ù†ØµØ§Øª</h2>
-                <p class="section-subtitle">Ø¬Ø¯ÙˆÙ„ ÙˆØ§Ø¶Ø­ ÙŠØ³Ø§Ø¹Ø¯Ùƒ ØªØ´ÙˆÙ Ø§Ù„ÙØ±ÙˆÙ‚ Ø¯ÙØ¹Ø© ÙˆØ§Ø­Ø¯Ø©.</p>
-            </div>
-            <div class="table-wrapper" data-aos="fade-up">
-                <div class="table-responsive">
-                    <table class="comparison-table w-100">
-                        <thead>
-                            <tr>
-                                <th>Ø§Ù„Ù…Ø¹ÙŠØ§Ø±</th>
-                                <th><i class="bi bi-lightning-fill"></i> Arduino</th>
-                                <th><i class="bi bi-cpu"></i> STM32</th>
-                                <th><i class="bi bi-wifi"></i> ESP32</th>
-                                <th><i class="bi bi-pie-chart-fill"></i> Raspberry Pi</th>
-                                <th><i class="bi bi-clock-history"></i> FreeRTOS</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td class="criterion">Ø³Ù‡ÙˆÙ„Ø© Ø§Ù„Ø¨Ø¯Ø§ÙŠØ©</td>
-                                <td><span class="level easy">Ø³Ù‡Ù„ Ø¬Ø¯Ø§Ù‹</span></td>
-                                <td><span class="level hard">ØµØ¹Ø¨</span></td>
-                                <td><span class="level medium">Ù…ØªÙˆØ³Ø·</span></td>
-                                <td><span class="level easy">Ø³Ù‡Ù„</span></td>
-                                <td><span class="level hard">ØµØ¹Ø¨</span></td>
-                            </tr>
-                            <tr>
-                                <td class="criterion">Ø§Ù„Ø£Ø¯Ø§Ø¡</td>
-                                <td><div class="perf-bar" data-perf="30"></div></td>
-                                <td><div class="perf-bar" data-perf="90"></div></td>
-                                <td><div class="perf-bar" data-perf="75"></div></td>
-                                <td><div class="perf-bar" data-perf="95"></div></td>
-                                <td><div class="perf-bar" data-perf="85"></div></td>
-                            </tr>
-                            <tr>
-                                <td class="criterion">Ø§Ù„Ø§Ø³ØªØ®Ø¯Ø§Ù… ÙÙŠ Ø§Ù„ØµÙ†Ø§Ø¹Ø©</td>
-                                <td><span class="level medium">Prototyping</span></td>
-                                <td><span class="level easy">Ø¶Ø±ÙˆØ±ÙŠ</span></td>
-                                <td><span class="level easy">IoT Ù…Ù…ØªØ§Ø²</span></td>
-                                <td><span class="level medium">Linux Embedded</span></td>
-                                <td><span class="level easy">Ø¶Ø±ÙˆØ±ÙŠ</span></td>
-                            </tr>
-                            <tr>
-                                <td class="criterion">Ø§Ù„ØªÙƒÙ„ÙØ©</td>
-                                <td><span class="stars">â˜…â˜…â˜…â˜…â˜…</span></td>
-                                <td><span class="stars">â˜…â˜…â˜…â˜†â˜†</span></td>
-                                <td><span class="stars">â˜…â˜…â˜…â˜…â˜…</span></td>
-                                <td><span class="stars">â˜…â˜…â˜…â˜†â˜†</span></td>
-                                <td><span class="stars">â˜…â˜…â˜…â˜…â˜…</span></td>
-                            </tr>
-                            <tr>
-                                <td class="criterion">Ø§Ù„ÙˆØ¸ÙŠÙØ© Ø§Ù„Ø£Ø³Ø§Ø³ÙŠØ©</td>
-                                <td>Rapid Prototyping</td>
-                                <td>Industrial & Automotive</td>
-                                <td>IoT & Wireless</td>
-                                <td>Embedded Linux</td>
-                                <td>Real-Time Scheduling</td>
-                            </tr>
-                            <tr>
-                                <td class="criterion">Ø§Ø¨Ø¯Ø£ Ø¨ÙŠÙ‡ Ù„Ù…Ø§ØŸ</td>
-                                <td>Ù…Ù† Ø£ÙˆÙ„ ÙŠÙˆÙ…</td>
-                                <td>Ø¨Ø¹Ø¯ Arduino</td>
-                                <td>Ø¹Ø§ÙŠØ² WiFi/BT</td>
-                                <td>Ù…Ø­ØªØ§Ø¬ Linux</td>
-                                <td>Ø¨Ø¹Ø¯ STM32</td>
-                            </tr>
-                        </tbody>
-                    </table>
+                <div class="quiz-card" id="quizCard" data-aos="fade-up">
+                    <div class="quiz-progress-bar"><div class="quiz-progress-fill" id="quizProgressFill"></div></div>
+                    <div class="quiz-step-indicator" id="quizStepIndicator">Question 1 of 3</div>
+                    <div class="quiz-content" id="quizContent"></div>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 
-    <!-- QUIZ -->
-    <section class="section-block section-dark" id="quiz">
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-12 col-lg-8">
-                    <div class="section-header text-center mb-5" data-aos="fade-up">
-                        <span class="section-tag light">Ø§ÙƒØªØ´Ù Ù†ÙØ³Ùƒ</span>
-                        <h2 class="section-title light">Ø£Ù†Ù‡ÙŠ Ù…Ù†ØµØ© ØªØ¨Ø¯Ø£ Ø¨ÙŠÙ‡Ø§ØŸ</h2>
-                        <p class="section-subtitle light">Ø¬Ø§ÙˆØ¨ Ø¹Ù„Ù‰ 3 Ø£Ø³Ø¦Ù„Ø© ÙˆÙ‡Ù†Ù‚ØªØ±Ø­ Ø¹Ù„ÙŠÙƒ Ø§Ù„Ø£Ù†Ø³Ø¨.</p>
-                    </div>
-                    <div class="quiz-card" id="quizCard" data-aos="fade-up">
-                        <div class="quiz-progress-bar"><div class="quiz-progress-fill" id="quizProgressFill"></div></div>
-                        <div class="quiz-step-indicator" id="quizStepIndicator">Ø§Ù„Ø³Ø¤Ø§Ù„ 1 Ù…Ù† 3</div>
-                        <div class="quiz-content" id="quizContent"></div>
-                    </div>
-                </div>
-            </div>
+<!-- ROADMAP -->
+<section class="section-block" id="roadmap">
+    <div class="container">
+        <div class="section-header text-center mb-5" data-aos="fade-up">
+            <span class="section-tag">Roadmap</span>
+            <h2 class="section-title">Where Do You Start?</h2>
+            <p class="section-subtitle">The right steps, in the right order.</p>
         </div>
-    </section>
-
-    <!-- ROADMAP -->
-    <section class="section-block" id="roadmap">
-        <div class="container">
-            <div class="section-header text-center mb-5" data-aos="fade-up">
-                <span class="section-tag">Ø®Ø§Ø±Ø·Ø© Ø§Ù„Ø·Ø±ÙŠÙ‚</span>
-                <h2 class="section-title">Ù…Ù† ÙÙŠÙ† ØªØ¨Ø¯Ø£ØŸ</h2>
-                <p class="section-subtitle">Ø§Ù„Ø®Ø·ÙˆØ§Øª Ø§Ù„ØµØ­ØŒ Ø¨Ø§Ù„ØªØ±ØªÙŠØ¨ Ø§Ù„ØµØ­.</p>
-            </div>
-            <div class="roadmap-timeline" id="roadmapTimeline"></div>
-        </div>
-    </section>
-
-    <!-- FOOTER -->
-    
+        <div class="roadmap-timeline" id="roadmapTimeline"></div>
+    </div>
+</section>
 
 @section Scripts {
     <script src="~/tracks/Embedded/app.js" asp-append-version="true"></script>

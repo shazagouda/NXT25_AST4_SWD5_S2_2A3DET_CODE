@@ -32,6 +32,18 @@
         .tab-content.active {
             display: block;
         }
+        .badge-amber {
+            background: #F59E0B;
+            color: #fff;
+        }
+        .badge-teal {
+            background: #0D9488;
+            color: #fff;
+        }
+        .badge-blue {
+            background: #3B82F6;
+            color: #fff;
+        }
     </style>
 }
 
@@ -48,7 +60,6 @@
         </div>
     }
 
-    <!-- Tabs -->
     <div class="reports-tabs">
         <button class="tab-btn active" data-tab="submitted" onclick="switchTab('submitted')">
             Reports I Submitted (@Model.SubmittedReports.Count)
@@ -58,7 +69,6 @@
         </button>
     </div>
 
-    <!-- Submitted Reports Tab -->
     <div class="tab-content active" id="tab-submitted">
         @if (!Model.SubmittedReports.Any())
         {
@@ -111,7 +121,6 @@
         }
     </div>
 
-    <!-- Received Reports Tab -->
     <div class="tab-content" id="tab-received">
         @if (!Model.ReceivedReports.Any())
         {

@@ -40,6 +40,10 @@ namespace A3DET_CODE.Data
         public DbSet<Review> Reviews { get; set; }
         public DbSet<JoinRequest> JoinRequests { get; set; }
 
+        public DbSet<ChatGroup> ChatGroups { get; set; }
+        public DbSet<ChatUserGroup> ChatUserGroups { get; set; }
+        public DbSet<ChatMessage> ChatMessages { get; set; }
+
         // ✅ Booking & Contract System
         public DbSet<Booking> Bookings { get; set; }
         public DbSet<Contract> Contracts { get; set; }
@@ -48,6 +52,34 @@ namespace A3DET_CODE.Data
         {
             base.OnModelCreating(modelBuilder);
 
+            // Chat system unique constraint
+            modelBuilder.Entity<ChatUserGroup>()
+                .HasIndex(cug => new { cug.UserId, cug.GroupId })
+                .IsUnique();
+
+            modelBuilder.Entity<ChatUserGroup>()
+                .HasOne(cug => cug.User)
+                .WithMany()
+                .HasForeignKey(cug => cug.UserId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<ChatUserGroup>()
+                .HasOne(cug => cug.Group)
+                .WithMany(g => g.Users)
+                .HasForeignKey(cug => cug.GroupId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<ChatMessage>()
+                .HasOne(cm => cm.Group)
+                .WithMany(g => g.Messages)
+                .HasForeignKey(cm => cm.GroupId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<ChatMessage>()
+                .HasOne(cm => cm.Sender)
+                .WithMany()
+                .HasForeignKey(cm => cm.SenderId)
+                .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Team>()
                 .HasOne(t => t.Track)

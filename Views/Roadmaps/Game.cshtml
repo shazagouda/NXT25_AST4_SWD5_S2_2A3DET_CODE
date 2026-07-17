@@ -7,300 +7,295 @@
     <link rel="stylesheet" href="~/tracks/Style/style.css" asp-append-version="true" />
 }
 
-
-
-    <!-- HERO -->
-    <section class="hero-section" id="hero">
-        <div class="hero-grid-bg"></div>
-        <div class="container">
-            <div class="row min-vh-100 align-items-center">
-                <div class="col-12 col-lg-8">
-                    <div class="hero-tag mb-3" data-aos="fade-up">
-                        <i class="bi bi-controller"></i> Ø¯Ù„ÙŠÙ„ Ø§Ù„Ù…Ø¨ØªØ¯Ø¦ ÙÙŠ Game Development
-                    </div>
-                    <h1 class="hero-title" data-aos="fade-up" data-aos-delay="100">
-                        ÙƒÙ„ Ø§Ù„Ù„ÙŠ Ù…Ø­ØªØ§Ø¬<br />
-                        ØªØ¹Ø±ÙÙ‡ Ø¹Ù†
-                        <span class="highlight-text"> Game Dev</span>
-                    </h1>
-                    <p class="hero-subtitle" data-aos="fade-up" data-aos-delay="200">
-                        Ù…Ù† Ø£ÙˆÙ„ Ù„Ø¹Ø¨Ø© ØµØºÙŠØ±Ø© Ù„ØºØ§ÙŠØ© Ù…Ø§ ØªØ®ØªØ§Ø± Ø§Ù„Ù…Ø­Ø±Ùƒ Ø§Ù„Ù…Ù†Ø§Ø³Ø¨ ÙˆØªØ¨Ù†ÙŠ Ø¹Ø§Ù„Ù…Ùƒ â€” Ø¯Ù„ÙŠÙ„ ÙˆØ§Ø¶Ø­ ÙˆÙ…Ø¨Ø³Ø· Ø¨Ø¯ÙˆÙ† ØªØ¹Ù‚ÙŠØ¯.
-                    </p>
-                    <div class="hero-actions d-flex flex-wrap gap-3 mt-5" data-aos="fade-up" data-aos-delay="300">
-                        <a href="#what-is" class="btn-primary-custom">
-                            Ø§Ø¨Ø¯Ø£ Ø§Ù„Ø±Ø­Ù„Ø© <i class="bi bi-arrow-left ms-2"></i>
-                        </a>
-                        <a href="#comparison" class="btn-secondary-custom">
-                            Ù‚Ø§Ø±Ù† Ø§Ù„Ù…Ø­Ø±ÙƒØ§Øª
-                        </a>
-                    </div>
+<!-- HERO -->
+<section class="hero-section" id="hero">
+    <div class="hero-grid-bg"></div>
+    <div class="container">
+        <div class="row min-vh-100 align-items-center">
+            <div class="col-12 col-lg-8">
+                <div class="hero-tag mb-3" data-aos="fade-up">
+                    <i class="bi bi-controller"></i> Beginner's Guide to Game Development
                 </div>
+                <h1 class="hero-title" data-aos="fade-up" data-aos-delay="100">
+                    Everything You Need<br />
+                    to Know About
+                    <span class="highlight-text"> Game Dev</span>
+                </h1>
+                <p class="hero-subtitle" data-aos="fade-up" data-aos-delay="200">
+                    From your first small game to choosing the right engine and building your world — a clear, simple guide without complexity.
+                </p>
+                <div class="hero-actions d-flex flex-wrap gap-3 mt-5" data-aos="fade-up" data-aos-delay="300">
+                    <a href="#what-is" class="btn-primary-custom">
+                        Start the Journey <i class="bi bi-arrow-left ms-2"></i>
+                    </a>
+                    <a href="#comparison" class="btn-secondary-custom">
+                        Compare Engines
+                    </a>
+                </div>
+            </div>
 
-                <!-- Hero code block -->
-                <div class="col-12 col-lg-4 d-none d-lg-block">
-                    <div class="hero-code-block" data-aos="fade-left" data-aos-delay="400">
-                        <div class="code-header">
-                            <span class="dot red"></span>
-                            <span class="dot yellow"></span>
-                            <span class="dot green"></span>
-                            <span class="code-filename">Player.gd</span>
-                        </div>
-                        <div class="code-body" id="heroCodeBlock">
-                            <div class="code-line"><span class="kw">extends</span> <span class="var">CharacterBody2D</span></div>
-                            <div class="code-line mt-1"><span class="prop">@@export</span> <span class="kw">var</span> <span class="var">speed</span> = <span class="fn">200</span></div>
-                            <div class="code-line mt-1"><span class="kw">func</span> <span class="fn">_physics_process</span>(<span class="var">delta</span>):</div>
-                            <div class="code-line pl-2"><span class="kw">var</span> <span class="var">dir</span> = <span class="fn">Input</span>.<span class="method">get_vector</span>(</div>
-                            <div class="code-line pl-3"><span class="str">"left"</span>, <span class="str">"right"</span>,</div>
-                            <div class="code-line pl-3"><span class="str">"up"</span>, <span class="str">"down"</span></div>
-                            <div class="code-line pl-2">)</div>
-                            <div class="code-line pl-2"><span class="var">velocity</span> = <span class="var">dir</span> * <span class="var">speed</span></div>
-                            <div class="code-line pl-2"><span class="fn">move_and_slide</span>()</div>
-                        </div>
+            <!-- Hero code block -->
+            <div class="col-12 col-lg-4 d-none d-lg-block">
+                <div class="hero-code-block" data-aos="fade-left" data-aos-delay="400">
+                    <div class="code-header">
+                        <span class="dot red"></span>
+                        <span class="dot yellow"></span>
+                        <span class="dot green"></span>
+                        <span class="code-filename">Player.gd</span>
+                    </div>
+                    <div class="code-body" id="heroCodeBlock">
+                        <div class="code-line"><span class="kw">extends</span> <span class="var">CharacterBody2D</span></div>
+                        <div class="code-line mt-1"><span class="prop">@@export</span> <span class="kw">var</span> <span class="var">speed</span> = <span class="fn">200</span></div>
+                        <div class="code-line mt-1"><span class="kw">func</span> <span class="fn">_physics_process</span>(<span class="var">delta</span>):</div>
+                        <div class="code-line pl-2"><span class="kw">var</span> <span class="var">dir</span> = <span class="fn">Input</span>.<span class="method">get_vector</span>(</div>
+                        <div class="code-line pl-3"><span class="str">"left"</span>, <span class="str">"right"</span>,</div>
+                        <div class="code-line pl-3"><span class="str">"up"</span>, <span class="str">"down"</span></div>
+                        <div class="code-line pl-2">)</div>
+                        <div class="code-line pl-2"><span class="var">velocity</span> = <span class="var">dir</span> * <span class="var">speed</span></div>
+                        <div class="code-line pl-2"><span class="fn">move_and_slide</span>()</div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="hero-scroll-hint">
-            <div class="scroll-mouse"><div class="scroll-wheel"></div></div>
-            <span>Ø§Ø³ÙƒØ±ÙˆÙ„ Ù„Ù„Ø£Ø³ÙÙ„</span>
-        </div>
-    </section>
+    </div>
+    <div class="hero-scroll-hint">
+        <div class="scroll-mouse"><div class="scroll-wheel"></div></div>
+        <span>Scroll Down</span>
+    </div>
+</section>
 
-    <!-- WHAT IS GAME DEV -->
-    <section class="section-block" id="what-is">
-        <div class="container">
-            <div class="section-header text-center mb-5" data-aos="fade-up">
-                <span class="section-tag">Ø§Ù„Ø£Ø³Ø§Ø³ÙŠØ§Øª</span>
-                <h2 class="section-title">Ø¥ÙŠÙ‡ Ù‡Ùˆ Ø§Ù„Ù€ Game DevelopmentØŸ</h2>
-                <p class="section-subtitle">
-                    Game Dev Ù…Ø´ Ø¨Ø³ Ø¨Ø±Ù…Ø¬Ø© â€” Ù‡Ùˆ Ù…Ø²ÙŠØ¬ Ù…Ù† Ø§Ù„ÙÙ† ÙˆØ§Ù„Ù‚ØµØ© ÙˆØ§Ù„ÙÙŠØ²ÙŠØ§Ø¡ ÙˆØ§Ù„ØµÙˆØª ÙˆØ§Ù„ØªØµÙ…ÙŠÙ…. Ø£Ù†Øª Ù„Ù…Ø§ Ø¨ØªØ¹Ù…Ù„ Ù„Ø¹Ø¨Ø© Ø¨ØªØ¨Ù†ÙŠ Ø¹Ø§Ù„Ù… ÙƒØ§Ù…Ù„ Ù…Ù† Ø§Ù„ØµÙØ±.
+<!-- WHAT IS GAME DEV -->
+<section class="section-block" id="what-is">
+    <div class="container">
+        <div class="section-header text-center mb-5" data-aos="fade-up">
+            <span class="section-tag">The Basics</span>
+            <h2 class="section-title">What is Game Development?</h2>
+            <p class="section-subtitle">
+                Game Dev isn't just programming — it's a blend of art, story, physics, sound, and design. When you build a game, you're building a complete world from scratch.
+            </p>
+        </div>
+
+        <div class="analogy-card mb-5" data-aos="fade-up">
+            <div class="analogy-icon"><i class="bi bi-film"></i></div>
+            <div class="analogy-content">
+                <h4>Think of it Like This</h4>
+                <p>
+                    Game development is like filmmaking — but harder. The audience in a movie just <strong>watches</strong>, but the player <strong>controls</strong> everything. This means you're not just telling a story — you're building an <strong>interactive world</strong> that responds to every decision the player makes.
                 </p>
             </div>
+        </div>
 
-            <div class="analogy-card mb-5" data-aos="fade-up">
-                <div class="analogy-icon"><i class="bi bi-film"></i></div>
-                <div class="analogy-content">
-                    <h4>ÙÙƒØ± ÙÙŠ Ø§Ù„Ø£Ù…Ø± ÙƒØ¯Ù‡ </h4>
-                    <p>
-                        ØµÙ†Ø§Ø¹Ø© Ø§Ù„Ø£Ù„Ø¹Ø§Ø¨ Ø²ÙŠ ØµÙ†Ø§Ø¹Ø© Ø§Ù„Ø£ÙÙ„Ø§Ù… â€” Ø¨Ø³ Ø£ØµØ¹Ø¨. Ø§Ù„Ù…Ø´Ø§Ù‡Ø¯ ÙÙŠ Ø§Ù„ÙÙŠÙ„Ù… <strong>Ø´Ø§ÙŠÙ</strong> ÙÙ‚Ø·ØŒ Ø£Ù…Ø§ Ø§Ù„Ù„Ø§Ø¹Ø¨ <strong>Ø¨ÙŠØªØ­ÙƒÙ…</strong>. Ø¯Ù‡ ÙŠØ¹Ù†ÙŠ Ø¥Ù†Ùƒ Ù…Ø´ Ø¨Ø³ Ø¨ØªØ­ÙƒÙŠ Ù‚ØµØ© â€” Ø¥Ù†Øª Ø¨ØªØ¨Ù†ÙŠ <strong>Ø¹Ø§Ù„Ù… ØªÙØ§Ø¹Ù„ÙŠ</strong> Ø¨ÙŠØ³ØªØ¬ÙŠØ¨ Ù„ÙƒÙ„ Ù‚Ø±Ø§Ø± ÙŠØªØ®Ø°Ù‡ Ø§Ù„Ù„Ø§Ø¹Ø¨.
-                    </p>
+        <div class="row g-4">
+            <div class="col-12 col-md-4" data-aos="fade-up" data-aos-delay="0">
+                <div class="pillar-card" data-pillar="design">
+                    <div class="pillar-icon"><i class="bi bi-pencil-square"></i></div>
+                    <div class="pillar-number">01</div>
+                    <h3 class="pillar-title">Game Design</h3>
+                    <p class="pillar-desc">Gameplay, rules, levels, and Balance. This is the heart of the game — without good design, even the most beautiful graphics won't save it.</p>
+                    <div class="pillar-tag">The Rules of Fun</div>
                 </div>
             </div>
+            <div class="col-12 col-md-4" data-aos="fade-up" data-aos-delay="100">
+                <div class="pillar-card" data-pillar="code">
+                    <div class="pillar-icon"><i class="bi bi-braces-asterisk"></i></div>
+                    <div class="pillar-number">02</div>
+                    <h3 class="pillar-title">Programming</h3>
+                    <p class="pillar-desc">Physics, movement, AI for NPCs, and Systems. The code turns the idea into something playable. GDScript, C#, or C++ depending on the engine.</p>
+                    <div class="pillar-tag">Make It Move</div>
+                </div>
+            </div>
+            <div class="col-12 col-md-4" data-aos="fade-up" data-aos-delay="200">
+                <div class="pillar-card" data-pillar="art">
+                    <div class="pillar-icon"><i class="bi bi-palette2"></i></div>
+                    <div class="pillar-number">03</div>
+                    <h3 class="pillar-title">Art &amp; Audio</h3>
+                    <p class="pillar-desc">Visuals, sound, music, and Visual Style. The player feels the game before they understand it. Art Direction is the difference between an average game and one you'll remember.</p>
+                    <div class="pillar-tag">Feel the World</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 
-            <div class="row g-4">
-                <div class="col-12 col-md-4" data-aos="fade-up" data-aos-delay="0">
-                    <div class="pillar-card" data-pillar="design">
-                        <div class="pillar-icon"><i class="bi bi-pencil-square"></i></div>
-                        <div class="pillar-number">01</div>
-                        <h3 class="pillar-title">Game Design</h3>
-                        <p class="pillar-desc">Ø§Ù„Ù€ Gameplay ÙˆÙ‚ÙˆØ§Ø¹Ø¯ Ø§Ù„Ù„Ø¹Ø¨Ø© ÙˆØ§Ù„Ù…Ø³ØªÙˆÙŠØ§Øª ÙˆØ§Ù„Ù€ Balance. Ø¯Ù‡ Ù‚Ù„Ø¨ Ø§Ù„Ù„Ø¹Ø¨Ø© â€” Ù…Ù† ØºÙŠØ± design ÙƒÙˆÙŠØ³ Ø£ÙŠ Ù„Ø¹Ø¨Ø© Ø¨ØªÙØ´Ù„ Ø­ØªÙ‰ Ù„Ùˆ Ø±Ø³ÙˆÙ…Ù‡Ø§ Ø¬Ù…ÙŠÙ„Ø©.</p>
-                        <div class="pillar-tag">The Rules of Fun</div>
-                    </div>
+<!-- GAME LOOP INTRO -->
+<section class="section-block section-dark" id="frameworks-intro">
+    <div class="container">
+        <div class="row align-items-center g-5">
+            <div class="col-12 col-lg-6" data-aos="fade-right">
+                <span class="section-tag light">Core Concept</span>
+                <h2 class="section-title light">The Game Loop</h2>
+                <p class="section-subtitle light">
+                    The heart of every game is the Game Loop — an infinite cycle that runs every frame. It takes input, updates state, and renders the screen — 60 times per second.
+                </p>
+                <p class="section-subtitle light">
+                    Understanding the Loop is the difference between those who just use an engine and those who <strong>truly understand how it works.</strong>
+                </p>
+                <div class="benefits-list mt-4">
+                    <div class="benefit-item"><i class="bi bi-check-lg"></i> Input — What did the player press?</div>
+                    <div class="benefit-item"><i class="bi bi-check-lg"></i> Update — Move Physics and AI</div>
+                    <div class="benefit-item"><i class="bi bi-check-lg"></i> Render — Draw everything on screen</div>
+                    <div class="benefit-item"><i class="bi bi-check-lg"></i> Audio — Play the right sounds</div>
+                    <div class="benefit-item"><i class="bi bi-check-lg"></i> Repeat — 60 times per second!</div>
                 </div>
-                <div class="col-12 col-md-4" data-aos="fade-up" data-aos-delay="100">
-                    <div class="pillar-card" data-pillar="code">
-                        <div class="pillar-icon"><i class="bi bi-braces-asterisk"></i></div>
-                        <div class="pillar-number">02</div>
-                        <h3 class="pillar-title">Programming</h3>
-                        <p class="pillar-desc">Ø§Ù„ÙÙŠØ²ÙŠØ§Ø¡ ÙˆØ§Ù„Ø­Ø±ÙƒØ© ÙˆØ§Ù„Ù€ AI Ù„Ù„Ù€ NPCs ÙˆØ§Ù„Ù€ Systems. Ø§Ù„ÙƒÙˆØ¯ Ø¨ÙŠØ­ÙˆÙ‘Ù„ Ø§Ù„ÙÙƒØ±Ø© Ù„Ø­Ø§Ø¬Ø© Ø´ØºØ§Ù„Ø©. GDScript Ø£Ùˆ C# Ø£Ùˆ C++ Ø­Ø³Ø¨ Ø§Ù„Ù…Ø­Ø±Ùƒ.</p>
-                        <div class="pillar-tag">Make It Move</div>
+            </div>
+            <div class="col-12 col-lg-6" data-aos="fade-left">
+                <div class="framework-visual">
+                    <div class="fv-center">
+                        <i class="bi bi-controller"></i>
+                        <span>Game</span>
                     </div>
-                </div>
-                <div class="col-12 col-md-4" data-aos="fade-up" data-aos-delay="200">
-                    <div class="pillar-card" data-pillar="art">
-                        <div class="pillar-icon"><i class="bi bi-palette2"></i></div>
-                        <div class="pillar-number">03</div>
-                        <h3 class="pillar-title">Art &amp; Audio</h3>
-                        <p class="pillar-desc">Ø§Ù„Ø´ÙƒÙ„ ÙˆØ§Ù„ØµÙˆØª ÙˆØ§Ù„Ù…ÙˆØ³ÙŠÙ‚Ù‰ ÙˆØ§Ù„Ù€ Visual Style. Ø§Ù„Ù„Ø§Ø¹Ø¨ Ø¨ÙŠØ­Ø³ Ø¨Ø§Ù„Ù„Ø¹Ø¨Ø© Ù‚Ø¨Ù„ Ù…Ø§ ÙŠÙÙ‡Ù…Ù‡Ø§. Ø§Ù„Ù€ Art Direction Ø¨ÙŠÙØ±Ù‚ Ø¨ÙŠÙ† Ù„Ø¹Ø¨Ø© Ø¹Ø§Ø¯ÙŠØ© ÙˆÙ„Ø¹Ø¨Ø© Ø¨ØªÙØ¶Ù„ ÙÙŠ Ø°Ø§ÙƒØ±ØªÙƒ.</p>
-                        <div class="pillar-tag">Feel the World</div>
+                    <div class="fv-orbit">
+                        <div class="fv-satellite" style="--i:0"><span class="fw-godot"><i class="bi bi-joystick"></i></span></div>
+                        <div class="fv-satellite" style="--i:1"><span class="fw-unity"><i class="bi bi-unity"></i></span></div>
+                        <div class="fv-satellite" style="--i:2"><span class="fw-unreal"><i class="bi bi-pentagon-fill"></i></span></div>
+                        <div class="fv-satellite" style="--i:3"><span class="fw-pygame"><i class="bi bi-braces"></i></span></div>
                     </div>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 
-    <!-- GAME LOOP INTRO -->
-    <section class="section-block section-dark" id="frameworks-intro">
-        <div class="container">
-            <div class="row align-items-center g-5">
-                <div class="col-12 col-lg-6" data-aos="fade-right">
-                    <span class="section-tag light">Ø§Ù„Ù…ÙÙ‡ÙˆÙ… Ø§Ù„Ø£Ø³Ø§Ø³ÙŠ</span>
-                    <h2 class="section-title light">Ø§Ù„Ù€ Game Loop</h2>
-                    <p class="section-subtitle light">
-                        Ù‚Ù„Ø¨ ÙƒÙ„ Ù„Ø¹Ø¨Ø© Ù‡Ùˆ Ø§Ù„Ù€ Game Loop â€” Ø­Ù„Ù‚Ø© Ù„Ø§ Ù†Ù‡Ø§ÙŠØ© Ù„ÙŠÙ‡Ø§ Ø¨ØªØ´ØªØºÙ„ ÙƒÙ„ frame. Ø¨ØªØ§Ø®Ø¯ Ø§Ù„Ù€ inputØŒ Ø¨ØªØ­Ø¯Ù‘Ø« Ø§Ù„Ù€ stateØŒ ÙˆØ¨ØªØ±Ø³Ù… Ø§Ù„Ø´Ø§Ø´Ø© â€” ÙƒÙ„ Ø«Ø§Ù†ÙŠØ© 60 Ù…Ø±Ø©.
-                    </p>
-                    <p class="section-subtitle light">
-                        ÙÙ‡Ù… Ø§Ù„Ù€ Loop Ø¯Ù‡ Ù‡Ùˆ Ø§Ù„ÙØ±Ù‚ Ø¨ÙŠÙ† Ø§Ù„Ù„ÙŠ Ø¨ÙŠØ³ØªØ®Ø¯Ù… Ø§Ù„Ù…Ø­Ø±Ùƒ ÙˆØ§Ù„Ù„ÙŠ <strong>Ø¨ÙŠÙÙ‡Ù… Ø¥Ø²Ø§ÙŠ Ø¨ÙŠØ´ØªØºÙ„.</strong>
-                    </p>
-                    <div class="benefits-list mt-4">
-                        <div class="benefit-item"><i class="bi bi-check-lg"></i> Input â€” Ø§Ù„Ù„Ø§Ø¹Ø¨ Ø¶ØºØ· Ø¥ÙŠÙ‡ØŸ</div>
-                        <div class="benefit-item"><i class="bi bi-check-lg"></i> Update â€” Ø­Ø±Ù‘Ùƒ Ø§Ù„Ù€ Physics ÙˆØ§Ù„Ù€ AI</div>
-                        <div class="benefit-item"><i class="bi bi-check-lg"></i> Render â€” Ø§Ø±Ø³Ù… ÙƒÙ„ Ø­Ø§Ø¬Ø© Ø¹Ù„Ù‰ Ø§Ù„Ø´Ø§Ø´Ø©</div>
-                        <div class="benefit-item"><i class="bi bi-check-lg"></i> Audio â€” Ø´ØºÙ‘Ù„ Ø§Ù„Ø£ØµÙˆØ§Øª Ø§Ù„Ù…Ù†Ø§Ø³Ø¨Ø©</div>
-                        <div class="benefit-item"><i class="bi bi-check-lg"></i> ÙƒØ±Ù‘Ø± â€” 60 Ù…Ø±Ø© ÙÙŠ Ø§Ù„Ø«Ø§Ù†ÙŠØ©!</div>
-                    </div>
-                </div>
-                <div class="col-12 col-lg-6" data-aos="fade-left">
-                    <div class="framework-visual">
-                        <div class="fv-center">
-                            <i class="bi bi-controller"></i>
-                            <span>Game</span>
-                        </div>
-                        <div class="fv-orbit">
-                            <div class="fv-satellite" style="--i:0"><span class="fw-godot"><i class="bi bi-joystick"></i></span></div>
-                            <div class="fv-satellite" style="--i:1"><span class="fw-unity"><i class="bi bi-unity"></i></span></div>
-                            <div class="fv-satellite" style="--i:2"><span class="fw-unreal"><i class="bi bi-pentagon-fill"></i></span></div>
-                            <div class="fv-satellite" style="--i:3"><span class="fw-pygame"><i class="bi bi-braces"></i></span></div>
-                        </div>
-                    </div>
-                </div>
+<!-- ENGINES DEEP DIVE -->
+<section class="section-block" id="frameworks">
+    <div class="container">
+        <div class="section-header text-center mb-5" data-aos="fade-up">
+            <span class="section-tag">Engines & Tools</span>
+            <h2 class="section-title">Most Popular Game Engines in Detail</h2>
+            <p class="section-subtitle">Learn about each engine — its strengths, who's behind it, and when to use it.</p>
+        </div>
+
+        <div class="fw-tabs-wrapper" data-aos="fade-up">
+            <div class="fw-tabs d-flex gap-2 flex-wrap mb-4" id="fwTabs">
+                <button class="fw-tab active" data-fw="godot">
+                    <i class="bi bi-joystick"></i> Godot
+                </button>
+                <button class="fw-tab" data-fw="unity">
+                    <i class="bi bi-unity"></i> Unity
+                </button>
+                <button class="fw-tab" data-fw="unreal">
+                    <i class="bi bi-pentagon-fill"></i> Unreal Engine
+                </button>
+                <button class="fw-tab" data-fw="pygame">
+                    <i class="bi bi-braces"></i> Pygame
+                </button>
+                <button class="fw-tab" data-fw="gms">
+                    <i class="bi bi-grid-3x3-gap-fill"></i> GameMaker
+                </button>
+            </div>
+            <div class="fw-panel" id="fwPanel"></div>
+        </div>
+    </div>
+</section>
+
+<!-- COMPARISON TABLE -->
+<section class="section-block section-light-alt" id="comparison">
+    <div class="container">
+        <div class="section-header text-center mb-5" data-aos="fade-up">
+            <span class="section-tag">Comparison</span>
+            <h2 class="section-title">Comprehensive Engine Comparison</h2>
+            <p class="section-subtitle">A clear table to help you see the differences at a glance.</p>
+        </div>
+        <div class="table-wrapper" data-aos="fade-up">
+            <div class="table-responsive">
+                <table class="comparison-table w-100">
+                    <thead>
+                        <tr>
+                            <th>Metric</th>
+                            <th><i class="bi bi-joystick"></i> Godot</th>
+                            <th><i class="bi bi-unity"></i> Unity</th>
+                            <th><i class="bi bi-pentagon-fill"></i> Unreal</th>
+                            <th><i class="bi bi-braces"></i> Pygame</th>
+                            <th><i class="bi bi-grid-3x3-gap-fill"></i> GameMaker</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="criterion">Ease of Start</td>
+                            <td><span class="level easy">Very Easy</span></td>
+                            <td><span class="level medium">Medium</span></td>
+                            <td><span class="level hard">Hard</span></td>
+                            <td><span class="level easy">Easy</span></td>
+                            <td><span class="level easy">Easy</span></td>
+                        </tr>
+                        <tr>
+                            <td class="criterion">Graphics Quality</td>
+                            <td><div class="perf-bar" data-perf="72"></div></td>
+                            <td><div class="perf-bar" data-perf="85"></div></td>
+                            <td><div class="perf-bar" data-perf="99"></div></td>
+                            <td><div class="perf-bar" data-perf="40"></div></td>
+                            <td><div class="perf-bar" data-perf="60"></div></td>
+                        </tr>
+                        <tr>
+                            <td class="criterion">Free?</td>
+                            <td><span class="level easy">100% Free</span></td>
+                            <td><span class="level medium">Partially Free</span></td>
+                            <td><span class="level medium">5% royalty</span></td>
+                            <td><span class="level easy">100% Free</span></td>
+                            <td><span class="level hard">Paid</span></td>
+                        </tr>
+                        <tr>
+                            <td class="criterion">Community</td>
+                            <td><span class="stars">★★★★☆</span></td>
+                            <td><span class="stars">★★★★★</span></td>
+                            <td><span class="stars">★★★★★</span></td>
+                            <td><span class="stars">★★★☆☆</span></td>
+                            <td><span class="stars">★★★☆☆</span></td>
+                        </tr>
+                        <tr>
+                            <td class="criterion">Best For</td>
+                            <td>2D &amp; Indie Games</td>
+                            <td>Mobile &amp; Multi-platform</td>
+                            <td>AAA &amp; 3D &amp; VR</td>
+                            <td>Learning the Basics</td>
+                            <td>Simple 2D Indie</td>
+                        </tr>
+                        <tr>
+                            <td class="criterion">Start With It When?</td>
+                            <td>Day One</td>
+                            <td>After the basics</td>
+                            <td>For professionals</td>
+                            <td>To learn concepts</td>
+                            <td>For simple 2D</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 
-    <!-- ENGINES DEEP DIVE -->
-    <section class="section-block" id="frameworks">
-        <div class="container">
-            <div class="section-header text-center mb-5" data-aos="fade-up">
-                <span class="section-tag">Ø§Ù„Ù…Ø­Ø±ÙƒØ§Øª ÙˆØ§Ù„Ø£Ø¯ÙˆØ§Øª</span>
-                <h2 class="section-title">Ø£Ø´Ù‡Ø± Ù…Ø­Ø±ÙƒØ§Øª Ø§Ù„Ø£Ù„Ø¹Ø§Ø¨ Ø¨Ø§Ù„ØªÙØµÙŠÙ„</h2>
-                <p class="section-subtitle">Ø§Ø¹Ø±Ù ÙƒÙ„ Ù…Ø­Ø±Ùƒ â€” Ø¥ÙŠÙ‡ Ù‚ÙˆØªÙ‡ØŒ Ù…ÙŠÙ† ÙˆØ±Ø§Ø¦Ù‡ØŒ ÙˆØ§Ù…ØªÙ‰ ØªØ³ØªØ®Ø¯Ù…Ù‡.</p>
-            </div>
-
-            <div class="fw-tabs-wrapper" data-aos="fade-up">
-                <div class="fw-tabs d-flex gap-2 flex-wrap mb-4" id="fwTabs">
-                    <button class="fw-tab active" data-fw="godot">
-                        <i class="bi bi-joystick"></i> Godot
-                    </button>
-                    <button class="fw-tab" data-fw="unity">
-                        <i class="bi bi-unity"></i> Unity
-                    </button>
-                    <button class="fw-tab" data-fw="unreal">
-                        <i class="bi bi-pentagon-fill"></i> Unreal Engine
-                    </button>
-                    <button class="fw-tab" data-fw="pygame">
-                        <i class="bi bi-braces"></i> Pygame
-                    </button>
-                    <button class="fw-tab" data-fw="gms">
-                        <i class="bi bi-grid-3x3-gap-fill"></i> GameMaker
-                    </button>
+<!-- QUIZ -->
+<section class="section-block section-dark" id="quiz">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-12 col-lg-8">
+                <div class="section-header text-center mb-5" data-aos="fade-up">
+                    <span class="section-tag light">Discover Yourself</span>
+                    <h2 class="section-title light">Which Engine Fits You?</h2>
+                    <p class="section-subtitle light">Answer 3 questions and we'll suggest the best fit.</p>
                 </div>
-                <div class="fw-panel" id="fwPanel"></div>
-            </div>
-        </div>
-    </section>
-
-    <!-- COMPARISON TABLE -->
-    <section class="section-block section-light-alt" id="comparison">
-        <div class="container">
-            <div class="section-header text-center mb-5" data-aos="fade-up">
-                <span class="section-tag">Ø§Ù„Ù…Ù‚Ø§Ø±Ù†Ø©</span>
-                <h2 class="section-title">Ù…Ù‚Ø§Ø±Ù†Ø© Ø´Ø§Ù…Ù„Ø© Ø¨ÙŠÙ† Ø§Ù„Ù…Ø­Ø±ÙƒØ§Øª</h2>
-                <p class="section-subtitle">Ø¬Ø¯ÙˆÙ„ ÙˆØ§Ø¶Ø­ ÙŠØ³Ø§Ø¹Ø¯Ùƒ ØªØ´ÙˆÙ Ø§Ù„ÙØ±ÙˆÙ‚ Ø¯ÙØ¹Ø© ÙˆØ§Ø­Ø¯Ø©.</p>
-            </div>
-            <div class="table-wrapper" data-aos="fade-up">
-                <div class="table-responsive">
-                    <table class="comparison-table w-100">
-                        <thead>
-                            <tr>
-                                <th>Ø§Ù„Ù…Ø¹ÙŠØ§Ø±</th>
-                                <th><i class="bi bi-joystick"></i> Godot</th>
-                                <th><i class="bi bi-unity"></i> Unity</th>
-                                <th><i class="bi bi-pentagon-fill"></i> Unreal</th>
-                                <th><i class="bi bi-braces"></i> Pygame</th>
-                                <th><i class="bi bi-grid-3x3-gap-fill"></i> GameMaker</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td class="criterion">Ø³Ù‡ÙˆÙ„Ø© Ø§Ù„Ø¨Ø¯Ø§ÙŠØ©</td>
-                                <td><span class="level easy">Ø³Ù‡Ù„ Ø¬Ø¯Ø§Ù‹</span></td>
-                                <td><span class="level medium">Ù…ØªÙˆØ³Ø·</span></td>
-                                <td><span class="level hard">ØµØ¹Ø¨</span></td>
-                                <td><span class="level easy">Ø³Ù‡Ù„</span></td>
-                                <td><span class="level easy">Ø³Ù‡Ù„</span></td>
-                            </tr>
-                            <tr>
-                                <td class="criterion">Ø¬ÙˆØ¯Ø© Ø§Ù„Ø±Ø³ÙˆÙ…Ø§Øª</td>
-                                <td><div class="perf-bar" data-perf="72"></div></td>
-                                <td><div class="perf-bar" data-perf="85"></div></td>
-                                <td><div class="perf-bar" data-perf="99"></div></td>
-                                <td><div class="perf-bar" data-perf="40"></div></td>
-                                <td><div class="perf-bar" data-perf="60"></div></td>
-                            </tr>
-                            <tr>
-                                <td class="criterion">Ù…Ø¬Ø§Ù†ÙŠØŸ</td>
-                                <td><span class="level easy">Ù…Ø¬Ø§Ù†ÙŠ 100%</span></td>
-                                <td><span class="level medium">Ù…Ø¬Ø§Ù†ÙŠ Ø¬Ø²Ø¦ÙŠØ§Ù‹</span></td>
-                                <td><span class="level medium">royalty 5%</span></td>
-                                <td><span class="level easy">Ù…Ø¬Ø§Ù†ÙŠ 100%</span></td>
-                                <td><span class="level hard">Ù…Ø¯ÙÙˆØ¹</span></td>
-                            </tr>
-                            <tr>
-                                <td class="criterion">Ø§Ù„Ù€ Community</td>
-                                <td><span class="stars">â˜…â˜…â˜…â˜…â˜†</span></td>
-                                <td><span class="stars">â˜…â˜…â˜…â˜…â˜…</span></td>
-                                <td><span class="stars">â˜…â˜…â˜…â˜…â˜…</span></td>
-                                <td><span class="stars">â˜…â˜…â˜…â˜†â˜†</span></td>
-                                <td><span class="stars">â˜…â˜…â˜…â˜†â˜†</span></td>
-                            </tr>
-                            <tr>
-                                <td class="criterion">Ø§Ù„Ø£Ù†Ø³Ø¨ Ù„Ù€</td>
-                                <td>2D &amp; Indie Games</td>
-                                <td>Mobile &amp; Multi-platform</td>
-                                <td>AAA &amp; 3D &amp; VR</td>
-                                <td>ØªØ¹Ù„Ù… Ø§Ù„Ø£Ø³Ø§Ø³ÙŠØ§Øª</td>
-                                <td>2D Indie Ø§Ù„Ø¨Ø³ÙŠØ·Ø©</td>
-                            </tr>
-                            <tr>
-                                <td class="criterion">Ø§Ø¨Ø¯Ø£ Ø¨ÙŠÙ‡ Ù„Ù…Ø§ØŸ</td>
-                                <td>Ù…Ù† Ø£ÙˆÙ„ ÙŠÙˆÙ…</td>
-                                <td>Ø¨Ø¹Ø¯ Ø§Ù„Ø£Ø³Ø§Ø³ÙŠØ§Øª</td>
-                                <td>Ù„Ù„Ù…Ø­ØªØ±ÙÙŠÙ†</td>
-                                <td>Ù„ØªØ¹Ù„Ù… Ø§Ù„Ù…ÙØ§Ù‡ÙŠÙ…</td>
-                                <td>Ù„Ù„Ù€ 2D Ø§Ù„Ø¨Ø³ÙŠØ·Ø©</td>
-                            </tr>
-                        </tbody>
-                    </table>
+                <div class="quiz-card" id="quizCard" data-aos="fade-up">
+                    <div class="quiz-progress-bar"><div class="quiz-progress-fill" id="quizProgressFill"></div></div>
+                    <div class="quiz-step-indicator" id="quizStepIndicator">Question 1 of 3</div>
+                    <div class="quiz-content" id="quizContent"></div>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 
-    <!-- QUIZ -->
-    <section class="section-block section-dark" id="quiz">
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-12 col-lg-8">
-                    <div class="section-header text-center mb-5" data-aos="fade-up">
-                        <span class="section-tag light">Ø§ÙƒØªØ´Ù Ù†ÙØ³Ùƒ</span>
-                        <h2 class="section-title light">Ø£Ù†Ù‡ÙŠ Ù…Ø­Ø±Ùƒ ÙŠÙ†Ø§Ø³Ø¨ÙƒØŸ</h2>
-                        <p class="section-subtitle light">Ø¬Ø§ÙˆØ¨ Ø¹Ù„Ù‰ 3 Ø£Ø³Ø¦Ù„Ø© ÙˆÙ‡Ù†Ù‚ØªØ±Ø­ Ø¹Ù„ÙŠÙƒ Ø§Ù„Ø£Ù†Ø³Ø¨.</p>
-                    </div>
-                    <div class="quiz-card" id="quizCard" data-aos="fade-up">
-                        <div class="quiz-progress-bar"><div class="quiz-progress-fill" id="quizProgressFill"></div></div>
-                        <div class="quiz-step-indicator" id="quizStepIndicator">Ø§Ù„Ø³Ø¤Ø§Ù„ 1 Ù…Ù† 3</div>
-                        <div class="quiz-content" id="quizContent"></div>
-                    </div>
-                </div>
-            </div>
+<!-- ROADMAP -->
+<section class="section-block" id="roadmap">
+    <div class="container">
+        <div class="section-header text-center mb-5" data-aos="fade-up">
+            <span class="section-tag">Roadmap</span>
+            <h2 class="section-title">Where Do You Start?</h2>
+            <p class="section-subtitle">The right steps, in the right order.</p>
         </div>
-    </section>
-
-    <!-- ROADMAP -->
-    <section class="section-block" id="roadmap">
-        <div class="container">
-            <div class="section-header text-center mb-5" data-aos="fade-up">
-                <span class="section-tag">Ø®Ø§Ø±Ø·Ø© Ø§Ù„Ø·Ø±ÙŠÙ‚</span>
-                <h2 class="section-title">Ù…Ù† ÙÙŠÙ† ØªØ¨Ø¯Ø£ØŸ</h2>
-                <p class="section-subtitle">Ø§Ù„Ø®Ø·ÙˆØ§Øª Ø§Ù„ØµØ­ØŒ Ø¨Ø§Ù„ØªØ±ØªÙŠØ¨ Ø§Ù„ØµØ­.</p>
-            </div>
-            <div class="roadmap-timeline" id="roadmapTimeline"></div>
-        </div>
-    </section>
-
-    <!-- FOOTER -->
-    
+        <div class="roadmap-timeline" id="roadmapTimeline"></div>
+    </div>
+</section>
 
 @section Scripts {
     <script src="~/tracks/Game/app.js" asp-append-version="true"></script>

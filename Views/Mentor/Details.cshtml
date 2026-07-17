@@ -56,6 +56,10 @@
                 <a asp-controller="Booking" asp-action="Create" asp-route-targetType="Mentor" asp-route-targetId="@Model.Id" class="btn btn-primary btn-sm ms-2">
                     <i class="fa-solid fa-calendar-check"></i> Book Consultation
                 </a>
+                <!-- ✅ زر Chat with Mentor (يظهر للجميع) -->
+                <a asp-controller="Chat" asp-action="CreatePrivate" asp-route-userId="@Model.UserId" class="btn btn-outline-primary btn-sm ms-2">
+                    <i class="fa-regular fa-comment-dots me-1"></i> Chat
+                </a>
             </div>
         </div>
     </div>

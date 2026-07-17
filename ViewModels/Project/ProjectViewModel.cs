@@ -58,6 +58,10 @@ namespace A3DET_CODE.ViewModels.Project
         public bool HasPendingJoinRequest { get; set; }
         public bool CanRequestToJoin { get; set; }
         public string? LeaderName { get; set; }
+
+        // ✅ ChatGroupId الخاص بالدردشة الجماعية للفريق
+        public int? ChatGroupId { get; set; }
+
         public List<TeamMemberInfo> TeamMembers { get; set; } = new List<TeamMemberInfo>();
         public List<A3DET_CODE.ViewModels.Team.JoinRequestViewModel> PendingJoinRequests { get; set; } = new();
     }

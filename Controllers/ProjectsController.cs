@@ -6,6 +6,7 @@ using A3DET_CODE.Repositories.Interfaces;
 using A3DET_CODE.ViewModels.Project;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity.Data;
+using A3DET_CODE.Services;
 
 namespace A3DET_CODE.Controllers
 {
@@ -20,6 +21,7 @@ namespace A3DET_CODE.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly ILogger<ProjectsController> _logger;
         private readonly ITrackRepository _trackRepository;
+        private readonly IChatService _chatService;
 
         public ProjectsController(
             IProjectRepository projectRepository,
@@ -29,7 +31,8 @@ namespace A3DET_CODE.Controllers
             IApplicationRepository applicationRepository,
             UserManager<ApplicationUser> userManager,
             ILogger<ProjectsController> logger,
-            ITrackRepository trackRepository)
+            ITrackRepository trackRepository,
+            IChatService chatService)
         {
             _projectRepository = projectRepository;
             _teamRepository = teamRepository;
@@ -39,6 +42,7 @@ namespace A3DET_CODE.Controllers
             _userManager = userManager;
             _logger = logger;
             _trackRepository = trackRepository;
+            _chatService = chatService;
         }
 
         // ============================================================
@@ -56,14 +60,12 @@ namespace A3DET_CODE.Controllers
             if (project == null)
                 return NotFound();
 
-            // Check if project is available
             if (project.Status != "Open" || project.TeamId.HasValue)
             {
                 TempData["Error"] = "This project is no longer available.";
                 return RedirectToAction("Projects", "Home");
             }
 
-            // Create team
             var team = new Team
             {
                 Name = $"Team for {project.Title}",
@@ -79,7 +81,6 @@ namespace A3DET_CODE.Controllers
             await _teamRepository.AddAsync(team);
             await _teamRepository.SaveChangesAsync();
 
-            // Add leader as team member
             var teamMember = new TeamMember
             {
                 TeamId = team.Id,
@@ -91,13 +92,19 @@ namespace A3DET_CODE.Controllers
             await _teamMemberRepository.AddAsync(teamMember);
             await _teamMemberRepository.SaveChangesAsync();
 
-            // Assign project to team
             project.TeamId = team.Id;
             project.Status = "InProgress";
             project.StartedAt = DateTime.UtcNow;
 
             await _projectRepository.UpdateAsync(project);
             await _projectRepository.SaveChangesAsync();
+
+            // ✅ إنشاء مجموعة الدردشة الخاصة بالفريق
+            var chatGroup = await _chatService.CreateTeamChatAsync(team.Id, team.Name);
+            await _chatService.AddUserToGroupAsync(chatGroup.Id, user.Id);
+            team.ChatGroupId = chatGroup.Id;
+            await _teamRepository.UpdateAsync(team);
+            await _teamRepository.SaveChangesAsync();
 
             TempData["Success"] = $"You are now the leader of '{project.Title}'!";
             return RedirectToAction("Details", "Projects", new { id = project.Id });
@@ -118,7 +125,6 @@ namespace A3DET_CODE.Controllers
             if (project == null)
                 return NotFound();
 
-            // Check if project has a team
             if (!project.TeamId.HasValue)
             {
                 TempData["Error"] = "This project doesn't have a team yet. Take the project instead!";
@@ -134,7 +140,6 @@ namespace A3DET_CODE.Controllers
                 return RedirectToAction("Projects", "Home");
             }
 
-            // Check if team is full
             if (team.CurrentMembers >= team.MaxMembers)
             {
                 TempData["Error"] = "This team is full!";
@@ -142,7 +147,6 @@ namespace A3DET_CODE.Controllers
                 return RedirectToAction("Projects", "Home");
             }
 
-            // Check if user is already a member
             var isMember = await _teamMemberRepository.ExistsAsync(team.Id, user.Id);
             if (isMember)
             {
@@ -151,7 +155,6 @@ namespace A3DET_CODE.Controllers
                 return RedirectToAction("Details", "Projects", new { id });
             }
 
-            // Check if user already has a pending request
             var hasPending = await _joinRequestRepository.HasPendingRequestAsync(team.Id, user.Id);
             if (hasPending)
             {
@@ -160,7 +163,6 @@ namespace A3DET_CODE.Controllers
                 return RedirectToAction("Projects", "Home");
             }
 
-            // Create join request
             var joinRequest = new JoinRequest
             {
                 TeamId = team.Id,
@@ -303,7 +305,8 @@ namespace A3DET_CODE.Controllers
                     UserInitials = r.User?.FullName?.Substring(0, 1).ToUpper() ?? "U",
                     RequestedAt = r.RequestedAt,
                     Status = r.Status
-                }).ToList()
+                }).ToList(),
+                ChatGroupId = project.Team?.ChatGroupId // ✅ تم الإضافة
             };
 
             return View(viewModel);
@@ -348,7 +351,6 @@ namespace A3DET_CODE.Controllers
                 await _projectRepository.AddAsync(project);
                 await _projectRepository.SaveChangesAsync();
 
-                // Create team for the project
                 var team = new Team
                 {
                     Name = $"Team for {project.Title}",
@@ -366,7 +368,6 @@ namespace A3DET_CODE.Controllers
                 await _teamRepository.AddAsync(team);
                 await _teamRepository.SaveChangesAsync();
 
-                // Add creator as the team leader
                 var teamMember = new TeamMember
                 {
                     TeamId = team.Id,
@@ -378,10 +379,16 @@ namespace A3DET_CODE.Controllers
                 await _teamMemberRepository.AddAsync(teamMember);
                 await _teamMemberRepository.SaveChangesAsync();
 
-                // Update project with the new TeamId
                 project.TeamId = team.Id;
                 await _projectRepository.UpdateAsync(project);
                 await _projectRepository.SaveChangesAsync();
+
+                // ✅ إنشاء مجموعة الدردشة الخاصة بالفريق
+                var chatGroup = await _chatService.CreateTeamChatAsync(team.Id, team.Name);
+                await _chatService.AddUserToGroupAsync(chatGroup.Id, user.Id);
+                team.ChatGroupId = chatGroup.Id;
+                await _teamRepository.UpdateAsync(team);
+                await _teamRepository.SaveChangesAsync();
 
                 TempData["Success"] = "Project created successfully! You are now the team leader.";
                 return RedirectToAction("Projects", "Home");
