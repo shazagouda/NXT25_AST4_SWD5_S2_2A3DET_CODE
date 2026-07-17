@@ -48,6 +48,7 @@ namespace A3DET_CODE.Data
         public DbSet<Booking> Bookings { get; set; }
         public DbSet<Contract> Contracts { get; set; }
         public DbSet<WalletTransaction> WalletTransactions { get; set; }
+        public DbSet<DismissedNotification> DismissedNotifications { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -415,6 +416,17 @@ namespace A3DET_CODE.Data
             // Contract unique number index
             modelBuilder.Entity<Contract>()
                 .HasIndex(c => c.ContractNumber)
+                .IsUnique();
+
+            // DismissedNotification -> User
+            modelBuilder.Entity<DismissedNotification>()
+                .HasOne(d => d.User)
+                .WithMany()
+                .HasForeignKey(d => d.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<DismissedNotification>()
+                .HasIndex(d => new { d.UserId, d.NotificationId })
                 .IsUnique();
         }
     }

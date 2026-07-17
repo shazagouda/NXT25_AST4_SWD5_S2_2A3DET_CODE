@@ -13,7 +13,15 @@
             </div>
             @if (Model.Any())
             {
-                <span class="badge badge-blue fs-small px-3 py-2">@Model.Count() Active Notifications</span>
+                <div class="d-flex align-items-center gap-3">
+                    <span class="badge badge-blue fs-small px-3 py-2">@Model.Count() Active Notifications</span>
+                    <form asp-action="DismissAll" method="post" class="m-0">
+                        @Html.AntiForgeryToken()
+                        <button type="submit" class="btn btn-outline-secondary btn-sm px-3" style="border-radius: var(--radius-pill); font-size: var(--fs-xs); font-weight: 600;">
+                            <i class="bi bi-check2-all me-1"></i>Mark All as Read
+                        </button>
+                    </form>
+                </div>
             }
         </div>
 
@@ -65,7 +73,7 @@
                                             </small>
                                         </div>
                                     </div>
-                                    <div class="notif-action-btn-wrapper ms-3 flex-shrink-0">
+                                    <div class="notif-action-btn-wrapper ms-3 flex-shrink-0 d-flex align-items-center gap-2">
                                         @{
                                             string btnText = "View Request";
                                             string btnIcon = "bi-arrow-right-short";
@@ -81,6 +89,13 @@
                                         <a href="@item.ActionUrl" class="btn @btnTheme btn-sm action-btn px-3">
                                             <i class="bi @btnIcon me-1"></i>@btnText
                                         </a>
+                                        <form asp-action="Dismiss" method="post" class="m-0">
+                                            @Html.AntiForgeryToken()
+                                            <input type="hidden" name="notificationId" value="@item.Id" />
+                                            <button type="submit" class="btn btn-sm dismiss-btn" title="Mark as read">
+                                                <i class="bi bi-x-lg"></i>
+                                            </button>
+                                        </form>
                                     </div>
                                 </div>
                             }
@@ -204,6 +219,30 @@
 
         .max-width-sm {
             max-width: 450px;
+        }
+
+        .dismiss-btn {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--color-text-400);
+            background: transparent;
+            border: 1px solid transparent;
+            transition: all 0.2s;
+            padding: 0;
+        }
+
+        .dismiss-btn:hover {
+            background: rgba(225, 79, 79, 0.1);
+            color: #E14F4F;
+            border-color: rgba(225, 79, 79, 0.2);
+        }
+
+        .dismiss-btn i {
+            font-size: 14px;
         }
 
         .animate-bell {

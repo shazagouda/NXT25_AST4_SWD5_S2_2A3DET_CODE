@@ -14,5 +14,6 @@ namespace A3DET_CODE.ViewModels.Notification
         public string IconClass { get; set; } = string.Empty;
         public string SenderName { get; set; } = string.Empty;
         public string TargetName { get; set; } = string.Empty;
+        public bool IsRead { get; set; }
     }
 }

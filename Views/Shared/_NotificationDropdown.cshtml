@@ -11,7 +11,7 @@
         backdrop-filter: blur(10px);
         -webkit-backdrop-filter: blur(10px);
         border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-        padding: 16px 20px;
+        padding: 14px 20px;
         border-top-left-radius: var(--radius-lg);
         border-top-right-radius: var(--radius-lg);
         display: flex;
@@ -25,7 +25,7 @@
     }
 
     .notif-premium-title {
-        font-size: 16px;
+        font-size: 15px;
         font-weight: 800;
         margin: 0;
         background: linear-gradient(135deg, var(--color-blue-600), var(--color-teal-500));
@@ -33,56 +33,67 @@
         -webkit-text-fill-color: transparent;
     }
 
-    .notif-premium-view-all {
-        font-size: 12px;
-        font-weight: 600;
-        color: var(--color-text-500);
-        text-decoration: none;
-        transition: color 0.2s ease;
-        padding: 4px 10px;
-        background: rgba(0,0,0,0.03);
-        border-radius: 50px;
-    }
-
-    [data-theme="dark"] .notif-premium-view-all {
-        background: rgba(255,255,255,0.05);
-        color: var(--color-text-400);
-    }
-
-    .notif-premium-view-all:hover {
+    .notif-premium-mark-read-btn {
+        font-size: 11px;
+        font-weight: 700;
         color: var(--color-blue-600);
-        background: rgba(var(--color-blue-600-rgb), 0.1);
+        background: transparent;
+        border: none;
+        cursor: pointer;
+        padding: 4px 10px;
+        transition: all 0.2s ease;
+        border-radius: var(--radius-pill);
+    }
+
+    .notif-premium-mark-read-btn:hover {
+        background: rgba(var(--color-blue-600-rgb), 0.08);
+        opacity: 0.9;
     }
 
     .notif-premium-body {
-        max-height: 420px;
+        max-height: 380px;
         overflow-y: auto;
     }
 
+    /* Premium Custom Scrollbar */
+    .notif-premium-body::-webkit-scrollbar {
+        width: 5px;
+    }
+    .notif-premium-body::-webkit-scrollbar-track {
+        background: transparent;
+    }
+    .notif-premium-body::-webkit-scrollbar-thumb {
+        background-color: rgba(0, 0, 0, 0.1);
+        border-radius: 10px;
+    }
+    [data-theme="dark"] .notif-premium-body::-webkit-scrollbar-thumb {
+        background-color: rgba(255, 255, 255, 0.1);
+    }
+
     .notif-premium-empty {
-        padding: 60px 20px;
+        padding: 40px 20px;
         text-align: center;
         opacity: 0.8;
     }
 
     .notif-premium-empty i {
-        font-size: 3.5rem;
+        font-size: 2.5rem;
         background: linear-gradient(135deg, var(--color-text-400), var(--color-text-300));
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
-        margin-bottom: 16px;
+        margin-bottom: 12px;
         display: inline-block;
     }
 
     .notif-premium-item {
         display: flex;
         align-items: flex-start;
-        gap: 16px;
-        padding: 16px 20px;
+        gap: 14px;
+        padding: 14px 20px;
         text-decoration: none;
         color: inherit;
         border-bottom: 1px solid rgba(0, 0, 0, 0.03);
-        transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        transition: all 0.2s ease;
         position: relative;
     }
 
@@ -92,66 +103,81 @@
 
     .notif-premium-item:hover {
         background: rgba(var(--color-blue-600-rgb), 0.03);
-        padding-left: 24px;
-        padding-right: 16px;
     }
 
     [data-theme="dark"] .notif-premium-item:hover {
         background: rgba(255, 255, 255, 0.02);
     }
 
+    /* Unread vs Read Styles */
+    .notif-premium-item.is-read {
+        opacity: 0.6;
+    }
+
+    .notif-premium-item.is-read .notif-premium-item-title {
+        font-weight: 600;
+        color: var(--color-text-500);
+    }
+
+    .notif-premium-item.is-read .notif-premium-icon {
+        filter: grayscale(0.5);
+    }
+
     .notif-premium-icon {
-        width: 44px;
-        height: 44px;
+        width: 38px;
+        height: 38px;
         border-radius: 50%;
         display: flex;
         align-items: center;
         justify-content: center;
         flex-shrink: 0;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
         background: var(--color-surface);
         position: relative;
         z-index: 2;
     }
 
     [data-theme="dark"] .notif-premium-icon {
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
     }
 
     .notif-premium-icon i {
-        font-size: 1.25rem;
+        font-size: 1.1rem;
     }
 
     .notif-premium-content {
         flex-grow: 1;
         min-width: 0;
+        padding-right: 10px;
     }
 
     .notif-premium-item-header {
         display: flex;
         justify-content: space-between;
         align-items: baseline;
-        margin-bottom: 4px;
+        margin-bottom: 2px;
     }
 
     .notif-premium-item-title {
-        font-weight: 700;
-        font-size: 14px;
+        font-weight: 800;
+        font-size: 13px;
         color: var(--color-text-900);
         margin: 0;
+        transition: color 0.2s;
     }
 
     .notif-premium-item-time {
-        font-size: 11px;
+        font-size: 10px;
         font-weight: 600;
         color: var(--color-text-400);
         white-space: nowrap;
+        margin-left: 8px;
     }
 
     .notif-premium-item-msg {
-        font-size: 13px;
+        font-size: 12px;
         color: var(--color-text-600);
-        line-height: 1.5;
+        line-height: 1.4;
         margin: 0;
         display: -webkit-box;
         -webkit-line-clamp: 2;
@@ -161,11 +187,11 @@
 
     .notif-badge-mini {
         display: inline-block;
-        padding: 4px 8px;
-        font-size: 10px;
+        padding: 2px 6px;
+        font-size: 9px;
         font-weight: 700;
         border-radius: 4px;
-        margin-top: 8px;
+        margin-top: 6px;
         text-transform: uppercase;
         letter-spacing: 0.5px;
     }
@@ -184,12 +210,26 @@
         background: rgba(34, 197, 94, 0.1);
         color: #22C55E;
     }
+
+    .notif-unread-dot {
+        width: 7px;
+        height: 7px;
+        background-color: var(--color-blue-600);
+        border-radius: 50%;
+        align-self: center;
+        flex-shrink: 0;
+        box-shadow: 0 0 6px var(--color-blue-600);
+        margin-left: auto;
+    }
 </style>
 
 <div class="notif-dropdown-premium">
     <div class="notif-premium-header">
         <h6 class="notif-premium-title">Notifications</h6>
-        <a href="@Url.Action("Index", "Notifications")" class="notif-premium-view-all">View All</a>
+        @if (Model.Any(n => !n.IsRead))
+        {
+            <button onclick="markAllAsRead(event)" class="notif-premium-mark-read-btn">Mark All Read</button>
+        }
     </div>
 
     <div class="notif-premium-body notif-dropdown-list">
@@ -197,15 +237,15 @@
         {
             <div class="notif-premium-empty">
                 <i class="bi bi-bell-slash"></i>
-                <h6 class="fw-bold mb-2 text-dark" style="color: var(--color-text-900) !important;">You're all caught up!</h6>
-                <p class="text-muted mb-0" style="font-size: 13px;">No pending requests or updates.</p>
+                <h6 class="fw-bold mb-1 text-dark" style="color: var(--color-text-900) !important; font-size: 14px;">You're all caught up!</h6>
+                <p class="text-muted mb-0" style="font-size: 12px;">No updates at this moment.</p>
             </div>
         }
         else
         {
             foreach (var item in Model)
             {
-                <a href="@item.ActionUrl" class="notif-premium-item">
+                <div class="notif-premium-item @(item.IsRead ? "is-read" : "")" style="cursor: pointer;" onclick="dismissAndRedirect('@item.Id', '@item.ActionUrl', this)">
                     <div class="notif-premium-icon">
                         <i class="@item.IconClass"></i>
                     </div>
@@ -231,8 +271,17 @@
                         {
                             <span class="notif-badge-mini notif-badge-success">Success</span>
                         }
+                        else if (item.Status == "Released")
+                        {
+                            <span class="notif-badge-mini notif-badge-success">Paid</span>
+                        }
                     </div>
-                </a>
+
+                    @if (!item.IsRead)
+                    {
+                        <div class="notif-unread-dot"></div>
+                    }
+                </div>
             }
         }
     </div>
@@ -251,3 +300,72 @@
         return localTime.ToString("MMM dd");
     }
 }
+
+<script>
+function dismissAndRedirect(notificationId, redirectUrl, el) {
+    // Get antiforgery token from the page
+    var token = document.querySelector('input[name="__RequestVerificationToken"]')?.value;
+    if (!token) {
+        window.location.href = redirectUrl;
+        return;
+    }
+
+    // Fade out the item visually to represent it is being read
+    el.classList.add('is-read');
+    var dot = el.querySelector('.notif-unread-dot');
+    if (dot) dot.remove();
+
+    // POST to dismiss endpoint (acts as mark read)
+    fetch('@Url.Action("Dismiss", "Notifications")', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'RequestVerificationToken': token
+        },
+        body: 'notificationId=' + encodeURIComponent(notificationId) + '&redirectUrl=' + encodeURIComponent(redirectUrl) + '&__RequestVerificationToken=' + encodeURIComponent(token)
+    }).then(function() {
+        window.location.href = redirectUrl;
+    }).catch(function() {
+        window.location.href = redirectUrl;
+    });
+}
+
+function markAllAsRead(event) {
+    event.stopPropagation();
+    var token = document.querySelector('input[name="__RequestVerificationToken"]')?.value;
+    if (!token) return;
+
+    var btn = event.currentTarget;
+    btn.disabled = true;
+    btn.style.opacity = '0.5';
+
+    fetch('@Url.Action("DismissAll", "Notifications")', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'RequestVerificationToken': token
+        },
+        body: '__RequestVerificationToken=' + encodeURIComponent(token)
+    }).then(function(r) {
+        if (r.ok) {
+            // Mark all as read visually
+            document.querySelectorAll('.notif-premium-item').forEach(function(el) {
+                el.classList.add('is-read');
+                var dot = el.querySelector('.notif-unread-dot');
+                if (dot) dot.remove();
+            });
+            // Hide the badge count
+            var badge = document.querySelector('.notif-badge');
+            if (badge) badge.style.display = 'none';
+            // Hide the button
+            btn.remove();
+        } else {
+            btn.disabled = false;
+            btn.style.opacity = '1';
+        }
+    }).catch(function() {
+        btn.disabled = false;
+        btn.style.opacity = '1';
+    });
+}
+</script>

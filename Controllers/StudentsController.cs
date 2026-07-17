@@ -31,9 +31,11 @@ namespace A3DET_CODE.Controllers
             string? academicYear,
             int page = 1)
         {
+            var currentUserId = _userManager.GetUserId(User);
+
             // ─── Base query: only Students ──────────────────────────
             var query = _context.Users
-                .Where(u => u.Role == "Student" && u.IsActive)
+                .Where(u => u.Role == "Student" && u.IsActive && u.Id != currentUserId)
                 .AsQueryable();
 
             // ─── Search by username or full name ─────────────────────

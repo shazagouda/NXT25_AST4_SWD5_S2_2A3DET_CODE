@@ -253,6 +253,8 @@ namespace A3DET_CODE.Controllers
             });
 
             booking.PaymentStatus = "Released";
+            booking.Status = "Completed";
+            booking.CompletedAt = DateTime.UtcNow;
 
             await _userManager.UpdateAsync(adminUser);
             await _userManager.UpdateAsync(targetUser);

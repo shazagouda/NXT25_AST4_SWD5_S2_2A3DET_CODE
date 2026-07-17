@@ -25,187 +25,9 @@ namespace A3DET_CODE.Controllers
         }
 
         // GET: /Notifications
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            var user = await _userManager.GetUserAsync(User);
-            if (user == null)
-                return RedirectToAction("Login", "Account");
-
-            var notifications = new List<NotificationViewModel>();
-
-            // 1. Pending Join Requests for teams where user is leader
-            var leaderTeamIds = await _context.Teams
-                .Where(t => t.LeaderId == user.Id)
-                .Select(t => t.Id)
-                .ToListAsync();
-
-            if (leaderTeamIds.Any())
-            {
-                var joinRequests = await _context.JoinRequests
-                    .Include(jr => jr.User)
-                    .Include(jr => jr.Team)
-                    .Where(jr => leaderTeamIds.Contains(jr.TeamId) && jr.Status == "Pending")
-                    .ToListAsync();
-
-                foreach (var jr in joinRequests)
-                {
-                    string actionUrl = jr.Team.ProjectId.HasValue
-                        ? Url.Action("Details", "Projects", new { id = jr.Team.ProjectId.Value }) ?? ""
-                        : Url.Action("PendingRequests", "Teams", new { id = jr.TeamId }) ?? "";
-
-                    notifications.Add(new NotificationViewModel
-                    {
-                        Id = $"join_{jr.Id}",
-                        Title = "Team Join Request",
-                        Message = $"{jr.User.FullName} requested to join your team \"{jr.Team.Name}\".",
-                        Timestamp = jr.RequestedAt,
-                        Status = "Pending",
-                        Type = "JoinRequest",
-                        ActionUrl = actionUrl,
-                        IconClass = "bi bi-person-plus-fill text-warning",
-                        SenderName = jr.User.FullName,
-                        TargetName = jr.Team.Name
-                    });
-                }
-            }
-
-            // 2. Incoming Booking requests where user is the target (Status == "Pending")
-            var mentor = await _context.Mentors.FirstOrDefaultAsync(m => m.UserId == user.Id);
-
-            var pendingBookings = await _context.Bookings
-                .Include(b => b.BookerUser)
-                .Include(b => b.TargetMentor)
-                .Include(b => b.TargetTeam)
-                .Where(b => b.Status == "Pending")
-                .ToListAsync();
-
-            foreach (var b in pendingBookings)
-            {
-                bool isTarget =
-                    (b.TargetType == "Mentor" && mentor != null && b.TargetMentorId == mentor.Id) ||
-                    (b.TargetType == "Student" && b.TargetStudentId == user.Id) ||
-                    (b.TargetType == "Team" && b.TargetTeam != null && b.TargetTeam.LeaderId == user.Id);
-
-                if (!isTarget) continue;
-
-                string msg = b.TargetType == "Team" && b.TargetTeam != null
-                    ? $"{b.BookerUser.FullName} requested to book your team \"{b.TargetTeam.Name}\" for \"{b.Topic}\"."
-                    : $"{b.BookerUser.FullName} requested to book you for \"{b.Topic}\".";
-
-                notifications.Add(new NotificationViewModel
-                {
-                    Id = $"booking_{b.Id}",
-                    Title = "New Booking Request",
-                    Message = msg,
-                    Timestamp = b.CreatedAt,
-                    Status = "Pending",
-                    Type = "Booking",
-                    ActionUrl = Url.Action("Details", "Booking", new { id = b.Id }) ?? "",
-                    IconClass = "bi bi-calendar-plus-fill text-primary",
-                    SenderName = b.BookerUser.FullName,
-                    TargetName = b.Topic ?? "Session"
-                });
-            }
-
-            // 3. Outgoing Bookings waiting for user's payment (Status == "PendingPayment")
-            var myPendingPayments = await _context.Bookings
-                .Include(b => b.TargetMentor)
-                .Include(b => b.TargetStudent)
-                .Include(b => b.TargetTeam)
-                .Where(b => b.BookerUserId == user.Id && b.Status == "PendingPayment")
-                .ToListAsync();
-
-            foreach (var b in myPendingPayments)
-            {
-                string targetName = "Provider";
-                if (b.TargetType == "Mentor" && b.TargetMentor != null) targetName = b.TargetMentor.FullName;
-                else if (b.TargetType == "Student" && b.TargetStudent != null) targetName = b.TargetStudent.FullName;
-                else if (b.TargetType == "Team" && b.TargetTeam != null) targetName = b.TargetTeam.Name;
-
-                notifications.Add(new NotificationViewModel
-                {
-                    Id = $"pay_{b.Id}",
-                    Title = "Payment Required",
-                    Message = $"Your booking for \"{b.Topic}\" with {targetName} was accepted. Please complete payment to confirm.",
-                    Timestamp = b.CreatedAt,
-                    Status = "PendingPayment",
-                    Type = "Booking",
-                    ActionUrl = Url.Action("Details", "Booking", new { id = b.Id }) ?? "",
-                    IconClass = "bi bi-credit-card-fill text-danger",
-                    SenderName = targetName,
-                    TargetName = b.Topic ?? "Session"
-                });
-            }
-
-            // 4. Responses to user's own Join Requests (Accepted or Rejected)
-            var myJoinRequests = await _context.JoinRequests
-                .Include(jr => jr.Team)
-                .Where(jr => jr.UserId == user.Id && (jr.Status == "Accepted" || jr.Status == "Rejected"))
-                .ToListAsync();
-
-            foreach (var jr in myJoinRequests)
-            {
-                bool accepted = jr.Status == "Accepted";
-                string actionUrl = jr.Team.ProjectId.HasValue
-                    ? Url.Action("Details", "Projects", new { id = jr.Team.ProjectId.Value }) ?? ""
-                    : Url.Action("Details", "Teams", new { id = jr.TeamId }) ?? "";
-
-                notifications.Add(new NotificationViewModel
-                {
-                    Id = $"join_res_{jr.Id}",
-                    Title = accepted ? "Join Request Approved" : "Join Request Rejected",
-                    Message = $"Your request to join team \"{jr.Team.Name}\" was {(accepted ? "approved! Welcome aboard." : "rejected.")}",
-                    Timestamp = jr.RespondedAt ?? jr.RequestedAt,
-                    Status = jr.Status,
-                    Type = "JoinRequest",
-                    ActionUrl = actionUrl,
-                    IconClass = accepted ? "bi bi-check-circle-fill text-success" : "bi bi-x-circle-fill text-danger",
-                    SenderName = "Team Leader",
-                    TargetName = jr.Team.Name
-                });
-            }
-
-            // 5. Responses to user's sent Bookings (Confirmed, Rejected, Cancelled)
-            var myBookingResponses = await _context.Bookings
-                .Include(b => b.TargetMentor)
-                .Include(b => b.TargetStudent)
-                .Include(b => b.TargetTeam)
-                .Where(b => b.BookerUserId == user.Id &&
-                            (b.Status == "Confirmed" || b.Status == "Rejected" || b.Status == "Cancelled"))
-                .ToListAsync();
-
-            foreach (var b in myBookingResponses)
-            {
-                string targetName = "Provider";
-                if (b.TargetType == "Mentor" && b.TargetMentor != null) targetName = b.TargetMentor.FullName;
-                else if (b.TargetType == "Student" && b.TargetStudent != null) targetName = b.TargetStudent.FullName;
-                else if (b.TargetType == "Team" && b.TargetTeam != null) targetName = b.TargetTeam.Name;
-
-                string icon = b.Status switch
-                {
-                    "Confirmed" => "bi bi-calendar-check-fill text-success",
-                    "Rejected" => "bi bi-calendar-x-fill text-danger",
-                    _ => "bi bi-info-circle-fill text-secondary"
-                };
-
-                notifications.Add(new NotificationViewModel
-                {
-                    Id = $"booking_res_{b.Id}",
-                    Title = $"Booking {b.Status}",
-                    Message = $"Your booking for \"{b.Topic}\" with {targetName} is {b.Status.ToLower()}.",
-                    Timestamp = b.PaidAt ?? b.CreatedAt,
-                    Status = b.Status,
-                    Type = "Booking",
-                    ActionUrl = Url.Action("Details", "Booking", new { id = b.Id }) ?? "",
-                    IconClass = icon,
-                    SenderName = targetName,
-                    TargetName = b.Topic ?? "Session"
-                });
-            }
-
-            // Sort newest first
-            notifications = notifications.OrderByDescending(n => n.Timestamp).ToList();
-            return View(notifications);
+            return RedirectToAction("Index", "Dashboard");
         }
 
         // GET: /Notifications/GetUnreadCount — called by JS to show badge on bell
@@ -246,6 +68,57 @@ namespace A3DET_CODE.Controllers
             count += await _context.Bookings
                 .CountAsync(b => b.BookerUserId == user.Id && b.Status == "PendingPayment");
 
+            // 4. Released payment bookings where user is the target
+            var releasedBookings = await _context.Bookings
+                .Include(b => b.TargetTeam)
+                .Where(b => b.PaymentStatus == "Released")
+                .ToListAsync();
+
+            count += releasedBookings.Count(b =>
+                (b.TargetType == "Mentor" && mentor != null && b.TargetMentorId == mentor.Id) ||
+                (b.TargetType == "Student" && b.TargetStudentId == user.Id) ||
+                (b.TargetType == "Team" && b.TargetTeam != null && b.TargetTeam.LeaderId == user.Id));
+
+            // Subtract dismissed notifications from count
+            var dismissedIds = await _context.DismissedNotifications
+                .Where(d => d.UserId == user.Id)
+                .Select(d => d.NotificationId)
+                .ToListAsync();
+
+            // Build the same notification IDs to check against dismissed
+            var allNotifIds = new List<string>();
+
+            if (leaderTeamIds.Any())
+            {
+                var joinRequestIds = await _context.JoinRequests
+                    .Where(jr => leaderTeamIds.Contains(jr.TeamId) && jr.Status == "Pending")
+                    .Select(jr => jr.Id)
+                    .ToListAsync();
+                allNotifIds.AddRange(joinRequestIds.Select(id => $"join_{id}"));
+            }
+
+            allNotifIds.AddRange(pendingBookings
+                .Where(b => (b.TargetType == "Mentor" && mentor != null && b.TargetMentorId == mentor.Id) ||
+                            (b.TargetType == "Student" && b.TargetStudentId == user.Id) ||
+                            (b.TargetType == "Team" && b.TargetTeam != null && b.TargetTeam.LeaderId == user.Id))
+                .Select(b => $"booking_{b.Id}"));
+
+            var pendingPaymentIds = await _context.Bookings
+                .Where(b => b.BookerUserId == user.Id && b.Status == "PendingPayment")
+                .Select(b => b.Id)
+                .ToListAsync();
+            allNotifIds.AddRange(pendingPaymentIds.Select(id => $"pay_{id}"));
+
+            allNotifIds.AddRange(releasedBookings
+                .Where(b => (b.TargetType == "Mentor" && mentor != null && b.TargetMentorId == mentor.Id) ||
+                            (b.TargetType == "Student" && b.TargetStudentId == user.Id) ||
+                            (b.TargetType == "Team" && b.TargetTeam != null && b.TargetTeam.LeaderId == user.Id))
+                .Select(b => $"released_{b.Id}"));
+
+            // Final count = total active minus dismissed ones
+            int dismissedCount = allNotifIds.Count(id => dismissedIds.Contains(id));
+            count = allNotifIds.Count - dismissedCount;
+
             return Json(new { count });
         }
 
@@ -255,6 +128,12 @@ namespace A3DET_CODE.Controllers
         {
             var user = await _userManager.GetUserAsync(User);
             if (user == null) return Content("<div class='p-3 text-center'>Please log in</div>");
+
+            // Load dismissed notification IDs for this user
+            var dismissedIds = (await _context.DismissedNotifications
+                .Where(d => d.UserId == user.Id)
+                .Select(d => d.NotificationId)
+                .ToListAsync()).ToHashSet();
 
             var notifications = new List<NotificationViewModel>();
 
@@ -269,6 +148,7 @@ namespace A3DET_CODE.Controllers
                 {
                     notifications.Add(new NotificationViewModel
                     {
+                        Id = $"join_{jr.Id}",
                         Title = "Join Request",
                         Message = $"{jr.User.FullName} requested to join \"{jr.Team.Name}\".",
                         Timestamp = jr.RequestedAt,
@@ -289,6 +169,7 @@ namespace A3DET_CODE.Controllers
                 {
                     notifications.Add(new NotificationViewModel
                     {
+                        Id = $"booking_{b.Id}",
                         Title = "Booking Request",
                         Message = $"{b.BookerUser.FullName} wants to book for \"{b.Topic}\".",
                         Timestamp = b.CreatedAt,
@@ -304,6 +185,7 @@ namespace A3DET_CODE.Controllers
             {
                 notifications.Add(new NotificationViewModel
                 {
+                    Id = $"pay_{b.Id}",
                     Title = "Payment Required",
                     Message = $"Your booking \"{b.Topic}\" was accepted. Please pay.",
                     Timestamp = b.CreatedAt,
@@ -318,6 +200,7 @@ namespace A3DET_CODE.Controllers
             {
                 notifications.Add(new NotificationViewModel
                 {
+                    Id = $"join_res_{jr.Id}",
                     Title = jr.Status == "Accepted" ? "Approved" : "Rejected",
                     Message = $"Your request to join \"{jr.Team.Name}\" was {(jr.Status == "Accepted" ? "approved" : "rejected")}.",
                     Timestamp = jr.RespondedAt ?? jr.RequestedAt,
@@ -332,6 +215,7 @@ namespace A3DET_CODE.Controllers
             {
                 notifications.Add(new NotificationViewModel
                 {
+                    Id = $"booking_res_{b.Id}",
                     Title = $"Booking {b.Status}",
                     Message = $"Booking \"{b.Topic}\" is {b.Status.ToLower()}.",
                     Timestamp = b.PaidAt ?? b.CreatedAt,
@@ -341,8 +225,160 @@ namespace A3DET_CODE.Controllers
                 });
             }
 
-            notifications = notifications.OrderByDescending(n => n.Timestamp).Take(10).ToList();
+            // Released payments — notify target user
+            var releasedBookings = await _context.Bookings
+                .Include(b => b.BookerUser)
+                .Include(b => b.TargetTeam)
+                .Where(b => b.PaymentStatus == "Released")
+                .ToListAsync();
+
+            foreach (var b in releasedBookings)
+            {
+                if ((b.TargetType == "Mentor" && mentor != null && b.TargetMentorId == mentor.Id) ||
+                    (b.TargetType == "Student" && b.TargetStudentId == user.Id) ||
+                    (b.TargetType == "Team" && b.TargetTeam != null && b.TargetTeam.LeaderId == user.Id))
+                {
+                    notifications.Add(new NotificationViewModel
+                    {
+                        Id = $"released_{b.Id}",
+                        Title = "Payment Released",
+                        Message = $"${b.NetAmount:F2} for \"{b.Topic}\" released to your wallet.",
+                        Timestamp = b.CompletedAt ?? b.PaidAt ?? b.CreatedAt,
+                        ActionUrl = Url.Action("Index", "Wallet") ?? "",
+                        IconClass = "bi bi-wallet-fill text-success",
+                        Status = "Released"
+                    });
+                }
+            }
+
+            foreach (var n in notifications)
+            {
+                n.IsRead = dismissedIds.Contains(n.Id);
+            }
+
+            notifications = notifications
+                .OrderByDescending(n => n.Timestamp)
+                .Take(50)
+                .ToList();
             return PartialView("_NotificationDropdown", notifications);
+        }
+
+        // POST: /Notifications/Dismiss — dismiss a single notification and redirect
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Dismiss(string notificationId, string? redirectUrl)
+        {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null) return RedirectToAction("Login", "Account");
+
+            if (!string.IsNullOrEmpty(notificationId))
+            {
+                var exists = await _context.DismissedNotifications
+                    .AnyAsync(d => d.UserId == user.Id && d.NotificationId == notificationId);
+
+                if (!exists)
+                {
+                    _context.DismissedNotifications.Add(new DismissedNotification
+                    {
+                        UserId = user.Id,
+                        NotificationId = notificationId,
+                        DismissedAt = DateTime.UtcNow
+                    });
+                    await _context.SaveChangesAsync();
+                }
+            }
+
+            if (Request.Headers["X-Requested-With"] == "XMLHttpRequest" || Request.Headers["Accept"].ToString().Contains("application/json"))
+            {
+                return Json(new { success = true });
+            }
+
+            if (!string.IsNullOrEmpty(redirectUrl) && Url.IsLocalUrl(redirectUrl))
+                return Redirect(redirectUrl);
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        // POST: /Notifications/DismissAll — dismiss all visible notifications
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DismissAll()
+        {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null) return RedirectToAction("Login", "Account");
+
+            // Build all current notification IDs for this user (same logic as Index)
+            var notifications = new List<string>();
+
+            var leaderTeamIds = await _context.Teams
+                .Where(t => t.LeaderId == user.Id).Select(t => t.Id).ToListAsync();
+
+            if (leaderTeamIds.Any())
+            {
+                var joinRequestIds = await _context.JoinRequests
+                    .Where(jr => leaderTeamIds.Contains(jr.TeamId) && jr.Status == "Pending")
+                    .Select(jr => jr.Id).ToListAsync();
+                notifications.AddRange(joinRequestIds.Select(id => $"join_{id}"));
+            }
+
+            var mentor = await _context.Mentors.FirstOrDefaultAsync(m => m.UserId == user.Id);
+
+            var pendingBookings = await _context.Bookings.Include(b => b.TargetTeam).Where(b => b.Status == "Pending").ToListAsync();
+            notifications.AddRange(pendingBookings
+                .Where(b => (b.TargetType == "Mentor" && mentor != null && b.TargetMentorId == mentor.Id) ||
+                            (b.TargetType == "Student" && b.TargetStudentId == user.Id) ||
+                            (b.TargetType == "Team" && b.TargetTeam != null && b.TargetTeam.LeaderId == user.Id))
+                .Select(b => $"booking_{b.Id}"));
+
+            var pendingPaymentIds = await _context.Bookings
+                .Where(b => b.BookerUserId == user.Id && b.Status == "PendingPayment")
+                .Select(b => b.Id).ToListAsync();
+            notifications.AddRange(pendingPaymentIds.Select(id => $"pay_{id}"));
+
+            var myJoinRequests = await _context.JoinRequests
+                .Where(jr => jr.UserId == user.Id && (jr.Status == "Accepted" || jr.Status == "Rejected"))
+                .Select(jr => jr.Id).ToListAsync();
+            notifications.AddRange(myJoinRequests.Select(id => $"join_res_{id}"));
+
+            var myBookingResponseIds = await _context.Bookings
+                .Where(b => b.BookerUserId == user.Id && (b.Status == "Confirmed" || b.Status == "Rejected" || b.Status == "Cancelled"))
+                .Select(b => b.Id).ToListAsync();
+            notifications.AddRange(myBookingResponseIds.Select(id => $"booking_res_{id}"));
+
+            var releasedBookings = await _context.Bookings.Include(b => b.TargetTeam).Where(b => b.PaymentStatus == "Released").ToListAsync();
+            notifications.AddRange(releasedBookings
+                .Where(b => (b.TargetType == "Mentor" && mentor != null && b.TargetMentorId == mentor.Id) ||
+                            (b.TargetType == "Student" && b.TargetStudentId == user.Id) ||
+                            (b.TargetType == "Team" && b.TargetTeam != null && b.TargetTeam.LeaderId == user.Id))
+                .Select(b => $"released_{b.Id}"));
+
+            // Get already dismissed
+            var alreadyDismissed = (await _context.DismissedNotifications
+                .Where(d => d.UserId == user.Id)
+                .Select(d => d.NotificationId)
+                .ToListAsync()).ToHashSet();
+
+            // Add new dismissals
+            var newDismissals = notifications.Where(id => !alreadyDismissed.Contains(id)).ToList();
+            foreach (var nId in newDismissals)
+            {
+                _context.DismissedNotifications.Add(new DismissedNotification
+                {
+                    UserId = user.Id,
+                    NotificationId = nId,
+                    DismissedAt = DateTime.UtcNow
+                });
+            }
+
+            await _context.SaveChangesAsync();
+
+            if (Request.Headers["X-Requested-With"] == "XMLHttpRequest" || Request.Headers["Accept"].ToString().Contains("application/json"))
+            {
+                return Json(new { success = true });
+            }
+
+            TempData["Success"] = "All notifications marked as read.";
+            return RedirectToAction(nameof(Index));
         }
     }
 }
