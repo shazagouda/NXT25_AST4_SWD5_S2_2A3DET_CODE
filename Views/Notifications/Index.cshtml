@@ -1,0 +1,245 @@
+@model IEnumerable<A3DET_CODE.ViewModels.Notification.NotificationViewModel>
+@{
+    ViewData["Title"] = "Notifications";
+}
+
+<div class="notifications-page-container">
+    <div class="container py-5">
+        <!-- Header -->
+        <div class="notifications-header-box reveal mb-4 d-flex align-items-center justify-content-between flex-wrap gap-3">
+            <div>
+                <h1 class="page-title"><i class="bi bi-bell-fill text-teal-600 me-2 animate-bell"></i>Notifications</h1>
+                <p class="page-subtitle text-muted mb-0">Stay updated on your booking requests, team invitations, and wallet activities.</p>
+            </div>
+            @if (Model.Any())
+            {
+                <span class="badge badge-blue fs-small px-3 py-2">@Model.Count() Active Notifications</span>
+            }
+        </div>
+
+        <div class="row">
+            <div class="col-lg-10 mx-auto">
+                <div class="notifications-list-card card p-4 reveal">
+                    @if (!Model.Any())
+                    {
+                        <div class="empty-notifications text-center py-5">
+                            <div class="empty-icon-wrapper mb-4">
+                                <i class="bi bi-bell-slash text-muted" style="font-size: 4rem;"></i>
+                            </div>
+                            <h3>You're all caught up!</h3>
+                            <p class="text-muted max-width-sm mx-auto">No pending requests or new updates at this moment. You will see alerts here when people book your sessions or ask to join your team.</p>
+                            <a href="@Url.Action("Projects", "Home")" class="btn btn-primary btn-sm mt-3 px-4">
+                                <i class="bi bi-briefcase me-2"></i>Explore Projects
+                            </a>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="notif-items-wrapper">
+                            @foreach (var item in Model)
+                            {
+                                <div class="notif-item-card p-3 mb-3 d-flex align-items-center justify-content-between rounded transition-all" data-type="@item.Type">
+                                    <div class="d-flex align-items-start gap-3 flex-grow-1">
+                                        <div class="notif-icon-circle d-flex align-items-center justify-content-center flex-shrink-0">
+                                            <i class="@item.IconClass"></i>
+                                        </div>
+                                        <div class="notif-details">
+                                            <div class="d-flex align-items-center gap-2 flex-wrap mb-1">
+                                                <h5 class="notif-title mb-0 fw-bold">@item.Title</h5>
+                                                @{
+                                                    string badgeClass = "badge-amber";
+                                                    if (item.Status == "Accepted" || item.Status == "Confirmed")
+                                                    {
+                                                        badgeClass = "badge-teal";
+                                                    }
+                                                    else if (item.Status == "Rejected" || item.Status == "Cancelled")
+                                                    {
+                                                        badgeClass = "badge-danger";
+                                                    }
+                                                }
+                                                <span class="badge @badgeClass" style="font-size: 10px; padding: 0.2rem 0.6rem;">@item.Status</span>
+                                            </div>
+                                            <p class="notif-message mb-2 mt-1">@item.Message</p>
+                                            <small class="notif-time text-muted d-block">
+                                                <i class="bi bi-clock me-1"></i>@GetRelativeTime(item.Timestamp)
+                                            </small>
+                                        </div>
+                                    </div>
+                                    <div class="notif-action-btn-wrapper ms-3 flex-shrink-0">
+                                        @{
+                                            string btnText = "View Request";
+                                            string btnIcon = "bi-arrow-right-short";
+                                            string btnTheme = "btn-secondary";
+
+                                            if (item.Status == "PendingPayment")
+                                            {
+                                                btnText = "Pay Now";
+                                                btnIcon = "bi-credit-card";
+                                                btnTheme = "btn-primary";
+                                            }
+                                        }
+                                        <a href="@item.ActionUrl" class="btn @btnTheme btn-sm action-btn px-3">
+                                            <i class="bi @btnIcon me-1"></i>@btnText
+                                        </a>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@functions {
+    public string GetRelativeTime(DateTime utcTime)
+    {
+        var localTime = utcTime.ToLocalTime();
+        var span = DateTime.Now - localTime;
+        if (span.TotalSeconds < 0) return "Just now";
+        if (span.TotalMinutes < 1) return "Just now";
+        if (span.TotalMinutes < 60) return $"{(int)span.TotalMinutes}m ago";
+        if (span.TotalHours < 24) return $"{(int)span.TotalHours}h ago";
+        if (span.TotalDays < 7) return $"{(int)span.TotalDays}d ago";
+        return localTime.ToString("MMM dd, yyyy");
+    }
+}
+
+@section Styles {
+    <style>
+        .notifications-page-container {
+            background: var(--color-bg);
+            min-height: calc(100vh - var(--navbar-height));
+        }
+
+        .page-title {
+            font-size: var(--fs-h2);
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+            color: var(--color-text-900);
+        }
+
+        .page-subtitle {
+            font-size: var(--fs-body);
+            color: var(--color-text-600);
+        }
+
+        .notifications-list-card {
+            background: var(--color-surface);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--color-border);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .notif-item-card {
+            background: rgba(255, 255, 255, 0.4);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-md);
+            transition: all 0.25s var(--ease-out);
+        }
+
+        [data-theme="dark"] .notif-item-card {
+            background: rgba(20, 55, 64, 0.25);
+        }
+
+        .notif-item-card:hover {
+            transform: translateY(-2px);
+            background: rgba(255, 255, 255, 0.85);
+            border-color: var(--color-blue-600);
+            box-shadow: var(--shadow-md);
+        }
+
+        [data-theme="dark"] .notif-item-card:hover {
+            background: rgba(20, 55, 64, 0.6);
+            border-color: var(--color-blue-500);
+        }
+
+        .notif-icon-circle {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            background: var(--color-blue-100);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        [data-theme="dark"] .notif-icon-circle {
+            background: rgba(13, 148, 136, 0.2);
+        }
+
+        .notif-icon-circle i {
+            font-size: 1.4rem;
+        }
+
+        .notif-title {
+            font-size: var(--fs-body);
+            color: var(--color-text-900);
+        }
+
+        .notif-message {
+            font-size: var(--fs-small);
+            color: var(--color-text-600);
+            line-height: 1.5;
+        }
+
+        .notif-time {
+            font-size: var(--fs-xs);
+            color: var(--color-text-400);
+        }
+
+        .badge-danger {
+            background: rgba(225, 79, 79, 0.15);
+            color: #E14F4F;
+            border: 1px solid rgba(225, 79, 79, 0.25);
+        }
+
+        .action-btn {
+            border-radius: var(--radius-pill);
+            font-weight: 600;
+            font-size: var(--fs-xs);
+            transition: all 0.2s;
+        }
+
+        .max-width-sm {
+            max-width: 450px;
+        }
+
+        .animate-bell {
+            display: inline-block;
+            animation: ring 2s infinite ease-in-out;
+            transform-origin: top center;
+        }
+
+        @@keyframes ring {
+            0% { transform: rotate(0); }
+            5% { transform: rotate(15deg); }
+            10% { transform: rotate(-15deg); }
+            15% { transform: rotate(10deg); }
+            20% { transform: rotate(-10deg); }
+            25% { transform: rotate(5deg); }
+            30% { transform: rotate(-5deg); }
+            35% { transform: rotate(0); }
+            100% { transform: rotate(0); }
+        }
+
+        @@media (max-width: 768px) {
+            .notif-item-card {
+                flex-direction: column;
+                align-items: flex-start !important;
+                gap: var(--space-4);
+            }
+            .notif-action-btn-wrapper {
+                width: 100%;
+                margin-left: 0 !important;
+                margin-top: var(--space-2);
+            }
+            .notif-action-btn-wrapper .action-btn {
+                width: 100%;
+                text-align: center;
+                justify-content: center;
+            }
+        }
+    </style>
+}

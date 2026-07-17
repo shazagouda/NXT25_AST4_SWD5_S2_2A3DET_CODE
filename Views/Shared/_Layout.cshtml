@@ -70,10 +70,18 @@
                     }
                 </nav>
                 <div class="nav-actions">
-                    <button class="nav-icon-btn" aria-label="Notifications" onclick="location.href='@Url.Action("Index", "Notifications")'">
-                        <span class="notif-badge"></span>
-                        <i class="bi bi-bell"></i>
-                    </button>
+                    <div class="notif-dropdown-container" style="position: relative;">
+                        <button class="nav-icon-btn" id="notifDropdownBtn" aria-label="Notifications" onclick="toggleNotifDropdown(event)">
+                            <span class="notif-badge" style="display: none;"></span>
+                            <i class="bi bi-bell"></i>
+                        </button>
+                        <div id="notifDropdownMenu" class="notif-dropdown-menu glass-panel shadow-lg" style="display:none; position:absolute; top:54px; right:-20px; width:340px; z-index:1050;">
+                            <div class="p-4 text-center text-muted">
+                                <span class="spinner-border spinner-border-sm text-primary" role="status" aria-hidden="true"></span>
+                                <div class="mt-2" style="font-size: 13px;">Loading notifications...</div>
+                            </div>
+                        </div>
+                    </div>
                     <!-- Dark mode toggle -->
                     <button class="nav-icon-btn theme-toggle" id="themeToggleBtn" aria-label="Toggle theme">
                         <i class="bi bi-moon-stars-fill"></i>

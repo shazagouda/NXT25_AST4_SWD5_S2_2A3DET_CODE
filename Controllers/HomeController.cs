@@ -262,7 +262,7 @@ namespace A3DET_CODE.Controllers
         public IActionResult ProjectsPage() => View();
         public IActionResult Portfolio() => View();
         public IActionResult Profile() => View();
-        public IActionResult Notifications() => View();
+        public IActionResult Notifications() => RedirectToAction("Index", "Notifications");
         public IActionResult Roadmaps() => View();
         public IActionResult Mentors() => View();
         public IActionResult Companies() => View();

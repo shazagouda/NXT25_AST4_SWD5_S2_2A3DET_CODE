@@ -471,11 +471,18 @@ p { color: var(--color-text-600); }
 }
 .notif-badge {
   position: absolute;
-  top: -2px; right: -2px;
-  width: 9px; height: 9px;
-  border-radius: 50%;
+  top: -4px; right: -4px;
+  min-width: 18px; height: 18px;
+  border-radius: 50px;
   background: var(--color-danger);
   border: 2px solid var(--color-bg);
+  color: #fff;
+  font-size: 9px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 4px;
 }
 
 .avatar {
@@ -605,3 +612,33 @@ p { color: var(--color-text-600); }
   color: var(--color-text-900) !important;
 }
 
+/* Glassmorphism Notification Dropdown */
+.notif-dropdown-menu.glass-panel {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+[data-theme="dark"] .notif-dropdown-menu.glass-panel {
+  background: rgba(20, 55, 64, 0.75);
+  border-color: rgba(255, 255, 255, 0.05);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.notif-dropdown-list::-webkit-scrollbar {
+  width: 6px;
+}
+.notif-dropdown-list::-webkit-scrollbar-track {
+  background: transparent;
+}
+.notif-dropdown-list::-webkit-scrollbar-thumb {
+  background: rgba(0,0,0,0.1);
+  border-radius: 10px;
+}
+[data-theme="dark"] .notif-dropdown-list::-webkit-scrollbar-thumb {
+  background: rgba(255,255,255,0.1);
+}

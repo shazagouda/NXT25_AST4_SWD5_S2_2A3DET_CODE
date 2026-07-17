@@ -127,13 +127,55 @@ const A3 = (() => {
   }
 
     function initNotifications() {
-      document.querySelectorAll('.nav-icon-btn[data-notif]').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-          e.stopPropagation();
-          btn.classList.toggle('is-open');
-        });
+      // Fetch unread count from server and update badge
+      const badge = document.querySelector('.notif-badge');
+      if (!badge) return;
+
+      fetch('/Notifications/GetUnreadCount')
+        .then(r => r.ok ? r.json() : null)
+        .then(data => {
+          if (!data || data.count <= 0) {
+            badge.style.display = 'none';
+            return;
+          }
+          badge.textContent = data.count > 9 ? '9+' : data.count;
+          badge.style.display = 'flex';
+        })
+        .catch(() => { badge.style.display = 'none'; });
+
+      // Handle clicking outside to close
+      document.addEventListener('click', (e) => {
+        const dropdown = document.getElementById('notifDropdownMenu');
+        if (dropdown && dropdown.style.display === 'block') {
+          if (!e.target.closest('.notif-dropdown-container')) {
+            dropdown.style.display = 'none';
+          }
+        }
       });
     }
+
+    // Exported function for onclick handler
+    window.toggleNotifDropdown = function(e) {
+      e.stopPropagation();
+      const dropdown = document.getElementById('notifDropdownMenu');
+      if (!dropdown) return;
+      
+      if (dropdown.style.display === 'none' || dropdown.style.display === '') {
+          dropdown.style.display = 'block';
+          // Load content
+          dropdown.innerHTML = '<div class="p-3 text-center text-muted"><span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Loading...</div>';
+          fetch('/Notifications/GetDropdownContent')
+            .then(r => r.ok ? r.text() : '<div class="p-3 text-center text-danger">Error loading</div>')
+            .then(html => {
+               dropdown.innerHTML = html;
+            })
+            .catch(() => {
+               dropdown.innerHTML = '<div class="p-3 text-center text-danger">Failed to connect</div>';
+            });
+      } else {
+          dropdown.style.display = 'none';
+      }
+    };
   
     function initThemeToggle() {
       const btn = document.getElementById('themeToggleBtn');
